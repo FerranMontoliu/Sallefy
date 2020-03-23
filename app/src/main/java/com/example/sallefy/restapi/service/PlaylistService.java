@@ -1,6 +1,6 @@
 package com.example.sallefy.restapi.service;
 
-import com.example.sallefy_ac1.model.Playlist;
+import com.example.sallefy.model.Playlist;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

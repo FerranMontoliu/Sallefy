@@ -1,7 +1,7 @@
 package com.example.sallefy.restapi.service;
 
-import com.example.sallefy_ac1.model.User;
-import com.example.sallefy_ac1.model.UserRegister;
+import com.example.sallefy.model.User;
+import com.example.sallefy.model.UserRegister;
 
 import java.util.List;
 
