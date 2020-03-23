@@ -25,6 +25,8 @@
 
         <activity android:name=".controller.activities.RegisterActivity"/>
         <activity android:name=".controller.activities.MainActivity"/>
+        <activity android:name=".controller.activities.CreatePlaylistActivity"/>
+        <activity android:name=".controller.activities.PlayingSongActivity"/>
 
     </application>
 
