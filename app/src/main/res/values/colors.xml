@@ -6,4 +6,7 @@
     <color name="light_hint">#AAAAAA</color>
     <color name="light">#CCCCCC</color>
     <color name="dark">#000000</color>
+    <color name="green">#009688</color>
+    <color name="switch_thumb">#F1F1F1</color>
+    <color name="switch_track">#504C4C</color>
 </resources>

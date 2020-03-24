@@ -15,4 +15,15 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
+    <style name="GreenButton" parent="AppTheme">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="GreenSwitch" parent="AppTheme">
+        <item name="colorSwitchThumbNormal">@color/switch_thumb</item>
+        <item name="colorControlActivated">@color/green</item>
+        <item name="android:colorForeground">@color/switch_track</item>
+    </style>
+
 </resources>

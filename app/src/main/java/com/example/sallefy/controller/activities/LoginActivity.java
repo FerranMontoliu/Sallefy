@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,9 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
     private EditText etPassword;
     private Button btnLogin;
     private TextView tvLoginToRegister;
+    private Switch swRemember;
+
+    private boolean rememberPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,14 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
                 UserManager.getInstance(getApplicationContext()).loginAttempt(etUsername.getText().toString(), etPassword.getText().toString(), LoginActivity.this);
             }
         });
+
+        swRemember = findViewById(R.id.login_remember_me_sw);
+        swRemember.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                rememberPreferences = isChecked;
+            }
+        });
     }
 
     private void checkSavedData() {
@@ -66,8 +79,10 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
     @Override
     public void onLoginSuccess(UserToken userToken) {
         Session.getInstance(getApplicationContext()).setUserToken(userToken);
-        PreferenceUtils.saveUser(this, etUsername.getText().toString());
-        PreferenceUtils.savePassword(this, etPassword.getText().toString());
+        if(rememberPreferences) {
+            PreferenceUtils.saveUser(this, etUsername.getText().toString());
+            PreferenceUtils.savePassword(this, etPassword.getText().toString());
+        }
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 

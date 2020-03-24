@@ -4,11 +4,13 @@
 
     <!-- LOGIN AND REGISTER -->
     <string name="login_btn_text">Login</string>
-    <string name="register_tv_text">You don\'t have an account?\nRegister now!</string>
+    <string name="no_account_tv_text">Don\'t have an account?</string>
+    <string name="register_tv_text">Register</string>
     <string name="register_btn_text">Register</string>
     <string name="username_hint">Username</string>
     <string name="mail_hint">Mail</string>
     <string name="password_hint">Password</string>
+    <string name="remember_me">Remember me</string>
 
 
     <!-- ERROR TOASTS -->
