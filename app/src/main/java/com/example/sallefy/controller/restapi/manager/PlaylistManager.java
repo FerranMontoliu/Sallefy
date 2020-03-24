@@ -1,11 +1,11 @@
-package com.example.sallefy.restapi.manager;
+package com.example.sallefy.controller.restapi.manager;
 
 import android.content.Context;
 
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.UserToken;
-import com.example.sallefy.restapi.callback.PlaylistCallback;
-import com.example.sallefy.restapi.service.PlaylistService;
+import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
+import com.example.sallefy.controller.restapi.service.PlaylistService;
 import com.example.sallefy.utils.Constants;
 import com.example.sallefy.utils.Session;
 

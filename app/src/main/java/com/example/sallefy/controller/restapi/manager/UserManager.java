@@ -1,4 +1,4 @@
-package com.example.sallefy.restapi.manager;
+package com.example.sallefy.controller.restapi.manager;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,11 +7,11 @@ import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserLogin;
 import com.example.sallefy.model.UserRegister;
 import com.example.sallefy.model.UserToken;
-import com.example.sallefy.restapi.callback.LoginCallback;
-import com.example.sallefy.restapi.callback.RegisterCallback;
-import com.example.sallefy.restapi.callback.UserCallback;
-import com.example.sallefy.restapi.service.UserService;
-import com.example.sallefy.restapi.service.UserTokenService;
+import com.example.sallefy.controller.restapi.callback.LoginCallback;
+import com.example.sallefy.controller.restapi.callback.RegisterCallback;
+import com.example.sallefy.controller.restapi.callback.UserCallback;
+import com.example.sallefy.controller.restapi.service.UserService;
+import com.example.sallefy.controller.restapi.service.UserTokenService;
 import com.example.sallefy.utils.Constants;
 import com.example.sallefy.utils.Session;
 

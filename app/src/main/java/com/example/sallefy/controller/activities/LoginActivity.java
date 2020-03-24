@@ -10,8 +10,9 @@ import android.widget.Toast;
 
 import com.example.sallefy.R;
 import com.example.sallefy.model.UserToken;
-import com.example.sallefy.restapi.callback.LoginCallback;
-import com.example.sallefy.restapi.manager.UserManager;
+import com.example.sallefy.controller.restapi.callback.LoginCallback;
+import com.example.sallefy.controller.restapi.manager.UserManager;
+import com.example.sallefy.utils.PreferenceUtils;
 import com.example.sallefy.utils.Session;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initViews();
+        checkSavedData();
     }
 
     private void initViews() {
@@ -50,9 +52,22 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
         });
     }
 
+    private void checkSavedData() {
+        if (checkExistingPreferences()) {
+            etUsername.setText(PreferenceUtils.getUser(this));
+            etPassword.setText(PreferenceUtils.getPassword(this));
+        }
+    }
+
+    private boolean checkExistingPreferences () {
+        return PreferenceUtils.getUser(this) != null && PreferenceUtils.getPassword(this) != null;
+    }
+
     @Override
     public void onLoginSuccess(UserToken userToken) {
         Session.getInstance(getApplicationContext()).setUserToken(userToken);
+        PreferenceUtils.saveUser(this, etUsername.getText().toString());
+        PreferenceUtils.savePassword(this, etPassword.getText().toString());
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 

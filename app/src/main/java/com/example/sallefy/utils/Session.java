@@ -18,6 +18,8 @@ public class Session {
     private User mUser;
     private UserToken mUserToken;
 
+    private boolean audioEnabled;
+
     public static Session getInstance(Context context) {
         Session result = sSession;
         if (result == null) {
@@ -65,5 +67,13 @@ public class Session {
 
     public void setUserToken(UserToken userToken) {
         this.mUserToken = userToken;
+    }
+
+    public boolean isAudioEnabled() {
+        return audioEnabled;
+    }
+
+    public void setAudioEnabled(boolean audioEnabled) {
+        this.audioEnabled = audioEnabled;
     }
 }

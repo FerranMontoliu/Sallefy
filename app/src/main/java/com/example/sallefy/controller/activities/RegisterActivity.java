@@ -9,8 +9,8 @@ import android.widget.Toast;
 
 import com.example.sallefy.R;
 import com.example.sallefy.model.UserRegister;
-import com.example.sallefy.restapi.callback.RegisterCallback;
-import com.example.sallefy.restapi.manager.UserManager;
+import com.example.sallefy.controller.restapi.callback.RegisterCallback;
+import com.example.sallefy.controller.restapi.manager.UserManager;
 import com.example.sallefy.utils.Session;
 
 import androidx.appcompat.app.AppCompatActivity;

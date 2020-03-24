@@ -1,12 +1,12 @@
-package com.example.sallefy.restapi.manager;
+package com.example.sallefy.controller.restapi.manager;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.UserToken;
-import com.example.sallefy.restapi.callback.TrackCallback;
-import com.example.sallefy.restapi.service.TrackService;
+import com.example.sallefy.controller.restapi.callback.TrackCallback;
+import com.example.sallefy.controller.restapi.service.TrackService;
 import com.example.sallefy.utils.Constants;
 import com.example.sallefy.utils.Session;
 

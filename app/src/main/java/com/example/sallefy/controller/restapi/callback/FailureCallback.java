@@ -1,4 +1,4 @@
-package com.example.sallefy.restapi.callback;
+package com.example.sallefy.controller.restapi.callback;
 
 public interface FailureCallback {
     void onFailure(Throwable throwable);
