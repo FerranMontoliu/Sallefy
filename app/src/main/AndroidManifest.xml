@@ -25,10 +25,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".controller.activities.RegisterActivity"/>
-        <activity android:name=".controller.activities.MainActivity"/>
-        <activity android:name=".controller.activities.CreatePlaylistActivity"/>
-        <activity android:name=".controller.activities.PlayingSongActivity"/>
+        <activity android:name=".controller.activities.RegisterActivity"
+            android:theme="@style/NoTitle"/>
+
+        <activity android:name=".controller.activities.MainActivity"
+            android:theme="@style/NoTitle"/>
+
+        <activity android:name=".controller.activities.CreatePlaylistActivity"
+            android:theme="@style/NoTitle"/>
+
+        <activity android:name=".controller.activities.PlayingSongActivity"
+            android:theme="@style/NoTitle"/>
 
     </application>
 
