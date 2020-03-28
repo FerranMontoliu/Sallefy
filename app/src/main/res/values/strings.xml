@@ -1,25 +1,11 @@
 <resources>
     <string name="app_name">Sallefy</string>
 
-
-    <!-- LOGIN AND REGISTER -->
-    <string name="login_btn_text">Login</string>
-    <string name="no_account_tv_text">Don\'t have an account?</string>
-    <string name="register_tv_text">Register</string>
-    <string name="register_btn_text">Register</string>
-    <string name="username_hint">Enter username…</string>
-    <string name="mail_hint">Enter mail…</string>
-    <string name="password_hint">Enter password…</string>
-    <string name="username_tv">Username</string>
-    <string name="mail_tv">Mail</string>
-    <string name="password_tv">Password</string>
-    <string name="remember_me">Remember me</string>
-
-
     <!-- ERROR TOASTS -->
     <string name="login_failed">Error! Login failed!</string>
     <string name="register_failed">Error! Register failed!</string>
     <string name="exploded">Upsss! The app exploded…</string>
+    <string name="error_getting_playlists">Error getting your playlists!</string>
 
 
     <!-- INFO TOASTS -->
@@ -35,5 +21,24 @@
     <!-- DEFAULT TEXTS -->
     <string name="default_track_author">Author</string>
     <string name="default_track_title">Title</string>
+    <string name="fragment_playlists">Playlist Title</string>
+
+
+    <!-- LOGIN AND REGISTER -->
+    <string name="login_btn_text">Login</string>
+    <string name="no_account_tv_text">Don\'t have an account?</string>
+    <string name="register_tv_text">Register</string>
+    <string name="register_btn_text">Register</string>
+    <string name="username_hint">Enter username…</string>
+    <string name="mail_hint">Enter mail…</string>
+    <string name="password_hint">Enter password…</string>
+    <string name="username_tv">Username</string>
+    <string name="mail_tv">Mail</string>
+    <string name="password_tv">Password</string>
+    <string name="remember_me">Remember me</string>
+
+
+    <!-- YOUR LIBRARY -->
+    <string name="your_playlists">Your playlists</string>
 
 </resources>

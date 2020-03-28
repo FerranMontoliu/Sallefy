@@ -10,6 +10,7 @@ import com.example.sallefy.controller.restapi.service.TrackService;
 import com.example.sallefy.utils.Constants;
 import com.example.sallefy.utils.Session;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -54,20 +55,21 @@ public class TrackManager {
         call.enqueue(new Callback<List<Track>>() {
             @Override
             public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
-                int code = response.code();
-
                 if (response.isSuccessful()) {
                     trackCallback.onTracksReceived(response.body());
                 } else {
-                    Log.d(TAG, "Error Not Successful: " + code);
-                    trackCallback.onNoTracks(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                    try {
+                        trackCallback.onNoTracks(new Throwable(response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    ;
                 }
             }
 
             @Override
             public void onFailure(Call<List<Track>> call, Throwable t) {
-                Log.d(TAG, "Error Failure: " + t.getStackTrace());
-                trackCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+                trackCallback.onNoTracks(t);
             }
         });
     }

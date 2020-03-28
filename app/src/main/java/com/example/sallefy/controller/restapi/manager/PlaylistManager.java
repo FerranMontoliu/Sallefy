@@ -10,6 +10,7 @@ import com.example.sallefy.utils.Constants;
 import com.example.sallefy.utils.Session;
 
 import java.io.IOException;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,11 +21,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PlaylistManager {
 
-    private static final String TAG = PlaylistManager.class.getName();
+    private static final String TAG = "PlaylistManager";
 
-    private Context mContext;
-    private PlaylistService mService;
+    private static PlaylistManager sUserManager;
     private Retrofit mRetrofit;
+    private Context mContext;
+
+    private PlaylistService mService;
+    private UserToken userToken;
+
+    public static PlaylistManager getInstance(Context context) {
+        if (sUserManager == null) {
+            sUserManager = new PlaylistManager(context);
+        }
+        return sUserManager;
+    }
 
     public PlaylistManager(Context context) {
         mContext = context;
@@ -44,8 +55,6 @@ public class PlaylistManager {
         call.enqueue(new Callback<Playlist>() {
             @Override
             public void onResponse(Call<Playlist> call, Response<Playlist> response) {
-                int code = response.code();
-
                 if (response.isSuccessful()) {
                     callback.onPlaylistCreated(response.body());
                 } else {
@@ -70,8 +79,6 @@ public class PlaylistManager {
         call.enqueue(new Callback<Playlist>() {
             @Override
             public void onResponse(Call<Playlist> call, Response<Playlist> response) {
-                int code = response.code();
-
                 if (response.isSuccessful()) {
                     callback.onPlaylistReceived(response.body());
                 } else {
@@ -90,14 +97,36 @@ public class PlaylistManager {
         });
     }
 
+    public synchronized void getOwnPlaylists(final PlaylistCallback callback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<List<Playlist>> call = mService.getOwnPlaylists("Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+                if (response.isSuccessful()) {
+                    callback.onPlaylistsReceived(response.body());
+                } else {
+                    try {
+                        callback.onPlaylistNotReceived(new Throwable(response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                callback.onPlaylistNotReceived(t);
+            }
+        });
+    }
+
     public synchronized void updatePlaylist(Playlist playlist, final PlaylistCallback callback) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
         Call<Playlist> call = mService.updatePlaylist(playlist, "Bearer " + userToken.getIdToken());
         call.enqueue(new Callback<Playlist>() {
             @Override
             public void onResponse(Call<Playlist> call, Response<Playlist> response) {
-                int code = response.code();
-
                 if (response.isSuccessful()) {
                     callback.onPlaylistUpdated(response.body());
                 } else {

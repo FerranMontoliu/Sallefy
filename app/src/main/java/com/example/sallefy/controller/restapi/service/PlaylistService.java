@@ -2,6 +2,8 @@ package com.example.sallefy.controller.restapi.service;
 
 import com.example.sallefy.model.Playlist;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -16,6 +18,9 @@ public interface PlaylistService {
 
     @GET("playlists/{id}")
     Call<Playlist> getPlaylistById(@Path("id") String id, @Header("Authorization") String token);
+
+    @GET("me/playlists")
+    Call<List<Playlist>> getOwnPlaylists(@Header("Authorization") String token);
 
     @PUT("playlists")
     Call<Playlist> updatePlaylist(@Body Playlist playlist, @Header("Authorization") String token);
