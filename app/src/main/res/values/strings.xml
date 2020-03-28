@@ -7,9 +7,12 @@
     <string name="no_account_tv_text">Don\'t have an account?</string>
     <string name="register_tv_text">Register</string>
     <string name="register_btn_text">Register</string>
-    <string name="username_hint">Username</string>
-    <string name="mail_hint">Mail</string>
-    <string name="password_hint">Password</string>
+    <string name="username_hint">Enter username…</string>
+    <string name="mail_hint">Enter mail…</string>
+    <string name="password_hint">Enter password…</string>
+    <string name="username_tv">Username</string>
+    <string name="mail_tv">Mail</string>
+    <string name="password_tv">Password</string>
     <string name="remember_me">Remember me</string>
 
 
