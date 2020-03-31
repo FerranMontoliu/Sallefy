@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -15,24 +15,25 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
-    <style name="GreenButton" parent="AppTheme">
+    <style name="GreenButton" parent="NoTitle">
         <item name="android:textColor">@color/light</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/green</item>
     </style>
 
-    <style name="GreenSwitch" parent="AppTheme">
+    <style name="GreenSwitch" parent="NoTitle">
         <item name="colorSwitchThumbNormal">@color/switch_thumb</item>
         <item name="colorControlActivated">@color/green</item>
         <item name="android:colorForeground">@color/switch_track</item>
     </style>
 
-    <style name="ItemTitleTheme" parent="TextAppearance.AppCompat">
+    <style name="ItemTitleTheme" parent="NoTitle">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light</item>
     </style>
 
-    <style name="ItemAuthorTheme" parent="TextAppearance.AppCompat">
+    <style name="ItemAuthorTheme" parent="NoTitle">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/light</item>
     </style>
