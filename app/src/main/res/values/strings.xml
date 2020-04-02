@@ -41,5 +41,6 @@
     <!-- YOUR LIBRARY -->
     <string name="your_playlists">Your playlists</string>
     <string name="create_playlist">Create playlist</string>
+    <string name="default_username">Username</string>
 
 </resources>
