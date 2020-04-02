@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
-import com.example.sallefy.controller.adapters.PlaylistListAdapter;
+import com.example.sallefy.controller.adapters.OwnPlaylistListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
@@ -95,7 +95,7 @@ public class YourLibraryFragment extends Fragment implements PlaylistCallback, P
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        PlaylistListAdapter adapter = new PlaylistListAdapter((ArrayList<Playlist>) playlists, getContext(), YourLibraryFragment.this, R.layout.item_playlist);
+        OwnPlaylistListAdapter adapter = new OwnPlaylistListAdapter((ArrayList<Playlist>) playlists, getContext(), YourLibraryFragment.this, R.layout.item_own_playlist);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
     }
