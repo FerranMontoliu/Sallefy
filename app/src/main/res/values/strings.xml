@@ -39,7 +39,10 @@
 
 
     <!-- YOUR LIBRARY -->
-    <string name="your_playlists">Your playlists</string>
+    <string name="your_playlists">PLAYLISTS</string>
+    <string name="your_tracks">TRACKS</string>
+    <string name="your_followers">FOLLOWERS</string>
+    <string name="your_following">FOLLOWING</string>
     <string name="create_playlist">Create playlist</string>
     <string name="default_username">Username</string>
 
