@@ -2,6 +2,7 @@ package com.example.sallefy.controller.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -9,28 +10,28 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
-import com.example.sallefy.controller.adapters.OwnPlaylistListAdapter;
 import com.example.sallefy.controller.adapters.OwnUserAdapter;
-import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
-import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
+import com.example.sallefy.controller.callbacks.FragmentCallback;
 import com.example.sallefy.controller.restapi.callback.UserCallback;
-import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.controller.restapi.manager.UserManager;
-import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.User;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class YourLibraryFragment extends Fragment implements PlaylistCallback, PlaylistAdapterCallback, UserCallback {
+public class YourLibraryFragment extends Fragment implements UserCallback, FragmentCallback {
     public static final String TAG = YourLibraryFragment.class.getName();
+
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mTransaction;
 
     private RecyclerView mRecyclerView;
     private RecyclerView userRV;
+    private BottomNavigationView mNav;
 
     public static YourLibraryFragment getInstance() {
         return new YourLibraryFragment();
@@ -46,12 +47,81 @@ public class YourLibraryFragment extends Fragment implements PlaylistCallback, P
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_your_library, container, false);
 
-        mRecyclerView = v.findViewById(R.id.playlists_rv);
         userRV = v.findViewById(R.id.user_rv);
+        mNav = v.findViewById(R.id.user_navigation);
+        mNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment = null;
+                switch (menuItem.getItemId()) {
+                    case R.id.action_your_playlists:
+                        fragment = YLPlaylistsFragment.getInstance();
+                        break;
+                    case R.id.action_your_tracks:
+                        fragment = YLTracksFragment.getInstance();
+                        break;
+                    case R.id.action_your_followers:
+                        fragment = YLFollowersFragment.getInstance();
+                        break;
+                    case R.id.action_your_following:
+                        fragment = YLFollowingFragment.getInstance();
+                        break;
+                }
+                replaceFragment(fragment);
+                return true;
+            }
+        });
 
-        PlaylistManager.getInstance(getContext()).getOwnPlaylists(YourLibraryFragment.this);
-        UserManager.getInstance(getContext()).getUserData("ferran.montoliu", YourLibraryFragment.this);
+        UserManager.getInstance(getContext()).getUserData("ferran.montoliu", YourLibraryFragment.this); // TODO: this is hardcoded...
         return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        mFragmentManager = getChildFragmentManager();
+        mTransaction = getChildFragmentManager().beginTransaction();
+        setInitialFragment();
+    }
+
+    private void setInitialFragment() {
+        mTransaction.add(R.id.sub_fragment_container, YLPlaylistsFragment.getInstance());
+        mTransaction.commit();
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        String fragmentTag = getFragmentTag(fragment);
+        Fragment currentFragment = mFragmentManager.findFragmentByTag(fragmentTag);
+        if (currentFragment != null) {
+            if (!currentFragment.isVisible()) {
+
+                if (fragment.getArguments() != null) {
+                    currentFragment.setArguments(fragment.getArguments());
+                }
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.sub_fragment_container, currentFragment, fragmentTag)
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        } else {
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.sub_fragment_container, fragment, fragmentTag)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    private String getFragmentTag(Fragment fragment) {
+        if (fragment instanceof YLPlaylistsFragment) {
+            return YLPlaylistsFragment.TAG;
+        } else if (fragment instanceof YLTracksFragment) {
+            return YLTracksFragment.TAG;
+        } else if (fragment instanceof YLFollowersFragment) {
+            return YLFollowersFragment.TAG;
+        } else if (fragment instanceof YLFollowingFragment) {
+            return YLFollowingFragment.TAG;
+        }
+        return null;
     }
 
     @Override
@@ -70,56 +140,8 @@ public class YourLibraryFragment extends Fragment implements PlaylistCallback, P
     }
 
     @Override
-    public void onPlaylistCreated(Playlist playlist) {
-        // UNUSED
-    }
-
-    @Override
-    public void onPlaylistFailure(Throwable throwable) {
-        // UNUSED
-    }
-
-    @Override
-    public void onPlaylistReceived(Playlist playlist) {
-        // UNUSED
-    }
-
-    @Override
-    public void onPlaylistNotReceived(Throwable throwable) {
-        // UNUSED
-    }
-
-    @Override
-    public void onPlaylistUpdated(Playlist playlist) {
-        // UNUSED
-    }
-
-    @Override
-    public void onPlaylistNotUpdated(Throwable throwable) {
-        // UNUSED
-    }
-
-    @Override
-    public void onPlaylistsReceived(List<Playlist> playlists) {
-        LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        OwnPlaylistListAdapter adapter = new OwnPlaylistListAdapter((ArrayList<Playlist>) playlists, getContext(), YourLibraryFragment.this, R.layout.item_own_playlist);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onPlaylistsNotReceived(List<Playlist> playlists) {
-        Toast.makeText(getContext(), R.string.error_getting_playlists, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onPlaylistClick(Playlist playlist) {
-        // TODO
     }
 
     @Override
@@ -128,5 +150,10 @@ public class YourLibraryFragment extends Fragment implements PlaylistCallback, P
         OwnUserAdapter adapter = new OwnUserAdapter(userData, getContext());
         userRV.setLayoutManager(manager);
         userRV.setAdapter(adapter);
+    }
+
+    @Override
+    public void onChangeFragment(Fragment fragment) {
+        replaceFragment(fragment);
     }
 }
