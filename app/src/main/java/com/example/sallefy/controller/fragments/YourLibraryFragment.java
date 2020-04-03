@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,9 +31,13 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
     private FragmentManager mFragmentManager;
     private FragmentTransaction mTransaction;
 
-    private RecyclerView mRecyclerView;
     private RecyclerView userRV;
     private BottomNavigationView mNav;
+
+    private CheckBox backBtn;
+    private CheckBox optionsBtn;
+
+    private ImageButton userSettingsBtn;
 
     public static YourLibraryFragment getInstance() {
         return new YourLibraryFragment();
@@ -69,6 +75,30 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
                 }
                 replaceFragment(fragment);
                 return true;
+            }
+        });
+
+        backBtn = v.findViewById(R.id.back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                assert getFragmentManager() != null;
+                getFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, new HomeFragment())
+                        .remove(YourLibraryFragment.this)
+                        .commit();
+            }
+        });
+
+        optionsBtn = v.findViewById(R.id.options_btn);
+        optionsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                assert getFragmentManager() != null;
+                getFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, new OptionsFragment())
+                        .remove(YourLibraryFragment.this)
+                        .commit();
             }
         });
 

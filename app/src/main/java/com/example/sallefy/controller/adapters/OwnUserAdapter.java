@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +44,13 @@ public class OwnUserAdapter extends RecyclerView.Adapter<OwnUserAdapter.ViewHold
                     .load(mUsers.getImageUrl())
                     .into(holder.ivPhoto);
         }
+
+        holder.userSettingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("SETTINGS BUTTON PRESSED!"); // TODO: change fragment
+            }
+        });
     }
 
     @Override
@@ -54,11 +62,13 @@ public class OwnUserAdapter extends RecyclerView.Adapter<OwnUserAdapter.ViewHold
 
         TextView tvUsername;
         ImageView ivPhoto;
+        ImageButton userSettingsBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.item_user_name);
             ivPhoto = itemView.findViewById(R.id.item_user_photo);
+            userSettingsBtn = itemView.findViewById(R.id.user_settings_btn);
         }
     }
 }

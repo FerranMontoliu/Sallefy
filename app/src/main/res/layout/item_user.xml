@@ -48,7 +48,8 @@
                     android:text="@string/default_username"
                     android:textColor="@color/light" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <ImageButton
+                    android:id="@+id/user_settings_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
