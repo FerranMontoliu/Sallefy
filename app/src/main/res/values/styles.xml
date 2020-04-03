@@ -38,14 +38,4 @@
         <item name="android:textColor">@color/light</item>
     </style>
 
-    <style name="IconOnlyButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="iconPadding">0dp</item>
-        <item name="iconGravity">textStart</item>
-        <item name="android:minWidth">0dp</item>
-        <item name="android:insetLeft">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetRight">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-    </style>
-
 </resources>
