@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
+import com.example.sallefy.controller.callbacks.OwnUserAdapterCallback;
 import com.example.sallefy.model.User;
 
 
@@ -20,12 +21,15 @@ public class OwnUserAdapter extends RecyclerView.Adapter<OwnUserAdapter.ViewHold
 
     public static final String TAG = OwnUserAdapter.class.getName();
 
-    private User mUsers;
+    private User mUser;
     private Context mContext;
+    private OwnUserAdapterCallback mCallback;
 
-    public OwnUserAdapter(User user, Context context) {
-        mUsers = user;
+
+    public OwnUserAdapter(User user, Context context, OwnUserAdapterCallback callback) {
+        mUser = user;
         mContext = context;
+        mCallback = callback;
     }
 
     @NonNull
@@ -37,25 +41,26 @@ public class OwnUserAdapter extends RecyclerView.Adapter<OwnUserAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvUsername.setText(mUsers.getLogin());
-        if (mUsers.getImageUrl() != null) {
+        holder.tvUsername.setText(mUser.getLogin());
+        if (mUser.getImageUrl() != null) {
             Glide.with(mContext)
                     .asBitmap()
-                    .load(mUsers.getImageUrl())
+                    .load(mUser.getImageUrl())
                     .into(holder.ivPhoto);
         }
 
         holder.userSettingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("SETTINGS BUTTON PRESSED!"); // TODO: change fragment
+                assert mCallback != null;
+                mCallback.onUserSettingsButtonClick(mUser);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return (mUsers != null ? 1 : 0);
+        return (mUser != null ? 1 : 0);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

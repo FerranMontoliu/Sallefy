@@ -21,6 +21,7 @@ import com.example.sallefy.R;
 import com.example.sallefy.controller.activities.MainActivity;
 import com.example.sallefy.controller.adapters.OwnUserAdapter;
 import com.example.sallefy.controller.callbacks.FragmentCallback;
+import com.example.sallefy.controller.callbacks.OwnUserAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.UserCallback;
 import com.example.sallefy.controller.restapi.manager.UserManager;
 import com.example.sallefy.model.User;
@@ -28,7 +29,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
-public class YourLibraryFragment extends Fragment implements UserCallback, FragmentCallback {
+public class YourLibraryFragment extends Fragment implements UserCallback, FragmentCallback, OwnUserAdapterCallback {
     public static final String TAG = YourLibraryFragment.class.getName();
 
     private FragmentManager mFragmentManager;
@@ -180,7 +181,7 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
     @Override
     public void onUserInfoReceived(User userData) {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        OwnUserAdapter adapter = new OwnUserAdapter(userData, getContext());
+        OwnUserAdapter adapter = new OwnUserAdapter(userData, getContext(), YourLibraryFragment.this);
         userRV.setLayoutManager(manager);
         userRV.setAdapter(adapter);
     }
@@ -188,5 +189,14 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
     @Override
     public void onChangeFragment(Fragment fragment) {
         replaceFragment(fragment);
+    }
+
+    @Override
+    public void onUserSettingsButtonClick(User user) {
+        assert getFragmentManager() != null;
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, new UserSettingsFragment())
+                .remove(YourLibraryFragment.this)
+                .commit();
     }
 }

@@ -120,6 +120,7 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
 
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
+        //TODO: fix... not working...
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         OwnPlaylistListAdapter adapter = new OwnPlaylistListAdapter((ArrayList<Playlist>) playlists, getContext(), YLPlaylistsFragment.this, R.layout.item_own_playlist);
         mRecyclerView.setLayoutManager(manager);
