@@ -1,9 +1,12 @@
 package com.example.sallefy.controller.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -47,7 +50,7 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
         mAddPlaylistBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "BUTTON PRESSED!", Toast.LENGTH_LONG).show(); // TODO: do stuff
+                showPopup();
             }
         });
 
@@ -56,6 +59,33 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
         PlaylistManager.getInstance(getContext()).getOwnPlaylists(YLPlaylistsFragment.this);
 
         return v;
+    }
+
+    private void showPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.give_name_playlist);
+        View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.fragment_popup_create_playlist, (ViewGroup) getView(), false);
+
+        final EditText input = viewInflated.findViewById(R.id.input);
+        builder.setView(viewInflated);
+
+        builder.setPositiveButton(R.string.create_text_playlist, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                String playlistName = input.getText().toString();
+                //TODO: API call adding the new playlist
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel_text_playlist, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override

@@ -45,5 +45,9 @@
     <string name="your_following">FOLLOWING</string>
     <string name="create_playlist">Create playlist</string>
     <string name="default_username">Username</string>
+    <string name="give_name_playlist">Give your playlist a name.</string>
+    <string name="hint_create_playlist">Playlist title</string>
+    <string name="cancel_text_playlist">CANCEL</string>
+    <string name="create_text_playlist">CREATE</string>
 
 </resources>
