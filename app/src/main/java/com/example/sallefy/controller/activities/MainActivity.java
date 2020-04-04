@@ -24,6 +24,8 @@ package com.example.sallefy.controller.activities;
 
 public class MainActivity extends FragmentActivity implements FragmentCallback {
 
+    private String username;
+
     private FragmentManager mFragmentManager;
     private FragmentTransaction mTransaction;
 
@@ -31,11 +33,17 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        username = getIntent().getStringExtra("username");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
         setInitialFragment();
         requestPermissions();
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     private void initViews() {

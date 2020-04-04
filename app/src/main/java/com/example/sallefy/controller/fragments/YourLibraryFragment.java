@@ -18,12 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
+import com.example.sallefy.controller.activities.MainActivity;
 import com.example.sallefy.controller.adapters.OwnUserAdapter;
 import com.example.sallefy.controller.callbacks.FragmentCallback;
 import com.example.sallefy.controller.restapi.callback.UserCallback;
 import com.example.sallefy.controller.restapi.manager.UserManager;
 import com.example.sallefy.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Objects;
 
 public class YourLibraryFragment extends Fragment implements UserCallback, FragmentCallback {
     public static final String TAG = YourLibraryFragment.class.getName();
@@ -102,7 +105,7 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
             }
         });
 
-        UserManager.getInstance(getContext()).getUserData("ferran.montoliu", YourLibraryFragment.this); // TODO: this is hardcoded...
+        UserManager.getInstance(getContext()).getUserData( ((MainActivity) Objects.requireNonNull(getActivity())).getUsername(), YourLibraryFragment.this);
         return v;
     }
 
