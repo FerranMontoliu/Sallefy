@@ -13,7 +13,12 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:imeOptions="actionDone"
-            android:hint="@string/hint_create_playlist" />
+            android:hint="@string/hint_create_playlist"
+            android:ems="10"
+            android:layout_margin="30dp"
+            android:background="@drawable/edittext_background"
+            android:textColor="@color/light"
+            android:textColorHint="@color/light_hint"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 </FrameLayout>
