@@ -12,4 +12,7 @@ public interface TrackService {
 
     @GET("tracks")
     Call<List<Track>> getAllTracks(@Header("Authorization") String token);
+
+    @GET("me/tracks")
+    Call<List<Track>> getOwnTracks(@Header("Authorization") String token);
 }

@@ -6,8 +6,11 @@
     <string name="register_failed">Error! Register failed!</string>
     <string name="exploded">Upsss! The app exploded…</string>
     <string name="error_getting_playlists">Error getting your playlists!</string>
+    <string name="error_getting_tracks">Error getting your tracks!</string>
     <string name="error_name_playlist">Error! You must enter a name!</string>
+    <string name="error_name_track">Error! You must enter a name!</string>
     <string name="error_playlist_not_created">Error creating your playlist!</string>
+    <string name="error_track_not_created">Error creating your track!</string>
     <string name="playlist_created_success">Playlist created!</string>
 
 
@@ -47,10 +50,15 @@
     <string name="your_followers">FOLLOWERS</string>
     <string name="your_following">FOLLOWING</string>
     <string name="create_playlist">Create playlist</string>
+    <string name="new_track">New track</string>
     <string name="default_username">Username</string>
     <string name="give_name_playlist">Give your playlist a name.</string>
+    <string name="give_name_track">Give your track a name.</string>
+    <string name="hint_create_track">Playlist title</string>
     <string name="hint_create_playlist">Playlist title</string>
     <string name="cancel_text_playlist">CANCEL</string>
     <string name="create_text_playlist">CREATE</string>
+    <string name="cancel_text_track">CANCEL</string>
+    <string name="add_text_track">ADD</string>
 
 </resources>
