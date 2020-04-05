@@ -134,13 +134,8 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        System.out.println(requestCode);
-        if (requestCode == Constants.PERMISSIONS.MICROPHONE) {
-
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Session.getInstance(this).setAudioEnabled(true);
-            }
+        if (requestCode == Constants.PERMISSIONS.MICROPHONE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Session.getInstance(this).setAudioEnabled(true);
         }
     }
 }

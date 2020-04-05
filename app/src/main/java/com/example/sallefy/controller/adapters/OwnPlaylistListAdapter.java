@@ -62,7 +62,6 @@ public class OwnPlaylistListAdapter extends RecyclerView.Adapter<OwnPlaylistList
             } else {
                 Glide.with(mContext)
                         .asBitmap()
-                        .placeholder(R.drawable.ic_audiotrack)
                         .load(R.drawable.ic_audiotrack)
                         .into(holder.mPhoto);
             }

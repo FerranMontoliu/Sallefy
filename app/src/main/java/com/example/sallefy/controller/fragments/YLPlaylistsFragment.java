@@ -25,6 +25,7 @@ import com.example.sallefy.model.Playlist;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, PlaylistAdapterCallback {
     public static final String TAG = YLPlaylistsFragment.class.getName();
@@ -120,7 +121,6 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
 
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
-        //TODO: fix... not working...
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         OwnPlaylistListAdapter adapter = new OwnPlaylistListAdapter((ArrayList<Playlist>) playlists, getContext(), YLPlaylistsFragment.this, R.layout.item_own_playlist);
         mRecyclerView.setLayoutManager(manager);
@@ -139,6 +139,10 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-        // TODO: open playlist fragment
+        assert getParentFragment() != null;
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, PlaylistFragment.getInstance(playlist))
+                .remove(getParentFragment())
+                .commit();
     }
 }
