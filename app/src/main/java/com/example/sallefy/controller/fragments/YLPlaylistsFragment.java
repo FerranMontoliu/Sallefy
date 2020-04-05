@@ -75,7 +75,13 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 String playlistName = input.getText().toString();
-                //TODO: API call adding the new playlist
+                if (playlistName.trim().equals("")) {
+                    Toast.makeText(getContext(), R.string.error_name_playlist, Toast.LENGTH_LONG).show();
+                } else {
+                    Playlist playlist = new Playlist();
+                    playlist.setName(playlistName);
+                    PlaylistManager.getInstance(getContext()).createPlaylist(playlist, YLPlaylistsFragment.this);
+                }
             }
         });
 
@@ -91,12 +97,14 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
 
     @Override
     public void onPlaylistCreated(Playlist playlist) {
-        // UNUSED
+        Toast.makeText(getContext(), R.string.playlist_created_success, Toast.LENGTH_LONG).show();
+
+        PlaylistManager.getInstance(getContext()).getOwnPlaylists(YLPlaylistsFragment.this);
     }
 
     @Override
     public void onPlaylistFailure(Throwable throwable) {
-        // UNUSED
+        Toast.makeText(getContext(), R.string.error_playlist_not_created, Toast.LENGTH_LONG).show();
     }
 
     @Override
