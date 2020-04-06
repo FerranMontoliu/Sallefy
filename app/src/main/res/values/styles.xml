@@ -27,6 +27,12 @@
         <item name="android:colorForeground">@color/switch_track</item>
     </style>
 
+    <style name="TitleSearchResults" parent="NoTitle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light</item>
+    </style>
+
     <style name="ItemTitleTheme" parent="NoTitle">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
