@@ -11,4 +11,5 @@
     <color name="switch_track">#504C4C</color>
     <color name="dark_background">#1B1B1B</color>
     <color name="darker_background">#171717</color>
+    <color name="border_light_gray">#a9a9a9</color>
 </resources>

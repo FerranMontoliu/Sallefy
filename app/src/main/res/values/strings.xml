@@ -50,9 +50,14 @@
     <string name="cancel_text_playlist">CANCEL</string>
     <string name="create_text_playlist">CREATE</string>
 
+
     <!-- PLAYING SONG -->
     <string name="song_title">Song Title</string>
     <string name="artist_name">Artist Name</string>
     <string name="playlist_name">Playlist Name</string>
+
+    <!-- ADD SONG TO PLAYLIST -->
+    <string name="select_playlist">Select a Playlist</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

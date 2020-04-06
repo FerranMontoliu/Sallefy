@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_playlist_addsong_layout"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height"
+    android:gravity="center_vertical"
+    android:background="@drawable/item_list_border">
+
+
+    <ImageView
+        android:id="@+id/playlist_img"
+        android:layout_width="@dimen/item_height_without_border"
+        android:layout_height="@dimen/item_height_without_border"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_audiotrack_60dp"/>
+
+    <TextView
+        android:id="@+id/playlist_title"
+        style="@style/PlaylistNameTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/playlist_name"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/playlist_img"
+        android:textAlignment="textStart"
+        android:layout_marginLeft="10dp"/>
+
+
+
+</RelativeLayout>
