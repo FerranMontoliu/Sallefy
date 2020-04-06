@@ -38,4 +38,23 @@
         <item name="android:textColor">@color/light</item>
     </style>
 
+
+    <!-- PLAYING SONG -->
+    <style name="SongTitleTheme" parent="NoTitle">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light</item>
+    </style>
+
+    <style name="ArtistNameTheme" parent="NoTitle">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/light_hint</item>
+    </style>
+
+
+    <style name="PlaylistNameTheme" parent="NoTitle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/light_hint</item>
+    </style>
+
 </resources>
