@@ -16,16 +16,16 @@ import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.R;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class AddSongPlaylistListAdapter extends RecyclerView.Adapter<AddSongPlaylistListAdapter.ViewHolder> {
+public class OwnPlaylistListAdapter2 extends RecyclerView.Adapter<OwnPlaylistListAdapter2.ViewHolder> {
 
-    private List<Playlist> mPlaylists;
+    private ArrayList<Playlist> mPlaylists;
     private Context mContext;
     private PlaylistAdapterCallback mCallback;
     private int layoutId;
 
-    public AddSongPlaylistListAdapter(List<Playlist> playlists, Context context, PlaylistAdapterCallback callback, int layoutId) {
+    public OwnPlaylistListAdapter2(ArrayList<Playlist> playlists, Context context, PlaylistAdapterCallback callback, int layoutId) {
         mPlaylists = playlists;
         mContext = context;
         mCallback = callback;
@@ -34,15 +34,15 @@ public class AddSongPlaylistListAdapter extends RecyclerView.Adapter<AddSongPlay
 
     @NonNull
     @Override
-    public AddSongPlaylistListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public OwnPlaylistListAdapter2.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        return new AddSongPlaylistListAdapter.ViewHolder(itemView);
+        return new OwnPlaylistListAdapter2.ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddSongPlaylistListAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull OwnPlaylistListAdapter2.ViewHolder holder, final int position) {
         holder.tvTitle.setText(mPlaylists.get(position).getName());
-        holder.tvAuthor.setText(mPlaylists.get(position).getUser().getLogin());
+
         if (mPlaylists.get(position).getThumbnail() != null) {
             Glide.with(mContext)
                     .asBitmap()
@@ -79,10 +79,10 @@ public class AddSongPlaylistListAdapter extends RecyclerView.Adapter<AddSongPlay
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTitle = (TextView) itemView.findViewById(R.id.item_playlist_title);
+            tvTitle = itemView.findViewById(R.id.item_playlist_title);
             tvAuthor = itemView.findViewById(R.id.item_playlist_author);
-            ivPicture = (ImageView) itemView.findViewById(R.id.item_playlist_photo);
-            mLayout = (RelativeLayout) itemView.findViewById(R.id.item_playlist_layout);
+            ivPicture = itemView.findViewById(R.id.item_playlist_photo);
+            mLayout = itemView.findViewById(R.id.item_playlist_layout);
         }
     }
 

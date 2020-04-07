@@ -18,12 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
-import com.example.sallefy.controller.adapters.AddSongPlaylistListAdapter;
+import com.example.sallefy.controller.adapters.OwnPlaylistListAdapter2;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.model.Playlist;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,7 +51,7 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
         rvPlaylists = v.findViewById(R.id.playlists_rv_addsong);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rvPlaylists.setLayoutManager(manager);
-        AddSongPlaylistListAdapter adapter = new AddSongPlaylistListAdapter(null, getContext(),AddSongPlaylistFragment.this, R.layout.item_playlist_addsong);
+        OwnPlaylistListAdapter2 adapter = new OwnPlaylistListAdapter2(null, getContext(),AddSongPlaylistFragment.this, R.layout.item_own_playlist_2);
         rvPlaylists.setAdapter(adapter);
 
         PlaylistManager.getInstance(getContext()).getOwnPlaylists(AddSongPlaylistFragment.this);
@@ -119,7 +120,7 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
 
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
-        AddSongPlaylistListAdapter adapter = new AddSongPlaylistListAdapter(playlists, getContext(),AddSongPlaylistFragment.this, R.layout.item_playlist_addsong);
+        OwnPlaylistListAdapter2 adapter = new OwnPlaylistListAdapter2((ArrayList)playlists, getContext(),AddSongPlaylistFragment.this, R.layout.item_own_playlist_2);
         rvPlaylists.setAdapter(adapter);
     }
 

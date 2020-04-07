@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
-import com.example.sallefy.controller.adapters.AddSongPlaylistListAdapter;
 import com.example.sallefy.controller.adapters.PlaylistGroupListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
