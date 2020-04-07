@@ -128,7 +128,7 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
     }
 
     @Override
-    public void onPlaylistsNotReceived(List<Playlist> playlists) {
+    public void onPlaylistsNotReceived(Throwable throwable) {
         Toast.makeText(getContext(), R.string.error_getting_playlists, Toast.LENGTH_LONG).show();
     }
 
