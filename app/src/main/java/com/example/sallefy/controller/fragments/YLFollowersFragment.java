@@ -21,6 +21,7 @@ import com.example.sallefy.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class YLFollowersFragment extends Fragment implements UserCallback, UserAdapterCallback {
     public static final String TAG = YLFollowersFragment.class.getName();
@@ -51,7 +52,11 @@ public class YLFollowersFragment extends Fragment implements UserCallback, UserA
 
     @Override
     public void onUserClick(User user) {
-        // TODO: OPEN USER FRAGMENT
+        assert getParentFragment() != null;
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, UserFragment.getInstance(user))
+                .remove(getParentFragment())
+                .commit();
     }
 
     @Override
