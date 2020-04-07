@@ -1,11 +1,13 @@
 package com.example.sallefy.controller.fragments;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.example.sallefy.controller.restapi.manager.UserManager;
 import com.example.sallefy.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 public class YourLibraryFragment extends Fragment implements UserCallback, FragmentCallback, OwnUserAdapterCallback {
@@ -59,6 +62,8 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
 
         userRV = v.findViewById(R.id.user_rv);
         mNav = v.findViewById(R.id.user_navigation);
+        adjustGravity(mNav);
+        adjustWidth(mNav);
         mNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -120,6 +125,40 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
     private void setInitialFragment() {
         mTransaction.add(R.id.sub_fragment_container, YLPlaylistsFragment.getInstance());
         mTransaction.commit();
+    }
+
+    private static void adjustGravity(View v) {
+        if (v.getId() == com.google.android.material.R.id.smallLabel) {
+            ViewGroup parent = (ViewGroup) v.getParent();
+            parent.setPadding(0, 0, 0, 0);
+
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) parent.getLayoutParams();
+            params.gravity = Gravity.CENTER;
+            parent.setLayoutParams(params);
+        }
+
+        if (v instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) v;
+
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                adjustGravity(vg.getChildAt(i));
+            }
+        }
+    }
+
+    private static void adjustWidth(BottomNavigationView nav) {
+        try {
+            Field menuViewField = nav.getClass().getDeclaredField("mMenuView");
+            menuViewField.setAccessible(true);
+            Object menuView = menuViewField.get(nav);
+
+            Field itemWidth = menuView.getClass().getDeclaredField("mActiveItemMaxWidth");
+            itemWidth.setAccessible(true);
+            itemWidth.setInt(menuView, Integer.MAX_VALUE);
+        }
+        catch (Exception ignored) {
+
+        }
     }
 
     private void replaceFragment(Fragment fragment) {

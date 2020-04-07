@@ -55,7 +55,8 @@
             android:background="@color/colorPrimaryDark"
             app:itemTextColor="@color/light"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/user_items" />
+            app:menu="@menu/user_items"
+            app:labelVisibilityMode="labeled" />
 
     </LinearLayout>
 
