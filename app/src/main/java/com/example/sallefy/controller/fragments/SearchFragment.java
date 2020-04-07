@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,6 +52,10 @@ public class SearchFragment extends Fragment implements SearchCallback {
 
     private EditText etSearch;
 
+    private TextView tvTracks;
+    private TextView tvPlaylists;
+    private TextView tvUsers;
+
     private ArrayList<User> mUsers;
     private ArrayList<Track> mTracks;
     private ArrayList<Playlist> mPlaylists;
@@ -89,6 +95,10 @@ public class SearchFragment extends Fragment implements SearchCallback {
         playlistsRV = v.findViewById(R.id.search_playlists_rv);
         tracksRV = v.findViewById(R.id.search_tracks_rv);
         usersRV = v.findViewById(R.id.search_profiles_rv);
+
+        tvPlaylists = v.findViewById(R.id.search_playlists_text);
+        tvUsers = v.findViewById(R.id.search_users_text);
+        tvTracks = v.findViewById(R.id.search_tracks_text);
 
         backBtn = v.findViewById(R.id.back_btn_search);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +144,21 @@ public class SearchFragment extends Fragment implements SearchCallback {
         mUsers = (ArrayList<User>)results.getUsers();
         mPlaylists = (ArrayList<Playlist>)results.getPlaylists();
 
+        tvTracks.setVisibility(View.VISIBLE);
+        tvUsers.setVisibility(View.VISIBLE);
+        tvPlaylists.setVisibility(View.VISIBLE);
+
+        if(mTracks.size() == 0){
+            tvTracks.setVisibility(View.GONE);
+        }
+
+        if(mUsers.size() == 0){
+            tvUsers.setVisibility(View.GONE);
+        }
+
+        if(mPlaylists.size() == 0){
+            tvPlaylists.setVisibility(View.GONE);
+        }
         //Create Recycler View Adapters
         TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks);
         SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), mPlaylists);
@@ -148,7 +173,7 @@ public class SearchFragment extends Fragment implements SearchCallback {
 
     @Override
     public void onNoResults(Throwable throwable) {
-
+        Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_LONG);
     }
 
     @Override
