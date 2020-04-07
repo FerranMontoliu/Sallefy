@@ -2,6 +2,7 @@ package com.example.sallefy.controller.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
+import com.example.sallefy.controller.activities.MainActivity;
+import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.OwnTrackListAdapter;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
@@ -100,7 +103,9 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
 
     @Override
     public void onTrackClick(Track track) {
-        // TODO: OPEN ACTIVITY PLAYINGSONG
+        Intent intent = new Intent(getContext(), PlayingSongActivity.class);
+        intent.putExtra("track", track);
+        startActivity(intent);
     }
 
     @Override
