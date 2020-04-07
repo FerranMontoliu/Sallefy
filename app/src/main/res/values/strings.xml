@@ -50,4 +50,13 @@
     <string name="cancel_text_playlist">CANCEL</string>
     <string name="create_text_playlist">CREATE</string>
 
+    <!-- SEARCH -->
+    <string name="search_hint">Search</string>
+    <string name="search_empty_results">There are no results for your search!</string>
+    <string name="default_profile_name">Name</string>
+    <string name="search_playlists">Playlists</string>
+    <string name="search_tracks">Tracks</string>
+    <string name="search_users">Users</string>
+
+
 </resources>
