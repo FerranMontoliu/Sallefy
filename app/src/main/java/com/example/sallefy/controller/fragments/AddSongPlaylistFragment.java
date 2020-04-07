@@ -35,7 +35,11 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
 
     private RecyclerView rvPlaylists;
     private TextView tvBackToSong;
+    private PlaylistAdapterCallback mCallback;
 
+    public AddSongPlaylistFragment(PlaylistAdapterCallback callback) {
+        mCallback = callback;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,8 +67,8 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
             }
         });
 
-        getDialog().getWindow().setGravity(Gravity.BOTTOM);
-        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setGravity(Gravity.BOTTOM);
+        Objects.requireNonNull(getDialog().getWindow()).getAttributes().windowAnimations = R.style.DialogAnimation;
 
         return v;
     }
@@ -75,7 +79,7 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
 
         Dialog dialog = getDialog();
         if (dialog != null) {
-            View parentView = (ConstraintLayout)getActivity().findViewById(R.id.activity_playing_song);
+            View parentView = Objects.requireNonNull(getActivity()).findViewById(R.id.activity_playing_song);
             Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int)(parentView.getHeight() * 0.9f));
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
@@ -83,8 +87,8 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
+        mCallback.onPlaylistClick(playlist);
         AddSongPlaylistFragment.this.dismiss();
-        //Borrar aquest fragment
     }
 
     @Override
