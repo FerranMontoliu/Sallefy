@@ -63,7 +63,6 @@ public class TrackManager {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    ;
                 }
             }
 

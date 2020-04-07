@@ -27,14 +27,15 @@
         <item name="android:colorForeground">@color/switch_track</item>
     </style>
 
-    <style name="TitleSearchResults" parent="NoTitle">
+    <style name="TitleSearchResults" parent="TextAppearance.AppCompat">
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light</item>
+        <item name="android:layout_marginLeft">15dp</item>
     </style>
 
     <style name="ItemTitleTheme" parent="NoTitle">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light</item>
     </style>
