@@ -50,4 +50,25 @@
     <string name="cancel_text_playlist">CANCEL</string>
     <string name="create_text_playlist">CREATE</string>
 
+
+    <!-- PLAYING SONG -->
+    <string name="song_title">Song Title</string>
+    <string name="artist_name">Artist Name</string>
+    <string name="playlist_name">Playlist Name</string>
+    <string name="author_name">Author Name</string>
+
+    
+    <!-- ADD SONG TO PLAYLIST -->
+    <string name="select_playlist">Select a Playlist</string>
+    <string name="cancel">Cancel</string>
+    <string name="playlist_thumbnail_description">Playlist thumbnail</string>
+    
+    
+    <!-- HOME -->
+    <string name="default_header">Default Header</string>
+    <string name="popular_playlists">Popular Playlists</string>
+    <string name="discover_playlists">Discover Playlists</string>
+    <string name="liked_playlists">Liked Playlists</string>
+    <string name="playlist_name_cv">Playlist Name</string>
+
 </resources>
