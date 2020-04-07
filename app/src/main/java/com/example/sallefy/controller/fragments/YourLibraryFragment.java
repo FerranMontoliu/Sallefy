@@ -30,6 +30,7 @@ import com.example.sallefy.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Objects;
 
 public class YourLibraryFragment extends Fragment implements UserCallback, FragmentCallback, OwnUserAdapterCallback {
@@ -223,6 +224,11 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
         OwnUserAdapter adapter = new OwnUserAdapter(userData, getContext(), YourLibraryFragment.this);
         userRV.setLayoutManager(manager);
         userRV.setAdapter(adapter);
+    }
+
+    @Override
+    public void onUsersReceived(List<User> users) {
+        // UNUSED
     }
 
     @Override
