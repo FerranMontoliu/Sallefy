@@ -6,7 +6,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,10 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
-import com.example.sallefy.controller.adapters.PlaylistListAdapter;
 import com.example.sallefy.controller.adapters.SearchPlaylistListAdapter;
+import com.example.sallefy.controller.adapters.SearchUserListAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
-import com.example.sallefy.controller.adapters.UserListAdapter;
 import com.example.sallefy.controller.restapi.callback.SearchCallback;
 import com.example.sallefy.controller.restapi.manager.SearchManager;
 import com.example.sallefy.model.Playlist;
@@ -34,7 +32,6 @@ import com.example.sallefy.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.concurrent.RecursiveAction;
 
 public class SearchFragment extends Fragment implements SearchCallback {
     public static final String TAG = SearchFragment.class.getName();
@@ -167,7 +164,7 @@ public class SearchFragment extends Fragment implements SearchCallback {
         //Create Recycler View Adapters
         TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks);
         SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), mPlaylists);
-        UserListAdapter adapterUL = new UserListAdapter(this.getContext(), mUsers);
+        SearchUserListAdapter adapterUL = new SearchUserListAdapter(this.getContext(), mUsers);
 
         //Set adapters
         playlistsRV.setAdapter(adapterPL);

@@ -6,39 +6,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
 
 import com.example.sallefy.model.User;
 
 import java.util.ArrayList;
 
-public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder>{
-    private static final String TAG = "UserListAdapter";
+public class SearchUserListAdapter extends RecyclerView.Adapter<SearchUserListAdapter.ViewHolder>{
+    private static final String TAG = "SearchUserListAdapter";
     private ArrayList<User> mUsers;
     private Context mContext;
 
-    public UserListAdapter(Context context, ArrayList<User> users) {
+    public SearchUserListAdapter(Context context, ArrayList<User> users) {
         mContext = context;
         mUsers = users;
     }
 
     @NonNull
     @Override
-    public UserListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchUserListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: called.");
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_profile, parent, false);
-        return new UserListAdapter.ViewHolder(itemView);
+        return new SearchUserListAdapter.ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchUserListAdapter.ViewHolder holder, int position) {
         holder.tvUserName.setText(mUsers.get(position).getLogin());
         //setPicture
     }
