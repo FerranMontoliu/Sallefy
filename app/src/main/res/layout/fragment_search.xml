@@ -41,7 +41,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="15dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/search_edit_text"
         android:text="@string/search_playlists"
         style="@style/TitleSearchResults">
@@ -66,7 +66,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_playlists_rv"
         android:text="@string/search_tracks"
-        android:visibility="visible"
+        android:visibility="gone"
         style="@style/TitleSearchResults">
     </TextView>
 
@@ -89,7 +89,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_tracks_rv"
         android:text="@string/search_users"
-        android:visibility="visible"
+        android:visibility="gone"
         style="@style/TitleSearchResults">
     </TextView>
 

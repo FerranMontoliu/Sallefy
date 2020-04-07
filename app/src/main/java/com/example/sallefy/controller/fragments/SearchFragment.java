@@ -144,21 +144,26 @@ public class SearchFragment extends Fragment implements SearchCallback {
         mUsers = (ArrayList<User>)results.getUsers();
         mPlaylists = (ArrayList<Playlist>)results.getPlaylists();
 
-        tvTracks.setVisibility(View.VISIBLE);
-        tvUsers.setVisibility(View.VISIBLE);
-        tvPlaylists.setVisibility(View.VISIBLE);
+        tvTracks.setVisibility(View.GONE);
+        tvUsers.setVisibility(View.GONE);
+        tvPlaylists.setVisibility(View.GONE);
 
-        if(mTracks.size() == 0){
-            tvTracks.setVisibility(View.GONE);
+        if(mTracks.size() != 0){
+            tvTracks.setVisibility(View.VISIBLE);
         }
 
-        if(mUsers.size() == 0){
-            tvUsers.setVisibility(View.GONE);
+        if(mUsers.size() != 0){
+            tvUsers.setVisibility(View.VISIBLE);
         }
 
-        if(mPlaylists.size() == 0){
-            tvPlaylists.setVisibility(View.GONE);
+        if(mPlaylists.size() != 0){
+            tvPlaylists.setVisibility(View.VISIBLE);
         }
+
+        if(mPlaylists.size() == 0 && mUsers.size() == 0 && mTracks.size() == 0){
+            Toast.makeText(getContext(), R.string.search_empty_results, Toast.LENGTH_SHORT).show();
+        }
+
         //Create Recycler View Adapters
         TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks);
         SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), mPlaylists);
@@ -173,7 +178,7 @@ public class SearchFragment extends Fragment implements SearchCallback {
 
     @Override
     public void onNoResults(Throwable throwable) {
-        Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_LONG);
+        Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
