@@ -28,6 +28,7 @@
     <string name="default_track_author">Author</string>
     <string name="default_track_title">Title</string>
     <string name="fragment_playlists">Playlist Title</string>
+    <string name="default_user_login_name">Username</string>
 
 
     <!-- LOGIN AND REGISTER -->
