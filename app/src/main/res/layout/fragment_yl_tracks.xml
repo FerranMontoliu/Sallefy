@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/item_create_playlist"
+        layout="@layout/item_create_track"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/playlists_rv"
+        android:id="@+id/tracks_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="1dp"
@@ -34,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playlists_rv">
+        app:layout_constraintTop_toBottomOf="@+id/tracks_rv">
 
     </FrameLayout>
 
