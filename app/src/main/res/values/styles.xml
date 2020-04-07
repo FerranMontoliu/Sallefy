@@ -56,6 +56,11 @@
         <item name="android:textColor">@color/light_hint</item>
     </style>
 
+    <style name="AuthorNameTheme" parent="NoTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/light_hint</item>
+    </style>
+
     <style name="NavigationTheme" parent="NoTitle">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/light</item>
@@ -64,6 +69,18 @@
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
         <item name="android:windowExitAnimation">@anim/slide_out_up</item>
+    </style>
+
+    <!-- HOME -->
+    <style name="HeaderTheme">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light</item>
+    </style>
+
+    <style name="PlaylistNameCVTheme" parent="NoTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/light_hint</item>
     </style>
 
 </resources>

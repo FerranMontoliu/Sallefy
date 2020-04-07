@@ -8,21 +8,17 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
-import com.example.sallefy.controller.adapters.AddSongPlaylistRVAdapter;
+import com.example.sallefy.controller.adapters.AddSongPlaylistListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
@@ -54,7 +50,7 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
         rvPlaylists = v.findViewById(R.id.playlists_rv_addsong);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rvPlaylists.setLayoutManager(manager);
-        AddSongPlaylistRVAdapter adapter = new AddSongPlaylistRVAdapter(null, getContext(),AddSongPlaylistFragment.this, R.layout.item_playlist_addsong);
+        AddSongPlaylistListAdapter adapter = new AddSongPlaylistListAdapter(null, getContext(),AddSongPlaylistFragment.this, R.layout.item_playlist_addsong);
         rvPlaylists.setAdapter(adapter);
 
         PlaylistManager.getInstance(getContext()).getOwnPlaylists(AddSongPlaylistFragment.this);
@@ -123,13 +119,13 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
 
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
-        AddSongPlaylistRVAdapter adapter = new AddSongPlaylistRVAdapter(playlists, getContext(),AddSongPlaylistFragment.this, R.layout.item_playlist_addsong);
+        AddSongPlaylistListAdapter adapter = new AddSongPlaylistListAdapter(playlists, getContext(),AddSongPlaylistFragment.this, R.layout.item_playlist_addsong);
         rvPlaylists.setAdapter(adapter);
     }
 
     @Override
-    public void onPlaylistsNotReceived(List<Playlist> playlists) {
-
+    public void onPlaylistsNotReceived(Throwable throwable) {
+        Toast.makeText(getContext(), R.string.error_getting_playlists, Toast.LENGTH_LONG).show();
     }
 
     @Override
