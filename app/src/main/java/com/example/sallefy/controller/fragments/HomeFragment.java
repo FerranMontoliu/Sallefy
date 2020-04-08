@@ -58,16 +58,6 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
         PlaylistGroupListAdapter adapter = new PlaylistGroupListAdapter(getContext(), mPlaylistGroups, HomeFragment.this);
         rvPlaylistGroups.setAdapter(adapter);
 
-
-        Button btnTest = v.findViewById(R.id.test_song);
-
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), PlayingSongActivity.class));
-            }
-        });
-
         return v;
     }
 
