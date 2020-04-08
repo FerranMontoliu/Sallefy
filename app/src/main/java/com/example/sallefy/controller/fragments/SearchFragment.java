@@ -107,11 +107,10 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                assert getFragmentManager() != null;
-                getFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, new HomeFragment())
-                        .remove(SearchFragment.this)
-                        .commit();
+                FragmentManager fm = getFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                }
             }
         });
 
