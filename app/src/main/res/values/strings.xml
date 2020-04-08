@@ -91,5 +91,13 @@
     <string name="search_playlists">Playlists</string>
     <string name="search_tracks">Tracks</string>
     <string name="search_users">Users</string>
-
+    
+    
+    <!-- PLAYLIST -->
+    <string name="follow">Follow</string>
+    <string name="following">Following</string>
+    <string name="shuffle_play">Shuffle Play</string>
+    <string name="add_songs">Add Songs</string>
+    <string name="track_name">Track name</string>
+    <string name="track_author">Track author</string>
 </resources>

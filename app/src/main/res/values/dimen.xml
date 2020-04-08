@@ -4,4 +4,7 @@
     <dimen name="item_height_without_border">68dp</dimen>
     <dimen name="header_height">60dp</dimen>
     <dimen name="card_view_size">130dp</dimen>
+
+    <!-- PLAYLIST -->
+    <dimen name="playlist_image">150dp</dimen>
 </resources>

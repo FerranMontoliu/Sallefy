@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_playlist_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_track_layout"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="@dimen/item_height"
     android:gravity="center_vertical"
@@ -29,22 +30,28 @@
             style="@style/PlaylistNameTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="26"
-            android:text="@string/playlist_name"
+            android:text="@string/track_name"
             android:textAlignment="textStart"
-            android:textColor="@color/light" />
+            android:textColor="@color/light"/>
 
         <TextView
             android:id="@+id/item_author"
             style="@style/AuthorNameTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="33"
-            android:text="@string/author_name"
-            android:textColor="@color/light" />
+            android:text="@string/track_author"
+            android:textColor="@color/light"/>
 
     </LinearLayout>
 
+    <ImageButton
+        android:id="@+id/it_more_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:backgroundTint="#00FFFFFF"
+        app:srcCompat="@drawable/ic_more_horiz_light" />
 
 
 </RelativeLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/fp_back_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#00FFFFFF"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/fp_playlist_image_iv"
+        android:layout_width="@dimen/playlist_image"
+        android:layout_height="@dimen/playlist_image"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_library_music" />
+
+    <Button
+        android:id="@+id/fp_follow_b"
+        android:layout_width="100dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="5dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/follow"
+        android:textColor="@color/light"
+        android:textSize="12sp"
+        android:background="@drawable/secondary_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fp_playlist_name_tv" />
+
+    <Button
+        android:id="@+id/fp_shuffle_play_b"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/primary_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/shuffle_play"
+        android:textColor="@color/light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fp_follow_b"
+        app:strokeWidth="0dp" />
+
+    <Button
+        android:id="@+id/fp_add_songs_b"
+
+        android:layout_width="100dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/secondary_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+
+
+        android:text="@string/add_songs"
+        android:textColor="@color/light"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fp_shuffle_play_b" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fp_tracks_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fp_add_songs_b" />
+
+    <TextView
+        android:id="@+id/fp_playlist_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:text="@string/playlist_name"
+        android:textAppearance="@style/SongTitleTheme"
+        app:layout_constraintBottom_toTopOf="@+id/fp_follow_b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fp_playlist_image_iv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.sallefy.controller.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,9 +21,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
+import com.example.sallefy.controller.activities.PlayingSongActivity;
+import com.example.sallefy.controller.adapters.PlaylistListAdapter;
 import com.example.sallefy.controller.adapters.SearchPlaylistListAdapter;
 import com.example.sallefy.controller.adapters.SearchUserListAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
+import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
+import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.SearchCallback;
 import com.example.sallefy.controller.restapi.manager.SearchManager;
 import com.example.sallefy.model.Playlist;
@@ -32,8 +37,9 @@ import com.example.sallefy.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class SearchFragment extends Fragment implements SearchCallback {
+public class SearchFragment extends Fragment implements SearchCallback, TrackListAdapterCallback, PlaylistAdapterCallback {
     public static final String TAG = SearchFragment.class.getName();
 
     private FragmentManager mFragmentManager;
@@ -101,11 +107,10 @@ public class SearchFragment extends Fragment implements SearchCallback {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                assert getFragmentManager() != null;
-                getFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, new HomeFragment())
-                        .remove(SearchFragment.this)
-                        .commit();
+                FragmentManager fm = getFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                }
             }
         });
 
@@ -162,8 +167,8 @@ public class SearchFragment extends Fragment implements SearchCallback {
         }
 
         //Create Recycler View Adapters
-        TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks);
-        SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), mPlaylists);
+        TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks, SearchFragment.this, R.layout.track_item);
+        SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), mPlaylists, SearchFragment.this);
         SearchUserListAdapter adapterUL = new SearchUserListAdapter(this.getContext(), mUsers);
 
         //Set adapters
@@ -181,5 +186,23 @@ public class SearchFragment extends Fragment implements SearchCallback {
     @Override
     public void onFailure(Throwable throwable) {
 
+    }
+
+    @Override
+    public void onTrackClick(Track track) {
+        Intent intent = new Intent(getContext(), PlayingSongActivity.class);
+        intent.putExtra("track", track);
+        Playlist playlist = new Playlist();
+        playlist.setName("Search " + track.getName());
+        intent.putExtra("playlist", playlist);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onPlaylistClick(Playlist playlist) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, PlaylistFragment.getInstance(playlist), PlaylistFragment.TAG)
+                .addToBackStack(null)
+                .commit();
     }
 }

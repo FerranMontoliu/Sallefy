@@ -78,6 +78,7 @@
         <item name="android:windowExitAnimation">@anim/slide_out_up</item>
     </style>
 
+
     <!-- HOME -->
     <style name="HeaderTheme">
         <item name="android:textSize">36sp</item>
@@ -88,6 +89,14 @@
     <style name="PlaylistNameCVTheme" parent="NoTitle">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/light_hint</item>
+    </style>
+
+
+    <!-- PLAYLIST -->
+    <style name="FollowButton">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:backgroundTint">#00FFFFFF</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>

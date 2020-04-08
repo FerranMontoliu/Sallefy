@@ -25,6 +25,7 @@ import com.example.sallefy.model.PlaylistGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment implements PlaylistAdapterCallback, PlaylistCallback {
     public static final String TAG = HomeFragment.class.getName();
@@ -57,16 +58,6 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
         PlaylistGroupListAdapter adapter = new PlaylistGroupListAdapter(getContext(), mPlaylistGroups, HomeFragment.this);
         rvPlaylistGroups.setAdapter(adapter);
 
-
-        Button btnTest = v.findViewById(R.id.test_song);
-
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), PlayingSongActivity.class));
-            }
-        });
-
         return v;
     }
 
@@ -96,7 +87,12 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-        Toast.makeText(getContext(), "Playlist clicked:" + playlist.getName(), Toast.LENGTH_LONG).show();
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, PlaylistFragment.getInstance(playlist), PlaylistFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+
     }
 
     @Override

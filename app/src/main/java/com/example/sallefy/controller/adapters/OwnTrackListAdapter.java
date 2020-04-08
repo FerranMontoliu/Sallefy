@@ -80,8 +80,8 @@ public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mLayout = itemView.findViewById(R.id.item_track_layout);
-            mPhoto = itemView.findViewById(R.id.item_track_photo);
-            mTitle = itemView.findViewById(R.id.item_track_title);
+            mPhoto = itemView.findViewById(R.id.item_img);
+            mTitle = itemView.findViewById(R.id.item_title);
         }
     }
 }
