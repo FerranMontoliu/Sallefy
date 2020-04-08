@@ -24,6 +24,7 @@ import com.example.sallefy.controller.adapters.OwnTrackListAdapter;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.TrackManager;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
 
     private ImageButton addTrackButton;
     private RecyclerView recyclerView;
-
+    private Playlist ownTracksPlaylist;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +106,7 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
     public void onTrackClick(Track track) {
         Intent intent = new Intent(getContext(), PlayingSongActivity.class);
         intent.putExtra("track", track);
+        intent.putExtra("playlist", ownTracksPlaylist);
         startActivity(intent);
     }
 
@@ -114,6 +116,9 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
         OwnTrackListAdapter adapter = new OwnTrackListAdapter((ArrayList<Track>) tracks, getContext(), YLTracksFragment.this, R.layout.item_own_track);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        ownTracksPlaylist = new Playlist();
+        ownTracksPlaylist.setName(getContext().getString(R.string.own_tracks_playlist_name));
+        ownTracksPlaylist.setTracks(tracks);
     }
 
     @Override

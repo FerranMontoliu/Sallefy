@@ -61,7 +61,7 @@
     <string name="create_text_playlist">CREATE</string>
     <string name="cancel_text_track">CANCEL</string>
     <string name="add_text_track">ADD</string>
-
+    <string name="own_tracks_playlist_name">Own tracks</string>
 
     <!-- PLAYING SONG -->
     <string name="song_title">Song Title</string>

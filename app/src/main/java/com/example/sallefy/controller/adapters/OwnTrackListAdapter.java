@@ -55,13 +55,13 @@ public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapte
             if (mTracks.get(position).getThumbnail() != null) {
                 Glide.with(mContext)
                         .asBitmap()
-                        .placeholder(R.drawable.ic_audiotrack)
+                        .placeholder(R.drawable.ic_audiotrack_60dp)
                         .load(mTracks.get(position).getThumbnail())
                         .into(holder.mPhoto);
             } else {
                 Glide.with(mContext)
                         .asBitmap()
-                        .load(R.drawable.ic_audiotrack)
+                        .load(R.drawable.ic_audiotrack_60dp)
                         .into(holder.mPhoto);
             }
         }

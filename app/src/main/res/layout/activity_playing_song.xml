@@ -25,9 +25,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/aps_playlist_name_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/aps_playlist_name_tv"
         app:srcCompat="@drawable/ic_add_light" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -38,7 +38,7 @@
         app:layout_constraintGuide_begin="20dp" />
 
     <ImageView
-        android:id="@+id/image_song"
+        android:id="@+id/aps_song_image_iv"
         android:layout_width="275dp"
         android:layout_height="275dp"
         android:layout_marginTop="180dp"
@@ -70,7 +70,7 @@
         android:text="@string/song_title"
         android:textAppearance="@style/SongTitleTheme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_song" />
+        app:layout_constraintTop_toBottomOf="@+id/aps_song_image_iv" />
 
     <TextView
         android:id="@+id/aps_artist_name"
@@ -142,7 +142,7 @@
         app:layout_constraintTop_toBottomOf="@+id/aps_artist_name" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/aps_playlist_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/playlist_name"
