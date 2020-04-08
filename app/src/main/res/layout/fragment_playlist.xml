@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/fp_back_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back_arrow" />
+
+    <ImageView
+        android:id="@+id/fp_playlist_image_iv"
+        android:layout_width="@dimen/playlist_image"
+        android:layout_height="@dimen/playlist_image"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_library_music" />
+
+    <Button
+        android:id="@+id/fp_follow_b"
+        style="@style/FollowButton"
+
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:text="@string/follow"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fp_playlist_image_iv"
+        app:strokeColor="@color/light"
+        app:strokeWidth="1dp" />
+
+    <Button
+        android:id="@+id/fp_shuffle_play_b"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/greenSecondary"
+        android:text="@string/shuffle_play"
+        android:textColor="@color/light"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fp_follow_b"
+        app:strokeWidth="0dp" />
+
+    <Button
+        android:id="@+id/fp_add_songs_b"
+        style="@style/FollowButton"
+
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:text="@string/add_songs"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fp_shuffle_play_b"
+        app:strokeColor="@color/light"
+        app:strokeWidth="1dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fp_tracks_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fp_add_songs_b" />
+</androidx.constraintlayout.widget.ConstraintLayout>
