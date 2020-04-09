@@ -1,5 +1,7 @@
 package com.example.sallefy.controller.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +25,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.sallefy.R;
 import com.example.sallefy.controller.activities.LoginActivity;
 import com.example.sallefy.controller.restapi.callback.UserCallback;
+import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.controller.restapi.manager.UserManager;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.User;
 import com.example.sallefy.utils.Session;
 
@@ -111,11 +116,32 @@ public class OptionsFragment extends Fragment implements UserCallback {
         ibDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserManager.getInstance(getContext()).deleteAttempt(OptionsFragment.this);
+                showPopup();
             }
         });
 
         return v;
+    }
+
+    private void showPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.are_you_sure);
+
+        builder.setPositiveButton(R.string.confirm_delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UserManager.getInstance(getContext()).deleteAttempt(OptionsFragment.this);
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel_delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override

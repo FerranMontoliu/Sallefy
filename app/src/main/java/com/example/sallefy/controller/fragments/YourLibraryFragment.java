@@ -221,7 +221,6 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
 
     @Override
     public void onUserInfoReceived(User userData) {
-        Session.getInstance(getContext()).setUser(userData);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         OwnUserAdapter adapter = new OwnUserAdapter(userData, getContext(), YourLibraryFragment.this);
         userRV.setLayoutManager(manager);
