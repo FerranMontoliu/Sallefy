@@ -1,7 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <CheckBox
+        android:id="@+id/back_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:button="@drawable/ic_back_arrow"
+        app:buttonTint="@color/light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/settings_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        style="@style/FragmentTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back_settings">
+
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/settings_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_title">
+
+        <ImageView
+            android:id="@+id/settings_profile_photo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="0.1"
+            android:padding="3dp"
+            android:src="@drawable/ic_user_thumbnail"
+            android:paddingTop="10dp"/>
+
+
+        <TextView
+            android:id="@+id/item_user_login_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:text="@string/your_profile"
+            android:textAlignment="textStart"
+            android:textColor="@color/light"/>
+
+        <ImageButton
+            android:id="@+id/settings_profile_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:padding="5dp"
+            android:src="@drawable/ic_forward_arrow"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_profile">
+
+        <TextView
+            android:id="@+id/settings_delete_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:text="@string/delete_account"
+            android:textAlignment="textStart"
+            android:textColor="@color/light"
+            android:layout_marginLeft="20dp"/>
+
+        <ImageButton
+            android:id="@+id/settings_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:src="@drawable/ic_delete"
+            android:padding="5dp"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_delete">
+
+        <TextView
+            android:id="@+id/settings_logout_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.92"
+            android:text="@string/logout"
+            android:textAlignment="textStart"
+            android:textColor="@color/light"
+            android:layout_marginLeft="20dp"/>
+
+        <ImageButton
+            android:id="@+id/settings_logout_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_weight="0.08"
+            android:src="@drawable/ic_exit"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

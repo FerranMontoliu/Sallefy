@@ -73,6 +73,16 @@ public class YLFollowersFragment extends Fragment implements UserCallback, UserA
     }
 
     @Override
+    public void onAccountDeleted() {
+
+    }
+
+    @Override
+    public void onDeleteFailure(Throwable throwable) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }

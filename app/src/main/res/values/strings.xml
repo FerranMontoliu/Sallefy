@@ -91,8 +91,16 @@
     <string name="search_playlists">Playlists</string>
     <string name="search_tracks">Tracks</string>
     <string name="search_users">Users</string>
-    
-    
+
+    <!-- OPTIONS -->
+    <string name="your_profile">Your profile</string>
+    <string name="delete_account">Delete account</string>
+    <string name="logout">Logout</string>
+    <string name="settings">Settings</string>
+    <string name="are_you_sure">Are you sure you want to delete your account?</string>
+    <string name="confirm_delete">DELETE</string>
+    <string name="cancel_delete">CANCEL</string>
+  
     <!-- PLAYLIST -->
     <string name="follow">Follow</string>
     <string name="following">Following</string>
@@ -100,4 +108,5 @@
     <string name="add_songs">Add Songs</string>
     <string name="track_name">Track name</string>
     <string name="track_author">Track author</string>
+
 </resources>

@@ -27,6 +27,7 @@ import com.example.sallefy.controller.callbacks.OwnUserAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.UserCallback;
 import com.example.sallefy.controller.restapi.manager.UserManager;
 import com.example.sallefy.model.User;
+import com.example.sallefy.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.lang.reflect.Field;
@@ -107,6 +108,7 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
                 getFragmentManager().beginTransaction()
                         .add(R.id.fragment_container, new OptionsFragment())
                         .remove(YourLibraryFragment.this)
+                        .addToBackStack(null)
                         .commit();
             }
         });
@@ -228,6 +230,16 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
     @Override
     public void onUsersReceived(List<User> users) {
         // UNUSED
+    }
+
+    @Override
+    public void onAccountDeleted() {
+
+    }
+
+    @Override
+    public void onDeleteFailure(Throwable throwable) {
+
     }
 
     @Override
