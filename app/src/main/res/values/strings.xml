@@ -100,6 +100,13 @@
     <string name="are_you_sure">Are you sure you want to delete your account?</string>
     <string name="confirm_delete">DELETE</string>
     <string name="cancel_delete">CANCEL</string>
-
+  
+    <!-- PLAYLIST -->
+    <string name="follow">Follow</string>
+    <string name="following">Following</string>
+    <string name="shuffle_play">Shuffle Play</string>
+    <string name="add_songs">Add Songs</string>
+    <string name="track_name">Track name</string>
+    <string name="track_author">Track author</string>
 
 </resources>

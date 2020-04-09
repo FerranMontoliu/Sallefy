@@ -93,11 +93,10 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                assert getFragmentManager() != null;
-                getFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, new HomeFragment())
-                        .remove(YourLibraryFragment.this)
-                        .commit();
+                FragmentManager fm = getFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                }
             }
         });
 

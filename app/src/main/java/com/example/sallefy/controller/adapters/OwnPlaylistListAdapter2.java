@@ -79,9 +79,9 @@ public class OwnPlaylistListAdapter2 extends RecyclerView.Adapter<OwnPlaylistLis
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.item_playlist_title);
-            tvAuthor = itemView.findViewById(R.id.item_playlist_author);
-            ivPicture = itemView.findViewById(R.id.item_playlist_photo);
+            tvTitle = itemView.findViewById(R.id.item_title);
+            tvAuthor = itemView.findViewById(R.id.item_author);
+            ivPicture = itemView.findViewById(R.id.item_img);
             mLayout = itemView.findViewById(R.id.item_playlist_layout);
         }
     }

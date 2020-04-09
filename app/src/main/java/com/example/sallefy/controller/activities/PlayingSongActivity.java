@@ -82,7 +82,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishActivity(Activity.RESULT_OK);
+                finish();
             }
         });
     }

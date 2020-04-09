@@ -151,6 +151,7 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, PlaylistFragment.getInstance(playlist))
                 .remove(getParentFragment())
+                .addToBackStack(null)
                 .commit();
     }
 }
