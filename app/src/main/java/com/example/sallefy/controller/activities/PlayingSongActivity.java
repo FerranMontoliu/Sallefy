@@ -16,12 +16,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
+import com.example.sallefy.controller.MusicPlayer;
+import com.example.sallefy.controller.callbacks.PlayingSongCallback;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.fragments.AddSongPlaylistFragment;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
-public class PlayingSongActivity extends AppCompatActivity implements PlaylistAdapterCallback {
+public class PlayingSongActivity extends AppCompatActivity implements PlaylistAdapterCallback, PlayingSongCallback {
     private ImageButton btnBack;
     private ImageButton btnAdd;
     private TextView tvSongName;
@@ -40,6 +42,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
         setContentView(R.layout.activity_playing_song);
         initViews();
+        MusicPlayer.getInstance(PlayingSongActivity.this).onNewTrackClicked(track, playlist);
     }
 
     private void initViews() {
@@ -91,5 +94,15 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     public void onPlaylistClick(Playlist playlist) {
         //TODO: Add song to playlist
         Toast.makeText(getApplicationContext(), "Song added to " + playlist.getName(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onErrorPreparingMediaPlayer() {
+        Toast.makeText(getApplicationContext(),"Error, couldn't play the music.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTrackDurationReceived(int duration) {
+
     }
 }
