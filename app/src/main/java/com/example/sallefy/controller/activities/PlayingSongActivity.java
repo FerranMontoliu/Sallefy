@@ -30,9 +30,11 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     private TextView tvArtistName;
     private TextView tvPlaylistName;
     private ImageView ivSongImage;
+    private ImageButton ibPlayPause;
     private FragmentManager mFragmentManager;
     private Track track;
     private Playlist playlist;
+    private MusicPlayer mMusicPlayer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,9 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         playlist = (Playlist)getIntent().getSerializableExtra("playlist");
 
         setContentView(R.layout.activity_playing_song);
+        mMusicPlayer = MusicPlayer.getInstance(PlayingSongActivity.this);
+        mMusicPlayer.onNewTrackClicked(track, playlist);
         initViews();
-        MusicPlayer.getInstance(PlayingSongActivity.this).onNewTrackClicked(track, playlist);
     }
 
     private void initViews() {
@@ -51,6 +54,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
         btnBack = findViewById(R.id.back_song);
         btnAdd = findViewById(R.id.add_song);
+        ibPlayPause = findViewById(R.id.aps_play_pause_ib);
         tvSongName = findViewById(R.id.aps_song_name);
         tvPlaylistName = findViewById(R.id.aps_playlist_name_tv);
         tvArtistName = findViewById(R.id.aps_artist_name);
@@ -88,6 +92,13 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
                 finish();
             }
         });
+
+        ibPlayPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMusicPlayer.onPlayPauseClicked();
+            }
+        });
     }
 
     @Override
@@ -104,5 +115,15 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     @Override
     public void onTrackDurationReceived(int duration) {
 
+    }
+
+    @Override
+    public void onPlayTrack() {
+        ibPlayPause.setImageResource(R.drawable.ic_pause_light_80dp);
+    }
+
+    @Override
+    public void onPauseTrack() {
+        ibPlayPause.setImageResource(R.drawable.ic_play_light_80dp);
     }
 }

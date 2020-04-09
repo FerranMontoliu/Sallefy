@@ -49,7 +49,7 @@
         app:srcCompat="@drawable/ic_audiotrack_60dp" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/aps_play_pause_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="35dp"
@@ -89,9 +89,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/aps_play_pause_ib"
+        app:layout_constraintEnd_toStartOf="@+id/aps_play_pause_ib"
+        app:layout_constraintTop_toTopOf="@+id/aps_play_pause_ib"
         app:srcCompat="@drawable/ic_skip_previous_light_48dp" />
 
     <ImageButton
@@ -100,9 +100,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/aps_play_pause_ib"
+        app:layout_constraintStart_toEndOf="@+id/aps_play_pause_ib"
+        app:layout_constraintTop_toTopOf="@+id/aps_play_pause_ib"
         app:srcCompat="@drawable/ic_skip_next_light_48dp" />
 
     <ImageButton

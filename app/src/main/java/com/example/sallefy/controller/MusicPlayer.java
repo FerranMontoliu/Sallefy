@@ -125,6 +125,7 @@ public class MusicPlayer implements MusicPlayerCallback {
             if(mPrimaryPrepared) {
                 mPrimaryPlayer.start();
                 state = PAUSE_VIEW;
+                mPlayingSongCallback.onPlayTrack();
             } else {
                 mWaitingPrimary = true;
             }
@@ -132,6 +133,7 @@ public class MusicPlayer implements MusicPlayerCallback {
         } else {
             mPrimaryPlayer.pause();
             state = PLAY_VIEW;
+            mPlayingSongCallback.onPauseTrack();
         }
 
     }
