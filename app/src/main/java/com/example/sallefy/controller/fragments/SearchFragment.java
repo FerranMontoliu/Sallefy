@@ -28,6 +28,7 @@ import com.example.sallefy.controller.adapters.SearchUserListAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
+import com.example.sallefy.controller.callbacks.UserListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.SearchCallback;
 import com.example.sallefy.controller.restapi.manager.SearchManager;
 import com.example.sallefy.model.Playlist;
@@ -39,7 +40,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class SearchFragment extends Fragment implements SearchCallback, TrackListAdapterCallback, PlaylistAdapterCallback {
+public class SearchFragment extends Fragment implements SearchCallback, TrackListAdapterCallback, PlaylistAdapterCallback, UserListAdapterCallback {
     public static final String TAG = SearchFragment.class.getName();
 
     private FragmentManager mFragmentManager;
@@ -169,7 +170,7 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
         //Create Recycler View Adapters
         TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks, SearchFragment.this, R.layout.track_item);
         SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), mPlaylists, SearchFragment.this);
-        SearchUserListAdapter adapterUL = new SearchUserListAdapter(this.getContext(), mUsers);
+        SearchUserListAdapter adapterUL = new SearchUserListAdapter(this.getContext(), mUsers, SearchFragment.this);
 
         //Set adapters
         playlistsRV.setAdapter(adapterPL);
@@ -202,6 +203,14 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
     public void onPlaylistClick(Playlist playlist) {
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, PlaylistFragment.getInstance(playlist), PlaylistFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onUserClick(User user) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, UserFragment.getInstance(user), UserFragment.TAG)
                 .addToBackStack(null)
                 .commit();
     }
