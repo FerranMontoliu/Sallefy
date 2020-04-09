@@ -27,6 +27,7 @@ import com.example.sallefy.controller.callbacks.OwnUserAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.UserCallback;
 import com.example.sallefy.controller.restapi.manager.UserManager;
 import com.example.sallefy.model.User;
+import com.example.sallefy.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.lang.reflect.Field;
@@ -220,6 +221,7 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
 
     @Override
     public void onUserInfoReceived(User userData) {
+        Session.getInstance(getContext()).setUser(userData);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         OwnUserAdapter adapter = new OwnUserAdapter(userData, getContext(), YourLibraryFragment.this);
         userRV.setLayoutManager(manager);

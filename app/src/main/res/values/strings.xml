@@ -91,12 +91,12 @@
     <string name="search_playlists">Playlists</string>
     <string name="search_tracks">Tracks</string>
     <string name="search_users">Users</string>
+
+    <!-- OPTIONS -->
     <string name="your_profile">Your profile</string>
     <string name="delete_account">Delete account</string>
     <string name="logout">Logout</string>
     <string name="settings">Settings</string>
-
-    <!-- OPTIONS -->
 
 
 </resources>
