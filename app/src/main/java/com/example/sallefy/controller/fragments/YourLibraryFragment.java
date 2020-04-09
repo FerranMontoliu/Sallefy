@@ -109,6 +109,7 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
                 getFragmentManager().beginTransaction()
                         .add(R.id.fragment_container, new OptionsFragment())
                         .remove(YourLibraryFragment.this)
+                        .addToBackStack(null)
                         .commit();
             }
         });

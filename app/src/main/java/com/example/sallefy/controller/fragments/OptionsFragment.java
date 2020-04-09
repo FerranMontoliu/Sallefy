@@ -68,6 +68,18 @@ public class OptionsFragment extends Fragment implements UserCallback {
         llProfile = v.findViewById(R.id.settings_profile);
         ivProfile = v.findViewById(R.id.settings_profile_photo);
         ibProfile = v.findViewById(R.id.settings_profile_btn);
+        cbBack = v.findViewById(R.id.back_settings);
+
+        cbBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                assert getFragmentManager() != null;
+                FragmentManager fm = getFragmentManager();
+                if(fm.getBackStackEntryCount() > 0){
+                    fm.popBackStack();
+                }
+            }
+        });
 
         URL url = null;
         if (Session.getInstance(getContext()).getUser().getImageUrl() != null) {
