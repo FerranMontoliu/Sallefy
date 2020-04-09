@@ -199,4 +199,32 @@ public class UserManager {
             }
         });
     }
+
+    public synchronized void deleteAttempt(final UserCallback userCallback){
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        String login = Session.getInstance(mContext).getUser().getLogin();
+        Call<ResponseBody> call = mService.deleteUser(login, "Bearer: " + userToken.getIdToken());
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    userCallback.onAccountDeleted();
+                } else {
+                    try {
+                        userCallback.onDeleteFailure(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                userCallback.onFailure(t);
+            }
+        });
+
+    }
 }

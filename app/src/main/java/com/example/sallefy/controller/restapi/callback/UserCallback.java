@@ -7,4 +7,6 @@ import java.util.List;
 public interface UserCallback extends FailureCallback {
     void onUserInfoReceived(User userData);
     void onUsersReceived(List<User> users);
+    void onAccountDeleted();
+    void onDeleteFailure(Throwable throwable);
 }

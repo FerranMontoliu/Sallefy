@@ -34,6 +34,13 @@
         <item name="android:layout_marginLeft">15dp</item>
     </style>
 
+    <style name="FragmentTitle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light</item>
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+
     <style name="ItemTitleTheme" parent="NoTitle">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>

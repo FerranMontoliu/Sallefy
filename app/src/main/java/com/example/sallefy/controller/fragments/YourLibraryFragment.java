@@ -232,6 +232,16 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
     }
 
     @Override
+    public void onAccountDeleted() {
+
+    }
+
+    @Override
+    public void onDeleteFailure(Throwable throwable) {
+
+    }
+
+    @Override
     public void onChangeFragment(Fragment fragment) {
         replaceFragment(fragment);
     }
