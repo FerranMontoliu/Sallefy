@@ -14,30 +14,30 @@
         android:backgroundTint="#00FFFFFF"
         android:src="@drawable/ic_back_arrow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/fp_playlist_image_iv"
         android:layout_width="@dimen/playlist_image"
         android:layout_height="@dimen/playlist_image"
         android:layout_marginTop="80dp"
+        android:src="@drawable/ic_library_music"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_library_music" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/fp_follow_b"
         android:layout_width="100dp"
         android:layout_height="24dp"
         android:layout_marginTop="5dp"
+        android:background="@drawable/secondary_button"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="@string/follow"
         android:textColor="@color/light"
         android:textSize="12sp"
-        android:background="@drawable/secondary_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,10 +81,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fp_tracks_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fp_add_songs_b" />
 
