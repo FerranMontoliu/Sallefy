@@ -48,6 +48,8 @@ public class UserFragment extends Fragment implements ProfileCallback, FragmentC
     private CheckBox backBtn;
     private CheckBox optionsBtn;
 
+    private Boolean mIsFollowed;
+
     public static UserFragment getInstance(User user) {
         UserFragment userFragment = new UserFragment();
 
@@ -113,8 +115,7 @@ public class UserFragment extends Fragment implements ProfileCallback, FragmentC
                         .commit();
             }
         });
-
-        ProfileManager.getInstance(getContext()).getUserData( mUser.getLogin(), UserFragment.this);
+        ProfileManager.getInstance(getContext()).isFollowed(mUser.getLogin(), UserFragment.this);
         return v;
     }
 
@@ -131,6 +132,14 @@ public class UserFragment extends Fragment implements ProfileCallback, FragmentC
     }
 
     private static void adjustGravity(View v) {
+        if (v.getId() == com.google.android.material.R.id.smallLabel) {
+            ViewGroup parent = (ViewGroup) v.getParent();
+            parent.setPadding(0, 0, 0, 0);
+
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) parent.getLayoutParams();
+            params.gravity = Gravity.CENTER;
+            parent.setLayoutParams(params);
+        }
 
         if (v instanceof ViewGroup) {
             ViewGroup vg = (ViewGroup) v;
@@ -211,14 +220,21 @@ public class UserFragment extends Fragment implements ProfileCallback, FragmentC
     @Override
     public void onUserInfoReceived(User userData) {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        ProfileAdapter adapter = new ProfileAdapter(userData, getContext(), UserFragment.this);
+        ProfileAdapter adapter = new ProfileAdapter(userData, mIsFollowed, getContext(), UserFragment.this);
         profileRV.setLayoutManager(manager);
         profileRV.setAdapter(adapter);
     }
 
     @Override
     public void onFollowToggle() {
-        Toast.makeText(getContext(), "You're now following this user!", Toast.LENGTH_SHORT);
+        if (mIsFollowed){
+            mIsFollowed = false;
+        } else {
+            mIsFollowed = true;
+            Toast.makeText(getContext(), "You're now following this user!", Toast.LENGTH_SHORT).show();
+        }
+        ((ProfileAdapter)profileRV.getAdapter()).setFollowed(mIsFollowed);
+        profileRV.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -228,11 +244,8 @@ public class UserFragment extends Fragment implements ProfileCallback, FragmentC
 
     @Override
     public void onIsFollowedReceived(Boolean isFollowed) {
-        if(isFollowed){
-            Toast.makeText(getContext(), "You are already following this user", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Not following", Toast.LENGTH_SHORT).show();
-        }
+        mIsFollowed = isFollowed;
+        ProfileManager.getInstance(getContext()).getUserData( mUser.getLogin(), UserFragment.this);
     }
 
     @Override

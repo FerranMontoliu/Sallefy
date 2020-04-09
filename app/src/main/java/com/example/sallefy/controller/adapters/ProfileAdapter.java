@@ -36,18 +36,21 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     private Boolean mIsFollowed;
 
 
-    public ProfileAdapter(User user, Context context, ProfileAdapterCallback callback) {
+    public ProfileAdapter(User user, Boolean isFollowed, Context context, ProfileAdapterCallback callback) {
         mUser = user;
         mContext = context;
         mCallback = callback;
-        mIsFollowed = false;
+        mIsFollowed = isFollowed;
+    }
+
+    public void setFollowed(Boolean isFollowed){
+        mIsFollowed = isFollowed;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user_profile, parent, false);
-        ProfileManager.getInstance(mContext).isFollowed(mUser.getLogin(), (ProfileCallback)mCallback);
         return new ViewHolder(v);
     }
 
@@ -61,17 +64,27 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                     .into(holder.ivPhoto);
         }
 
+        if(mIsFollowed){
+            holder.followBtn.setText(R.string.following);
+        } else {
+            holder.followBtn.setText(R.string.follow);
+        }
+
         holder.followBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*if(mIsFollowed) {
+                    ((Button) v.findViewById(R.id.user_follow_btn)).setText(R.string.follow);
+                    mIsFollowed = false;
+                }else{
+                    ((Button) v.findViewById(R.id.user_follow_btn)).setText(R.string.following);
+                    mIsFollowed = true;
+                }
+                 */
                 assert mCallback != null;
                 mCallback.onFollowButtonClick(mUser);
             }
         });
-
-        if (mIsFollowed){
-            holder.followBtn.setText(R.string.following);
-        }
     }
 
     @Override
@@ -90,6 +103,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
             tvUsername = itemView.findViewById(R.id.item_profile_username);
             ivPhoto = itemView.findViewById(R.id.item_profile_photo);
             followBtn = itemView.findViewById(R.id.user_follow_btn);
+
         }
     }
 }
