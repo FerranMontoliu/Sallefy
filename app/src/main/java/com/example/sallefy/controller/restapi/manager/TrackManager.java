@@ -3,6 +3,9 @@ package com.example.sallefy.controller.restapi.manager;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
+import com.example.sallefy.controller.restapi.service.PlaylistService;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.UserToken;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
@@ -11,6 +14,8 @@ import com.example.sallefy.utils.Constants;
 import com.example.sallefy.utils.Session;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -27,6 +32,7 @@ public class TrackManager {
     private static TrackManager sTrackManager;
     private Retrofit mRetrofit;
     private TrackService mTrackService;
+    private PlaylistService mPlaylistService;
 
 
     public static TrackManager getInstance (Context context) {
@@ -46,6 +52,7 @@ public class TrackManager {
                 .build();
 
         mTrackService = mRetrofit.create(TrackService.class);
+        mPlaylistService = mRetrofit.create(PlaylistService.class);
     }
 
     public synchronized void getAllTracks(final TrackCallback trackCallback) {
@@ -96,6 +103,43 @@ public class TrackManager {
             public void onFailure(Call<List<Track>> call, Throwable t) {
                 trackCallback.onNoTracks(t);
             }
+        });
+    }
+
+    public void addTrackToPlaylist(Track track, Playlist playlist, final PlaylistCallback playlistCallback){
+
+        ArrayList<Track> songsUpdated = (ArrayList)playlist.getTracks();
+        songsUpdated.add(track);
+        playlist.setTracks(songsUpdated);
+
+        Call<Playlist> call = mPlaylistService.updatePlaylist(playlist, "Bearer " + Session.getInstance(mContext).getUserToken() .getIdToken());
+
+        call.enqueue(new Callback<Playlist>() {
+            @Override
+            public void onResponse(Call<Playlist> call, Response<Playlist> response) {
+
+                int code = response.code();
+                Playlist playlistReceived = response.body();
+
+                if (response.isSuccessful()) {
+                    playlistCallback.onPlaylistUpdated(playlistReceived);
+
+                } else {
+                    Log.d(TAG, "Error: " + code);
+                    try {
+                        playlistCallback.onPlaylistNotUpdated(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Playlist> call, Throwable t) {
+                Log.d(TAG, "Error: " + t.getMessage());
+                playlistCallback.onFailure(t);
+            }
+
         });
     }
 }
