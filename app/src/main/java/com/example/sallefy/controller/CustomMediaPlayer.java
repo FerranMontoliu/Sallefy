@@ -21,6 +21,13 @@ public class CustomMediaPlayer extends MediaPlayer{
         mWaiting = false;
         mTrack = track;
         mPlaylist = playlist;
+
+        this.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                MusicPlayer.getInstance().onNextTrackClicked();
+            }
+        });
     }
 
     public boolean isPrepared() {

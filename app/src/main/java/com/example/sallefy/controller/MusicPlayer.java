@@ -40,9 +40,7 @@ public class MusicPlayer implements MusicPlayerCallback {
     private boolean loop;
     private String state;
 
-    private MusicPlayer(PlayingSongCallback playingSongCallback){
-        mPlayingSongCallback = playingSongCallback;
-
+    private MusicPlayer(){
         mQueue = new LinkedList<>();
         mPreviousPlayers = new LinkedList<>();
 
@@ -51,7 +49,7 @@ public class MusicPlayer implements MusicPlayerCallback {
         mPrimaryListener = new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                getPlayingSongCallback().onTrackDurationReceived(mPrimaryPlayer.getDuration());
+                mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
                 mPrimaryPlayer.setPrepared(true);
                 if (mPrimaryPlayer.isWaiting()) {
                     playTrack();
@@ -76,17 +74,17 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     }
 
-    public static MusicPlayer getInstance(PlayingSongCallback playingSongCallback){
+    public static MusicPlayer getInstance(){
         if (musicPlayer == null) {
-            musicPlayer = new MusicPlayer(playingSongCallback);
-        } else {
-            mPlayingSongCallback = playingSongCallback;
+            musicPlayer = new MusicPlayer();
         }
 
         return musicPlayer;
     }
 
-
+    public void setPlayingSongCallback(PlayingSongCallback playingSongCallback) {
+        mPlayingSongCallback = playingSongCallback;
+    }
 
     @Override
     public void onNextTrackClicked() {
@@ -107,6 +105,7 @@ public class MusicPlayer implements MusicPlayerCallback {
             mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
             prepareNextPlayer();
             mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
+            mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
             if (mPrimaryPlayer.isPrepared())
                 mPrimaryPlayer.seekTo(0);
             playTrack();
@@ -118,7 +117,8 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     @Override
     public void onPreviousTrackClicked() {
-        pauseTrack();
+        if (mPrimaryPlayer.isPrepared())
+            pauseTrack();
 
         if (!mPreviousPlayers.isEmpty()) {
             mNextPlayer = mPrimaryPlayer;
@@ -127,6 +127,7 @@ public class MusicPlayer implements MusicPlayerCallback {
             mPrimaryPlayer = mPreviousPlayers.pop();
             mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
             mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
+            mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
             if (mPrimaryPlayer.isPrepared())
                 mPrimaryPlayer.seekTo(0);
 
@@ -185,6 +186,15 @@ public class MusicPlayer implements MusicPlayerCallback {
             pauseTrack();
         }
 
+    }
+
+    @Override
+    public void onProgressChanged(int progress) {
+        if (mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()){
+            if (Math.abs(mPrimaryPlayer.getCurrentPosition() - progress) > 100) {
+                mPrimaryPlayer.seekTo(progress);
+            }
+        }
     }
 
     private void playTrack() {
@@ -248,10 +258,6 @@ public class MusicPlayer implements MusicPlayerCallback {
     }
 
 
-    private PlayingSongCallback getPlayingSongCallback() {
-        return mPlayingSongCallback;
-    }
-
     private int getIndexOnPlaylist(Track targetTrack, Playlist playlist) {
         int i = 0;
 
@@ -263,5 +269,16 @@ public class MusicPlayer implements MusicPlayerCallback {
         }
 
         return -1;
+    }
+
+    public int getCurrentPosition() {
+        if (mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()) {
+            return mPrimaryPlayer.getCurrentPosition();
+        }
+        return 0;
+    }
+
+    public boolean isPlaying() {
+        return state.equals(PAUSE_VIEW);
     }
 }

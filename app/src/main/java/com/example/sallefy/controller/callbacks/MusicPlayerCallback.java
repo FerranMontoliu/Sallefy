@@ -11,5 +11,6 @@ public interface MusicPlayerCallback {
     void onLoopClicked();
     void onNewTrackClicked(Track track, Playlist playlist);
     void onPlayPauseClicked();
+    void onProgressChanged(int progress);
 
 }

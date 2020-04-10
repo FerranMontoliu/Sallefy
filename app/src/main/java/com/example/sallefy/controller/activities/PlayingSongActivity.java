@@ -2,9 +2,11 @@ package com.example.sallefy.controller.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,9 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     private Track track;
     private Playlist playlist;
     private MusicPlayer mMusicPlayer;
+    private SeekBar mSeekBar;
+
+    private int mDuration;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,8 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         playlist = (Playlist)getIntent().getSerializableExtra("playlist");
 
         setContentView(R.layout.activity_playing_song);
-        mMusicPlayer = MusicPlayer.getInstance(PlayingSongActivity.this);
+        mMusicPlayer = MusicPlayer.getInstance();
+        mMusicPlayer.setPlayingSongCallback(PlayingSongActivity.this);
         mMusicPlayer.onNewTrackClicked(track, playlist);
         initViews();
     }
@@ -63,6 +69,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         tvPlaylistName = findViewById(R.id.aps_playlist_name_tv);
         tvArtistName = findViewById(R.id.aps_artist_name);
         ivSongImage = findViewById(R.id.aps_song_image_iv);
+        mSeekBar = findViewById(R.id.aps_progress_sb);
 
         tvSongName.setText(track.getName());
         tvArtistName.setText(track.getUser().getLogin());
@@ -117,6 +124,23 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
                 mMusicPlayer.onPreviousTrackClicked();
             }
         });
+
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mMusicPlayer.onProgressChanged(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     @Override
@@ -132,12 +156,14 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
     @Override
     public void onTrackDurationReceived(int duration) {
-
+        mSeekBar.setMax(duration);
+        mDuration = duration;
     }
 
     @Override
     public void onPlayTrack() {
         ibPlayPause.setImageResource(R.drawable.ic_pause_light_80dp);
+        updateSeekBar();
     }
 
     @Override
@@ -156,5 +182,25 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
                 .placeholder(R.drawable.ic_audiotrack_60dp)
                 .load(track.getThumbnail())
                 .into(ivSongImage);
+
+        mSeekBar.setProgress(0);
+        updateSeekBar();
+    }
+
+    public void updateSeekBar() {
+        Handler handler = new Handler();
+        Runnable runnable;
+        int pos = mMusicPlayer.getCurrentPosition();
+        mSeekBar.setProgress(mMusicPlayer.getCurrentPosition());
+
+        if(mMusicPlayer.isPlaying()) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    updateSeekBar();
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
     }
 }

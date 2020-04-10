@@ -132,7 +132,7 @@
         app:srcCompat="@drawable/ic_repeat_light_28dp" />
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/aps_progress_sb"
         android:layout_width="360dp"
         android:layout_height="18dp"
         android:layout_marginTop="20dp"
