@@ -24,6 +24,7 @@ import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.callback.ProfileCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.controller.restapi.manager.ProfileManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
@@ -32,13 +33,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class UPlaylistsFragment extends Fragment implements ProfileCallback, PlaylistAdapterCallback {
+public class UPlaylistsFragment extends Fragment implements ProfileCallback, PlaylistAdapterCallback, PlaylistCallback {
     public static final String TAG = UPlaylistsFragment.class.getName();
 
     private ImageButton mAddPlaylistBtn;
     private RecyclerView mRecyclerView;
 
     private String mUsername;
+
+    private Playlist mPlaylist;
 
     public static UPlaylistsFragment getInstance(String username) {
         UPlaylistsFragment uPlaylistsFragment = new UPlaylistsFragment();
@@ -99,6 +102,36 @@ public class UPlaylistsFragment extends Fragment implements ProfileCallback, Pla
     }
 
     @Override
+    public void onPlaylistCreated(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistReceived(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistNotReceived(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistUpdated(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistNotUpdated(Throwable throwable) {
+
+    }
+
+    @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         OwnPlaylistListAdapter adapter = new OwnPlaylistListAdapter((ArrayList<Playlist>) playlists, getContext(), UPlaylistsFragment.this, R.layout.item_own_playlist);
@@ -112,17 +145,33 @@ public class UPlaylistsFragment extends Fragment implements ProfileCallback, Pla
     }
 
     @Override
+    public void onPlaylistFollowed() {
+
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
+        assert getParentFragment() != null;
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, PlaylistFragment.getInstance(mPlaylist, followed.getFollowed()))
+                .remove(getParentFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-        assert getParentFragment() != null;
-        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, PlaylistFragment.getInstance(playlist))
-                .remove(getParentFragment())
-                .addToBackStack(null)
-                .commit();
+        mPlaylist = playlist;
+        PlaylistManager.getInstance(getContext()).chechFollowed(playlist, UPlaylistsFragment.this);
     }
 }

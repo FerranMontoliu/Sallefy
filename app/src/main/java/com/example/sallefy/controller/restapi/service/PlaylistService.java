@@ -1,9 +1,11 @@
 package com.example.sallefy.controller.restapi.service;
 
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -24,4 +26,10 @@ public interface PlaylistService {
 
     @PUT("playlists")
     Call<Playlist> updatePlaylist(@Body Playlist playlist, @Header("Authorization") String token);
+
+    @PUT("playlists/{id}/follow")
+    Call<ResponseBody> followPlaylist(@Path("id") String id, @Header("Authorization") String token);
+
+    @GET("playlists/{id}/follow")
+    Call<Followed> isFollowed(@Path("id") String id, @Header("Authorization") String token);
 }

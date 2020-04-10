@@ -29,8 +29,11 @@ import com.example.sallefy.controller.adapters.TrackListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.callbacks.UserListAdapterCallback;
+import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.callback.SearchCallback;
+import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.controller.restapi.manager.SearchManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Search;
 import com.example.sallefy.model.Track;
@@ -38,9 +41,10 @@ import com.example.sallefy.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class SearchFragment extends Fragment implements SearchCallback, TrackListAdapterCallback, PlaylistAdapterCallback, UserListAdapterCallback {
+public class SearchFragment extends Fragment implements SearchCallback, TrackListAdapterCallback, PlaylistAdapterCallback, UserListAdapterCallback, PlaylistCallback {
     public static final String TAG = SearchFragment.class.getName();
 
     private FragmentManager mFragmentManager;
@@ -59,6 +63,8 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
     private TextView tvTracks;
     private TextView tvPlaylists;
     private TextView tvUsers;
+
+    private Playlist mPlaylist;
 
     private ArrayList<User> mUsers;
     private ArrayList<Track> mTracks;
@@ -201,16 +207,72 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-        getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, PlaylistFragment.getInstance(playlist), PlaylistFragment.TAG)
-                .addToBackStack(null)
-                .commit();
+        mPlaylist = playlist;
+        PlaylistManager.getInstance(getContext()).chechFollowed(playlist, SearchFragment.this);
     }
 
     @Override
     public void onUserClick(User user) {
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, UserFragment.getInstance(user), UserFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onPlaylistCreated(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistReceived(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistNotReceived(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistUpdated(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistNotUpdated(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistsReceived(List<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onPlaylistsNotReceived(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, PlaylistFragment.getInstance(mPlaylist, followed.getFollowed()), PlaylistFragment.TAG)
                 .addToBackStack(null)
                 .commit();
     }

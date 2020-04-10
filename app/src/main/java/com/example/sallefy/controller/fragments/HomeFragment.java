@@ -20,6 +20,7 @@ import com.example.sallefy.controller.adapters.PlaylistGroupListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.PlaylistGroup;
 
@@ -31,6 +32,7 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
     public static final String TAG = HomeFragment.class.getName();
     private ArrayList<PlaylistGroup> mPlaylistGroups;
     private RecyclerView rvPlaylistGroups;
+    private Playlist mPlaylist;
 
     public static HomeFragment getInstance() {
         return new HomeFragment();
@@ -87,12 +89,8 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-
-        getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, PlaylistFragment.getInstance(playlist), PlaylistFragment.TAG)
-                .addToBackStack(null)
-                .commit();
-
+        mPlaylist = playlist;
+        PlaylistManager.getInstance(getContext()).chechFollowed(playlist, HomeFragment.this);
     }
 
     @Override
@@ -139,6 +137,24 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
     @Override
     public void onPlaylistsNotReceived(Throwable throwable) {
         Toast.makeText(getContext(), R.string.error_getting_playlists, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, PlaylistFragment.getInstance(mPlaylist, followed.getFollowed()), PlaylistFragment.TAG)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

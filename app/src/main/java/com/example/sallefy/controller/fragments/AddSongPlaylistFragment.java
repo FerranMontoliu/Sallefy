@@ -22,6 +22,7 @@ import com.example.sallefy.controller.adapters.OwnPlaylistListAdapter2;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 
 import java.util.ArrayList;
@@ -127,6 +128,21 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
     @Override
     public void onPlaylistsNotReceived(Throwable throwable) {
         Toast.makeText(getContext(), R.string.error_getting_playlists, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
+
     }
 
     @Override

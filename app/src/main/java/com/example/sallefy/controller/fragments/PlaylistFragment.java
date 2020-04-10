@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,17 +21,23 @@ import com.example.sallefy.R;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
+import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
+import com.example.sallefy.controller.restapi.manager.PlaylistManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class PlaylistFragment extends Fragment implements TrackListAdapterCallback {
+public class PlaylistFragment extends Fragment implements TrackListAdapterCallback, PlaylistCallback {
 
     private Playlist mPlaylist;
     private RecyclerView rvPlaylist;
     private TextView tvPlaylisyName;
     private ImageButton ibBack;
+    private Button btnFollow;
+    private Boolean mIsFollowed;
 
     public static final String TAG = PlaylistFragment.class.getName();
 
@@ -37,6 +45,7 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPlaylist = (Playlist)getArguments().getSerializable("playlist");
+        mIsFollowed = (Boolean)getArguments().getSerializable("isFollowed");
     }
 
     @Nullable
@@ -47,6 +56,7 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
         rvPlaylist = v.findViewById(R.id.fp_tracks_rv);
         tvPlaylisyName = v.findViewById(R.id.fp_playlist_name_tv);
         ibBack = v.findViewById(R.id.fp_back_ib);
+        btnFollow = v.findViewById(R.id.fp_follow_b);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rvPlaylist.setLayoutManager(manager);
@@ -54,6 +64,12 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
         rvPlaylist.setAdapter(adapter);
 
         tvPlaylisyName.setText(mPlaylist.getName());
+
+        if(mIsFollowed){
+            btnFollow.setText(R.string.following);
+        } else {
+            btnFollow.setText(R.string.follow);
+        }
 
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,15 +81,23 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
             }
         });
 
+        btnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlaylistManager.getInstance(getContext()).followPlaylist(mPlaylist, PlaylistFragment.this);
+            }
+        });
+
         return v;
     }
 
 
-    public static PlaylistFragment getInstance(Playlist playlist) {
+    public static PlaylistFragment getInstance(Playlist playlist, Boolean isFollowed) {
         PlaylistFragment playlistFragment = new PlaylistFragment();
 
         Bundle args = new Bundle();
         args.putSerializable("playlist", playlist);
+        args.putSerializable("isFollowed", isFollowed);
         playlistFragment.setArguments(args);
 
         return playlistFragment;
@@ -85,5 +109,71 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
         intent.putExtra("track", track);
         intent.putExtra("playlist", mPlaylist);
         startActivity(intent);
+    }
+
+    @Override
+    public void onPlaylistCreated(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistReceived(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistNotReceived(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistUpdated(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistNotUpdated(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistsReceived(List<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onPlaylistsNotReceived(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+        if(mIsFollowed){
+            btnFollow.setText(R.string.follow);
+            mIsFollowed = false;
+        } else {
+            btnFollow.setText(R.string.following);
+            mIsFollowed = true;
+        }
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+        Toast.makeText(getContext(), "ERROR: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
     }
 }

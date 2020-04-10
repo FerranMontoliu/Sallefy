@@ -73,14 +73,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         holder.followBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if(mIsFollowed) {
-                    ((Button) v.findViewById(R.id.user_follow_btn)).setText(R.string.follow);
-                    mIsFollowed = false;
-                }else{
-                    ((Button) v.findViewById(R.id.user_follow_btn)).setText(R.string.following);
-                    mIsFollowed = true;
-                }
-                 */
                 assert mCallback != null;
                 mCallback.onFollowButtonClick(mUser);
             }
