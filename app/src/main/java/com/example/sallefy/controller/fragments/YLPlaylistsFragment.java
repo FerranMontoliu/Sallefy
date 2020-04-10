@@ -56,6 +56,10 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
         });
 
         mRecyclerView = v.findViewById(R.id.playlists_rv);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        OwnPlaylistListAdapter adapter = new OwnPlaylistListAdapter((ArrayList<Playlist>) null, getContext(), YLPlaylistsFragment.this, R.layout.item_own_playlist);
+        mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.setAdapter(adapter);
 
         PlaylistManager.getInstance(getContext()).getOwnPlaylists(YLPlaylistsFragment.this);
 
@@ -129,9 +133,7 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
 
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
-        LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         OwnPlaylistListAdapter adapter = new OwnPlaylistListAdapter((ArrayList<Playlist>) playlists, getContext(), YLPlaylistsFragment.this, R.layout.item_own_playlist);
-        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
     }
 
