@@ -1,6 +1,5 @@
 package com.example.sallefy.controller;
 
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 import com.example.sallefy.controller.callbacks.MusicPlayerCallback;
@@ -9,7 +8,9 @@ import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class MusicPlayer implements MusicPlayerCallback {
 
@@ -17,23 +18,23 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     private static final String PLAY_VIEW = "paused";
     private static final String PAUSE_VIEW = "playing";
-    private static final int PREVIOUS_TRACK_BUFFER_SIZE = 10;
+    private static final int PREVIOUS_TRACKS_BUFFER_SIZE = 10;
 
     private static PlayingSongCallback mPlayingSongCallback;
 
-    private int currentPlaylistTrack;
-    private ArrayList<Track> mQueue;
-    private Track[] previousTracksbuffer;
+    private int mCurrentPlaylistTrack;
+    private Queue<Track> mQueue;
+    private Deque<CustomMediaPlayer> mPreviousPlayers;
 
     //If queue is empty, next track will be from the playlist
     private Playlist mPlaylist;
 
     //Double Buffering
-    private MediaPlayer mPrimaryPlayer;
-    private boolean mPrimaryPrepared;
-    private boolean mWaitingPrimary;
-    private MediaPlayer mBackPlayer;
-    private boolean mBackPrepared;
+    private CustomMediaPlayer mPrimaryPlayer;
+    private CustomMediaPlayer mNextPlayer;
+    private CustomMediaPlayer mPreviousPlayer;
+    private MediaPlayer.OnPreparedListener mPrimaryListener;
+    private MediaPlayer.OnPreparedListener mNextListener;
 
     private boolean shuffle;
     private boolean loop;
@@ -42,28 +43,31 @@ public class MusicPlayer implements MusicPlayerCallback {
     private MusicPlayer(PlayingSongCallback playingSongCallback){
         mPlayingSongCallback = playingSongCallback;
 
-        previousTracksbuffer = new Track[PREVIOUS_TRACK_BUFFER_SIZE];
+        mQueue = new LinkedList<>();
+        mPreviousPlayers = new LinkedList<>();
+
         state = PLAY_VIEW;
-        mPrimaryPlayer = new MediaPlayer();
-        mPrimaryPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mBackPlayer = new MediaPlayer();
-        mBackPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-        mPrimaryPrepared = false;
-        mWaitingPrimary = false;
-        mBackPrepared = false;
-
-        mPrimaryPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        mPrimaryListener = new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                getmPlayingSongCallback().onTrackDurationReceived(mPrimaryPlayer.getDuration());
-                mPrimaryPrepared = true;
-                if (mWaitingPrimary) {
-                    onPlayPauseClicked();
-                    mWaitingPrimary = false;
+                getPlayingSongCallback().onTrackDurationReceived(mPrimaryPlayer.getDuration());
+                mPrimaryPlayer.setPrepared(true);
+                if (mPrimaryPlayer.isWaiting()) {
+                    //playTrack();
+                    mPrimaryPlayer.setWaiting(false);
                 }
+                playTrack();
+                prepareNextPlayer();
             }
-        });
+        };
+
+        mNextListener = new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mNextPlayer.setPrepared(true);
+            }
+        };
 
     }
 
@@ -77,9 +81,13 @@ public class MusicPlayer implements MusicPlayerCallback {
         return musicPlayer;
     }
 
+
+
     @Override
     public void onNextTrackClicked() {
-
+        pauseTrack();
+        goNextTrack();
+        playTrack();
     }
 
     @Override
@@ -100,45 +108,125 @@ public class MusicPlayer implements MusicPlayerCallback {
     @Override
     public void onNewTrackClicked(Track track, Playlist playlist) {
         state = PLAY_VIEW;
-        mPrimaryPrepared = false;
-        preparePrimaryPlayer(track.getUrl());
+        Playlist playlistAux;
 
         if (playlist != null && playlist.getTracks() != null) {
-            currentPlaylistTrack = findIndexTrackInPlaylist(track, playlist);
+            mCurrentPlaylistTrack = getIndexOnPlaylist(track, playlist);
 
-            if (currentPlaylistTrack != -1) {
+            if (mCurrentPlaylistTrack != -1) {
                 mPlaylist = playlist;
             } else{
                 mPlaylist = null;
             }
 
+        } else {
+            mPlaylist = null;
         }
 
-        this.onPlayPauseClicked();
+        mPrimaryPlayer = new CustomMediaPlayer(track, mPlaylist);
+        mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
+        mPrimaryPlayer.setPrepared(false);
+        preparePlayer(mPrimaryPlayer);
     }
+
 
     @Override
     public void onPlayPauseClicked() {
 
         if (state.equals(PLAY_VIEW)) {
-
-            if(mPrimaryPrepared) {
-                mPrimaryPlayer.start();
-                state = PAUSE_VIEW;
-                mPlayingSongCallback.onPlayTrack();
-            } else {
-                mWaitingPrimary = true;
-            }
+            playTrack();
 
         } else {
-            mPrimaryPlayer.pause();
-            state = PLAY_VIEW;
+            pauseTrack();
+        }
+
+    }
+
+    private void goNextTrack() {
+        //Afegim la canço que sonava ara a les cançons previes
+        if (mPreviousPlayers.size() >= PREVIOUS_TRACKS_BUFFER_SIZE) {
+            mPreviousPlayers.removeFirst();
+        }
+        mPreviousPlayers.push(mPrimaryPlayer);
+
+        //Fem el canvi de canço, si ha passat una estona ja estara preparada
+        if (mNextPlayer != null) {
+            mPreviousPlayer = mPrimaryPlayer;
+            mPrimaryPlayer = mNextPlayer;
+            mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
+            prepareNextPlayer();
+            mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
+
+        } else {
             mPlayingSongCallback.onPauseTrack();
         }
 
     }
 
-    private int findIndexTrackInPlaylist(Track targetTrack, Playlist playlist) {
+    private void playTrack() {
+        if(mPrimaryPlayer.isPrepared()) {
+            state = PAUSE_VIEW;
+            mPlayingSongCallback.onPlayTrack();
+            mPrimaryPlayer.start();
+
+        } else {
+            mPrimaryPlayer.setWaiting(true);
+        }
+    }
+
+    private void pauseTrack() {
+        mPrimaryPlayer.pause();
+        state = PLAY_VIEW;
+        mPlayingSongCallback.onPauseTrack();
+    }
+
+    private void prepareNextPlayer() {
+        Playlist playlist;
+        Track track;
+
+        if (!mQueue.isEmpty()) {
+            playlist = new Playlist();
+            playlist.setName("Queue");
+            track = mQueue.element();
+
+        } else if (mPlaylist != null) {
+            playlist = mPlaylist;
+            mCurrentPlaylistTrack = (mCurrentPlaylistTrack + 1) % mPlaylist.getTracks().size();
+            track =  mPlaylist.getTracks().get(mCurrentPlaylistTrack);
+
+        } else {
+            mNextPlayer = null;
+            return;
+        }
+
+        mNextPlayer = new CustomMediaPlayer(track, playlist);
+        mNextPlayer.setOnPreparedListener(mNextListener);
+        mNextPlayer.setPrepared(false);
+        preparePlayer(mNextPlayer);
+    }
+
+    private void preparePlayer(final CustomMediaPlayer player) {
+        Thread connection = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    player.reset();
+                    player.setDataSource(player.getTrack().getUrl());
+                    player.prepare();
+                } catch (IOException e) {
+                    mPlayingSongCallback.onErrorPreparingMediaPlayer();
+                }
+            }
+        });
+        connection.start();
+    }
+
+
+    private PlayingSongCallback getPlayingSongCallback() {
+        return mPlayingSongCallback;
+    }
+
+    private int getIndexOnPlaylist(Track targetTrack, Playlist playlist) {
         int i = 0;
 
         for (Track track: playlist.getTracks()) {
@@ -149,26 +237,5 @@ public class MusicPlayer implements MusicPlayerCallback {
         }
 
         return -1;
-    }
-
-    private void preparePrimaryPlayer(final String url) {
-        Thread connection = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mPrimaryPlayer.reset();
-                    mPrimaryPlayer.setDataSource(url);
-                    mPrimaryPlayer.prepare();
-                } catch (IOException e) {
-                    mPlayingSongCallback.onErrorPreparingMediaPlayer();
-                }
-            }
-        });
-        connection.start();
-    }
-
-
-    public PlayingSongCallback getmPlayingSongCallback() {
-        return mPlayingSongCallback;
     }
 }

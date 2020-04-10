@@ -31,6 +31,8 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     private TextView tvPlaylistName;
     private ImageView ivSongImage;
     private ImageButton ibPlayPause;
+    private ImageButton ibNext;
+    private ImageButton ibPrev;
     private FragmentManager mFragmentManager;
     private Track track;
     private Playlist playlist;
@@ -55,6 +57,8 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         btnBack = findViewById(R.id.back_song);
         btnAdd = findViewById(R.id.add_song);
         ibPlayPause = findViewById(R.id.aps_play_pause_ib);
+        ibNext = findViewById(R.id.aps_next_ib);
+        ibPrev = findViewById(R.id.aps_prev_ib);
         tvSongName = findViewById(R.id.aps_song_name);
         tvPlaylistName = findViewById(R.id.aps_playlist_name_tv);
         tvArtistName = findViewById(R.id.aps_artist_name);
@@ -99,6 +103,20 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
                 mMusicPlayer.onPlayPauseClicked();
             }
         });
+
+        ibNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMusicPlayer.onNextTrackClicked();
+            }
+        });
+
+        ibPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMusicPlayer.onPreviousTrackClicked();
+            }
+        });
     }
 
     @Override
@@ -125,5 +143,18 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     @Override
     public void onPauseTrack() {
         ibPlayPause.setImageResource(R.drawable.ic_play_light_80dp);
+    }
+
+    @Override
+    public void onChangedTrack(Track track, Playlist playlist) {
+        tvSongName.setText(track.getName());
+        tvArtistName.setText(track.getUser().getLogin());
+        tvPlaylistName.setText(playlist.getName());
+
+        Glide.with(getApplicationContext())
+                .asBitmap()
+                .placeholder(R.drawable.ic_audiotrack_60dp)
+                .load(track.getThumbnail())
+                .into(ivSongImage);
     }
 }

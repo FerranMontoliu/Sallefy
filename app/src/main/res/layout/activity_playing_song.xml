@@ -84,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/aps_song_name" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/aps_prev_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
@@ -95,7 +95,7 @@
         app:srcCompat="@drawable/ic_skip_previous_light_48dp" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/aps_next_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -115,7 +115,7 @@
         android:backgroundTint="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
+        app:layout_constraintTop_toBottomOf="@+id/aps_prev_ib"
         app:srcCompat="@drawable/ic_shuffle_light_28dp" />
 
     <ImageButton
@@ -128,7 +128,7 @@
         android:backgroundTint="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton3"
+        app:layout_constraintTop_toBottomOf="@+id/aps_next_ib"
         app:srcCompat="@drawable/ic_repeat_light_28dp" />
 
     <SeekBar
