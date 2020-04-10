@@ -32,9 +32,9 @@ public class MusicPlayer implements MusicPlayerCallback {
     //Double Buffering
     private CustomMediaPlayer mPrimaryPlayer;
     private CustomMediaPlayer mNextPlayer;
-    private CustomMediaPlayer mPreviousPlayer;
     private MediaPlayer.OnPreparedListener mPrimaryListener;
     private MediaPlayer.OnPreparedListener mNextListener;
+    private MediaPlayer.OnPreparedListener mPreviousListener;
 
     private boolean shuffle;
     private boolean loop;
@@ -54,7 +54,7 @@ public class MusicPlayer implements MusicPlayerCallback {
                 getPlayingSongCallback().onTrackDurationReceived(mPrimaryPlayer.getDuration());
                 mPrimaryPlayer.setPrepared(true);
                 if (mPrimaryPlayer.isWaiting()) {
-                    //playTrack();
+                    playTrack();
                     mPrimaryPlayer.setWaiting(false);
                 }
                 playTrack();
@@ -67,6 +67,11 @@ public class MusicPlayer implements MusicPlayerCallback {
             public void onPrepared(MediaPlayer mp) {
                 mNextPlayer.setPrepared(true);
             }
+        };
+
+        mPreviousListener = new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {}
         };
 
     }
@@ -85,13 +90,51 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     @Override
     public void onNextTrackClicked() {
-        pauseTrack();
-        goNextTrack();
-        playTrack();
+        if (mPrimaryPlayer.isPrepared())
+            pauseTrack();
+
+        //Afegim la canço que sonava ara a les cançons previes
+        if (mPreviousPlayers.size() >= PREVIOUS_TRACKS_BUFFER_SIZE) {
+            mPreviousPlayers.removeFirst();
+        }
+        mPrimaryPlayer.setWaiting(false);
+        mPrimaryPlayer.setOnPreparedListener(mPreviousListener);
+        mPreviousPlayers.push(mPrimaryPlayer);
+
+        //Fem el canvi de canço, si ha passat una estona ja estara preparada
+        if (mNextPlayer != null) {
+            mPrimaryPlayer = mNextPlayer;
+            mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
+            prepareNextPlayer();
+            mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
+            if (mPrimaryPlayer.isPrepared())
+                mPrimaryPlayer.seekTo(0);
+            playTrack();
+
+        } else {
+            mPlayingSongCallback.onPauseTrack();
+        }
     }
 
     @Override
     public void onPreviousTrackClicked() {
+        pauseTrack();
+
+        if (!mPreviousPlayers.isEmpty()) {
+            mNextPlayer = mPrimaryPlayer;
+            mNextPlayer.setWaiting(false);
+            mNextPlayer.setOnPreparedListener(mNextListener);
+            mPrimaryPlayer = mPreviousPlayers.pop();
+            mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
+            mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
+            if (mPrimaryPlayer.isPrepared())
+                mPrimaryPlayer.seekTo(0);
+
+            playTrack();
+
+        } else {
+            mPlayingSongCallback.onPauseTrack();
+        }
 
     }
 
@@ -107,6 +150,8 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     @Override
     public void onNewTrackClicked(Track track, Playlist playlist) {
+        if (mPrimaryPlayer != null && mPrimaryPlayer.isPrepared())
+            mPrimaryPlayer.pause();
         state = PLAY_VIEW;
         Playlist playlistAux;
 
@@ -142,29 +187,8 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     }
 
-    private void goNextTrack() {
-        //Afegim la canço que sonava ara a les cançons previes
-        if (mPreviousPlayers.size() >= PREVIOUS_TRACKS_BUFFER_SIZE) {
-            mPreviousPlayers.removeFirst();
-        }
-        mPreviousPlayers.push(mPrimaryPlayer);
-
-        //Fem el canvi de canço, si ha passat una estona ja estara preparada
-        if (mNextPlayer != null) {
-            mPreviousPlayer = mPrimaryPlayer;
-            mPrimaryPlayer = mNextPlayer;
-            mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
-            prepareNextPlayer();
-            mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
-
-        } else {
-            mPlayingSongCallback.onPauseTrack();
-        }
-
-    }
-
     private void playTrack() {
-        if(mPrimaryPlayer.isPrepared()) {
+        if(mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()) {
             state = PAUSE_VIEW;
             mPlayingSongCallback.onPlayTrack();
             mPrimaryPlayer.start();
@@ -175,7 +199,9 @@ public class MusicPlayer implements MusicPlayerCallback {
     }
 
     private void pauseTrack() {
-        mPrimaryPlayer.pause();
+        if(mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()) {
+            mPrimaryPlayer.pause();
+        }
         state = PLAY_VIEW;
         mPlayingSongCallback.onPauseTrack();
     }
