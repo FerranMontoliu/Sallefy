@@ -2,9 +2,11 @@ package com.example.sallefy.controller.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,21 +18,30 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
+import com.example.sallefy.controller.MusicPlayer;
+import com.example.sallefy.controller.callbacks.PlayingSongCallback;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.fragments.AddSongPlaylistFragment;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
-public class PlayingSongActivity extends AppCompatActivity implements PlaylistAdapterCallback {
+public class PlayingSongActivity extends AppCompatActivity implements PlaylistAdapterCallback, PlayingSongCallback {
     private ImageButton btnBack;
     private ImageButton btnAdd;
     private TextView tvSongName;
     private TextView tvArtistName;
     private TextView tvPlaylistName;
     private ImageView ivSongImage;
+    private ImageButton ibPlayPause;
+    private ImageButton ibNext;
+    private ImageButton ibPrev;
     private FragmentManager mFragmentManager;
     private Track track;
     private Playlist playlist;
+    private MusicPlayer mMusicPlayer;
+    private SeekBar mSeekBar;
+
+    private int mDuration;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,9 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         playlist = (Playlist)getIntent().getSerializableExtra("playlist");
 
         setContentView(R.layout.activity_playing_song);
+        mMusicPlayer = MusicPlayer.getInstance();
+        mMusicPlayer.setPlayingSongCallback(PlayingSongActivity.this);
+        mMusicPlayer.onNewTrackClicked(track, playlist);
         initViews();
     }
 
@@ -48,10 +62,14 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
         btnBack = findViewById(R.id.back_song);
         btnAdd = findViewById(R.id.add_song);
+        ibPlayPause = findViewById(R.id.aps_play_pause_ib);
+        ibNext = findViewById(R.id.aps_next_ib);
+        ibPrev = findViewById(R.id.aps_prev_ib);
         tvSongName = findViewById(R.id.aps_song_name);
         tvPlaylistName = findViewById(R.id.aps_playlist_name_tv);
         tvArtistName = findViewById(R.id.aps_artist_name);
         ivSongImage = findViewById(R.id.aps_song_image_iv);
+        mSeekBar = findViewById(R.id.aps_progress_sb);
 
         tvSongName.setText(track.getName());
         tvArtistName.setText(track.getUser().getLogin());
@@ -85,11 +103,104 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
                 finish();
             }
         });
+
+        ibPlayPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMusicPlayer.onPlayPauseClicked();
+            }
+        });
+
+        ibNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMusicPlayer.onNextTrackClicked();
+            }
+        });
+
+        ibPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMusicPlayer.onPreviousTrackClicked();
+            }
+        });
+
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mMusicPlayer.onProgressChanged(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
         //TODO: Add song to playlist
         Toast.makeText(getApplicationContext(), "Song added to " + playlist.getName(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onErrorPreparingMediaPlayer() {
+        Toast.makeText(getApplicationContext(),"Error, couldn't play the music.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTrackDurationReceived(int duration) {
+        mSeekBar.setMax(duration);
+        mDuration = duration;
+    }
+
+    @Override
+    public void onPlayTrack() {
+        ibPlayPause.setImageResource(R.drawable.ic_pause_light_80dp);
+        updateSeekBar();
+    }
+
+    @Override
+    public void onPauseTrack() {
+        ibPlayPause.setImageResource(R.drawable.ic_play_light_80dp);
+    }
+
+    @Override
+    public void onChangedTrack(Track track, Playlist playlist) {
+        tvSongName.setText(track.getName());
+        tvArtistName.setText(track.getUser().getLogin());
+        tvPlaylistName.setText(playlist.getName());
+
+        Glide.with(getApplicationContext())
+                .asBitmap()
+                .placeholder(R.drawable.ic_audiotrack_60dp)
+                .load(track.getThumbnail())
+                .into(ivSongImage);
+
+        mSeekBar.setProgress(0);
+        updateSeekBar();
+    }
+
+    public void updateSeekBar() {
+        Handler handler = new Handler();
+        Runnable runnable;
+        int pos = mMusicPlayer.getCurrentPosition();
+        mSeekBar.setProgress(mMusicPlayer.getCurrentPosition());
+
+        if(mMusicPlayer.isPlaying()) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    updateSeekBar();
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
     }
 }
