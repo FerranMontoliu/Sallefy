@@ -35,6 +35,8 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     private ImageButton ibPlayPause;
     private ImageButton ibNext;
     private ImageButton ibPrev;
+    private ImageButton ibLoop;
+    private ImageButton ibShuffle;
     private FragmentManager mFragmentManager;
     private Track track;
     private Playlist playlist;
@@ -70,6 +72,8 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         tvArtistName = findViewById(R.id.aps_artist_name);
         ivSongImage = findViewById(R.id.aps_song_image_iv);
         mSeekBar = findViewById(R.id.aps_progress_sb);
+        ibLoop = findViewById(R.id.aps_loop_ib);
+        ibShuffle = findViewById(R.id.aps_shuffle_ib);
 
         tvSongName.setText(track.getName());
         tvArtistName.setText(track.getUser().getLogin());
@@ -139,6 +143,22 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+        ibLoop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ibLoop.setImageResource(MusicPlayer.getInstance().isLoop() ? R.drawable.ic_repeat_light_28dp : R.drawable.ic_repeat_green_28dp);
+                MusicPlayer.getInstance().onLoopClicked();
+            }
+        });
+
+        ibShuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ibShuffle.setImageResource(MusicPlayer.getInstance().isShuffle() ? R.drawable.ic_shuffle_light_28dp : R.drawable.ic_shuffle_green_28dp);
+                MusicPlayer.getInstance().onShuffleClicked();
             }
         });
     }
