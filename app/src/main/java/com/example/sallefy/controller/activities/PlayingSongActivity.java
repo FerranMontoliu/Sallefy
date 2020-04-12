@@ -22,10 +22,15 @@ import com.example.sallefy.controller.MusicPlayer;
 import com.example.sallefy.controller.callbacks.PlayingSongCallback;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.fragments.AddSongPlaylistFragment;
+import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
+import com.example.sallefy.controller.restapi.manager.PlaylistManager;
+import com.example.sallefy.controller.restapi.manager.TrackManager;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
-public class PlayingSongActivity extends AppCompatActivity implements PlaylistAdapterCallback, PlayingSongCallback {
+import java.util.List;
+
+public class PlayingSongActivity extends AppCompatActivity implements PlaylistAdapterCallback, PlayingSongCallback, PlaylistCallback {
     private ImageButton btnBack;
     private ImageButton btnAdd;
     private TextView tvSongName;
@@ -145,8 +150,27 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-        //TODO: Add song to playlist
-        Toast.makeText(getApplicationContext(), "Song added to " + playlist.getName(), Toast.LENGTH_LONG).show();
+        PlaylistManager.getInstance(getApplicationContext()).getPlaylistById(playlist.getId(), PlayingSongActivity.this);
+    }
+
+    @Override
+    public void onPlaylistReceived(Playlist playlist) {
+        TrackManager.getInstance(getApplicationContext()).addTrackToPlaylist(track, playlist, PlayingSongActivity.this);
+    }
+
+    @Override
+    public void onPlaylistUpdated(Playlist playlist) {
+        Toast.makeText(getApplicationContext(), track.getName() + " added to " + playlist.getName(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPlaylistNotUpdated(Throwable throwable) {
+        Toast.makeText(getApplicationContext(), "Error, can not add " + track.getName() + " to the selected playlist.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPlaylistNotReceived(Throwable throwable) {
+        Toast.makeText(getApplicationContext(), "Error, can not get the playlist.", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -202,5 +226,30 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
             };
             handler.postDelayed(runnable, 1000);
         }
+    }
+
+    @Override
+    public void onPlaylistCreated(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistsReceived(List<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onPlaylistsNotReceived(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
     }
 }
