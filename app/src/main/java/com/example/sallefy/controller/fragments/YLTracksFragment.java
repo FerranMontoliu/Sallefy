@@ -27,6 +27,7 @@ import com.example.sallefy.model.Track;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class YLTracksFragment extends Fragment implements TrackCallback, TrackListAdapterCallback {
     public static final String TAG = YLTracksFragment.class.getName();
@@ -53,7 +54,12 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
         addTrackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO OPEN FRAGMENT
+                assert getParentFragment() != null;
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, CreateTrackFragment.getInstance())
+                        .remove(getParentFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
@@ -96,6 +102,6 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
 
     @Override
     public void onCreateTrack() {
-        // TODO: api call + toast
+        // UNUSED
     }
 }
