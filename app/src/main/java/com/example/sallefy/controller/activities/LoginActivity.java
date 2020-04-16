@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback, U
         Session.getInstance(getApplicationContext()).setUserToken(userToken);
         String username = etUsername.getText().toString();
 
-        //Guardem les dades de l'usuari de la nova sessió
+        //Guardem les dades de l'usuari de la nova sessio
         UserManager.getInstance(getApplicationContext()).getUserData(username, LoginActivity.this);
 
         if(rememberPreferences) {
@@ -117,16 +117,16 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback, U
 
     @Override
     public void onUsersReceived(List<User> users) {
-
+        // UNUSED
     }
 
     @Override
     public void onAccountDeleted() {
-
+        // UNUSED
     }
 
     @Override
     public void onDeleteFailure(Throwable throwable) {
-
+        // UNUSED
     }
 }

@@ -54,14 +54,20 @@
     <string name="new_track">New track</string>
     <string name="default_username">Username</string>
     <string name="give_name_playlist">Give your playlist a name.</string>
-    <string name="give_name_track">Give your track a name.</string>
-    <string name="hint_create_track">Playlist title</string>
     <string name="hint_create_playlist">Playlist title</string>
     <string name="cancel_text_playlist">CANCEL</string>
     <string name="create_text_playlist">CREATE</string>
-    <string name="cancel_text_track">CANCEL</string>
-    <string name="add_text_track">ADD</string>
     <string name="own_tracks_playlist_name">Own tracks</string>
+    <string name="track_title_tv">Title</string>
+    <string name="hint_track_name">Enter the title of the track</string>
+    <string name="genre_title_tv">Genre</string>
+    <string name="upload_thumbnail_btn">Upload a thumbnail</string>
+    <string name="upload_track_btn">Upload a track</string>
+    <string name="create_track">Add a new track</string>
+    <string name="no_file_selected">No file selected</string>
+    <string name="add_text_track">ADD</string>
+    <string name="cancel_text_track">CANCEL</string>
+
 
     <!-- PLAYING SONG -->
     <string name="song_title">Song Title</string>

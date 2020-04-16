@@ -36,6 +36,7 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        assert getArguments() != null;
         mPlaylist = (Playlist)getArguments().getSerializable("playlist");
     }
 
@@ -50,7 +51,7 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rvPlaylist.setLayoutManager(manager);
-        TrackListAdapter adapter = new TrackListAdapter(getContext(), (ArrayList) mPlaylist.getTracks(), PlaylistFragment.this, R.layout.item_track);
+        TrackListAdapter adapter = new TrackListAdapter(getContext(), (ArrayList<Track>) mPlaylist.getTracks(), PlaylistFragment.this, R.layout.item_track);
         rvPlaylist.setAdapter(adapter);
 
         tvPlaylisyName.setText(mPlaylist.getName());
@@ -59,7 +60,8 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
             @Override
             public void onClick(View v) {
             FragmentManager fm = getFragmentManager();
-            if (fm.getBackStackEntryCount() > 0) {
+                assert fm != null;
+                if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
             }
             }

@@ -21,6 +21,12 @@
         <item name="android:backgroundTint">@color/green</item>
     </style>
 
+    <style name="GrayButton" parent="NoTitle">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/switch_track</item>
+    </style>
+
     <style name="GreenSwitch" parent="NoTitle">
         <item name="colorSwitchThumbNormal">@color/switch_thumb</item>
         <item name="colorControlActivated">@color/green</item>
