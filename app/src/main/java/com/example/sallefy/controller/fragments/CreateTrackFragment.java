@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,14 +20,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.sallefy.R;
+import com.example.sallefy.controller.restapi.callback.GenreCallback;
+import com.example.sallefy.controller.restapi.manager.GenreManager;
+import com.example.sallefy.model.Genre;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CreateTrackFragment extends Fragment {
+public class CreateTrackFragment extends Fragment implements GenreCallback {
 
     public static final String TAG = CreateTrackFragment.class.getName();
     private static final int PICK_IMAGE = 0;
@@ -33,6 +40,7 @@ public class CreateTrackFragment extends Fragment {
 
     private ImageView ivThumbnail;
     private TextView tvFileName;
+    private Spinner genreSpinner;
 
     public static CreateTrackFragment getInstance() {
         return new CreateTrackFragment();
@@ -48,8 +56,11 @@ public class CreateTrackFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_create_track, container, false);
 
+        GenreManager.getInstance(getContext()).getAllGenres(this);
+
         ivThumbnail = v.findViewById(R.id.thumbnail_iv);
         tvFileName = v.findViewById(R.id.track_file_tv);
+        genreSpinner = v.findViewById(R.id.genre_spinner);
 
         v.findViewById(R.id.upload_thumbnail_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,5 +142,28 @@ public class CreateTrackFragment extends Fragment {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onGenresReceived(List<Genre> genres) {
+        ArrayList<String> spinnerItems = new ArrayList<>();
+        for (Genre g : genres) {
+            spinnerItems.add(g.getName());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, spinnerItems);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genreSpinner.setAdapter(adapter);
+    }
+
+    @Override
+    public void onNoGenres(Throwable throwable) {
+        Toast.makeText(getContext(), R.string.error_getting_genres, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+        Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }
 }

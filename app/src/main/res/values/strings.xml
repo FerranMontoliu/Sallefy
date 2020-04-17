@@ -14,6 +14,7 @@
     <string name="playlist_created_success">Playlist created!</string>
     <string name="pick_an_image">You haven\'t picked an image!</string>
     <string name="pick_a_document">You haven\'t picked a document!</string>
+    <string name="error_getting_genres">Error getting the genres!</string>
 
 
     <!-- INFO TOASTS -->
