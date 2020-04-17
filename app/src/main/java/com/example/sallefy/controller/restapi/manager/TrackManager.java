@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.service.PlaylistService;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.UserToken;
@@ -18,6 +19,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -142,4 +144,37 @@ public class TrackManager {
 
         });
     }
+
+    public synchronized void likeTrack(Track track, final TrackCallback callback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<ResponseBody> call = mTrackService.followTrack(track.getId().toString(), "Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                callback.onTrackLiked();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onTrackLikedError(t);
+            }
+        });
+    }
+
+    public synchronized void checkLiked(Track track, final TrackCallback callback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<Followed> call = mTrackService.isTrackFollowed(track.getId().toString(), "Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<Followed>() {
+            @Override
+            public void onResponse(Call<Followed> call, Response<Followed> response) {
+                callback.onTrackLikedReceived(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Followed> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
 }

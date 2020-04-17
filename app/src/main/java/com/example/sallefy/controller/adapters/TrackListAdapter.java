@@ -94,6 +94,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
         TextView tvTitle;
         TextView tvAuthor;
         ImageView ivPicture;
+        ImageButton ibLike;
         ImageButton ibMore;
         LinearLayout linearLayout;
         RelativeLayout relativeLayout;
@@ -106,6 +107,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
 
             if (layoutId == R.layout.item_track) {
                 ibMore = itemView.findViewById(R.id.it_more_ib);
+                ibLike = itemView.findViewById(R.id.it_like_ib);
                 relativeLayout = itemView.findViewById(R.id.item_track_layout);
             } else {
                 linearLayout = itemView.findViewById(R.id.item_track_layout);

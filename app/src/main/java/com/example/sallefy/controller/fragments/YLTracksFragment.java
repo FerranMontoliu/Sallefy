@@ -24,6 +24,7 @@ import com.example.sallefy.controller.adapters.OwnTrackListAdapter;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.TrackManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
@@ -125,4 +126,20 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
     public void onNoTracks(Throwable throwable) {
         Toast.makeText(getContext(), R.string.error_getting_tracks, Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void onTrackLiked() {
+
+    }
+
+    @Override
+    public void onTrackLikedError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackLikedReceived(Followed followed) {
+
+    }
+
 }

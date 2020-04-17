@@ -1,5 +1,6 @@
 package com.example.sallefy.controller.restapi.callback;
 
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Track;
 
 import java.util.List;
@@ -7,4 +8,7 @@ import java.util.List;
 public interface TrackCallback extends FailureCallback {
     void onTracksReceived(List<Track> tracks);
     void onNoTracks(Throwable throwable);
+    void onTrackLiked();
+    void onTrackLikedError(Throwable throwable);
+    void onTrackLikedReceived(Followed followed);
 }

@@ -25,6 +25,7 @@ import com.example.sallefy.controller.fragments.AddSongPlaylistFragment;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.controller.restapi.manager.TrackManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
@@ -245,6 +246,21 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
     @Override
     public void onPlaylistsNotReceived(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
 
     }
 

@@ -8,50 +8,69 @@
     android:background="@drawable/item_list_border">
 
 
-    <ImageView
-        android:id="@+id/item_img"
-        android:layout_width="@dimen/item_height_without_border"
-        android:layout_height="@dimen/item_height_without_border"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/playlist_thumbnail_description"
-        android:src="@drawable/ic_audiotrack_60dp" />
-
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/item_img"
-        android:layout_marginStart="10dp"
-        android:orientation="vertical">
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/item_title"
-            style="@style/PlaylistNameTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/track_name"
-            android:textAlignment="textStart"
-            android:textColor="@color/light"/>
+        <ImageView
+            android:id="@+id/item_img"
+            android:layout_width="@dimen/item_height_without_border"
+            android:layout_height="@dimen/item_height_without_border"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/playlist_thumbnail_description"
+            android:src="@drawable/ic_audiotrack_60dp" />
 
-        <TextView
-            android:id="@+id/item_author"
-            style="@style/AuthorNameTheme"
-            android:layout_width="match_parent"
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/track_author"
-            android:textColor="@color/light"/>
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/item_img"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/item_title"
+                style="@style/PlaylistNameTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/track_name"
+                android:textAlignment="textStart"
+                android:textColor="@color/light"/>
+
+            <TextView
+                android:id="@+id/item_author"
+                style="@style/AuthorNameTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/track_author"
+                android:textColor="@color/light"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/it_like_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:backgroundTint="#00FFFFFF"
+            app:srcCompat="@drawable/ic_favorite_unfilled"
+            android:layout_weight="0.1"/>
+
+
+        <ImageButton
+            android:id="@+id/it_more_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:backgroundTint="#00FFFFFF"
+            app:srcCompat="@drawable/ic_more_horiz_light"
+            android:layout_weight="0.1"/>
 
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/it_more_ib"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:backgroundTint="#00FFFFFF"
-        app:srcCompat="@drawable/ic_more_horiz_light" />
-
 
 </RelativeLayout>
