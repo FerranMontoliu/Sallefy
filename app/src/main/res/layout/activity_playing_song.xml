@@ -49,7 +49,7 @@
         app:srcCompat="@drawable/ic_audiotrack_60dp" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/aps_play_pause_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="35dp"
@@ -84,25 +84,25 @@
         app:layout_constraintTop_toBottomOf="@+id/aps_song_name" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/aps_prev_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/aps_play_pause_ib"
+        app:layout_constraintEnd_toStartOf="@+id/aps_play_pause_ib"
+        app:layout_constraintTop_toTopOf="@+id/aps_play_pause_ib"
         app:srcCompat="@drawable/ic_skip_previous_light_48dp" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/aps_next_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/aps_play_pause_ib"
+        app:layout_constraintStart_toEndOf="@+id/aps_play_pause_ib"
+        app:layout_constraintTop_toTopOf="@+id/aps_play_pause_ib"
         app:srcCompat="@drawable/ic_skip_next_light_48dp" />
 
     <ImageButton
@@ -115,7 +115,7 @@
         android:backgroundTint="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
+        app:layout_constraintTop_toBottomOf="@+id/aps_prev_ib"
         app:srcCompat="@drawable/ic_shuffle_light_28dp" />
 
     <ImageButton
@@ -128,11 +128,11 @@
         android:backgroundTint="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton3"
+        app:layout_constraintTop_toBottomOf="@+id/aps_next_ib"
         app:srcCompat="@drawable/ic_repeat_light_28dp" />
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/aps_progress_sb"
         android:layout_width="360dp"
         android:layout_height="18dp"
         android:layout_marginTop="20dp"

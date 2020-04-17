@@ -19,7 +19,7 @@ public interface PlaylistService {
     Call<Playlist> createPlaylist(@Body Playlist playlist, @Header("Authorization") String token);
 
     @GET("playlists/{id}")
-    Call<Playlist> getPlaylistById(@Path("id") String id, @Header("Authorization") String token);
+    Call<Playlist> getPlaylistById(@Path("id") Integer id, @Header("Authorization") String token);
 
     @GET("me/playlists")
     Call<List<Playlist>> getOwnPlaylists(@Header("Authorization") String token);

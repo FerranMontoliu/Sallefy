@@ -75,7 +75,7 @@ public class PlaylistManager {
         });
     }
 
-    public synchronized void getPlaylistById(String idPlaylist, final PlaylistCallback callback) {
+    public synchronized void getPlaylistById(Integer idPlaylist, final PlaylistCallback callback) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
         Call<Playlist> call = mService.getPlaylistById(idPlaylist, "Bearer " + userToken.getIdToken());
         call.enqueue(new Callback<Playlist>() {
