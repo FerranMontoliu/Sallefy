@@ -12,6 +12,7 @@
     <string name="error_playlist_not_created">Error creating your playlist!</string>
     <string name="error_track_not_created">Error creating your track!</string>
     <string name="playlist_created_success">Playlist created!</string>
+    <string name="pick_an_image">You haven\'t picked an image!</string>
 
 
     <!-- INFO TOASTS -->
