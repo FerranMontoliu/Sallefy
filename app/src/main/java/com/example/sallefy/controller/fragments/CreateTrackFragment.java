@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,8 +22,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.sallefy.R;
 import com.example.sallefy.controller.restapi.callback.GenreCallback;
+import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.GenreManager;
+import com.example.sallefy.controller.restapi.manager.TrackManager;
 import com.example.sallefy.model.Genre;
+import com.example.sallefy.model.Track;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -32,7 +36,7 @@ import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CreateTrackFragment extends Fragment implements GenreCallback {
+public class CreateTrackFragment extends Fragment implements GenreCallback, TrackCallback {
 
     public static final String TAG = CreateTrackFragment.class.getName();
     private static final int PICK_IMAGE = 0;
@@ -41,6 +45,8 @@ public class CreateTrackFragment extends Fragment implements GenreCallback {
     private ImageView ivThumbnail;
     private TextView tvFileName;
     private Spinner genreSpinner;
+
+    private List<Genre> genres;
 
     public static CreateTrackFragment getInstance() {
         return new CreateTrackFragment();
@@ -91,7 +97,23 @@ public class CreateTrackFragment extends Fragment implements GenreCallback {
         v.findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: ACCEPT
+                Track t = new Track();
+
+                ArrayList genreList = new ArrayList();
+                genreList.add(genres.get(genreSpinner.getSelectedItemPosition()));
+                t.setGenres(genreList);
+
+                t.setName(((EditText) v.findViewById(R.id.title_et)).getText().toString());
+
+                // TODO
+                // t.setThumbnail();
+
+                // TODO
+                // t.setUrl();
+
+                TrackManager.getInstance(getContext()).createTrack(t, CreateTrackFragment.this);
+                assert getParentFragment() != null;
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
             }
         });
         return v;
@@ -146,6 +168,8 @@ public class CreateTrackFragment extends Fragment implements GenreCallback {
 
     @Override
     public void onGenresReceived(List<Genre> genres) {
+        this.genres = genres;
+
         ArrayList<String> spinnerItems = new ArrayList<>();
         for (Genre g : genres) {
             spinnerItems.add(g.getName());
@@ -165,5 +189,20 @@ public class CreateTrackFragment extends Fragment implements GenreCallback {
     @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTracksReceived(List<Track> tracks) {
+        // UNUSED
+    }
+
+    @Override
+    public void onNoTracks(Throwable throwable) {
+        Toast.makeText(getContext(), R.string.error_uploading_track, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateTrack() {
+        Toast.makeText(getContext(), R.string.track_uploaded, Toast.LENGTH_LONG).show();
     }
 }

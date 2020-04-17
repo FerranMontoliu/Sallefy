@@ -15,6 +15,8 @@
     <string name="pick_an_image">You haven\'t picked an image!</string>
     <string name="pick_a_document">You haven\'t picked a document!</string>
     <string name="error_getting_genres">Error getting the genres!</string>
+    <string name="error_uploading_track">Error uploading the track!</string>
+    <string name="track_uploaded">Track uploaded successfully!</string>
 
 
     <!-- INFO TOASTS -->
