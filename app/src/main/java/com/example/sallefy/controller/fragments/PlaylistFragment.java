@@ -205,14 +205,13 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
 
     @Override
     public void onTrackLiked(int position) {
-        Toast.makeText(getContext(), "Track liked", Toast.LENGTH_SHORT).show();
         ((TrackListAdapter)rvPlaylist.getAdapter()).changeTrackLikeStateIcon(position);
         rvPlaylist.getAdapter().notifyItemChanged(position);
     }
 
     @Override
     public void onTrackLikedError(Throwable throwable) {
-        Toast.makeText(getContext(), "Failed to favorite the track", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Action failed", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -301,14 +301,12 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
 
     @Override
     public void onTrackLiked(int position) {
-        Toast.makeText(getContext(), "Track liked", Toast.LENGTH_SHORT).show();
         ((TrackListAdapter)tracksRV.getAdapter()).changeTrackLikeStateIcon(position);
         tracksRV.getAdapter().notifyItemChanged(position);
     }
 
     @Override
     public void onTrackLikedError(Throwable throwable) {
-        Toast.makeText(getContext(), "Failed to favorite the track", Toast.LENGTH_SHORT).show();
     }
 
     @Override

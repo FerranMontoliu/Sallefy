@@ -144,7 +144,6 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
 
     @Override
     public void onTrackLiked(int position) {
-        Toast.makeText(getContext(), "Track liked", Toast.LENGTH_SHORT).show();
         ((OwnTrackListAdapter)recyclerView.getAdapter()).changeTrackLikeStateIcon(position);
         recyclerView.getAdapter().notifyDataSetChanged();
     }
@@ -152,14 +151,12 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
 
     @Override
     public void onTrackLikedError(Throwable throwable) {
-        Toast.makeText(getContext(), "Failed to favorite the track", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Action failed", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onTrackLikedReceived(Liked liked, int position) {
         ((OwnTrackListAdapter)recyclerView.getAdapter()).updateTrackLikeStateIcon(position, liked.getLiked());
         recyclerView.getAdapter().notifyDataSetChanged();
-        Toast.makeText(getContext(), "TRACK " + Integer.toString(position) + liked,  Toast.LENGTH_SHORT).show();
-
     }
 }
