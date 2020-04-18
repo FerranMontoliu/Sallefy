@@ -25,7 +25,12 @@ public class CustomMediaPlayer extends MediaPlayer{
         this.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                MusicPlayer.getInstance().onNextTrackClicked();
+                if (MusicPlayer.getInstance().isLoop()) {
+                    MusicPlayer.getInstance().restart();
+
+                } else {
+                    MusicPlayer.getInstance().onNextTrackClicked();
+                }
             }
         });
     }

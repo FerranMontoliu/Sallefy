@@ -106,7 +106,7 @@
         app:srcCompat="@drawable/ic_skip_next_light_48dp" />
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/aps_shuffle_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -119,7 +119,7 @@
         app:srcCompat="@drawable/ic_shuffle_light_28dp" />
 
     <ImageButton
-        android:id="@+id/imageButton5"
+        android:id="@+id/aps_loop_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"

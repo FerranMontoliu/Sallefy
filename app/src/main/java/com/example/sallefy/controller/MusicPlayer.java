@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 public class MusicPlayer implements MusicPlayerCallback {
 
@@ -41,6 +42,8 @@ public class MusicPlayer implements MusicPlayerCallback {
     private String state;
 
     private MusicPlayer(){
+        shuffle = false;
+        loop = false;
         mQueue = new LinkedList<>();
         mPreviousPlayers = new LinkedList<>();
 
@@ -141,12 +144,13 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     @Override
     public void onShuffleClicked() {
-
+        shuffle = !shuffle;
+        prepareNextPlayer();
     }
 
     @Override
     public void onLoopClicked() {
-
+        loop = !loop;
     }
 
     @Override
@@ -227,7 +231,18 @@ public class MusicPlayer implements MusicPlayerCallback {
 
         } else if (mPlaylist != null) {
             playlist = mPlaylist;
-            mCurrentPlaylistTrack = (mCurrentPlaylistTrack + 1) % mPlaylist.getTracks().size();
+
+            if (shuffle) {
+                int i = mCurrentPlaylistTrack;
+                Random r = new Random();
+                while (i == mCurrentPlaylistTrack) {
+                    i = r.nextInt(mPlaylist.getTracks().size());
+                }
+                mCurrentPlaylistTrack = i;
+            } else {
+                mCurrentPlaylistTrack = (mCurrentPlaylistTrack + 1) % mPlaylist.getTracks().size();
+            }
+
             track =  mPlaylist.getTracks().get(mCurrentPlaylistTrack);
 
         } else {
@@ -281,4 +296,19 @@ public class MusicPlayer implements MusicPlayerCallback {
     public boolean isPlaying() {
         return state.equals(PAUSE_VIEW);
     }
+
+    public boolean isLoop() {
+        return loop;
+    }
+
+    public boolean isShuffle() {
+        return shuffle;
+    }
+
+    public void restart() {
+        mPrimaryPlayer.seekTo(0);
+        playTrack();
+    }
+
+
 }
