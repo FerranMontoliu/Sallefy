@@ -23,15 +23,17 @@ import com.example.sallefy.controller.callbacks.PlayingSongCallback;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.fragments.AddSongPlaylistFragment;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
+import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.controller.restapi.manager.TrackManager;
 import com.example.sallefy.model.Followed;
+import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
 import java.util.List;
 
-public class PlayingSongActivity extends AppCompatActivity implements PlaylistAdapterCallback, PlayingSongCallback, PlaylistCallback {
+public class PlayingSongActivity extends AppCompatActivity implements PlaylistAdapterCallback, PlayingSongCallback, PlaylistCallback, TrackCallback {
     private ImageButton btnBack;
     private ImageButton btnAdd;
     private TextView tvSongName;
@@ -46,6 +48,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     private Playlist playlist;
     private MusicPlayer mMusicPlayer;
     private SeekBar mSeekBar;
+    private ImageButton btnLike;
 
     private int mDuration;
 
@@ -65,7 +68,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     private void initViews() {
         mFragmentManager = getSupportFragmentManager();
 
-
+        btnLike = findViewById(R.id.aps_like_ib);
         btnBack = findViewById(R.id.back_song);
         btnAdd = findViewById(R.id.add_song);
         ibPlayPause = findViewById(R.id.aps_play_pause_ib);
@@ -80,6 +83,8 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         tvSongName.setText(track.getName());
         tvArtistName.setText(track.getUser().getLogin());
         tvPlaylistName.setText(playlist.getName());
+
+        TrackManager.getInstance(getApplicationContext()).checkLiked(track, PlayingSongActivity.this, 0);
 
         Glide.with(getApplicationContext())
                 .asBitmap()
@@ -107,6 +112,13 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TrackManager.getInstance(getApplicationContext()).likeTrack(track, PlayingSongActivity.this, 0);
             }
         });
 
@@ -202,6 +214,8 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         tvArtistName.setText(track.getUser().getLogin());
         tvPlaylistName.setText(playlist.getName());
 
+        TrackManager.getInstance(getApplicationContext()).checkLiked(track, PlayingSongActivity.this, 0);
+
         Glide.with(getApplicationContext())
                 .asBitmap()
                 .placeholder(R.drawable.ic_audiotrack_60dp)
@@ -267,5 +281,45 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     @Override
     public void onFailure(Throwable throwable) {
 
+    }
+
+    @Override
+    public void onTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onNoTracks(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackLiked(int position) {
+        if(track.isLiked()){
+            track.setLiked(false);
+            btnLike.setImageResource(R.drawable.ic_favorite_filled);
+        } else {
+            track.setLiked(true);
+            btnLike.setImageResource(R.drawable.ic_favorite_unfilled);
+        }
+    }
+
+    @Override
+    public void onTrackLikedError(Throwable throwable) {
+        if(track.isLiked()) {
+            Toast.makeText(getApplicationContext(), "ERROR: " + R.string.error_unliking_track, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "ERROR: " + R.string.error_liking_track, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onTrackLikedReceived(Liked liked, int position) {
+        track.setLiked(liked.getLiked());
+        if(liked.getLiked()){
+            btnLike.setImageResource(R.drawable.ic_favorite_filled);
+        } else {
+            btnLike.setImageResource(R.drawable.ic_favorite_unfilled);
+        }
     }
 }
