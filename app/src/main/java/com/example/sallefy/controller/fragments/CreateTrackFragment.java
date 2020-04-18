@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.example.sallefy.R;
 import com.example.sallefy.controller.restapi.callback.GenreCallback;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
+import com.example.sallefy.controller.restapi.manager.CloudinaryManager;
 import com.example.sallefy.controller.restapi.manager.GenreManager;
 import com.example.sallefy.controller.restapi.manager.TrackManager;
 import com.example.sallefy.model.Genre;
@@ -47,6 +48,12 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
     private Spinner genreSpinner;
 
     private List<Genre> genres;
+
+    private Genre genre;
+    private Uri audioFileUri;
+    private String audioFileName;
+    private Uri thumbnailUri;
+    private String thumbnailName;
 
     public static CreateTrackFragment getInstance() {
         return new CreateTrackFragment();
@@ -97,21 +104,11 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
         v.findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Track t = new Track();
 
-                ArrayList genreList = new ArrayList();
-                genreList.add(genres.get(genreSpinner.getSelectedItemPosition()));
-                t.setGenres(genreList);
+                CloudinaryManager.getInstance(getContext(), CreateTrackFragment.this).uploadThumbnailFile(thumbnailUri, thumbnailName);
+                CloudinaryManager.getInstance(getContext(), CreateTrackFragment.this).uploadAudioFile(audioFileUri, audioFileName,
+                        genres.get(genreSpinner.getSelectedItemPosition()));
 
-                t.setName(((EditText) v.findViewById(R.id.title_et)).getText().toString());
-
-                // TODO
-                // t.setThumbnail();
-
-                // TODO
-                // t.setUrl();
-
-                TrackManager.getInstance(getContext()).createTrack(t, CreateTrackFragment.this);
                 assert getParentFragment() != null;
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
             }
@@ -127,11 +124,17 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
             case PICK_IMAGE:
                 if (resultCode == RESULT_OK) {
                     try {
-                        final Uri imageUri = data.getData();
-                        assert imageUri != null;
-                        final InputStream imageStream = Objects.requireNonNull(getActivity()).getContentResolver().openInputStream(imageUri);
+                        thumbnailUri = data.getData();
+
+                        String path = audioFileUri.getPath();
+                        assert path != null;
+                        thumbnailName = path.substring(path.lastIndexOf("/") + 1);
+
+                        assert thumbnailUri != null;
+                        final InputStream imageStream = Objects.requireNonNull(getActivity()).getContentResolver().openInputStream(thumbnailUri);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                         ivThumbnail.setImageBitmap(selectedImage);
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                         Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
@@ -144,20 +147,12 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
 
             case PICK_FILE:
                 if (resultCode == RESULT_OK) {
-                    try {
-                        final Uri documentUri = data.getData();
-                        assert documentUri != null;
-                        final InputStream documentStream = Objects.requireNonNull(getActivity()).getContentResolver().openInputStream(documentUri);
-                        String path = documentUri.getPath();
-                        assert path != null;
-                        String filename = path.substring(path.lastIndexOf("/") + 1);
-                        tvFileName.setText(filename);
-                        // TODO: finish...
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
-                    }
+                    audioFileUri = data.getData();
+                    assert audioFileUri != null;
+                    String path = audioFileUri.getPath();
+                    assert path != null;
+                    audioFileName = path.substring(path.lastIndexOf("/") + 1);
+                    tvFileName.setText(audioFileName);
 
                 } else {
                     Toast.makeText(getContext(), R.string.pick_a_document, Toast.LENGTH_LONG).show();
