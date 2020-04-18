@@ -25,7 +25,6 @@ import com.example.sallefy.controller.restapi.callback.GenreCallback;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.CloudinaryManager;
 import com.example.sallefy.controller.restapi.manager.GenreManager;
-import com.example.sallefy.controller.restapi.manager.TrackManager;
 import com.example.sallefy.model.Genre;
 import com.example.sallefy.model.Track;
 
@@ -46,12 +45,11 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
     private ImageView ivThumbnail;
     private TextView tvFileName;
     private Spinner genreSpinner;
+    private EditText etTitle;
 
     private List<Genre> genres;
 
-    private Genre genre;
     private Uri audioFileUri;
-    private String audioFileName;
     private Uri thumbnailUri;
     private String thumbnailName;
 
@@ -74,6 +72,7 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
         ivThumbnail = v.findViewById(R.id.thumbnail_iv);
         tvFileName = v.findViewById(R.id.track_file_tv);
         genreSpinner = v.findViewById(R.id.genre_spinner);
+        etTitle = v.findViewById(R.id.title_et);
 
         v.findViewById(R.id.upload_thumbnail_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,13 +103,19 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
         v.findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!etTitle.getText().toString().isEmpty()) {
+                    if (thumbnailUri != null) {
+                        CloudinaryManager.getInstance(getContext(), CreateTrackFragment.this).uploadThumbnailFile(thumbnailUri, thumbnailName);
+                    }
+                    CloudinaryManager.getInstance(getContext(), CreateTrackFragment.this).uploadAudioFile(audioFileUri,
+                            etTitle.getText().toString(),
+                            genres.get(genreSpinner.getSelectedItemPosition()));
 
-                CloudinaryManager.getInstance(getContext(), CreateTrackFragment.this).uploadThumbnailFile(thumbnailUri, thumbnailName);
-                CloudinaryManager.getInstance(getContext(), CreateTrackFragment.this).uploadAudioFile(audioFileUri, audioFileName,
-                        genres.get(genreSpinner.getSelectedItemPosition()));
-
-                assert getParentFragment() != null;
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
+                    assert getParentFragment() != null;
+                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
+                } else {
+                    Toast.makeText(getContext(), R.string.error_enter_name, Toast.LENGTH_LONG).show();
+                }
             }
         });
         return v;
@@ -151,8 +156,8 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
                     assert audioFileUri != null;
                     String path = audioFileUri.getPath();
                     assert path != null;
-                    audioFileName = path.substring(path.lastIndexOf("/") + 1);
-                    tvFileName.setText(audioFileName);
+                    final String filename = path.substring(path.lastIndexOf("/") + 1);
+                    tvFileName.setText(filename);
 
                 } else {
                     Toast.makeText(getContext(), R.string.pick_a_document, Toast.LENGTH_LONG).show();

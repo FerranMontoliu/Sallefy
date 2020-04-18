@@ -103,7 +103,9 @@ public class CloudinaryManager extends AppCompatActivity {
             Track track = new Track();
             track.setId(null);
             track.setName(mFileName);
-            track.setThumbnail(mThumbnailUrl);
+            if (mThumbnailUrl != null) {
+                track.setThumbnail(mThumbnailUrl);
+            }
             track.setUrl((String) resultData.get("url"));
             ArrayList<Genre> genres = new ArrayList<>();
             genres.add(mGenre);

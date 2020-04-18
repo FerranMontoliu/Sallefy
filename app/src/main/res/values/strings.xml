@@ -17,7 +17,7 @@
     <string name="error_getting_genres">Error getting the genres!</string>
     <string name="error_uploading_track">Error uploading the track!</string>
     <string name="track_uploaded">Track uploaded successfully!</string>
-
+    <string name="error_enter_name">You must enter a name for the track!</string>
 
     <!-- INFO TOASTS -->
     <string name="register_success">User registered successfully!</string>
