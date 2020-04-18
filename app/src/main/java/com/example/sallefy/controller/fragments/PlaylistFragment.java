@@ -82,6 +82,7 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
     @Override
     public void onTrackClick(Track track) {
         Intent intent = new Intent(getContext(), PlayingSongActivity.class);
+        intent.putExtra("newTrack", true);
         intent.putExtra("track", track);
         intent.putExtra("playlist", mPlaylist);
         startActivity(intent);

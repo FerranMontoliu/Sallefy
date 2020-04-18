@@ -16,7 +16,7 @@ android:orientation="horizontal">
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/item_img"
+        android:id="@+id/am_image_iv"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:padding="3dp"/>
@@ -30,7 +30,7 @@ android:orientation="horizontal">
         android:paddingBottom="5dp">
 
         <TextView
-            android:id="@+id/item_title"
+            android:id="@+id/am_title_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/default_track_title"

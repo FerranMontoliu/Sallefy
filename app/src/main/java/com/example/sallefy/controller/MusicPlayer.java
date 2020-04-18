@@ -195,7 +195,7 @@ public class MusicPlayer implements MusicPlayerCallback {
     @Override
     public void onProgressChanged(int progress) {
         if (mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()){
-            if (Math.abs(mPrimaryPlayer.getCurrentPosition() - progress) > 100) {
+            if (Math.abs(mPrimaryPlayer.getCurrentPosition() - progress) > 500) {
                 mPrimaryPlayer.seekTo(progress);
             }
         }
@@ -310,5 +310,20 @@ public class MusicPlayer implements MusicPlayerCallback {
         playTrack();
     }
 
+    public boolean isPrepared() {
+        return mPrimaryPlayer != null;
+    }
+
+    public Track getCurrentTrack() {
+        return mPrimaryPlayer.getTrack();
+    }
+
+    public int getDuration() {
+        return mPrimaryPlayer.getDuration();
+    }
+
+    public Playlist getCurrentPlaylist() {
+        return mPrimaryPlayer.getPlaylist();
+    }
 
 }
