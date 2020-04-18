@@ -34,6 +34,7 @@ import com.example.sallefy.controller.restapi.callback.SearchCallback;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.controller.restapi.manager.SearchManager;
+import com.example.sallefy.controller.restapi.manager.TrackManager;
 import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
@@ -185,6 +186,15 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
         tracksRV.setAdapter(adapterTL);
         usersRV.setAdapter(adapterUL);
 
+        adapterTL.setOnItemClickListener(new TrackListAdapter.OnItemClickListener() {
+
+            @Override
+            public void onLikeClick(Track track, int position) {
+                TrackManager.getInstance(getContext()).likeTrack(track, SearchFragment.this, position);
+            }
+
+        });
+
     }
 
     @Override
@@ -291,16 +301,19 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
 
     @Override
     public void onTrackLiked(int position) {
-
+        Toast.makeText(getContext(), "Track liked", Toast.LENGTH_SHORT).show();
+        ((TrackListAdapter)tracksRV.getAdapter()).changeTrackLikeStateIcon(position);
+        tracksRV.getAdapter().notifyItemChanged(position);
     }
 
     @Override
     public void onTrackLikedError(Throwable throwable) {
-
+        Toast.makeText(getContext(), "Failed to favorite the track", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onTrackLikedReceived(Liked liked, int position) {
-
+        ((TrackListAdapter)tracksRV.getAdapter()).updateTrackLikeStateIcon(position, liked.getLiked());
+        tracksRV.getAdapter().notifyItemChanged(position);
     }
 }

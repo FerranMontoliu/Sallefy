@@ -80,13 +80,13 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             .load(mTracks.get(position).getThumbnail())
             .into(holder.ivPicture);
 
-        if (mTracks.get(position).isLiked()){
-            holder.ibLike.setImageResource(R.drawable.ic_favorite_filled);
-        } else {
-            holder.ibLike.setImageResource(R.drawable.ic_favorite_unfilled);
-        }
-
         if (mLayoutId == R.layout.item_track) {
+            if (mTracks.get(position).isLiked()){
+                holder.ibLike.setImageResource(R.drawable.ic_favorite_filled);
+            } else {
+                holder.ibLike.setImageResource(R.drawable.ic_favorite_unfilled);
+            }
+
             holder.ibMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -131,8 +131,6 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             tvTitle = itemView.findViewById(R.id.item_title);
             tvAuthor = itemView.findViewById(R.id.item_author);
             ivPicture = itemView.findViewById(R.id.item_img);
-            ibLike = itemView.findViewById(R.id.it_like_ib);
-            ibMore = itemView.findViewById(R.id.it_more_ib);
 
             if (layoutId == R.layout.item_track) {
                 ibMore = itemView.findViewById(R.id.it_more_ib);
@@ -154,18 +152,20 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
                 }
             });
 
-            ibLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onLikeClick(mTracks.get(position), position);
+            if (ibLike != null) {
+                ibLike.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (listener != null) {
+                            int position = getAdapterPosition();
+                            if (position != RecyclerView.NO_POSITION) {
+                                listener.onLikeClick(mTracks.get(position), position);
+                            }
                         }
                     }
-                }
 
-            });
+                });
+            }
 
         }
     }

@@ -57,8 +57,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:backgroundTint="#00FFFFFF"
-            android:src="@drawable/ic_favorite_unfilled"
-            android:layout_weight="0"/>
+            android:src="@drawable/ic_favorite_unfilled" />
 
 
         <ImageButton
@@ -68,8 +67,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:backgroundTint="#00FFFFFF"
-            app:srcCompat="@drawable/ic_more_horiz_light"
-            android:layout_weight="0"/>
+            app:srcCompat="@drawable/ic_more_horiz_light" />
 
     </LinearLayout>
 
