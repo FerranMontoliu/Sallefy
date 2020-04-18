@@ -22,15 +22,18 @@ import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
+import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
+import com.example.sallefy.controller.restapi.manager.TrackManager;
 import com.example.sallefy.model.Followed;
+import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistFragment extends Fragment implements TrackListAdapterCallback, PlaylistCallback {
+public class PlaylistFragment extends Fragment implements TrackListAdapterCallback, PlaylistCallback, TrackCallback {
 
     private Playlist mPlaylist;
     private RecyclerView rvPlaylist;
@@ -58,10 +61,23 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
         ibBack = v.findViewById(R.id.fp_back_ib);
         btnFollow = v.findViewById(R.id.fp_follow_b);
 
+        ArrayList<Track> tracks = (ArrayList) mPlaylist.getTracks();
+        for (int i = 0; i  < tracks.size(); i++ ){
+            TrackManager.getInstance(getContext()).checkLiked(tracks.get(i), PlaylistFragment.this, i);
+        }
+
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rvPlaylist.setLayoutManager(manager);
-        TrackListAdapter adapter = new TrackListAdapter(getContext(), (ArrayList) mPlaylist.getTracks(), PlaylistFragment.this, R.layout.item_track);
+        final TrackListAdapter adapter = new TrackListAdapter(getContext(), tracks,PlaylistFragment.this, PlaylistFragment.this, R.layout.item_track);
         rvPlaylist.setAdapter(adapter);
+        adapter.setOnItemClickListener(new TrackListAdapter.OnItemClickListener() {
+
+            @Override
+            public void onLikeClick(Track track, int position) {
+                TrackManager.getInstance(getContext()).likeTrack(track, PlaylistFragment.this, position);
+            }
+
+        });
 
         tvPlaylisyName.setText(mPlaylist.getName());
 
@@ -175,5 +191,33 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
     @Override
     public void onFailure(Throwable throwable) {
 
+    }
+
+    @Override
+    public void onTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onNoTracks(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackLiked(int position) {
+        Toast.makeText(getContext(), "Track liked", Toast.LENGTH_SHORT).show();
+        ((TrackListAdapter)rvPlaylist.getAdapter()).changeTrackLikeStateIcon(position);
+        rvPlaylist.getAdapter().notifyItemChanged(position);
+    }
+
+    @Override
+    public void onTrackLikedError(Throwable throwable) {
+        Toast.makeText(getContext(), "Failed to favorite the track", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTrackLikedReceived(Liked liked, int position) {
+        ((TrackListAdapter)rvPlaylist.getAdapter()).updateTrackLikeStateIcon(position, liked.getLiked());
+        rvPlaylist.getAdapter().notifyItemChanged(position);
     }
 }

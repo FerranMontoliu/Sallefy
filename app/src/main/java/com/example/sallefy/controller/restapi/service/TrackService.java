@@ -1,6 +1,7 @@
 package com.example.sallefy.controller.restapi.service;
 
 import com.example.sallefy.model.Followed;
+import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Track;
 
 import java.util.List;
@@ -20,9 +21,9 @@ public interface TrackService {
     @GET("me/tracks")
     Call<List<Track>> getOwnTracks(@Header("Authorization") String token);
 
-    @PUT("tracks/{id}/follow")
+    @PUT("tracks/{id}/like")
     Call<ResponseBody> followTrack(@Path("id") String id, @Header("Authorization") String token);
 
-    @GET("tracks/{id}/follow")
-    Call<Followed> isTrackFollowed(@Path("id") String id, @Header("Authorization") String token);
+    @GET("tracks/{id}/like")
+    Call<Liked> isTrackFollowed(@Path("id") String id, @Header("Authorization") String token);
 }

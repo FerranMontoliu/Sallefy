@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.service.PlaylistService;
 import com.example.sallefy.model.Followed;
+import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.UserToken;
@@ -145,13 +146,13 @@ public class TrackManager {
         });
     }
 
-    public synchronized void likeTrack(Track track, final TrackCallback callback) {
+    public synchronized void likeTrack(Track track, final TrackCallback callback, final int position) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
         Call<ResponseBody> call = mTrackService.followTrack(track.getId().toString(), "Bearer " + userToken.getIdToken());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                callback.onTrackLiked();
+                callback.onTrackLiked(position);
             }
 
             @Override
@@ -161,17 +162,17 @@ public class TrackManager {
         });
     }
 
-    public synchronized void checkLiked(Track track, final TrackCallback callback) {
+    public synchronized void checkLiked(Track track, final TrackCallback callback, final int position) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
-        Call<Followed> call = mTrackService.isTrackFollowed(track.getId().toString(), "Bearer " + userToken.getIdToken());
-        call.enqueue(new Callback<Followed>() {
+        Call<Liked> call = mTrackService.isTrackFollowed(track.getId().toString(), "Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<Liked>() {
             @Override
-            public void onResponse(Call<Followed> call, Response<Followed> response) {
-                callback.onTrackLikedReceived(response.body());
+            public void onResponse(Call<Liked> call, Response<Liked> response) {
+                callback.onTrackLikedReceived(response.body(), position);
             }
 
             @Override
-            public void onFailure(Call<Followed> call, Throwable t) {
+            public void onFailure(Call<Liked> call, Throwable t) {
                 callback.onFailure(t);
             }
         });

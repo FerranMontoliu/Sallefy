@@ -31,9 +31,11 @@ import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.callbacks.UserListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.callback.SearchCallback;
+import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.controller.restapi.manager.SearchManager;
 import com.example.sallefy.model.Followed;
+import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Search;
 import com.example.sallefy.model.Track;
@@ -44,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class SearchFragment extends Fragment implements SearchCallback, TrackListAdapterCallback, PlaylistAdapterCallback, UserListAdapterCallback, PlaylistCallback {
+public class SearchFragment extends Fragment implements SearchCallback, TrackListAdapterCallback, PlaylistAdapterCallback, UserListAdapterCallback, PlaylistCallback, TrackCallback {
     public static final String TAG = SearchFragment.class.getName();
 
     private FragmentManager mFragmentManager;
@@ -174,7 +176,7 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
         }
 
         //Create Recycler View Adapters
-        TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks, SearchFragment.this, R.layout.track_item);
+        TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks, SearchFragment.this, SearchFragment.this, R.layout.track_item);
         SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), mPlaylists, SearchFragment.this);
         SearchUserListAdapter adapterUL = new SearchUserListAdapter(this.getContext(), mUsers, SearchFragment.this);
 
@@ -275,5 +277,30 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
                 .replace(R.id.fragment_container, PlaylistFragment.getInstance(mPlaylist, followed.getFollowed()), PlaylistFragment.TAG)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onNoTracks(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackLiked(int position) {
+
+    }
+
+    @Override
+    public void onTrackLikedError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackLikedReceived(Liked liked, int position) {
+
     }
 }

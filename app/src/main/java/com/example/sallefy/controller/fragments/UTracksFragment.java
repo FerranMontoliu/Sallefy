@@ -20,11 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sallefy.R;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.OwnTrackListAdapter;
+import com.example.sallefy.controller.adapters.TrackListAdapter;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.ProfileCallback;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.ProfileManager;
 import com.example.sallefy.controller.restapi.manager.TrackManager;
+import com.example.sallefy.model.Followed;
+import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
@@ -32,7 +35,7 @@ import com.example.sallefy.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UTracksFragment extends Fragment implements ProfileCallback, TrackListAdapterCallback {
+public class UTracksFragment extends Fragment implements ProfileCallback, TrackListAdapterCallback, TrackCallback {
     public static final String TAG = UTracksFragment.class.getName();
 
     public static UTracksFragment getInstance() {
@@ -106,14 +109,37 @@ public class UTracksFragment extends Fragment implements ProfileCallback, TrackL
     @Override
     public void onTracksReceived(List<Track> tracks) {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        OwnTrackListAdapter adapter = new OwnTrackListAdapter((ArrayList<Track>) tracks, getContext(), UTracksFragment.this, R.layout.item_track);
+        TrackListAdapter adapter = new TrackListAdapter(getContext(), (ArrayList<Track>) tracks, UTracksFragment.this, UTracksFragment.this, R.layout.item_track);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new TrackListAdapter.OnItemClickListener() {
+
+            @Override
+            public void onLikeClick(Track track, int position) {
+                TrackManager.getInstance(getContext()).likeTrack(track, UTracksFragment.this, position);
+            }
+
+        });
     }
 
     @Override
     public void onNoTracks(Throwable throwable) {
         Toast.makeText(getContext(), R.string.error_getting_tracks, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTrackLiked(int position) {
+
+    }
+
+    @Override
+    public void onTrackLikedError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackLikedReceived(Liked liked, int position) {
+
     }
 
     @Override
