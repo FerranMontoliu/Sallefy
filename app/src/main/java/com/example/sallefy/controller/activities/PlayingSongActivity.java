@@ -222,6 +222,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     @Override
     public void onTrackDurationReceived(int duration) {
         mSeekBar.setMax(duration);
+        updateSeekBar();
     }
 
     @Override

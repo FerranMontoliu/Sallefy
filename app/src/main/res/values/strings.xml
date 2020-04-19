@@ -105,6 +105,7 @@
     <string name="follow">Follow</string>
     <string name="following">Following</string>
     <string name="shuffle_play">Shuffle Play</string>
+    <string name="pause">Pause</string>
     <string name="add_songs">Add Songs</string>
     <string name="track_name">Track name</string>
     <string name="track_author">Track author</string>

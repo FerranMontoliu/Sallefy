@@ -1,5 +1,7 @@
 package com.example.sallefy.model;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -32,6 +34,8 @@ public class Playlist implements Serializable {
     private List<Track> tracks = null;
 
     private boolean followed;
+    @Nullable
+    private Object obj;
 
     public String getCover() {
         return cover;
@@ -114,4 +118,12 @@ public class Playlist implements Serializable {
         this.followed = followed;
     }
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        assert obj != null;
+        if (getClass() != obj.getClass())
+            return false;
+
+        return ((Playlist)obj).getId().equals(this.id);
+    }
 }

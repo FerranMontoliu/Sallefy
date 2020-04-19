@@ -118,7 +118,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
         ibPlayPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if (mMusicPlayer.isPrepared())
+            if (mMusicPlayer.isReady())
                 mMusicPlayer.onPlayPauseClicked();
             }
         });
@@ -138,7 +138,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
 
     private void updateTrack() {
 
-        if (mMusicPlayer.isPrepared()) {
+        if (mMusicPlayer.isReady()) {
             if (!displayPlaying) {
                 displayPlaying = true;
                 clPlayingSong.setVisibility(ConstraintLayout.VISIBLE);
@@ -163,7 +163,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
             mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    if (mMusicPlayer.isPrepared())
+                    if (mMusicPlayer.isReady())
                         mMusicPlayer.onProgressChanged(progress);
                 }
 
@@ -292,4 +292,5 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
             handler.postDelayed(runnable, 1000);
         }
     }
+
 }
