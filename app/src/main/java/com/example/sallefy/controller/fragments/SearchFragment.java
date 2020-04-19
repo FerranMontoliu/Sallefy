@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sallefy.R;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.PlaylistListAdapter;
+import com.example.sallefy.controller.adapters.SearchGroupAdapter;
 import com.example.sallefy.controller.adapters.SearchPlaylistListAdapter;
 import com.example.sallefy.controller.adapters.SearchUserListAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
@@ -39,6 +41,7 @@ import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Search;
+import com.example.sallefy.model.SearchGroup;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -58,6 +61,8 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
     private RecyclerView usersRV;
 
     private BottomNavigationView mNav;
+
+    private RecyclerView searchRV;
 
     private CheckBox backBtn;
 
@@ -105,13 +110,14 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
             }
         });
         //Set Recycler Views
-        playlistsRV = v.findViewById(R.id.search_playlists_rv);
-        tracksRV = v.findViewById(R.id.search_tracks_rv);
-        usersRV = v.findViewById(R.id.search_profiles_rv);
+        searchRV = v.findViewById(R.id.search_group_rv);
+        //playlistsRV = v.findViewById(R.id.search_playlists_rv);
+        //tracksRV = v.findViewById(R.id.search_tracks_rv);
+        //usersRV = v.findViewById(R.id.search_profiles_rv);
 
-        tvPlaylists = v.findViewById(R.id.search_playlists_text);
-        tvUsers = v.findViewById(R.id.search_users_text);
-        tvTracks = v.findViewById(R.id.search_tracks_text);
+        //tvPlaylists = v.findViewById(R.id.search_playlists_text);
+        //tvUsers = v.findViewById(R.id.search_users_text);
+        //tvTracks = v.findViewById(R.id.search_tracks_text);
 
         backBtn = v.findViewById(R.id.back_btn_search);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -146,36 +152,48 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
 
     @Override
     public void onSearchResultsReceived(Search results) {
+
         //Recycler View LAYOUT MANAGERS
+        searchRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false  ));
+        /*
         playlistsRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
         tracksRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
         usersRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
+        */
 
         //getSearchResults
         mTracks = (ArrayList<Track>)results.getTracks();
         mUsers = (ArrayList<User>)results.getUsers();
         mPlaylists = (ArrayList<Playlist>)results.getPlaylists();
 
-        tvTracks.setVisibility(View.GONE);
-        tvUsers.setVisibility(View.GONE);
-        tvPlaylists.setVisibility(View.GONE);
+
+
+        ArrayList<SearchGroup> data = new ArrayList<>();
+
+        if(mPlaylists.size() != 0){
+            SearchGroup playlistsGroup = new SearchGroup("Playlists", mPlaylists);
+            data.add(playlistsGroup);
+        }
 
         if(mTracks.size() != 0){
-            tvTracks.setVisibility(View.VISIBLE);
+            SearchGroup tracksGroup = new SearchGroup("Tracks", (Object)mTracks);
+            data.add(tracksGroup);
         }
 
         if(mUsers.size() != 0){
-            tvUsers.setVisibility(View.VISIBLE);
-        }
-
-        if(mPlaylists.size() != 0){
-            tvPlaylists.setVisibility(View.VISIBLE);
+            SearchGroup usersGroup = new SearchGroup("Users",  mUsers);
+            data.add(usersGroup);
         }
 
         if(mPlaylists.size() == 0 && mUsers.size() == 0 && mTracks.size() == 0){
             Toast.makeText(getContext(), R.string.search_empty_results, Toast.LENGTH_SHORT).show();
         }
 
+        SearchGroupAdapter adapter = new SearchGroupAdapter(data, this.getContext(), this);
+        searchRV.setAdapter(adapter);
+
+
+        /*
         //Create Recycler View Adapters
         TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks, SearchFragment.this, SearchFragment.this, R.layout.track_item);
         SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), mPlaylists, SearchFragment.this);
@@ -194,6 +212,8 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
             }
 
         });
+
+         */
 
     }
 

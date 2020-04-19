@@ -33,75 +33,17 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back_btn_search" />
 
-    <TextView
-        android:id="@+id/search_playlists_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="15dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/search_edit_text"
-        android:text="@string/search_playlists"
-        style="@style/TitleSearchResults">
-    </TextView>
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_playlists_rv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_playlists_text" />
-
-    <TextView
-        android:id="@+id/search_tracks_text"
+        android:id="@+id/search_group_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_playlists_rv"
-        android:text="@string/search_tracks"
-        android:visibility="gone"
-        style="@style/TitleSearchResults">
-    </TextView>
+        android:layout_height="0dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@id/search_edit_text"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_tracks_rv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_tracks_text" />
+    </androidx.recyclerview.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/search_users_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_tracks_rv"
-        android:text="@string/search_users"
-        android:visibility="gone"
-        style="@style/TitleSearchResults">
-    </TextView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_profiles_rv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_users_text" />
 
 
 
