@@ -13,8 +13,9 @@ public class CustomMediaPlayer extends MediaPlayer{
     private boolean mWaiting;
     private Track mTrack;
     private Playlist mPlaylist;
+    private int mCurrentPlaylistTrack;
 
-    public CustomMediaPlayer(Track track, Playlist playlist){
+    public CustomMediaPlayer(Track track, Playlist playlist, int trackIndex){
         this.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMusicPlayer = new MediaPlayer();
         mPrepared = false;
@@ -25,9 +26,15 @@ public class CustomMediaPlayer extends MediaPlayer{
         this.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                MusicPlayer.getInstance().onNextTrackClicked();
+                if (MusicPlayer.getInstance().isLoop()) {
+                    MusicPlayer.getInstance().restart();
+
+                } else {
+                    MusicPlayer.getInstance().onNextTrackClicked();
+                }
             }
         });
+        mCurrentPlaylistTrack = trackIndex;
     }
 
     public boolean isPrepared() {
@@ -52,5 +59,13 @@ public class CustomMediaPlayer extends MediaPlayer{
 
     public Playlist getPlaylist() {
         return mPlaylist;
+    }
+
+    public int getmCurrentPlaylistTrack() {
+        return mCurrentPlaylistTrack;
+    }
+
+    public void setmCurrentPlaylistTrack(int mCurrentPlaylistTrack) {
+        this.mCurrentPlaylistTrack = mCurrentPlaylistTrack;
     }
 }

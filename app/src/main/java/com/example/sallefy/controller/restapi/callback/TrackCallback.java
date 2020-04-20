@@ -12,4 +12,5 @@ public interface TrackCallback extends FailureCallback {
     void onTrackLiked(int position);
     void onTrackLikedError(Throwable throwable);
     void onTrackLikedReceived(Liked liked, int position);
+    void onCreateTrack();
 }

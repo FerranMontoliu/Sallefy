@@ -152,15 +152,46 @@ public class TrackManager {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                callback.onTrackLiked(position);
+                int code = response.code();
+                if (response.isSuccessful()){
+                  callback.onTrackLiked(position);
+                } else {
+                  Log.d(TAG, "Error Not Successful: " + code);
+                }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
                 callback.onTrackLikedError(t);
             }
         });
     }
+
+    public synchronized void createTrack(Track track, final TrackCallback trackCallback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+
+        Call<ResponseBody> call = mTrackService.createTrack(track, "Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    trackCallback.onCreateTrack();
+                } else {
+                    Log.d(TAG, "Error Not Successful: " + code);
+                    trackCallback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                trackCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
+
 
     public synchronized void checkLiked(Track track, final TrackCallback callback, final int position) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
@@ -168,11 +199,18 @@ public class TrackManager {
         call.enqueue(new Callback<Liked>() {
             @Override
             public void onResponse(Call<Liked> call, Response<Liked> response) {
-                callback.onTrackLikedReceived(response.body(), position);
+                int code = response.code();
+                if (response.isSuccessful()){
+                    callback.onTrackLikedReceived(response.body(), position);
+                } else {
+                    Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                    trackCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+                }
             }
 
             @Override
             public void onFailure(Call<Liked> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
                 callback.onFailure(t);
             }
         });

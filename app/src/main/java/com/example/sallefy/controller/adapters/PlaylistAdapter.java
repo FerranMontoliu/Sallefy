@@ -19,19 +19,18 @@ import com.example.sallefy.model.Playlist;
 import java.util.ArrayList;
 
 
-public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapter.ViewHolder> {
+public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
 
-    public static final String TAG = PlaylistListAdapter.class.getName();
-    private ArrayList<Playlist> mPlaylists;
+    public static final String TAG = PlaylistAdapter.class.getName();
+
+    private Playlist playlist;
     private Context mContext;
-    private PlaylistAdapterCallback mCallback;
     private int layoutId;
 
 
-    public PlaylistListAdapter(ArrayList<Playlist> playlists, Context context, PlaylistAdapterCallback callback, int layoutId) {
-        mPlaylists = playlists;
+    public PlaylistAdapter(Playlist playlist, Context context, int layoutId) {
+        this.playlist = playlist;
         mContext = context;
-        mCallback = callback;
         this.layoutId = layoutId;
     }
 
@@ -39,26 +38,21 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        return new PlaylistListAdapter.ViewHolder(itemView);
+        return new PlaylistAdapter.ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        if (mPlaylists != null && mPlaylists.size() > 0) {
-            holder.mLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mCallback != null)
-                        mCallback.onPlaylistClick(mPlaylists.get(position));
-                }
-            });
-            holder.mTitle.setText(mPlaylists.get(position).getName());
-            holder.mAuthor.setText(mPlaylists.get(position).getUser().getLogin());
-            if (mPlaylists.get(position).getThumbnail() != null) {
+        if (playlist != null) {
+
+            holder.mTitle.setText(playlist.getName());
+            holder.mAuthor.setText(playlist.getUser().getLogin());
+
+            if (playlist.getThumbnail() != null) {
                 Glide.with(mContext)
                         .asBitmap()
                         .placeholder(R.drawable.ic_audiotrack_60dp)
-                        .load(mPlaylists.get(position).getThumbnail())
+                        .load(playlist.getThumbnail())
                         .into(holder.mPhoto);
             }
         }
@@ -66,7 +60,7 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
 
     @Override
     public int getItemCount() {
-        return (mPlaylists != null ? mPlaylists.size() : 0);
+        return 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -78,9 +72,9 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mLayout = itemView.findViewById(R.id.item_playlist_layout);
-            mPhoto = itemView.findViewById(R.id.am_image_iv);
-            mTitle = itemView.findViewById(R.id.am_title_tv);
-            mAuthor = itemView.findViewById(R.id.am_author_tv);
+            mPhoto = itemView.findViewById(R.id.fp_playlist_image_iv);
+            mTitle = itemView.findViewById(R.id.fp_playlist_name_tv);
+            mAuthor = itemView.findViewById(R.id.fp_playlist_user_tv);
         }
     }
 }

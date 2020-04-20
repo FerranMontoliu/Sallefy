@@ -1,6 +1,7 @@
 package com.example.sallefy.controller.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -43,6 +44,8 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     private ImageButton ibPlayPause;
     private ImageButton ibNext;
     private ImageButton ibPrev;
+    private ImageButton ibLoop;
+    private ImageButton ibShuffle;
     private FragmentManager mFragmentManager;
     private Track track;
     private Playlist playlist;
@@ -50,18 +53,28 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     private SeekBar mSeekBar;
     private ImageButton btnLike;
 
-    private int mDuration;
+    private boolean newTrack;
+
+    private Intent mIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        track = (Track)getIntent().getSerializableExtra("track");
-        playlist = (Playlist)getIntent().getSerializableExtra("playlist");
+        newTrack = getIntent().getBooleanExtra("newTrack", false);
 
         setContentView(R.layout.activity_playing_song);
         mMusicPlayer = MusicPlayer.getInstance();
         mMusicPlayer.setPlayingSongCallback(PlayingSongActivity.this);
-        mMusicPlayer.onNewTrackClicked(track, playlist);
+
+        if (newTrack) {
+            track = (Track)getIntent().getSerializableExtra("track");
+            playlist = (Playlist)getIntent().getSerializableExtra("playlist");
+            mMusicPlayer.onNewTrackClicked(track, playlist);
+        } else {
+            track = mMusicPlayer.getCurrentTrack();
+            playlist = mMusicPlayer.getCurrentPlaylist();
+        }
+
         initViews();
     }
 
@@ -69,6 +82,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         mFragmentManager = getSupportFragmentManager();
 
         btnLike = findViewById(R.id.aps_like_ib);
+
         btnBack = findViewById(R.id.back_song);
         btnAdd = findViewById(R.id.add_song);
         ibPlayPause = findViewById(R.id.aps_play_pause_ib);
@@ -79,6 +93,8 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         tvArtistName = findViewById(R.id.aps_artist_name);
         ivSongImage = findViewById(R.id.aps_song_image_iv);
         mSeekBar = findViewById(R.id.aps_progress_sb);
+        ibLoop = findViewById(R.id.aps_loop_ib);
+        ibShuffle = findViewById(R.id.aps_shuffle_ib);
 
         tvSongName.setText(track.getName());
         tvArtistName.setText(track.getUser().getLogin());
@@ -143,6 +159,13 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
             }
         });
 
+        if (!newTrack) {
+            ibPlayPause.setImageResource(mMusicPlayer.isPlaying() ? R.drawable.ic_pause_light_80dp : R.drawable.ic_play_light_80dp);
+
+            mSeekBar.setMax(mMusicPlayer.getDuration());
+            updateSeekBar();
+        }
+
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -159,6 +182,26 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
             }
         });
+
+        ibLoop.setImageResource(MusicPlayer.getInstance().isLoop() ? R.drawable.ic_repeat_green_28dp : R.drawable.ic_repeat_light_28dp );
+        ibLoop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ibLoop.setImageResource(MusicPlayer.getInstance().isLoop() ? R.drawable.ic_repeat_light_28dp : R.drawable.ic_repeat_green_28dp);
+                MusicPlayer.getInstance().onLoopClicked();
+            }
+        });
+
+        ibShuffle.setImageResource(MusicPlayer.getInstance().isShuffle() ? R.drawable.ic_shuffle_green_28dp : R.drawable.ic_shuffle_light_28dp);
+        ibShuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ibShuffle.setImageResource(MusicPlayer.getInstance().isShuffle() ? R.drawable.ic_shuffle_light_28dp : R.drawable.ic_shuffle_green_28dp);
+                MusicPlayer.getInstance().onShuffleClicked();
+            }
+        });
+
+
     }
 
     @Override
@@ -194,7 +237,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     @Override
     public void onTrackDurationReceived(int duration) {
         mSeekBar.setMax(duration);
-        mDuration = duration;
+        updateSeekBar();
     }
 
     @Override
@@ -222,14 +265,12 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
                 .load(track.getThumbnail())
                 .into(ivSongImage);
 
-        mSeekBar.setProgress(0);
         updateSeekBar();
     }
 
     public void updateSeekBar() {
         Handler handler = new Handler();
         Runnable runnable;
-        int pos = mMusicPlayer.getCurrentPosition();
         mSeekBar.setProgress(mMusicPlayer.getCurrentPosition());
 
         if(mMusicPlayer.isPlaying()) {
@@ -245,22 +286,27 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
     @Override
     public void onPlaylistCreated(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistFailure(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistsNotReceived(Throwable throwable) {
+        // UNUSED
+    }
 
+    @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
     }
 
     @Override
@@ -280,7 +326,16 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
     @Override
     public void onFailure(Throwable throwable) {
+      
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
 
+
+    @Override
+    public void onFailure(Throwable throwable) {
+        Toast.makeText(getApplicationContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -78,6 +78,7 @@ public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapte
                 }
             });
             holder.mTitle.setText(mTracks.get(position).getName());
+            holder.mAuthor.setText(mTracks.get(position).getUser().getLogin());
 
             if (mTracks.get(position).isLiked()){
                 holder.mLike.setImageResource(R.drawable.ic_favorite_filled);
@@ -109,13 +110,15 @@ public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapte
         RelativeLayout mLayout;
         ImageView mPhoto;
         TextView mTitle;
+        TextView mAuthor;
         ImageButton mLike;
 
         public ViewHolder(@NonNull View itemView,  final OnItemClickListener listener) {
             super(itemView);
             mLayout = itemView.findViewById(R.id.item_track_layout);
-            mPhoto = itemView.findViewById(R.id.item_img);
-            mTitle = itemView.findViewById(R.id.item_title);
+            mPhoto = itemView.findViewById(R.id.am_image_iv);
+            mTitle = itemView.findViewById(R.id.am_title_tv);
+            mAuthor = itemView.findViewById(R.id.am_author_tv);
             mLike = itemView.findViewById(R.id.it_like_ib);
 
             mLike.setOnClickListener(new View.OnClickListener() {

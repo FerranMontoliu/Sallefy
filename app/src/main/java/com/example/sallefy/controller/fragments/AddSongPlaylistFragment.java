@@ -91,32 +91,32 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
 
     @Override
     public void onPlaylistCreated(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistFailure(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistReceived(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistNotReceived(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistUpdated(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistNotUpdated(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
@@ -148,5 +148,18 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
     @Override
     public void onFailure(Throwable throwable) {
 
+    @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+        Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }
 }

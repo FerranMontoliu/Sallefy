@@ -7,14 +7,13 @@
     android:gravity="center_vertical"
     android:background="@drawable/item_list_border">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/item_img"
+            android:id="@+id/am_image_tv"
             android:layout_width="@dimen/item_height_without_border"
             android:layout_height="@dimen/item_height_without_border"
             android:layout_centerVertical="true"
@@ -32,7 +31,7 @@
             android:layout_weight="2">
 
             <TextView
-                android:id="@+id/item_title"
+                android:id="@+id/am_title_tv"
                 style="@style/PlaylistNameTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +40,7 @@
                 android:textColor="@color/light"/>
 
             <TextView
-                android:id="@+id/item_author"
+                android:id="@+id/am_author_tv"
                 style="@style/AuthorNameTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

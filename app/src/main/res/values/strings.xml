@@ -12,7 +12,13 @@
     <string name="error_playlist_not_created">Error creating your playlist!</string>
     <string name="error_track_not_created">Error creating your track!</string>
     <string name="playlist_created_success">Playlist created!</string>
-
+    <string name="pick_an_image">You haven\'t picked an image!</string>
+    <string name="pick_a_document">You haven\'t picked a document!</string>
+    <string name="error_getting_genres">Error getting the genres!</string>
+    <string name="error_uploading_track">Error uploading the track!</string>
+    <string name="track_uploaded">Track uploaded successfully!</string>
+    <string name="error_enter_name">You must enter a name for the track!</string>
+    <string name="uploading_track">Uploading track… Please wait.</string>
 
     <!-- INFO TOASTS -->
     <string name="register_success">User registered successfully!</string>
@@ -54,14 +60,20 @@
     <string name="new_track">New track</string>
     <string name="default_username">Username</string>
     <string name="give_name_playlist">Give your playlist a name.</string>
-    <string name="give_name_track">Give your track a name.</string>
-    <string name="hint_create_track">Playlist title</string>
     <string name="hint_create_playlist">Playlist title</string>
     <string name="cancel_text_playlist">CANCEL</string>
     <string name="create_text_playlist">CREATE</string>
-    <string name="cancel_text_track">CANCEL</string>
-    <string name="add_text_track">ADD</string>
     <string name="own_tracks_playlist_name">Own tracks</string>
+    <string name="track_title_tv">Title</string>
+    <string name="hint_track_name">Enter the title of the track</string>
+    <string name="genre_title_tv">Genre</string>
+    <string name="upload_thumbnail_btn">Upload a thumbnail</string>
+    <string name="upload_track_btn">Upload a track</string>
+    <string name="create_track">Add a new track</string>
+    <string name="no_file_selected">No file selected</string>
+    <string name="add_text_track">ADD</string>
+    <string name="cancel_text_track">CANCEL</string>
+
 
     <!-- PLAYING SONG -->
     <string name="song_title">Song Title</string>
@@ -105,6 +117,7 @@
     <string name="follow">Follow</string>
     <string name="following">Following</string>
     <string name="shuffle_play">Shuffle Play</string>
+    <string name="pause">Pause</string>
     <string name="add_songs">Add Songs</string>
     <string name="track_name">Track name</string>
     <string name="track_author">Track author</string>

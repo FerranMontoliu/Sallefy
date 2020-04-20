@@ -173,12 +173,12 @@ public class OptionsFragment extends Fragment implements UserCallback {
 
     @Override
     public void onUserInfoReceived(User userData) {
-
+        // UNUSED
     }
 
     @Override
     public void onUsersReceived(List<User> users) {
-
+        //UNUSED
     }
 
     @Override

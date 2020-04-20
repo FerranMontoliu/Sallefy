@@ -80,7 +80,7 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 String playlistName = input.getText().toString();
-                if (playlistName.trim().equals("")) {
+                if (playlistName.trim().isEmpty()) {
                     Toast.makeText(getContext(), R.string.error_name_playlist, Toast.LENGTH_LONG).show();
                 } else {
                     Playlist playlist = new Playlist();
@@ -145,17 +145,28 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
 
     @Override
     public void onPlaylistFollowed() {
-
+      //UNUSED
     }
 
     @Override
     public void onPlaylistFollowError(Throwable throwable) {
-
+      //UNUSED
     }
 
     @Override
     public void onIsFollowedReceived(Followed followed) {
+      //UNUSED
+    }
 
+
+    @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
     }
 
     @Override

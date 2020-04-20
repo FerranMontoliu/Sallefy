@@ -41,7 +41,7 @@
         android:id="@+id/aps_song_image_iv"
         android:layout_width="275dp"
         android:layout_height="275dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +117,7 @@
         app:srcCompat="@drawable/ic_skip_next_light_48dp" />
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/aps_shuffle_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -130,7 +130,7 @@
         app:srcCompat="@drawable/ic_shuffle_light_28dp" />
 
     <ImageButton
-        android:id="@+id/imageButton5"
+        android:id="@+id/aps_loop_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -146,7 +146,9 @@
         android:id="@+id/aps_progress_sb"
         android:layout_width="360dp"
         android:layout_height="18dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/aps_play_pause_ib"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
