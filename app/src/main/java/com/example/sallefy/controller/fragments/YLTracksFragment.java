@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -83,6 +84,20 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
         intent.putExtra("track", track);
         intent.putExtra("playlist", ownTracksPlaylist);
         startActivity(intent);
+    }
+
+    @Override
+    public void onOptionsClick(Track track) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        Fragment prev = getFragmentManager().findFragmentByTag(TrackOptionsFragment.TAG);
+        if (prev != null) {
+            transaction.remove(prev);
+        }
+        transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
+        transaction.addToBackStack(null);
+        TrackOptionsFragment trackOptionsFragment = TrackOptionsFragment.getInstance(track);
+        trackOptionsFragment.show(transaction, TrackOptionsFragment.TAG);
     }
 
     @Override

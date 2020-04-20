@@ -1,7 +1,9 @@
 package com.example.sallefy.controller;
 
 import android.media.MediaPlayer;
+import android.widget.Toast;
 
+import com.example.sallefy.R;
 import com.example.sallefy.controller.callbacks.MusicPlayerCallback;
 import com.example.sallefy.controller.callbacks.PlayingSongCallback;
 import com.example.sallefy.model.Playlist;
@@ -347,5 +349,17 @@ public class MusicPlayer implements MusicPlayerCallback {
         }
 
         this.shuffle = shuffle;
+    }
+
+    public void addToQueue(Track track) {
+        mQueue.add(track);
+
+        if (mPrimaryPlayer == null) {
+            Playlist p = new Playlist();
+            p.setName("queue");
+            this.onNewTrackClicked(track, p);
+        } else {
+            prepareNextPlayer();
+        }
     }
 }

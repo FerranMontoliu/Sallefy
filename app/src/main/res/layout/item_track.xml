@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_track_layout"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/item_height"
     android:gravity="center_vertical"
     android:background="@drawable/item_list_border">
@@ -51,7 +52,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:backgroundTint="#00FFFFFF"
-        app:srcCompat="@drawable/ic_more_horiz_light" />
+        android:src="@drawable/ic_more_horiz_light"
+        android:layout_marginEnd="10dp" />
 
 
 </RelativeLayout>

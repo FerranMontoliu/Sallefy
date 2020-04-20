@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -149,5 +151,25 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
         intent.putExtra("track", track);
         intent.putExtra("playlist", mPlaylist);
         startActivity(intent);
+    }
+
+    @Override
+    public void onOptionsClick(Track track) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        Fragment prev = getFragmentManager().findFragmentByTag(TrackOptionsFragment.TAG);
+        if (prev != null) {
+            transaction.remove(prev);
+        }
+        transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
+        transaction.addToBackStack(null);
+        DialogFragment dialogFragment = TrackOptionsFragment.getInstance(track);
+        dialogFragment.show(transaction, TrackOptionsFragment.TAG);
+
+        /*getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up)
+                .replace(R.id.fragment_container, TrackOptionsFragment.getInstance(track), TrackOptionsFragment.TAG)
+                .addToBackStack(null)
+                .commit();*/
     }
 }

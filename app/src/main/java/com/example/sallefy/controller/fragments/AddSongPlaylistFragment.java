@@ -34,6 +34,8 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
     private TextView tvBackToSong;
     private PlaylistAdapterCallback mCallback;
 
+    public static final String TAG = AddSongPlaylistFragment.class.getName();
+
     public AddSongPlaylistFragment(PlaylistAdapterCallback callback) {
         mCallback = callback;
     }

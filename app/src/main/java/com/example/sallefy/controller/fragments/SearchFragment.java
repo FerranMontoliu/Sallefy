@@ -199,6 +199,20 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
     }
 
     @Override
+    public void onOptionsClick(Track track) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        Fragment prev = getFragmentManager().findFragmentByTag(TrackOptionsFragment.TAG);
+        if (prev != null) {
+            transaction.remove(prev);
+        }
+        transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
+        transaction.addToBackStack(null);
+        TrackOptionsFragment trackOptionsFragment = TrackOptionsFragment.getInstance(track);
+        trackOptionsFragment.show(transaction, TrackOptionsFragment.TAG);
+    }
+
+    @Override
     public void onPlaylistClick(Playlist playlist) {
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, PlaylistFragment.getInstance(playlist), PlaylistFragment.TAG)

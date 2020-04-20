@@ -122,4 +122,8 @@
     <string name="track_name">Track name</string>
     <string name="track_author">Track author</string>
 
+    <!-- TRACK OPTIONS -->
+    <string name="add_queue">Add to queue</string>
+    <string name="close">Close</string>
+
 </resources>
