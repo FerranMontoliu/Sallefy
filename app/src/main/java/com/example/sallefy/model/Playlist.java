@@ -137,4 +137,8 @@ public class Playlist implements Serializable {
     public void setLiked(boolean liked) {
         this.liked = liked;
     }
+
+    public void addTrack (Track track) {
+        tracks.add(track);
+    }
 }

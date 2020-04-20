@@ -11,17 +11,20 @@
     <string name="error_name_track">Error! You must enter a name!</string>
     <string name="error_playlist_not_created">Error creating your playlist!</string>
     <string name="error_track_not_created">Error creating your track!</string>
-    <string name="playlist_created_success">Playlist created!</string>
     <string name="pick_an_image">You haven\'t picked an image!</string>
     <string name="pick_a_document">You haven\'t picked a document!</string>
     <string name="error_getting_genres">Error getting the genres!</string>
     <string name="error_uploading_track">Error uploading the track!</string>
     <string name="track_uploaded">Track uploaded successfully!</string>
     <string name="error_enter_name">You must enter a name for the track!</string>
-    <string name="uploading_track">Uploading track… Please wait.</string>
+    <string name="error_adding_track">An error occurred while adding the selected track!</string>
+
 
     <!-- INFO TOASTS -->
     <string name="register_success">User registered successfully!</string>
+    <string name="uploading_track">Uploading track… Please wait.</string>
+    <string name="playlist_created_success">Playlist created!</string>
+    <string name="track_added">The track was added successfully!</string>
 
 
     <!-- MENU -->
@@ -86,6 +89,7 @@
     <string name="select_playlist">Select a Playlist</string>
     <string name="cancel">Cancel</string>
     <string name="playlist_thumbnail_description">Playlist thumbnail</string>
+    <string name="select_track">Select a track</string>
     
     
     <!-- HOME -->

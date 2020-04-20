@@ -49,6 +49,7 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
     private Button btnFollow;
     private Boolean mIsFollowed;
     private Button bShuffle;
+    private Button btnAddTrack;
 
     public static final String TAG = PlaylistFragment.class.getName();
 
@@ -56,8 +57,8 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         assert getArguments() != null;
-        mPlaylist = (Playlist)getArguments().getSerializable("playlist");
-        mIsFollowed = (Boolean)getArguments().getSerializable("isFollowed");
+        mPlaylist = (Playlist) getArguments().getSerializable("playlist");
+        mIsFollowed = (Boolean) getArguments().getSerializable("isFollowed");
     }
 
     @Override
@@ -81,9 +82,10 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
         tvPlaylisyName = v.findViewById(R.id.fp_playlist_name_tv);
         ibBack = v.findViewById(R.id.fp_back_ib);
         btnFollow = v.findViewById(R.id.fp_follow_b);
+        btnAddTrack = v.findViewById(R.id.fp_add_songs_b);
 
         ArrayList<Track> tracks = (ArrayList) mPlaylist.getTracks();
-        for (int i = 0; i  < tracks.size(); i++ ){
+        for (int i = 0; i  < tracks.size(); i++){
             TrackManager.getInstance(getContext()).checkLiked(tracks.get(i), PlaylistFragment.this, i);
         }
 
@@ -120,6 +122,22 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
                 if (fm.getBackStackEntryCount() > 0) {
                     fm.popBackStack();
                 }
+            }
+        });
+
+        btnAddTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddTrackToPlaylistFragment addTrackToPlaylistFragment = new AddTrackToPlaylistFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("playlist", mPlaylist);
+                addTrackToPlaylistFragment.setArguments(args);
+
+                getFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, addTrackToPlaylistFragment)
+                        .remove(PlaylistFragment.this)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
