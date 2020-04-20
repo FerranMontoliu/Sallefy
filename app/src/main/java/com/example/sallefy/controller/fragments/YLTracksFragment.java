@@ -93,7 +93,7 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
     public void onTracksReceived(List<Track> tracks) {
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        OwnTrackListAdapter adapter = new OwnTrackListAdapter((ArrayList<Track>) tracks, getContext(), YLTracksFragment.this, R.layout.item_own_track);
+        OwnTrackListAdapter adapter = new OwnTrackListAdapter((ArrayList<Track>) tracks, getContext(), YLTracksFragment.this, R.layout.item_track);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         ownTracksPlaylist = new Playlist();

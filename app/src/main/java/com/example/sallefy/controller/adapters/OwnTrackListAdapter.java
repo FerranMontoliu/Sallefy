@@ -92,11 +92,6 @@ public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapte
                         .placeholder(R.drawable.ic_audiotrack_60dp)
                         .load(mTracks.get(position).getThumbnail())
                         .into(holder.mPhoto);
-            } else {
-                Glide.with(mContext)
-                        .asBitmap()
-                        .load(R.drawable.ic_audiotrack_60dp)
-                        .into(holder.mPhoto);
             }
         }
     }
@@ -124,7 +119,7 @@ public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapte
             mLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onLikeClick(mTracks.get(position), position);
