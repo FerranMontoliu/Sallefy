@@ -24,6 +24,7 @@ import com.example.sallefy.controller.MusicPlayer;
 import com.example.sallefy.controller.activities.MainActivity;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
+import com.example.sallefy.controller.callbacks.PlayingSongCallback;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
@@ -31,7 +32,7 @@ import com.example.sallefy.model.Track;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PlaylistFragment extends Fragment implements TrackListAdapterCallback {
+public class PlaylistFragment extends Fragment implements TrackListAdapterCallback, PlayingSongCallback {
 
     private Playlist mPlaylist;
     private RecyclerView rvPlaylist;
@@ -146,11 +147,12 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
 
     @Override
     public void onTrackClick(Track track) {
-        Intent intent = new Intent(getContext(), PlayingSongActivity.class);
+        /*Intent intent = new Intent(getContext(), PlayingSongActivity.class);
         intent.putExtra("newTrack", true);
         intent.putExtra("track", track);
         intent.putExtra("playlist", mPlaylist);
-        startActivity(intent);
+        startActivity(intent);*/
+        MusicPlayer.getInstance().onSetNextTrack(track, mPlaylist);
     }
 
     @Override
@@ -171,5 +173,35 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
                 .replace(R.id.fragment_container, TrackOptionsFragment.getInstance(track), TrackOptionsFragment.TAG)
                 .addToBackStack(null)
                 .commit();*/
+    }
+
+    @Override
+    public void onErrorPreparingMediaPlayer() {
+
+    }
+
+    @Override
+    public void onTrackDurationReceived(int duration) {
+
+    }
+
+    @Override
+    public void onPlayTrack() {
+        MusicPlayer musicPlayer = MusicPlayer.getInstance();
+        if (musicPlayer.isReady() && musicPlayer.isPlaying() && musicPlayer.getCurrentPlaylist().equals(mPlaylist)) {
+            bShuffle.setText(R.string.pause);
+        } else {
+            bShuffle.setText(R.string.shuffle_play);
+        }
+    }
+
+    @Override
+    public void onPauseTrack() {
+        bShuffle.setText(R.string.shuffle_play);
+    }
+
+    @Override
+    public void onChangedTrack(Track track, Playlist playlist) {
+
     }
 }

@@ -97,8 +97,11 @@ public class TrackOptionsFragment extends DialogFragment {
         mAddQueue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MusicPlayer.getInstance().addToQueue(mTrack);
-                Toast.makeText(getContext(), mTrack.getName() + " added to queue", Toast.LENGTH_LONG).show();
+                if (MusicPlayer.getInstance().addToQueue(mTrack)) {
+                    Toast.makeText(getContext(), mTrack.getName() + " added to queue", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), "Can not add " + mTrack.getName() + " to queue", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

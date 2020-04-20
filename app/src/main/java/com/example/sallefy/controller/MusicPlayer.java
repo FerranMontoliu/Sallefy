@@ -42,8 +42,10 @@ public class MusicPlayer implements MusicPlayerCallback {
     private boolean shuffle;
     private boolean loop;
     private String state;
+    private boolean nextIsFine;
 
     private MusicPlayer(){
+        nextIsFine = false;
         shuffle = false;
         loop = false;
         mQueue = new LinkedList<>();
@@ -58,11 +60,15 @@ public class MusicPlayer implements MusicPlayerCallback {
                 mPrimaryPlayer.setPrepared(true);
                 mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
                 if (mPrimaryPlayer.isWaiting()) {
-                    playTrack();
+                    //playTrack();
                     mPrimaryPlayer.setWaiting(false);
                 }
                 playTrack();
-                prepareNextPlayer();
+                if (!nextIsFine) {
+                    prepareNextPlayer();
+                } else {
+                    nextIsFine = false;
+                }
             }
         };
 
@@ -109,15 +115,19 @@ public class MusicPlayer implements MusicPlayerCallback {
 
         //Fem el canvi de canço, si ha passat una estona ja estara preparada
         if (mNextPlayer != null) {
+
+            if (mNextPlayer.getmCurrentPlaylistTrack() == -1)
+                mQueue.remove();
+
             mPrimaryPlayer = mNextPlayer;
             mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
             mCurrentPlaylistTrack = mPrimaryPlayer.getmCurrentPlaylistTrack() != -1 ? mPrimaryPlayer.getmCurrentPlaylistTrack() : mCurrentPlaylistTrack;
             prepareNextPlayer();
 
-            mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
             if (mPrimaryPlayer.isPrepared()) {
+                mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
                 mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
-                mPrimaryPlayer.seekTo(0);
+                restart();
             }
             playTrack();
 
@@ -211,6 +221,38 @@ public class MusicPlayer implements MusicPlayerCallback {
         }
     }
 
+    @Override
+    public void onSetNextTrack(Track track, Playlist playlist) {
+        if (mPrimaryPlayer == null) {
+            this.onNewTrackClicked(track, playlist);
+
+        } else {
+            if (mPrimaryPlayer.isPrepared())
+                mPrimaryPlayer.pause();
+
+            state = PLAY_VIEW;
+
+            if (playlist != null && playlist.getTracks() != null) {
+                mCurrentPlaylistTrack = getIndexOnPlaylist(track, playlist);
+
+                if (mCurrentPlaylistTrack != -1) {
+                    mPlaylist = playlist;
+                } else{
+                    mPlaylist = null;
+                }
+
+            } else {
+                mPlaylist = null;
+            }
+
+            mPrimaryPlayer = new CustomMediaPlayer(track, mPlaylist, mCurrentPlaylistTrack);
+            mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
+            mPrimaryPlayer.setPrepared(false);
+            preparePlayer(mPrimaryPlayer);
+            nextIsFine = true;
+        }
+    }
+
     private void playTrack() {
         if(mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()) {
             state = PAUSE_VIEW;
@@ -238,7 +280,8 @@ public class MusicPlayer implements MusicPlayerCallback {
         if (!mQueue.isEmpty()) {
             playlist = new Playlist();
             playlist.setName("Queue");
-            track = mQueue.element();
+            track = mQueue.peek();
+            trackIndex = -1;
 
         } else if (mPlaylist != null) {
             playlist = mPlaylist;
@@ -351,15 +394,19 @@ public class MusicPlayer implements MusicPlayerCallback {
         this.shuffle = shuffle;
     }
 
-    public void addToQueue(Track track) {
-        mQueue.add(track);
-
-        if (mPrimaryPlayer == null) {
-            Playlist p = new Playlist();
-            p.setName("queue");
-            this.onNewTrackClicked(track, p);
-        } else {
-            prepareNextPlayer();
+    public boolean addToQueue(Track track) {
+        try {
+            if (mPrimaryPlayer == null) {
+                Playlist p = new Playlist();
+                p.setName("queue");
+                this.onNewTrackClicked(track, p);
+            } else {
+                mQueue.add(track);
+                prepareNextPlayer();
+            }
+            return true;
+        } catch (IllegalStateException e) {
+            return false;
         }
     }
 }
