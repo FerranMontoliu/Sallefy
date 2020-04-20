@@ -23,14 +23,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sallefy.R;
 import com.example.sallefy.controller.MusicPlayer;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
-import com.example.sallefy.controller.adapters.PlaylistListAdapter;
 import com.example.sallefy.controller.adapters.SearchPlaylistListAdapter;
 import com.example.sallefy.controller.adapters.SearchUserListAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
+import com.example.sallefy.controller.callbacks.UserListAdapterCallback;
+import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.callback.SearchCallback;
+import com.example.sallefy.controller.restapi.callback.TrackCallback;
+import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.controller.restapi.manager.SearchManager;
+import com.example.sallefy.controller.restapi.manager.TrackManager;
+import com.example.sallefy.model.Followed;
+import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Search;
 import com.example.sallefy.model.Track;
@@ -38,9 +44,9 @@ import com.example.sallefy.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.List;
 
-public class SearchFragment extends Fragment implements SearchCallback, TrackListAdapterCallback, PlaylistAdapterCallback {
+public class SearchFragment extends Fragment implements SearchCallback, TrackListAdapterCallback, PlaylistAdapterCallback, UserListAdapterCallback, PlaylistCallback, TrackCallback {
     public static final String TAG = SearchFragment.class.getName();
 
     private FragmentManager mFragmentManager;
@@ -52,6 +58,8 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
 
     private BottomNavigationView mNav;
 
+    private RecyclerView searchRV;
+
     private CheckBox backBtn;
 
     private EditText etSearch;
@@ -59,6 +67,8 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
     private TextView tvTracks;
     private TextView tvPlaylists;
     private TextView tvUsers;
+
+    private Playlist mPlaylist;
 
     private ArrayList<User> mUsers;
     private ArrayList<Track> mTracks;
@@ -96,13 +106,14 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
             }
         });
         //Set Recycler Views
-        playlistsRV = v.findViewById(R.id.search_playlists_rv);
-        tracksRV = v.findViewById(R.id.search_tracks_rv);
-        usersRV = v.findViewById(R.id.search_profiles_rv);
+        //searchRV = v.findViewById(R.id.search_group_rv);
+        playlistsRV = v.findViewById(R.id.playlists_rv);
+        tracksRV = v.findViewById(R.id.tracks_rv);
+        usersRV = v.findViewById(R.id.users_rv);
 
-        tvPlaylists = v.findViewById(R.id.search_playlists_text);
-        tvUsers = v.findViewById(R.id.search_users_text);
-        tvTracks = v.findViewById(R.id.search_tracks_text);
+        tvPlaylists = v.findViewById(R.id.playlists_text);
+        tvUsers = v.findViewById(R.id.users_text);
+        tvTracks = v.findViewById(R.id.tracks_text);
 
         backBtn = v.findViewById(R.id.back_btn_search);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +124,30 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
                     fm.popBackStack();
                 }
             }
+        });
+
+        playlistsRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
+        tracksRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
+        usersRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
+
+
+        //Create Recycler View Adapters
+        TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), null, SearchFragment.this, SearchFragment.this, R.layout.track_item);
+        SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), null, SearchFragment.this);
+        SearchUserListAdapter adapterUL = new SearchUserListAdapter(this.getContext(), null, SearchFragment.this);
+
+        //Set adapters
+        playlistsRV.setAdapter(adapterPL);
+        tracksRV.setAdapter(adapterTL);
+        usersRV.setAdapter(adapterUL);
+
+        adapterTL.setOnItemClickListener(new TrackListAdapter.OnItemClickListener() {
+
+            @Override
+            public void onLikeClick(Track track, int position) {
+                TrackManager.getInstance(getContext()).likeTrack(track, SearchFragment.this, position);
+            }
+
         });
 
         SearchManager.getInstance(getContext()).getSearchResults(etSearch.getText().toString(), SearchFragment.this);
@@ -137,30 +172,28 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
 
     @Override
     public void onSearchResultsReceived(Search results) {
-        //Recycler View LAYOUT MANAGERS
-        playlistsRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
-        tracksRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
-        usersRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
 
         //getSearchResults
         mTracks = (ArrayList<Track>)results.getTracks();
         mUsers = (ArrayList<User>)results.getUsers();
         mPlaylists = (ArrayList<Playlist>)results.getPlaylists();
 
-        tvTracks.setVisibility(View.GONE);
-        tvUsers.setVisibility(View.GONE);
-        tvPlaylists.setVisibility(View.GONE);
-
-        if(mTracks.size() != 0){
-            tvTracks.setVisibility(View.VISIBLE);
-        }
-
-        if(mUsers.size() != 0){
-            tvUsers.setVisibility(View.VISIBLE);
-        }
-
-        if(mPlaylists.size() != 0){
+        if(mPlaylists != null && mPlaylists.size() != 0){
             tvPlaylists.setVisibility(View.VISIBLE);
+        } else {
+            tvPlaylists.setVisibility(View.GONE);
+        }
+
+        if(mTracks != null && mTracks.size() != 0){
+            tvTracks.setVisibility(View.VISIBLE);
+        } else {
+            tvTracks.setVisibility(View.GONE);
+        }
+
+        if(mUsers != null && mUsers.size() != 0){
+            tvUsers.setVisibility(View.VISIBLE);
+        } else {
+            tvUsers.setVisibility(View.GONE);
         }
 
         if(mPlaylists.size() == 0 && mUsers.size() == 0 && mTracks.size() == 0){
@@ -168,15 +201,14 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
         }
 
         //Create Recycler View Adapters
-        TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks, SearchFragment.this, R.layout.track_item);
+        TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks, SearchFragment.this, SearchFragment.this, R.layout.track_item);
         SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), mPlaylists, SearchFragment.this);
-        SearchUserListAdapter adapterUL = new SearchUserListAdapter(this.getContext(), mUsers);
+        SearchUserListAdapter adapterUL = new SearchUserListAdapter(this.getContext(), mUsers, SearchFragment.this);
 
         //Set adapters
         playlistsRV.setAdapter(adapterPL);
         tracksRV.setAdapter(adapterTL);
         usersRV.setAdapter(adapterUL);
-
     }
 
     @Override
@@ -219,9 +251,114 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
+        mPlaylist = playlist;
+        PlaylistManager.getInstance(getContext()).chechFollowed(playlist, SearchFragment.this);
+    }
+
+    @Override
+    public void onUserClick(User user) {
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, PlaylistFragment.getInstance(playlist), PlaylistFragment.TAG)
+                .replace(R.id.fragment_container, UserFragment.getInstance(user), UserFragment.TAG)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onPlaylistCreated(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistReceived(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistNotReceived(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistUpdated(Playlist playlist) {
+
+    }
+
+    @Override
+    public void onPlaylistNotUpdated(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPlaylistsReceived(List<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onPlaylistsNotReceived(Throwable throwable) {
+        //UNUSED
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+        //UNUSED
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+        //UNUSED
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, PlaylistFragment.getInstance(mPlaylist, followed.getFollowed()), PlaylistFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        //UNUSED
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onTracksReceived(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onNoTracks(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackLiked(int position) {
+        ((TrackListAdapter)tracksRV.getAdapter()).changeTrackLikeStateIcon(position);
+        tracksRV.getAdapter().notifyItemChanged(position);
+    }
+
+    @Override
+    public void onTrackLikedError(Throwable throwable) {
+    }
+
+    @Override
+    public void onTrackLikedReceived(Liked liked, int position) {
+        ((TrackListAdapter)tracksRV.getAdapter()).updateTrackLikeStateIcon(position, liked.getLiked());
+        tracksRV.getAdapter().notifyItemChanged(position);
+    }
+
+    @Override
+    public void onCreateTrack() {
+
     }
 }

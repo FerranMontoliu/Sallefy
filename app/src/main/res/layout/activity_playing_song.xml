@@ -41,7 +41,7 @@
         android:id="@+id/fto_thumbnail_iv"
         android:layout_width="@dimen/track_thumbnail_big"
         android:layout_height="@dimen/track_thumbnail_big"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,6 +82,17 @@
         android:textAppearance="@style/ArtistNameTheme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aps_song_name" />
+
+    <ImageButton
+        android:id="@+id/aps_like_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/aps_artist_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/aps_song_name"
+        app:srcCompat="@drawable/ic_favorite_unfilled" />
 
     <ImageButton
         android:id="@+id/aps_prev_ib"

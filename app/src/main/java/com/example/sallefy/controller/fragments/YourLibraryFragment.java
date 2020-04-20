@@ -1,12 +1,16 @@
 package com.example.sallefy.controller.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -25,7 +29,10 @@ import com.example.sallefy.controller.adapters.OwnUserAdapter;
 import com.example.sallefy.controller.callbacks.FragmentCallback;
 import com.example.sallefy.controller.callbacks.OwnUserAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.UserCallback;
+import com.example.sallefy.controller.restapi.manager.PlaylistManager;
 import com.example.sallefy.controller.restapi.manager.UserManager;
+import com.example.sallefy.model.PasswordChange;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.User;
 import com.example.sallefy.utils.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -234,12 +241,24 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
 
     @Override
     public void onAccountDeleted() {
-
+        //UNUSED
     }
 
     @Override
     public void onDeleteFailure(Throwable throwable) {
+        //UNUSED
+    }
 
+    @Override
+    public void onPasswordChanged(DialogInterface dialog) {
+        dialog.dismiss();
+        Toast.makeText(getContext(), R.string.password_changed_toast, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPasswordChangeFailure(Throwable throwable, DialogInterface dialog) {
+        Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_LONG).show();
+        Log.d(TAG, "Error: " + throwable.getMessage());
     }
 
     @Override
@@ -249,10 +268,51 @@ public class YourLibraryFragment extends Fragment implements UserCallback, Fragm
 
     @Override
     public void onUserSettingsButtonClick(User user) {
-        assert getFragmentManager() != null;
-        getFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, new UserSettingsFragment())
-                .remove(YourLibraryFragment.this)
-                .commit();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.change_password);
+        View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.fragment_popup_change_password, (ViewGroup) getView(), false);
+
+        final EditText currentPassword = viewInflated.findViewById(R.id.current_password);
+        final EditText newPassword = viewInflated.findViewById(R.id.new_password);
+        builder.setView(viewInflated);
+
+        builder.setPositiveButton(R.string.change_password_accept, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel_change_password, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                String strPassword = currentPassword.getText().toString();
+                String strNewPassword = newPassword.getText().toString();
+                if (strNewPassword.trim().isEmpty()) {
+                    newPassword.setError(getContext().getString(R.string.empty_field_error));
+                }
+
+                if (strPassword.trim().isEmpty()) {
+                    currentPassword.setError(getContext().getString(R.string.empty_field_error));
+                }
+
+                if (!strPassword.trim().isEmpty() && !strNewPassword.trim().isEmpty()){
+                    PasswordChange password_change = new PasswordChange(strPassword, strNewPassword);
+                    UserManager.getInstance(getContext()).changePassword(password_change, YourLibraryFragment.this, dialog);
+                }
+            }
+        });
+
     }
+
 }

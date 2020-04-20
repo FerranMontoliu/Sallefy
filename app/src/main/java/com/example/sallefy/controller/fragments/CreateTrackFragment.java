@@ -26,6 +26,7 @@ import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.CloudinaryManager;
 import com.example.sallefy.controller.restapi.manager.GenreManager;
 import com.example.sallefy.model.Genre;
+import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Track;
 
 import java.io.FileNotFoundException;
@@ -199,6 +200,21 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
     public void onNoTracks(Throwable throwable) {
         Toast.makeText(getContext(), R.string.error_uploading_track, Toast.LENGTH_LONG).show();
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onTrackLiked(int position) {
+
+    }
+
+    @Override
+    public void onTrackLikedError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onTrackLikedReceived(Liked liked, int position) {
+
     }
 
     @Override

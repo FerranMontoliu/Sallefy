@@ -21,6 +21,7 @@ import com.example.sallefy.controller.adapters.OwnPlaylistListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 
 import java.util.ArrayList;
@@ -143,6 +144,32 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
     }
 
     @Override
+    public void onPlaylistFollowed() {
+      //UNUSED
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+      //UNUSED
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
+      //UNUSED
+    }
+
+
+    @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }
@@ -151,7 +178,7 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
     public void onPlaylistClick(Playlist playlist) {
         assert getParentFragment() != null;
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, PlaylistFragment.getInstance(playlist))
+                .add(R.id.fragment_container, PlaylistFragment.getInstance(playlist, true))
                 .remove(getParentFragment())
                 .addToBackStack(null)
                 .commit();

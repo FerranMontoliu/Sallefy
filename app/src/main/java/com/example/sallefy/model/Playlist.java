@@ -30,6 +30,9 @@ public class Playlist implements Serializable {
     @SerializedName("owner")
     private User user;
 
+    @SerializedName("liked")
+    private boolean liked;
+
     @SerializedName("tracks")
     private List<Track> tracks = null;
 
@@ -125,5 +128,17 @@ public class Playlist implements Serializable {
             return false;
 
         return ((Playlist)obj).getId().equals(this.id);
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
+    public void addTrack (Track track) {
+        tracks.add(track);
     }
 }

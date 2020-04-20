@@ -1,6 +1,7 @@
 package com.example.sallefy.controller.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: called.");
         View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         return new UserListAdapter.ViewHolder(itemView);
     }

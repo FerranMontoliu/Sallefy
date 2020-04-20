@@ -20,6 +20,7 @@ import com.example.sallefy.controller.adapters.PlaylistGroupListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.PlaylistGroup;
 
@@ -28,9 +29,17 @@ import java.util.List;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment implements PlaylistAdapterCallback, PlaylistCallback {
+
     public static final String TAG = HomeFragment.class.getName();
+
+    private final static int POPULAR_PLAYLISTS = 0;
+    private final static int DISCOVER_PLAYLISTS = 1;
+    private final static int LIKED_PLAYLISTS = 2;
+
+
     private ArrayList<PlaylistGroup> mPlaylistGroups;
     private RecyclerView rvPlaylistGroups;
+    private Playlist mPlaylist;
 
     public static HomeFragment getInstance() {
         return new HomeFragment();
@@ -44,7 +53,8 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
         mPlaylistGroups.add(new PlaylistGroup(getContext().getString(R.string.discover_playlists), null));
         mPlaylistGroups.add(new PlaylistGroup(getContext().getString(R.string.liked_playlists), null));
 
-        PlaylistManager.getInstance(getContext()).getOwnPlaylists(HomeFragment.this);
+        PlaylistManager.getInstance(getContext()).getAllPlaylistsByMostFollowed(HomeFragment.this);
+        PlaylistManager.getInstance(getContext()).getAllPlaylistsByMostRecent(HomeFragment.this);
     }
 
     @Nullable
@@ -87,53 +97,43 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
 
     @Override
     public void onPlaylistClick(Playlist playlist) {
-
-        getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, PlaylistFragment.getInstance(playlist), PlaylistFragment.TAG)
-                .addToBackStack(null)
-                .commit();
-
+        mPlaylist = playlist;
+        PlaylistManager.getInstance(getContext()).chechFollowed(playlist, HomeFragment.this);
     }
 
     @Override
     public void onPlaylistCreated(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistFailure(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistReceived(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistNotReceived(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistUpdated(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistNotUpdated(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
-
-        for (PlaylistGroup playlistGroup : mPlaylistGroups) {
-            playlistGroup.setPlaylists((ArrayList)playlists);
-        }
-
-        PlaylistGroupListAdapter adapter = new PlaylistGroupListAdapter(getContext(), mPlaylistGroups, HomeFragment.this);
-        rvPlaylistGroups.setAdapter(adapter);
+        // UNUSED
     }
 
     @Override
@@ -142,7 +142,51 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
     }
 
     @Override
-    public void onFailure(Throwable throwable) {
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        mPlaylistGroups.get(DISCOVER_PLAYLISTS).setPlaylists((ArrayList) playlists);
 
+        ArrayList<Playlist> likedPlaylists = new ArrayList<>();
+
+        for (Playlist p : playlists) {
+            if (p.isLiked()) {
+                likedPlaylists.add(p);
+            }
+        }
+
+        mPlaylistGroups.get(LIKED_PLAYLISTS).setPlaylists(likedPlaylists);
+
+        PlaylistGroupListAdapter adapter = new PlaylistGroupListAdapter(getContext(), mPlaylistGroups, HomeFragment.this);
+        rvPlaylistGroups.setAdapter(adapter);
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+        mPlaylistGroups.get(POPULAR_PLAYLISTS).setPlaylists((ArrayList) playlists);
+
+        PlaylistGroupListAdapter adapter = new PlaylistGroupListAdapter(getContext(), mPlaylistGroups, HomeFragment.this);
+        rvPlaylistGroups.setAdapter(adapter);
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, PlaylistFragment.getInstance(mPlaylist, followed.getFollowed()), PlaylistFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+        Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }
 }

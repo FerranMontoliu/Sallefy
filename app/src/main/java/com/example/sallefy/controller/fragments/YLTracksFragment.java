@@ -21,9 +21,12 @@ import com.example.sallefy.R;
 import com.example.sallefy.controller.MusicPlayer;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.OwnTrackListAdapter;
+import com.example.sallefy.controller.adapters.TrackListAdapter;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.TrackManager;
+import com.example.sallefy.model.Followed;
+import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
@@ -102,20 +105,51 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
         trackOptionsFragment.show(transaction, TrackOptionsFragment.TAG);
     }
 
+
     @Override
     public void onTracksReceived(List<Track> tracks) {
+
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        OwnTrackListAdapter adapter = new OwnTrackListAdapter((ArrayList<Track>) tracks, getContext(), YLTracksFragment.this, R.layout.item_own_track);
+        OwnTrackListAdapter adapter = new OwnTrackListAdapter((ArrayList<Track>) tracks, getContext(), YLTracksFragment.this, R.layout.item_track);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         ownTracksPlaylist = new Playlist();
         ownTracksPlaylist.setName(getContext().getString(R.string.own_tracks_playlist_name));
         ownTracksPlaylist.setTracks(tracks);
+        for (int i = 0; i  < tracks.size(); i++ ){
+            TrackManager.getInstance(getContext()).checkLiked(tracks.get(i), YLTracksFragment.this, i);
+        }
+        adapter.setOnItemClickListener(new OwnTrackListAdapter.OnItemClickListener() {
+
+            @Override
+            public void onLikeClick(Track track, int position) {
+                TrackManager.getInstance(getContext()).likeTrack(track, YLTracksFragment.this, position);
+            }
+
+        });
     }
 
     @Override
     public void onNoTracks(Throwable throwable) {
         Toast.makeText(getContext(), R.string.error_getting_tracks, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTrackLiked(int position) {
+        ((OwnTrackListAdapter)recyclerView.getAdapter()).changeTrackLikeStateIcon(position);
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onTrackLikedError(Throwable throwable) {
+        Toast.makeText(getContext(), "Action failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTrackLikedReceived(Liked liked, int position) {
+        ((OwnTrackListAdapter)recyclerView.getAdapter()).updateTrackLikeStateIcon(position, liked.getLiked());
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     @Override

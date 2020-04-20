@@ -22,6 +22,7 @@ import com.example.sallefy.controller.adapters.OwnPlaylistListAdapter2;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 
 import java.util.ArrayList;
@@ -92,32 +93,32 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
 
     @Override
     public void onPlaylistCreated(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistFailure(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistReceived(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistNotReceived(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistUpdated(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistNotUpdated(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
@@ -132,7 +133,33 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
     }
 
     @Override
-    public void onFailure(Throwable throwable) {
+    public void onPlaylistFollowed() {
 
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
+
+    }
+
+
+    @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+        Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }
 }
