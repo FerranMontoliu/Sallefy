@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
-import com.example.sallefy.controller.activities.MainActivity;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.OwnTrackListAdapter;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
@@ -29,6 +27,7 @@ import com.example.sallefy.model.Track;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class YLTracksFragment extends Fragment implements TrackCallback, TrackListAdapterCallback {
     public static final String TAG = YLTracksFragment.class.getName();
@@ -55,7 +54,12 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
         addTrackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup();
+                assert getParentFragment() != null;
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, CreateTrackFragment.getInstance())
+                        .remove(getParentFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
@@ -66,36 +70,6 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
         return v;
     }
 
-    private void showPopup() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(R.string.give_name_track);
-        View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.fragment_popup_create_track, (ViewGroup) getView(), false);
-
-        final EditText input = viewInflated.findViewById(R.id.input);
-        builder.setView(viewInflated);
-
-        builder.setPositiveButton(R.string.add_text_track, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                String trackName = input.getText().toString();
-                if (trackName.trim().equals("")) {
-                    Toast.makeText(getContext(), R.string.error_name_track, Toast.LENGTH_LONG).show();
-                } else {
-                    // TODO: API call adding track
-                }
-            }
-        });
-
-        builder.setNegativeButton(R.string.cancel_text_track, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
 
     @Override
     public void onFailure(Throwable throwable) {
@@ -125,5 +99,10 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
     @Override
     public void onNoTracks(Throwable throwable) {
         Toast.makeText(getContext(), R.string.error_getting_tracks, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateTrack() {
+        // UNUSED
     }
 }

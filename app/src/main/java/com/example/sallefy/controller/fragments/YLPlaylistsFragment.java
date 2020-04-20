@@ -79,7 +79,7 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 String playlistName = input.getText().toString();
-                if (playlistName.trim().equals("")) {
+                if (playlistName.trim().isEmpty()) {
                     Toast.makeText(getContext(), R.string.error_name_playlist, Toast.LENGTH_LONG).show();
                 } else {
                     Playlist playlist = new Playlist();
