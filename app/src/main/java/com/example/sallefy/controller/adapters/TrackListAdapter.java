@@ -74,11 +74,13 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.tvTitle.setText(mTracks.get(position).getName());
         holder.tvAuthor.setText(mTracks.get(position).getUserLogin());
-        Glide.with(mContext)
-            .asBitmap()
-            .placeholder(R.drawable.ic_library_music)
-            .load(mTracks.get(position).getThumbnail())
-            .into(holder.ivPicture);
+        if(mTracks.get(position).getThumbnail() != null) {
+            Glide.with(mContext)
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_library_music)
+                    .load(mTracks.get(position).getThumbnail())
+                    .into(holder.ivPicture);
+        }
 
         if (mLayoutId == R.layout.item_track) {
             if (mTracks.get(position).isLiked()){
