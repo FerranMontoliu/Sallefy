@@ -45,7 +45,7 @@ public class CloudinaryManager extends AppCompatActivity {
         mFileName = fileName;
         Map<String, Object> options = new HashMap<>();
         options.put("public_id", fileName);
-        options.put("folder", "sallefy/songs/mobile");
+        options.put("folder", "sallefy/songs");
         options.put("resource_type", "video");
 
         MediaManager.get().upload(fileUri)
@@ -58,7 +58,7 @@ public class CloudinaryManager extends AppCompatActivity {
     public synchronized void uploadThumbnailFile(Uri fileUri, String fileName) {
         Map<String, Object> options = new HashMap<>();
         options.put("public_id", fileName);
-        options.put("folder", "sallefy/thumbnails/mobile");
+        options.put("folder", "sallefy/thumbnails");
         options.put("resource_type", "image");
 
         MediaManager.get().upload(fileUri)

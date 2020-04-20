@@ -104,6 +104,7 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
             @Override
             public void onClick(View v) {
                 if (!etTitle.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), R.string.uploading_track, Toast.LENGTH_LONG).show();
                     if (thumbnailUri != null) {
                         CloudinaryManager.getInstance(getContext(), CreateTrackFragment.this).uploadThumbnailFile(thumbnailUri, thumbnailName);
                     }
@@ -111,8 +112,6 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
                             etTitle.getText().toString(),
                             genres.get(genreSpinner.getSelectedItemPosition()));
 
-                    assert getParentFragment() != null;
-                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
                 } else {
                     Toast.makeText(getContext(), R.string.error_enter_name, Toast.LENGTH_LONG).show();
                 }
@@ -199,10 +198,12 @@ public class CreateTrackFragment extends Fragment implements GenreCallback, Trac
     @Override
     public void onNoTracks(Throwable throwable) {
         Toast.makeText(getContext(), R.string.error_uploading_track, Toast.LENGTH_LONG).show();
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
     }
 
     @Override
     public void onCreateTrack() {
         Toast.makeText(getContext(), R.string.track_uploaded, Toast.LENGTH_LONG).show();
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
     }
 }
