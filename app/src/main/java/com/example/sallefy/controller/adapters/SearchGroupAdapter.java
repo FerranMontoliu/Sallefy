@@ -56,11 +56,11 @@ public class SearchGroupAdapter extends RecyclerView.Adapter<SearchGroupAdapter.
             holder.tvTitle.setText(mSearchGroups.get(position).getGroupName());
             holder.recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
 
-            if (mSearchGroups.get(position).getGroupName() == "Playlists") {
+            if (mSearchGroups.get(position).getGroupName().equals("Playlists")) {
                 SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(mContext, (ArrayList<Playlist>) mSearchGroups.get(position).getList(), mView);
                 holder.recyclerView.setAdapter(adapterPL);
 
-            } else if (mSearchGroups.get(position).getGroupName() == "Tracks") {
+            } else if (mSearchGroups.get(position).getGroupName().equals("Tracks")) {
                 TrackListAdapter adapterTL = new TrackListAdapter(mContext, (ArrayList<Track>) mSearchGroups.get(position).getList(), mView, mView, R.layout.track_item);
                 holder.recyclerView.setAdapter(adapterTL);
                 adapterTL.setOnItemClickListener(new TrackListAdapter.OnItemClickListener() {
@@ -72,21 +72,21 @@ public class SearchGroupAdapter extends RecyclerView.Adapter<SearchGroupAdapter.
 
                 });
 
-            } else if (mSearchGroups.get(position).getGroupName() == "Users") {
+            } else if (mSearchGroups.get(position).getGroupName().equals("Users")) {
                 SearchUserListAdapter adapterUL = new SearchUserListAdapter(mContext, (ArrayList<User>) mSearchGroups.get(position).getList(), mView);
                 holder.recyclerView.setAdapter(adapterUL);
             }
-        }
 
-        holder.recyclerView.getAdapter().notifyDataSetChanged();
-        holder.recyclerView.setNestedScrollingEnabled(false);
+            holder.recyclerView.getAdapter().notifyDataSetChanged();
+
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        if(mSearchGroups != null){
-            return 1;
+        if(mSearchGroups != null) {
+            return mSearchGroups.size();
         } else {
             return 0;
         }
