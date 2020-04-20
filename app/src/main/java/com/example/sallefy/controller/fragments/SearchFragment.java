@@ -185,28 +185,26 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
         mUsers = (ArrayList<User>)results.getUsers();
         mPlaylists = (ArrayList<Playlist>)results.getPlaylists();
 
-        if(mPlaylists != null){
+        if(mPlaylists != null && mPlaylists.size() != 0){
             tvPlaylists.setVisibility(View.VISIBLE);
         } else {
             tvPlaylists.setVisibility(View.GONE);
         }
 
-        if(mTracks != null){
+        if(mTracks != null && mTracks.size() != 0){
             tvTracks.setVisibility(View.VISIBLE);
         } else {
-            tvPlaylists.setVisibility(View.GONE);
+            tvTracks.setVisibility(View.GONE);
         }
 
-        if(mUsers != null){
+        if(mUsers != null && mUsers.size() != 0){
             tvUsers.setVisibility(View.VISIBLE);
         } else {
-            tvPlaylists.setVisibility(View.GONE);
+            tvUsers.setVisibility(View.GONE);
         }
 
         if(mPlaylists.size() == 0 && mUsers.size() == 0 && mTracks.size() == 0){
             Toast.makeText(getContext(), R.string.search_empty_results, Toast.LENGTH_SHORT).show();
-        } else {
-            tvPlaylists.setVisibility(TextView.GONE);
         }
 
 
