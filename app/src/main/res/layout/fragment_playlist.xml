@@ -27,6 +27,7 @@
         android:text="@string/follow"
         android:textColor="@color/light"
         android:textSize="12sp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +58,7 @@
         android:background="@drawable/secondary_button"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-
+        android:visibility="visible"
         android:text="@string/add_songs"
         android:textColor="@color/light"
         android:textSize="12sp"

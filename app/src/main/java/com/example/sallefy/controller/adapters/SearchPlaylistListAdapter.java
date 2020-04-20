@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,21 +44,24 @@ public class SearchPlaylistListAdapter extends RecyclerView.Adapter<SearchPlayli
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.tvPlaylistName.setText(mPlaylists.get(position).getName());
-        holder.tvPlaylistOwner.setText(mPlaylists.get(position).getUserLogin());
-
-        Glide.with(mContext)
-                .asBitmap()
-                .placeholder(R.drawable.ic_library_music)
-                .load(mPlaylists.get(position).getThumbnail())
-                .into(holder.ivPicture);
-
-        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallback.onPlaylistClick(mPlaylists.get(position));
+        if (mPlaylists != null && mPlaylists.size() > 0) {
+            holder.mLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mCallback != null)
+                        mCallback.onPlaylistClick(mPlaylists.get(position));
+                }
+            });
+            holder.mTitle.setText(mPlaylists.get(position).getName());
+            holder.mAuthor.setText(mPlaylists.get(position).getUser().getLogin());
+            if (mPlaylists.get(position).getThumbnail() != null) {
+                Glide.with(mContext)
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_audiotrack_60dp)
+                        .load(mPlaylists.get(position).getThumbnail())
+                        .into(holder.mPhoto);
             }
-        });
+        }
     }
 
     @Override
@@ -66,18 +70,17 @@ public class SearchPlaylistListAdapter extends RecyclerView.Adapter<SearchPlayli
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvPlaylistName;
-        TextView tvPlaylistOwner;
-        ImageView ivPicture;
-        RelativeLayout relativeLayout;
+        RelativeLayout mLayout;
+        ImageView mPhoto;
+        TextView mTitle;
+        TextView mAuthor;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvPlaylistName = itemView.findViewById(R.id.am_title_tv);
-            tvPlaylistOwner = itemView.findViewById(R.id.am_author_tv);
-            ivPicture = itemView.findViewById(R.id.am_image_iv);
-            relativeLayout = itemView.findViewById(R.id.item_playlist_layout);
+            mLayout = itemView.findViewById(R.id.item_playlist_layout);
+            mPhoto = itemView.findViewById(R.id.item_img);
+            mTitle = itemView.findViewById(R.id.item_title);
+            mAuthor = itemView.findViewById(R.id.item_author);
         }
     }
 }

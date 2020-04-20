@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -21,58 +22,57 @@ import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.OwnTrackListAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
+import com.example.sallefy.controller.restapi.callback.ProfileCallback;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
+import com.example.sallefy.controller.restapi.manager.ProfileManager;
 import com.example.sallefy.controller.restapi.manager.TrackManager;
 import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class YLTracksFragment extends Fragment implements TrackCallback, TrackListAdapterCallback {
-    public static final String TAG = YLTracksFragment.class.getName();
+public class UTracksFragment extends Fragment implements ProfileCallback, TrackListAdapterCallback, TrackCallback {
+    public static final String TAG = UTracksFragment.class.getName();
 
-    public static YLTracksFragment getInstance() {
-        return new YLTracksFragment();
+    public static UTracksFragment getInstance() {
+        return new UTracksFragment();
     }
 
-    private ImageButton addTrackButton;
     private RecyclerView recyclerView;
-    private Playlist ownTracksPlaylist;
+
+    private String mUsername;
+
+    public static UTracksFragment getInstance(String username) {
+        UTracksFragment uTracksFragment = new UTracksFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable("username", username);
+        uTracksFragment.setArguments(args);
+
+        return uTracksFragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUsername = (String)getArguments().getSerializable("username");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_yl_tracks, container, false);
+        View v = inflater.inflate(R.layout.fragment_u_tracks, container, false);
 
-        addTrackButton = v.findViewById(R.id.include).findViewById(R.id.add_track_btn);
-        addTrackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                assert getParentFragment() != null;
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, CreateTrackFragment.getInstance())
-                        .remove(getParentFragment())
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+        recyclerView = v.findViewById(R.id.profile_tracks_rv);
 
-        recyclerView = v.findViewById(R.id.tracks_rv);
-
-        TrackManager.getInstance(getContext()).getOwnTracks(YLTracksFragment.this);
+        ProfileManager.getInstance(getContext()).getTracks(mUsername, UTracksFragment.this);
 
         return v;
     }
-
 
     @Override
     public void onFailure(Throwable throwable) {
@@ -82,31 +82,41 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
     @Override
     public void onTrackClick(Track track) {
         Intent intent = new Intent(getContext(), PlayingSongActivity.class);
-        intent.putExtra("newTrack", true);
         intent.putExtra("track", track);
-        intent.putExtra("playlist", ownTracksPlaylist);
         startActivity(intent);
     }
 
+    @Override
+    public void onUserInfoReceived(User userData) {
+
+    }
+
+    @Override
+    public void onFollowToggle() {
+
+    }
+
+    @Override
+    public void onFollowFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onIsFollowedReceived(Boolean isFollowed) {
+
+    }
 
     @Override
     public void onTracksReceived(List<Track> tracks) {
-
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        OwnTrackListAdapter adapter = new OwnTrackListAdapter((ArrayList<Track>) tracks, getContext(), YLTracksFragment.this, R.layout.item_own_track);
+        TrackListAdapter adapter = new TrackListAdapter(getContext(), (ArrayList<Track>) tracks, UTracksFragment.this, UTracksFragment.this, R.layout.item_track);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-        ownTracksPlaylist = new Playlist();
-        ownTracksPlaylist.setName(getContext().getString(R.string.own_tracks_playlist_name));
-        ownTracksPlaylist.setTracks(tracks);
-        for (int i = 0; i  < tracks.size(); i++ ){
-            TrackManager.getInstance(getContext()).checkLiked(tracks.get(i), YLTracksFragment.this, i);
-        }
-        adapter.setOnItemClickListener(new OwnTrackListAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new TrackListAdapter.OnItemClickListener() {
 
             @Override
             public void onLikeClick(Track track, int position) {
-                TrackManager.getInstance(getContext()).likeTrack(track, YLTracksFragment.this, position);
+                TrackManager.getInstance(getContext()).likeTrack(track, UTracksFragment.this, position);
             }
 
         });
@@ -119,24 +129,26 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
 
     @Override
     public void onTrackLiked(int position) {
-        ((OwnTrackListAdapter)recyclerView.getAdapter()).changeTrackLikeStateIcon(position);
-        recyclerView.getAdapter().notifyDataSetChanged();
-    }
 
+    }
 
     @Override
     public void onTrackLikedError(Throwable throwable) {
-        Toast.makeText(getContext(), "Action failed", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onTrackLikedReceived(Liked liked, int position) {
-        ((OwnTrackListAdapter)recyclerView.getAdapter()).updateTrackLikeStateIcon(position, liked.getLiked());
-        recyclerView.getAdapter().notifyDataSetChanged();
+
     }
 
     @Override
-    public void onCreateTrack() {
-        // UNUSED
+    public void onPlaylistsReceived(List<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onPlaylistsNotReceived(Throwable throwable) {
+
     }
 }

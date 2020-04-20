@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.service.PlaylistService;
+import com.example.sallefy.model.Followed;
+import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.UserToken;
@@ -144,6 +146,28 @@ public class TrackManager {
         });
     }
 
+    public synchronized void likeTrack(Track track, final TrackCallback callback, final int position) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<ResponseBody> call = mTrackService.followTrack(track.getId().toString(), "Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int code = response.code();
+                if (response.isSuccessful()){
+                  callback.onTrackLiked(position);
+                } else {
+                  Log.d(TAG, "Error Not Successful: " + code);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                callback.onTrackLikedError(t);
+            }
+        });
+    }
+
     public synchronized void createTrack(Track track, final TrackCallback trackCallback) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
 
@@ -167,4 +191,29 @@ public class TrackManager {
             }
         });
     }
+
+
+    public synchronized void checkLiked(Track track, final TrackCallback callback, final int position) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<Liked> call = mTrackService.isTrackFollowed(track.getId().toString(), "Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<Liked>() {
+            @Override
+            public void onResponse(Call<Liked> call, Response<Liked> response) {
+                int code = response.code();
+                if (response.isSuccessful()){
+                    callback.onTrackLikedReceived(response.body(), position);
+                } else {
+                    Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                    trackCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Liked> call, Throwable t) {
+                Log.d(TAG, "Error Failure: " + t.getStackTrace());
+                callback.onFailure(t);
+            }
+        });
+    }
+
 }
