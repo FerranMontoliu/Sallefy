@@ -57,7 +57,7 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
             if (mPlaylists.get(position).getThumbnail() != null) {
                 Glide.with(mContext)
                         .asBitmap()
-                        .placeholder(R.drawable.ic_audiotrack)
+                        .placeholder(R.drawable.ic_audiotrack_60dp)
                         .load(mPlaylists.get(position).getThumbnail())
                         .into(holder.mPhoto);
             }

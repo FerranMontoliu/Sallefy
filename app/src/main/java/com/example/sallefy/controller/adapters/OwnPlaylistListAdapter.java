@@ -56,13 +56,13 @@ public class OwnPlaylistListAdapter extends RecyclerView.Adapter<OwnPlaylistList
             if (mPlaylists.get(position).getThumbnail() != null) {
                 Glide.with(mContext)
                         .asBitmap()
-                        .placeholder(R.drawable.ic_audiotrack)
+                        .placeholder(R.drawable.ic_audiotrack_60dp)
                         .load(mPlaylists.get(position).getThumbnail())
                         .into(holder.mPhoto);
             } else {
                 Glide.with(mContext)
                         .asBitmap()
-                        .load(R.drawable.ic_audiotrack)
+                        .load(R.drawable.ic_audiotrack_60dp)
                         .into(holder.mPhoto);
             }
         }
