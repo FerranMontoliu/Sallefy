@@ -77,11 +77,11 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            FragmentManager fm = getFragmentManager();
+                FragmentManager fm = getFragmentManager();
                 assert fm != null;
                 if (fm.getBackStackEntryCount() > 0) {
-                fm.popBackStack();
-            }
+                    fm.popBackStack();
+                }
             }
         });
 
@@ -100,7 +100,7 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
 
                 if (musicPlayer.isReady()) {
 
-                    if (musicPlayer.isPlaying() && musicPlayer.getCurrentPlaylist().equals(mPlaylist)){
+                    if (musicPlayer.isPlaying() && musicPlayer.getCurrentPlaylist().equals(mPlaylist)) {
                         musicPlayer.onPlayPauseClicked();
                         bShuffle.setText(R.string.shuffle_play);
 
