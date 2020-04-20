@@ -1,5 +1,6 @@
 package com.example.sallefy.controller.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -128,5 +129,15 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback, U
     @Override
     public void onDeleteFailure(Throwable throwable) {
         // UNUSED
+    }
+
+    @Override
+    public void onPasswordChanged(DialogInterface dialog) {
+        //UNUSED
+    }
+
+    @Override
+    public void onPasswordChangeFailure(Throwable throwable, DialogInterface dialog) {
+        //UNUSED
     }
 }
