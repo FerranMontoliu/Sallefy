@@ -100,9 +100,9 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
 
         public ViewHolder(@NonNull View itemView, int layoutId) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.item_title);
-            tvAuthor = itemView.findViewById(R.id.item_author);
-            ivPicture = itemView.findViewById(R.id.item_img);
+            tvTitle = itemView.findViewById(R.id.am_title_tv);
+            tvAuthor = itemView.findViewById(R.id.am_author_tv);
+            ivPicture = itemView.findViewById(R.id.am_image_iv);
 
             if (layoutId == R.layout.item_track) {
                 ibMore = itemView.findViewById(R.id.it_more_ib);

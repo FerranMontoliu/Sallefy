@@ -1,6 +1,7 @@
 package com.example.sallefy.controller.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -48,24 +49,33 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     private MusicPlayer mMusicPlayer;
     private SeekBar mSeekBar;
 
-    private int mDuration;
+    private boolean newTrack;
+
+    private Intent mIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        track = (Track)getIntent().getSerializableExtra("track");
-        playlist = (Playlist)getIntent().getSerializableExtra("playlist");
+        newTrack = getIntent().getBooleanExtra("newTrack", false);
 
         setContentView(R.layout.activity_playing_song);
         mMusicPlayer = MusicPlayer.getInstance();
         mMusicPlayer.setPlayingSongCallback(PlayingSongActivity.this);
-        mMusicPlayer.onNewTrackClicked(track, playlist);
+
+        if (newTrack) {
+            track = (Track)getIntent().getSerializableExtra("track");
+            playlist = (Playlist)getIntent().getSerializableExtra("playlist");
+            mMusicPlayer.onNewTrackClicked(track, playlist);
+        } else {
+            track = mMusicPlayer.getCurrentTrack();
+            playlist = mMusicPlayer.getCurrentPlaylist();
+        }
+
         initViews();
     }
 
     private void initViews() {
         mFragmentManager = getSupportFragmentManager();
-
 
         btnBack = findViewById(R.id.back_song);
         btnAdd = findViewById(R.id.add_song);
@@ -134,6 +144,13 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
             }
         });
 
+        if (!newTrack) {
+            ibPlayPause.setImageResource(mMusicPlayer.isPlaying() ? R.drawable.ic_pause_light_80dp : R.drawable.ic_play_light_80dp);
+
+            mSeekBar.setMax(mMusicPlayer.getDuration());
+            updateSeekBar();
+        }
+
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -151,6 +168,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
             }
         });
 
+        ibLoop.setImageResource(MusicPlayer.getInstance().isLoop() ? R.drawable.ic_repeat_green_28dp : R.drawable.ic_repeat_light_28dp );
         ibLoop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,6 +177,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
             }
         });
 
+        ibShuffle.setImageResource(MusicPlayer.getInstance().isShuffle() ? R.drawable.ic_shuffle_green_28dp : R.drawable.ic_shuffle_light_28dp);
         ibShuffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,6 +185,8 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
                 MusicPlayer.getInstance().onShuffleClicked();
             }
         });
+
+
     }
 
     @Override
@@ -201,7 +222,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
     @Override
     public void onTrackDurationReceived(int duration) {
         mSeekBar.setMax(duration);
-        mDuration = duration;
+        updateSeekBar();
     }
 
     @Override
@@ -227,14 +248,12 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
                 .load(track.getThumbnail())
                 .into(ivSongImage);
 
-        mSeekBar.setProgress(0);
         updateSeekBar();
     }
 
     public void updateSeekBar() {
         Handler handler = new Handler();
         Runnable runnable;
-        int pos = mMusicPlayer.getCurrentPosition();
         mSeekBar.setProgress(mMusicPlayer.getCurrentPosition());
 
         if(mMusicPlayer.isPlaying()) {

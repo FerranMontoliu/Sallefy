@@ -8,7 +8,7 @@
 
 
     <ImageView
-        android:id="@+id/item_img"
+        android:id="@+id/am_image_iv"
         android:layout_width="@dimen/item_height_without_border"
         android:layout_height="@dimen/item_height_without_border"
         android:layout_centerVertical="true"
@@ -20,12 +20,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/item_img"
+        android:layout_toEndOf="@+id/am_image_iv"
         android:layout_marginStart="10dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/item_title"
+            android:id="@+id/am_title_tv"
             style="@style/PlaylistNameTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:textColor="@color/light" />
 
         <TextView
-            android:id="@+id/item_author"
+            android:id="@+id/am_author_tv"
             style="@style/AuthorNameTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

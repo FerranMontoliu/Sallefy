@@ -105,6 +105,7 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
     @Override
     public void onTrackClick(Track track) {
         Intent intent = new Intent(getContext(), PlayingSongActivity.class);
+        intent.putExtra("newTrack", true);
         intent.putExtra("track", track);
         intent.putExtra("playlist", ownTracksPlaylist);
         startActivity(intent);
