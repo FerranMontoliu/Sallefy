@@ -143,6 +143,16 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
     }
 
     @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }
