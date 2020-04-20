@@ -1,5 +1,6 @@
 package com.example.sallefy.controller.restapi.service;
 
+import com.example.sallefy.model.PasswordChange;
 import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserRegister;
 
@@ -34,4 +35,7 @@ public interface UserService {
 
     @GET("me/followings")
     Call<List<User>> getFollowings(@Header("Authorization") String token);
+
+    @POST("account/change-password")
+    Call<ResponseBody> changePassword(@Body PasswordChange passwordChange, @Header("Authorization") String token);
 }

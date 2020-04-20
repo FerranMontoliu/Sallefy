@@ -127,5 +127,14 @@
     <string name="track_author">Track author</string>
     <string name="error_unliking_track">The track could not be disliked.</string>
     <string name="error_liking_track">The track could not be liked.</string>
+    <string name="change_password">Change your password</string>
+    <string name="hint_new_password">New password</string>
+    <string name="hint_current_password">Current password</string>
+    <string name="hint_repeat_new_password">Repeat new password</string>
+    <string name="change_password_accept">Accept</string>
+    <string name="empty_field_error">This field cannot be empty!</string>
+    <string name="cancel_change_password">Cancel</string>
+    <string name="password_changed_toast">Your password has been changed successfully!</string>
+    <string name="password_failure_toast">ERROR: Could not change the password. Check all the fields are correct.</string>
 
 </resources>

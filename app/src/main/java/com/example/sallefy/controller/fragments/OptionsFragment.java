@@ -194,6 +194,16 @@ public class OptionsFragment extends Fragment implements UserCallback {
     }
 
     @Override
+    public void onPasswordChanged(DialogInterface dialog) {
+        //UNUSED
+    }
+
+    @Override
+    public void onPasswordChangeFailure(Throwable throwable, DialogInterface dialog) {
+        //UNUSED
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getContext(), "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
     }

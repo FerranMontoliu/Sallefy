@@ -1,5 +1,6 @@
 package com.example.sallefy.controller.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,12 +74,22 @@ public class YLFollowingFragment extends Fragment implements UserCallback, UserA
 
     @Override
     public void onAccountDeleted() {
-
+        //UNUSED
     }
 
     @Override
     public void onDeleteFailure(Throwable throwable) {
+        //UNUSED
+    }
 
+    @Override
+    public void onPasswordChanged(DialogInterface dialog) {
+        //UNUSED
+    }
+
+    @Override
+    public void onPasswordChangeFailure(Throwable throwable, DialogInterface dialog) {
+        //UNUSED
     }
 
     @Override
