@@ -12,5 +12,6 @@ public interface MusicPlayerCallback {
     void onNewTrackClicked(Track track, Playlist playlist);
     void onPlayPauseClicked();
     void onProgressChanged(int progress);
+    void onSetNextTrack(Track track, Playlist playlist);
 
 }

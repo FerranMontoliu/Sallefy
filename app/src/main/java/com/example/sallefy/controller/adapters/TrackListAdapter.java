@@ -12,11 +12,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
+import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
+import com.example.sallefy.controller.fragments.AddSongPlaylistFragment;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
 import com.example.sallefy.controller.restapi.manager.TrackManager;
 import com.example.sallefy.model.Track;
@@ -92,7 +98,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             holder.ibMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: Add to queue
+                    mCallback.onOptionsClick(mTracks.get(position));
                 }
             });
 

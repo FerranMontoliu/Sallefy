@@ -28,6 +28,7 @@ package com.example.sallefy.controller.activities;
         import com.example.sallefy.controller.callbacks.FragmentCallback;
         import com.example.sallefy.controller.callbacks.PlayingSongCallback;
         import com.example.sallefy.controller.fragments.HomeFragment;
+        import com.example.sallefy.controller.fragments.PlaylistFragment;
         import com.example.sallefy.controller.fragments.SearchFragment;
         import com.example.sallefy.controller.fragments.YourLibraryFragment;
         import com.example.sallefy.model.Playlist;
@@ -264,12 +265,22 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
     @Override
     public void onPlayTrack() {
         ibPlayPause.setImageResource(R.drawable.ic_pause_light_48dp);
-        updateSeekBar();
+        updateTrack();
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment instanceof PlaylistFragment) {
+            ((PlaylistFragment) fragment).onPlayTrack();
+        }
     }
 
     @Override
     public void onPauseTrack() {
         ibPlayPause.setImageResource(R.drawable.ic_play_light_48dp);
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment instanceof PlaylistFragment) {
+            ((PlaylistFragment) fragment).onPlayTrack();
+        }
     }
 
     @Override

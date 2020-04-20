@@ -13,10 +13,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
+import com.example.sallefy.controller.MusicPlayer;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.OwnTrackListAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
@@ -81,11 +83,26 @@ public class YLTracksFragment extends Fragment implements TrackCallback, TrackLi
 
     @Override
     public void onTrackClick(Track track) {
-        Intent intent = new Intent(getContext(), PlayingSongActivity.class);
+        /*Intent intent = new Intent(getContext(), PlayingSongActivity.class);
         intent.putExtra("newTrack", true);
         intent.putExtra("track", track);
         intent.putExtra("playlist", ownTracksPlaylist);
-        startActivity(intent);
+        startActivity(intent);*/
+        MusicPlayer.getInstance().onSetNextTrack(track, ownTracksPlaylist);
+    }
+
+    @Override
+    public void onOptionsClick(Track track) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        Fragment prev = getFragmentManager().findFragmentByTag(TrackOptionsFragment.TAG);
+        if (prev != null) {
+            transaction.remove(prev);
+        }
+        transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
+        transaction.addToBackStack(null);
+        TrackOptionsFragment trackOptionsFragment = TrackOptionsFragment.getInstance(track);
+        trackOptionsFragment.show(transaction, TrackOptionsFragment.TAG);
     }
 
 

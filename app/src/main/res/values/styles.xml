@@ -64,6 +64,12 @@
         <item name="android:textSize">36sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
     </style>
 
     <style name="ArtistNameTheme" parent="NoTitle">
@@ -112,4 +118,10 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+
+    <!-- TRACK OPTIONS -->
+    <style name="TrackOption">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/light</item>
+    </style>
 </resources>

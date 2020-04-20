@@ -1,6 +1,5 @@
 package com.example.sallefy.controller.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -91,7 +90,7 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         tvSongName = findViewById(R.id.aps_song_name);
         tvPlaylistName = findViewById(R.id.aps_playlist_name_tv);
         tvArtistName = findViewById(R.id.aps_artist_name);
-        ivSongImage = findViewById(R.id.aps_song_image_iv);
+        ivSongImage = findViewById(R.id.fto_thumbnail_iv);
         mSeekBar = findViewById(R.id.aps_progress_sb);
         ibLoop = findViewById(R.id.aps_loop_ib);
         ibShuffle = findViewById(R.id.aps_shuffle_ib);
@@ -113,14 +112,14 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
             public void onClick(View v) {
                 FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-                Fragment prev = mFragmentManager.findFragmentByTag("dialog");
+                Fragment prev = mFragmentManager.findFragmentByTag(AddSongPlaylistFragment.TAG);
                 if (prev != null) {
                     transaction.remove(prev);
                 }
                 transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
                 transaction.addToBackStack(null);
                 DialogFragment dialogFragment = new AddSongPlaylistFragment(PlayingSongActivity.this);
-                dialogFragment.show(transaction, "dialog");
+                dialogFragment.show(transaction, AddSongPlaylistFragment.TAG);
             }
         });
 

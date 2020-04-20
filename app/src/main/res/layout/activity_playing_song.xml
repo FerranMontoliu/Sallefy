@@ -38,9 +38,9 @@
         app:layout_constraintGuide_begin="20dp" />
 
     <ImageView
-        android:id="@+id/aps_song_image_iv"
-        android:layout_width="275dp"
-        android:layout_height="275dp"
+        android:id="@+id/fto_thumbnail_iv"
+        android:layout_width="@dimen/track_thumbnail_big"
+        android:layout_height="@dimen/track_thumbnail_big"
         android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -70,7 +70,7 @@
         android:text="@string/song_title"
         android:textAppearance="@style/SongTitleTheme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aps_song_image_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/fto_thumbnail_iv" />
 
     <TextView
         android:id="@+id/aps_artist_name"
@@ -146,8 +146,8 @@
         android:id="@+id/aps_progress_sb"
         android:layout_width="360dp"
         android:layout_height="18dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/aps_play_pause_ib"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

@@ -15,6 +15,7 @@ public class CustomMediaPlayer extends MediaPlayer{
     private Playlist mPlaylist;
     private int mCurrentPlaylistTrack;
 
+    //trackIndex -1 if queue
     public CustomMediaPlayer(Track track, Playlist playlist, int trackIndex){
         this.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMusicPlayer = new MediaPlayer();

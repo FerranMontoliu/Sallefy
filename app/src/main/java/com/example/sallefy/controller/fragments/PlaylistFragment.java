@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +26,7 @@ import com.example.sallefy.controller.activities.MainActivity;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.PlaylistAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
+import com.example.sallefy.controller.callbacks.PlayingSongCallback;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
@@ -38,6 +41,7 @@ import com.example.sallefy.model.Track;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 public class PlaylistFragment extends Fragment implements TrackListAdapterCallback, PlaylistCallback, TrackCallback {
 
@@ -208,11 +212,62 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
 
     @Override
     public void onTrackClick(Track track) {
-        Intent intent = new Intent(getContext(), PlayingSongActivity.class);
+        /*Intent intent = new Intent(getContext(), PlayingSongActivity.class);
         intent.putExtra("newTrack", true);
         intent.putExtra("track", track);
         intent.putExtra("playlist", mPlaylist);
-        startActivity(intent);
+        startActivity(intent);*/
+        MusicPlayer.getInstance().onSetNextTrack(track, mPlaylist);
+    }
+
+    @Override
+    public void onOptionsClick(Track track) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        Fragment prev = getFragmentManager().findFragmentByTag(TrackOptionsFragment.TAG);
+        if (prev != null) {
+            transaction.remove(prev);
+        }
+        transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
+        transaction.addToBackStack(null);
+        DialogFragment dialogFragment = TrackOptionsFragment.getInstance(track);
+        dialogFragment.show(transaction, TrackOptionsFragment.TAG);
+
+        /*getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up)
+                .replace(R.id.fragment_container, TrackOptionsFragment.getInstance(track), TrackOptionsFragment.TAG)
+                .addToBackStack(null)
+                .commit();*/
+    }
+
+    @Override
+    public void onErrorPreparingMediaPlayer() {
+
+    }
+
+    @Override
+    public void onTrackDurationReceived(int duration) {
+
+    }
+
+    @Override
+    public void onPlayTrack() {
+        MusicPlayer musicPlayer = MusicPlayer.getInstance();
+        if (musicPlayer.isReady() && musicPlayer.isPlaying() && musicPlayer.getCurrentPlaylist().equals(mPlaylist)) {
+            bShuffle.setText(R.string.pause);
+        } else {
+            bShuffle.setText(R.string.shuffle_play);
+        }
+    }
+
+    @Override
+    public void onPauseTrack() {
+        bShuffle.setText(R.string.shuffle_play);
+    }
+
+    @Override
+    public void onChangedTrack(Track track, Playlist playlist) {
+
     }
 
     @Override

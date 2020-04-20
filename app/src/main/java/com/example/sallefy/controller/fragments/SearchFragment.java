@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
+import com.example.sallefy.controller.MusicPlayer;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.SearchPlaylistListAdapter;
 import com.example.sallefy.controller.adapters.SearchUserListAdapter;
@@ -222,12 +223,30 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
 
     @Override
     public void onTrackClick(Track track) {
-        Intent intent = new Intent(getContext(), PlayingSongActivity.class);
-        intent.putExtra("track", track);
         Playlist playlist = new Playlist();
         playlist.setName("Search " + track.getName());
+
+        /*Intent intent = new Intent(getContext(), PlayingSongActivity.class);
+        intent.putExtra("newTrack", true);
+        intent.putExtra("track", track);
         intent.putExtra("playlist", playlist);
-        startActivity(intent);
+        startActivity(intent);*/
+
+        MusicPlayer.getInstance().onSetNextTrack(track, playlist);
+    }
+
+    @Override
+    public void onOptionsClick(Track track) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        Fragment prev = getFragmentManager().findFragmentByTag(TrackOptionsFragment.TAG);
+        if (prev != null) {
+            transaction.remove(prev);
+        }
+        transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
+        transaction.addToBackStack(null);
+        TrackOptionsFragment trackOptionsFragment = TrackOptionsFragment.getInstance(track);
+        trackOptionsFragment.show(transaction, TrackOptionsFragment.TAG);
     }
 
     @Override
