@@ -129,17 +129,20 @@ public class UTracksFragment extends Fragment implements ProfileCallback, TrackL
 
     @Override
     public void onTrackLiked(int position) {
+        ((TrackListAdapter)recyclerView.getAdapter()).changeTrackLikeStateIcon(position);
+        recyclerView.getAdapter().notifyDataSetChanged();
 
     }
 
     @Override
     public void onTrackLikedError(Throwable throwable) {
-
+        Toast.makeText(getContext(), "Action failed", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onTrackLikedReceived(Liked liked, int position) {
-
+        ((TrackListAdapter)recyclerView.getAdapter()).updateTrackLikeStateIcon(position, liked.getLiked());
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     @Override
