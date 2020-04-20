@@ -83,7 +83,7 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
         btnFollow = v.findViewById(R.id.fp_follow_b);
 
         ArrayList<Track> tracks = (ArrayList) mPlaylist.getTracks();
-        for (int i = 0; i  < tracks.size(); i++ ){
+        for (int i = 0; i  < tracks.size(); i++){
             TrackManager.getInstance(getContext()).checkLiked(tracks.get(i), PlaylistFragment.this, i);
         }
 
