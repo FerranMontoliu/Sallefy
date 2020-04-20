@@ -13,7 +13,7 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/am_image_tv"
+            android:id="@+id/am_image_iv"
             android:layout_width="@dimen/item_height_without_border"
             android:layout_height="@dimen/item_height_without_border"
             android:layout_centerVertical="true"

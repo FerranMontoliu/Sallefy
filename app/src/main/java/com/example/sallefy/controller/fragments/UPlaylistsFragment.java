@@ -165,6 +165,16 @@ public class UPlaylistsFragment extends Fragment implements ProfileCallback, Pla
     }
 
     @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        //UNUSED
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+        //UNUSED
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }

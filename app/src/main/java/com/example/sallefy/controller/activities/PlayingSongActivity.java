@@ -324,8 +324,6 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
     }
 
-    @Override
-    public void onFailure(Throwable throwable) {
       
     @Override
     public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
@@ -376,5 +374,10 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         } else {
             btnLike.setImageResource(R.drawable.ic_favorite_unfilled);
         }
+    }
+
+    @Override
+    public void onCreateTrack() {
+
     }
 }

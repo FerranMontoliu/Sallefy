@@ -281,17 +281,17 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
 
     @Override
     public void onPlaylistsNotReceived(Throwable throwable) {
-
+        //UNUSED
     }
 
     @Override
     public void onPlaylistFollowed() {
-
+        //UNUSED
     }
 
     @Override
     public void onPlaylistFollowError(Throwable throwable) {
-
+        //UNUSED
     }
 
     @Override
@@ -300,6 +300,16 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
                 .replace(R.id.fragment_container, PlaylistFragment.getInstance(mPlaylist, followed.getFollowed()), PlaylistFragment.TAG)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        //UNUSED
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+
     }
 
     @Override
@@ -326,5 +336,10 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
     public void onTrackLikedReceived(Liked liked, int position) {
         ((TrackListAdapter)tracksRV.getAdapter()).updateTrackLikeStateIcon(position, liked.getLiked());
         tracksRV.getAdapter().notifyItemChanged(position);
+    }
+
+    @Override
+    public void onCreateTrack() {
+
     }
 }

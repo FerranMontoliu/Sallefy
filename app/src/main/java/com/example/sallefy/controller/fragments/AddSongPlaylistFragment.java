@@ -145,8 +145,6 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
 
     }
 
-    @Override
-    public void onFailure(Throwable throwable) {
 
     @Override
     public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {

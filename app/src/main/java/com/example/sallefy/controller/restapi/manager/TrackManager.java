@@ -203,8 +203,8 @@ public class TrackManager {
                 if (response.isSuccessful()){
                     callback.onTrackLikedReceived(response.body(), position);
                 } else {
-                    Log.d(TAG, "Error Failure: " + t.getStackTrace());
-                    trackCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+                    Log.d(TAG, "Error Failure: " + new Throwable("ERROR " + code + ", " + response.raw().message()));
+                    callback.onFailure(new Throwable("ERROR " + code + ", " + response.raw().message()));
                 }
             }
 

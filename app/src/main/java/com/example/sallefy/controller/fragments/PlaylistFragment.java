@@ -259,6 +259,16 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
     }
 
     @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }
@@ -288,5 +298,10 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
     public void onTrackLikedReceived(Liked liked, int position) {
         ((TrackListAdapter)rvPlaylist.getAdapter()).updateTrackLikeStateIcon(position, liked.getLiked());
         rvPlaylist.getAdapter().notifyItemChanged(position);
+    }
+
+    @Override
+    public void onCreateTrack() {
+
     }
 }
