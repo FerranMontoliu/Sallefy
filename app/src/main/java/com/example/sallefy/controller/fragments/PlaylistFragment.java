@@ -21,7 +21,9 @@ import com.example.sallefy.R;
 import com.example.sallefy.controller.MusicPlayer;
 import com.example.sallefy.controller.activities.MainActivity;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
+import com.example.sallefy.controller.adapters.PlaylistAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
+import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
@@ -33,6 +35,7 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
 
     private Playlist mPlaylist;
     private RecyclerView rvPlaylist;
+    private RecyclerView rvInfo;
     private TextView tvPlaylisyName;
     private ImageButton ibBack;
     private Button bShuffle;
@@ -63,6 +66,7 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
         View v = inflater.inflate(R.layout.fragment_playlist, container, false);
 
         rvPlaylist = v.findViewById(R.id.fp_tracks_rv);
+        rvInfo = v.findViewById(R.id.fp_info_rv);
         tvPlaylisyName = v.findViewById(R.id.fp_playlist_name_tv);
         ibBack = v.findViewById(R.id.fp_back_ib);
         bShuffle = v.findViewById(R.id.fp_shuffle_play_b);
@@ -72,7 +76,8 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
         TrackListAdapter adapter = new TrackListAdapter(getContext(), (ArrayList<Track>) mPlaylist.getTracks(), PlaylistFragment.this, R.layout.item_track);
         rvPlaylist.setAdapter(adapter);
 
-        tvPlaylisyName.setText(mPlaylist.getName());
+        rvInfo.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        rvInfo.setAdapter(new PlaylistAdapter(mPlaylist, getContext(), R.layout.item_playlist_big));
 
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override

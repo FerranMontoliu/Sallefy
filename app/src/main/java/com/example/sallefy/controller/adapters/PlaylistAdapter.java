@@ -22,16 +22,15 @@ import java.util.ArrayList;
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
 
     public static final String TAG = PlaylistAdapter.class.getName();
+
     private Playlist playlist;
     private Context mContext;
-    private PlaylistAdapterCallback mCallback;
     private int layoutId;
 
 
-    public PlaylistAdapter(Playlist playlist, Context context, PlaylistAdapterCallback callback, int layoutId) {
+    public PlaylistAdapter(Playlist playlist, Context context, int layoutId) {
         this.playlist = playlist;
         mContext = context;
-        mCallback = callback;
         this.layoutId = layoutId;
     }
 
@@ -48,6 +47,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
             holder.mTitle.setText(playlist.getName());
             holder.mAuthor.setText(playlist.getUser().getLogin());
+
             if (playlist.getThumbnail() != null) {
                 Glide.with(mContext)
                         .asBitmap()
@@ -56,6 +56,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                         .into(holder.mPhoto);
             }
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +74,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             mLayout = itemView.findViewById(R.id.item_playlist_layout);
             mPhoto = itemView.findViewById(R.id.fp_playlist_image_iv);
             mTitle = itemView.findViewById(R.id.fp_playlist_name_tv);
-            mAuthor = itemView.findViewById(R.id.am_author_tv);
+            mAuthor = itemView.findViewById(R.id.fp_playlist_user_tv);
         }
     }
 }
