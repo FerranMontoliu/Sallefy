@@ -22,6 +22,12 @@ public interface PlaylistService {
     @GET("me/playlists")
     Call<List<Playlist>> getOwnPlaylists(@Header("Authorization") String token);
 
+    @GET("playlists?recent=true")
+    Call<List<Playlist>> getAllPlaylistsByMostRecent(@Header("Authorization") String token);
+
+    @GET("playlists?popular=true")
+    Call<List<Playlist>> getAllPlaylistsByMostFollowed(@Header("Authorization") String token);
+
     @PUT("playlists")
     Call<Playlist> updatePlaylist(@Body Playlist playlist, @Header("Authorization") String token);
 }

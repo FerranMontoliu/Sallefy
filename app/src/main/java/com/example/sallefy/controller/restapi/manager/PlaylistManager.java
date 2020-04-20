@@ -107,7 +107,7 @@ public class PlaylistManager {
                     callback.onPlaylistsReceived(response.body());
                 } else {
                     try {
-                        callback.onPlaylistNotReceived(new Throwable(response.errorBody().string()));
+                        callback.onPlaylistsNotReceived(new Throwable(response.errorBody().string()));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -145,4 +145,51 @@ public class PlaylistManager {
         });
     }
 
+    public synchronized void getAllPlaylistsByMostRecent(final PlaylistCallback callback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<List<Playlist>> call = mService.getAllPlaylistsByMostRecent("Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+                if (response.isSuccessful()) {
+                    callback.onMostRecentPlaylistsReceived(response.body());
+                } else {
+                    try {
+                        callback.onPlaylistsNotReceived(new Throwable(response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                callback.onPlaylistNotReceived(t);
+            }
+        });
+    }
+
+    public synchronized void getAllPlaylistsByMostFollowed(final PlaylistCallback callback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<List<Playlist>> call = mService.getAllPlaylistsByMostFollowed("Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+                if (response.isSuccessful()) {
+                    callback.onMostFollowedPlaylistsReceived(response.body());
+                } else {
+                    try {
+                        callback.onPlaylistsNotReceived(new Throwable(response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                callback.onPlaylistNotReceived(t);
+            }
+        });
+    }
 }

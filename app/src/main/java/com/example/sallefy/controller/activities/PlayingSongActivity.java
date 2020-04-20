@@ -269,26 +269,36 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
 
     @Override
     public void onPlaylistCreated(Playlist playlist) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistFailure(Throwable throwable) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistsNotReceived(Throwable throwable) {
+        // UNUSED
+    }
 
+    @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-
+        Toast.makeText(getApplicationContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }
 }

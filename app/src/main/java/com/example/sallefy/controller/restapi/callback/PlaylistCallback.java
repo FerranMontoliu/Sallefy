@@ -13,4 +13,6 @@ public interface PlaylistCallback extends FailureCallback {
     void onPlaylistNotUpdated(Throwable throwable);
     void onPlaylistsReceived(List<Playlist> playlists);
     void onPlaylistsNotReceived(Throwable throwable);
+    void onMostRecentPlaylistsReceived(List<Playlist> playlists);
+    void onMostFollowedPlaylistsReceived(List<Playlist> playlists);
 }
