@@ -1,0 +1,63 @@
+package com.example.sallefy.model;
+
+import java.io.Serializable;
+import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class Search implements Serializable
+{
+
+    @SerializedName("playlists")
+    private List<Playlist> playlists = null;
+    @SerializedName("tracks")
+    private List<Track> tracks = null;
+    @SerializedName("users")
+    private List<User> users = null;
+    private final static long serialVersionUID = -9202667354024546899L;
+
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public Search() {
+    }
+
+    /**
+     *
+     * @param playlists
+     * @param tracks
+     * @param users
+     */
+    public Search(List<Playlist> playlists, List<Track> tracks, List<User> users) {
+        super();
+        this.playlists = playlists;
+        this.tracks = tracks;
+        this.users = users;
+    }
+
+    public List<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public void setPlaylists(List<Playlist> playlists) {
+        this.playlists = playlists;
+    }
+
+    public List<Track> getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(List<Track> tracks) {
+        this.tracks = tracks;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+}

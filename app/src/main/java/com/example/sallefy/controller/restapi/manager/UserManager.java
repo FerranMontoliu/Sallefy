@@ -1,8 +1,11 @@
 package com.example.sallefy.controller.restapi.manager;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 
+import com.example.sallefy.model.PasswordChange;
 import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserLogin;
 import com.example.sallefy.model.UserRegister;
@@ -16,6 +19,7 @@ import com.example.sallefy.utils.Constants;
 import com.example.sallefy.utils.Session;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -116,6 +120,62 @@ public class UserManager {
     }
 
 
+    public synchronized void getFollowers (final UserCallback userCallback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<List<User>> call = mService.getFollowers("Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    userCallback.onUsersReceived(response.body());
+                } else {
+                    Log.d(TAG, "Error NOT SUCCESSFUL: " + response.toString());
+                    try {
+                        userCallback.onFailure(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                userCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
+
+
+    public synchronized void getFollowings (final UserCallback userCallback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<List<User>> call = mService.getFollowings("Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    userCallback.onUsersReceived(response.body());
+                } else {
+                    Log.d(TAG, "Error NOT SUCCESSFUL: " + response.toString());
+                    try {
+                        userCallback.onFailure(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                userCallback.onFailure(new Throwable("ERROR " + t.getStackTrace()));
+            }
+        });
+    }
+
+
     public synchronized void registerAttempt (String email, String username, String password, final RegisterCallback registerCallback) {
 
         Call<ResponseBody> call = mService.registerUser(new UserRegister(email, username, password));
@@ -141,5 +201,60 @@ public class UserManager {
                 registerCallback.onFailure(t);
             }
         });
+    }
+
+    public synchronized void deleteAttempt(final UserCallback userCallback){
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        String login = Session.getInstance(mContext).getUser().getLogin();
+        Call<ResponseBody> call = mService.deleteUser(login, "Bearer " + userToken.getIdToken());
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    userCallback.onAccountDeleted();
+                } else {
+                    try {
+                        userCallback.onDeleteFailure(new Throwable("ERROR " + code + ", " + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                userCallback.onFailure(t);
+            }
+        });
+
+    }
+
+    public synchronized void changePassword(final PasswordChange passwordChange, final UserCallback userCallback, final DialogInterface dialog){
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<ResponseBody> call = mService.changePassword(passwordChange, "Bearer " + userToken.getIdToken());
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int code = response.code();
+                if (response.isSuccessful()) {
+                    userCallback.onPasswordChanged(dialog);
+                } else {
+                    try {
+                        userCallback.onPasswordChangeFailure(new Throwable("ERROR " + code + ", " + response.errorBody().string()), dialog);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                userCallback.onFailure(t);
+            }
+        });
+
     }
 }

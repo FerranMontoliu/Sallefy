@@ -5,10 +5,13 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="light_hint">#AAAAAA</color>
     <color name="light">#CCCCCC</color>
+    <color name="transparent">#00FFFFFF</color>
     <color name="dark">#000000</color>
     <color name="green">#009688</color>
     <color name="switch_thumb">#F1F1F1</color>
     <color name="switch_track">#504C4C</color>
     <color name="dark_background">#1B1B1B</color>
     <color name="darker_background">#171717</color>
+    <color name="border_light_gray">#a9a9a9</color>
+    <color name="greenPrimary">#377837</color>
 </resources>

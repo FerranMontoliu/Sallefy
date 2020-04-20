@@ -1,5 +1,6 @@
 package com.example.sallefy.controller.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sallefy.R;
+import com.example.sallefy.controller.fragments.YourLibraryFragment;
+import com.example.sallefy.controller.restapi.callback.UserCallback;
+import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserToken;
 import com.example.sallefy.controller.restapi.callback.LoginCallback;
 import com.example.sallefy.controller.restapi.manager.UserManager;
@@ -19,7 +23,10 @@ import com.example.sallefy.utils.Session;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class LoginActivity extends AppCompatActivity implements LoginCallback {
+import java.util.List;
+import java.util.Objects;
+
+public class LoginActivity extends AppCompatActivity implements LoginCallback, UserCallback {
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
@@ -79,8 +86,10 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
     @Override
     public void onLoginSuccess(UserToken userToken) {
         Session.getInstance(getApplicationContext()).setUserToken(userToken);
-
         String username = etUsername.getText().toString();
+
+        //Guardem les dades de l'usuari de la nova sessio
+        UserManager.getInstance(getApplicationContext()).getUserData(username, LoginActivity.this);
 
         if(rememberPreferences) {
             PreferenceUtils.saveUser(this, username);
@@ -100,5 +109,35 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
     @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getApplicationContext(), R.string.exploded, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onUserInfoReceived(User userData) {
+        Session.getInstance(getApplicationContext()).setUser(userData);
+    }
+
+    @Override
+    public void onUsersReceived(List<User> users) {
+        // UNUSED
+    }
+
+    @Override
+    public void onAccountDeleted() {
+        // UNUSED
+    }
+
+    @Override
+    public void onDeleteFailure(Throwable throwable) {
+        // UNUSED
+    }
+
+    @Override
+    public void onPasswordChanged(DialogInterface dialog) {
+        //UNUSED
+    }
+
+    @Override
+    public void onPasswordChangeFailure(Throwable throwable, DialogInterface dialog) {
+        //UNUSED
     }
 }

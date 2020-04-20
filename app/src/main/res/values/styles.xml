@@ -21,14 +21,34 @@
         <item name="android:backgroundTint">@color/green</item>
     </style>
 
+    <style name="GrayButton" parent="NoTitle">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/switch_track</item>
+    </style>
+
     <style name="GreenSwitch" parent="NoTitle">
         <item name="colorSwitchThumbNormal">@color/switch_thumb</item>
         <item name="colorControlActivated">@color/green</item>
         <item name="android:colorForeground">@color/switch_track</item>
     </style>
 
+    <style name="TitleSearchResults" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light</item>
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+
+    <style name="FragmentTitle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light</item>
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+
     <style name="ItemTitleTheme" parent="NoTitle">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light</item>
     </style>
@@ -38,4 +58,70 @@
         <item name="android:textColor">@color/light</item>
     </style>
 
+
+    <!-- PLAYING SONG -->
+    <style name="SongTitleTheme" parent="NoTitle">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+    </style>
+
+    <style name="ArtistNameTheme" parent="NoTitle">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/light_hint</item>
+    </style>
+
+    <style name="PlaylistNameTheme" parent="NoTitle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/light_hint</item>
+    </style>
+
+    <style name="AuthorNameTheme" parent="NoTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/light_hint</item>
+    </style>
+
+    <style name="NavigationTheme" parent="NoTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/light</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_up</item>
+    </style>
+
+
+    <!-- HOME -->
+    <style name="HeaderTheme">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light</item>
+    </style>
+
+    <style name="PlaylistNameCVTheme" parent="NoTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/light_hint</item>
+    </style>
+
+
+    <!-- PLAYLIST -->
+    <style name="FollowButton">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:backgroundTint">#00FFFFFF</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <!-- TRACK OPTIONS -->
+    <style name="TrackOption">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/light</item>
+    </style>
 </resources>

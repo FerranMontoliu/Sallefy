@@ -55,7 +55,8 @@
             android:background="@color/colorPrimaryDark"
             app:itemTextColor="@color/light"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/user_items" />
+            app:menu="@menu/user_items"
+            app:labelVisibilityMode="labeled" />
 
     </LinearLayout>
 
@@ -63,6 +64,7 @@
         android:id="@+id/sub_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />

@@ -6,10 +6,25 @@
     <string name="register_failed">Error! Register failed!</string>
     <string name="exploded">Upsss! The app exploded…</string>
     <string name="error_getting_playlists">Error getting your playlists!</string>
+    <string name="error_getting_tracks">Error getting your tracks!</string>
+    <string name="error_name_playlist">Error! You must enter a name!</string>
+    <string name="error_name_track">Error! You must enter a name!</string>
+    <string name="error_playlist_not_created">Error creating your playlist!</string>
+    <string name="error_track_not_created">Error creating your track!</string>
+    <string name="pick_an_image">You haven\'t picked an image!</string>
+    <string name="pick_a_document">You haven\'t picked a document!</string>
+    <string name="error_getting_genres">Error getting the genres!</string>
+    <string name="error_uploading_track">Error uploading the track!</string>
+    <string name="track_uploaded">Track uploaded successfully!</string>
+    <string name="error_enter_name">You must enter a name for the track!</string>
+    <string name="error_adding_track">An error occurred while adding the selected track!</string>
 
 
     <!-- INFO TOASTS -->
     <string name="register_success">User registered successfully!</string>
+    <string name="uploading_track">Uploading track… Please wait.</string>
+    <string name="playlist_created_success">Playlist created!</string>
+    <string name="track_added">The track was added successfully!</string>
 
 
     <!-- MENU -->
@@ -22,6 +37,7 @@
     <string name="default_track_author">Author</string>
     <string name="default_track_title">Title</string>
     <string name="fragment_playlists">Playlist Title</string>
+    <string name="default_user_login_name">Username</string>
 
 
     <!-- LOGIN AND REGISTER -->
@@ -44,10 +60,85 @@
     <string name="your_followers">FOLLOWERS</string>
     <string name="your_following">FOLLOWING</string>
     <string name="create_playlist">Create playlist</string>
+    <string name="new_track">New track</string>
     <string name="default_username">Username</string>
     <string name="give_name_playlist">Give your playlist a name.</string>
     <string name="hint_create_playlist">Playlist title</string>
     <string name="cancel_text_playlist">CANCEL</string>
     <string name="create_text_playlist">CREATE</string>
+    <string name="own_tracks_playlist_name">Own tracks</string>
+    <string name="track_title_tv">Title</string>
+    <string name="hint_track_name">Enter the title of the track</string>
+    <string name="genre_title_tv">Genre</string>
+    <string name="upload_thumbnail_btn">Upload a thumbnail</string>
+    <string name="upload_track_btn">Upload a track</string>
+    <string name="create_track">Add a new track</string>
+    <string name="no_file_selected">No file selected</string>
+    <string name="add_text_track">ADD</string>
+    <string name="cancel_text_track">CANCEL</string>
+
+
+    <!-- PLAYING SONG -->
+    <string name="song_title">Song Title</string>
+    <string name="artist_name">Artist Name</string>
+    <string name="playlist_name">Playlist Name</string>
+    <string name="author_name">Author Name</string>
+
+    
+    <!-- ADD SONG TO PLAYLIST -->
+    <string name="select_playlist">Select a Playlist</string>
+    <string name="cancel">Cancel</string>
+    <string name="playlist_thumbnail_description">Playlist thumbnail</string>
+    <string name="select_track">Select a track</string>
+    
+    
+    <!-- HOME -->
+    <string name="default_header">Default Header</string>
+    <string name="popular_playlists">Popular Playlists</string>
+    <string name="discover_playlists">Discover Playlists</string>
+    <string name="liked_playlists">Liked Playlists</string>
+    <string name="playlist_name_cv">Playlist Name</string>
+
+  
+    <!-- SEARCH -->
+    <string name="search_hint">Search</string>
+    <string name="search_empty_results">There are no results for your search!</string>
+    <string name="default_profile_name">Name</string>
+    <string name="search_playlists">Playlists</string>
+    <string name="search_tracks">Tracks</string>
+    <string name="search_users">Users</string>
+
+    <!-- OPTIONS -->
+    <string name="your_profile">Your profile</string>
+    <string name="delete_account">Delete account</string>
+    <string name="logout">Logout</string>
+    <string name="settings">Settings</string>
+    <string name="are_you_sure">Are you sure you want to delete your account?</string>
+    <string name="confirm_delete">DELETE</string>
+    <string name="cancel_delete">CANCEL</string>
+  
+    <!-- PLAYLIST -->
+    <string name="follow">Follow</string>
+    <string name="following">Following</string>
+    <string name="shuffle_play">Shuffle Play</string>
+    <string name="pause">Pause</string>
+    <string name="add_songs">Add Songs</string>
+    <string name="track_name">Track name</string>
+    <string name="track_author">Track author</string>
+    <string name="error_unliking_track">The track could not be disliked.</string>
+    <string name="error_liking_track">The track could not be liked.</string>
+    <string name="change_password">Change your password</string>
+    <string name="hint_new_password">New password</string>
+    <string name="hint_current_password">Current password</string>
+    <string name="hint_repeat_new_password">Repeat new password</string>
+    <string name="change_password_accept">Accept</string>
+    <string name="empty_field_error">This field cannot be empty!</string>
+    <string name="cancel_change_password">Cancel</string>
+    <string name="password_changed_toast">Your password has been changed successfully!</string>
+    <string name="password_failure_toast">ERROR: Could not change the password. Check all the fields are correct.</string>
+
+    <!-- TRACK OPTIONS -->
+    <string name="add_queue">Add to queue</string>
+    <string name="close">Close</string>
 
 </resources>

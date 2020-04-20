@@ -21,6 +21,7 @@ import com.example.sallefy.controller.adapters.OwnPlaylistListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.manager.PlaylistManager;
+import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Playlist;
 
 import java.util.ArrayList;
@@ -56,6 +57,10 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
         });
 
         mRecyclerView = v.findViewById(R.id.playlists_rv);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        OwnPlaylistListAdapter adapter = new OwnPlaylistListAdapter((ArrayList<Playlist>) null, getContext(), YLPlaylistsFragment.this, R.layout.item_own_playlist);
+        mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.setAdapter(adapter);
 
         PlaylistManager.getInstance(getContext()).getOwnPlaylists(YLPlaylistsFragment.this);
 
@@ -75,7 +80,13 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 String playlistName = input.getText().toString();
-                //TODO: API call adding the new playlist
+                if (playlistName.trim().isEmpty()) {
+                    Toast.makeText(getContext(), R.string.error_name_playlist, Toast.LENGTH_LONG).show();
+                } else {
+                    Playlist playlist = new Playlist();
+                    playlist.setName(playlistName);
+                    PlaylistManager.getInstance(getContext()).createPlaylist(playlist, YLPlaylistsFragment.this);
+                }
             }
         });
 
@@ -91,12 +102,14 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
 
     @Override
     public void onPlaylistCreated(Playlist playlist) {
-        // UNUSED
+        Toast.makeText(getContext(), R.string.playlist_created_success, Toast.LENGTH_LONG).show();
+
+        PlaylistManager.getInstance(getContext()).getOwnPlaylists(YLPlaylistsFragment.this);
     }
 
     @Override
     public void onPlaylistFailure(Throwable throwable) {
-        // UNUSED
+        Toast.makeText(getContext(), R.string.error_playlist_not_created, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -121,15 +134,39 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
 
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
-        LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         OwnPlaylistListAdapter adapter = new OwnPlaylistListAdapter((ArrayList<Playlist>) playlists, getContext(), YLPlaylistsFragment.this, R.layout.item_own_playlist);
-        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onPlaylistsNotReceived(List<Playlist> playlists) {
         Toast.makeText(getContext(), R.string.error_getting_playlists, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPlaylistFollowed() {
+      //UNUSED
+    }
+
+    @Override
+    public void onPlaylistFollowError(Throwable throwable) {
+      //UNUSED
+    }
+
+    @Override
+    public void onIsFollowedReceived(Followed followed) {
+      //UNUSED
+    }
+
+
+    @Override
+    public void onMostRecentPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
+    }
+
+    @Override
+    public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
+        // UNUSED
     }
 
     @Override
@@ -141,8 +178,9 @@ public class YLPlaylistsFragment extends Fragment implements PlaylistCallback, P
     public void onPlaylistClick(Playlist playlist) {
         assert getParentFragment() != null;
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, PlaylistFragment.getInstance(playlist))
+                .add(R.id.fragment_container, PlaylistFragment.getInstance(playlist, true))
                 .remove(getParentFragment())
+                .addToBackStack(null)
                 .commit();
     }
 }
