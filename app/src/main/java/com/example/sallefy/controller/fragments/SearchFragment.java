@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -23,8 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
 import com.example.sallefy.controller.activities.PlayingSongActivity;
-import com.example.sallefy.controller.adapters.PlaylistListAdapter;
-import com.example.sallefy.controller.adapters.SearchGroupAdapter;
 import com.example.sallefy.controller.adapters.SearchPlaylistListAdapter;
 import com.example.sallefy.controller.adapters.SearchUserListAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
@@ -41,14 +38,12 @@ import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Liked;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Search;
-import com.example.sallefy.model.SearchGroup;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class SearchFragment extends Fragment implements SearchCallback, TrackListAdapterCallback, PlaylistAdapterCallback, UserListAdapterCallback, PlaylistCallback, TrackCallback {
     public static final String TAG = SearchFragment.class.getName();
@@ -135,9 +130,6 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
         usersRV.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
 
 
-        //SearchGroupAdapter adapter = new SearchGroupAdapter(data, this.getContext(), this);
-        //searchRV.setAdapter(adapter);
-
         //Create Recycler View Adapters
         TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), null, SearchFragment.this, SearchFragment.this, R.layout.track_item);
         SearchPlaylistListAdapter adapterPL = new SearchPlaylistListAdapter(this.getContext(), null, SearchFragment.this);
@@ -206,10 +198,6 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
         if(mPlaylists.size() == 0 && mUsers.size() == 0 && mTracks.size() == 0){
             Toast.makeText(getContext(), R.string.search_empty_results, Toast.LENGTH_SHORT).show();
         }
-
-
-        //SearchGroupAdapter adapter = new SearchGroupAdapter(data, this.getContext(), this);
-        //searchRV.setAdapter(adapter);
 
         //Create Recycler View Adapters
         TrackListAdapter adapterTL = new TrackListAdapter(this.getContext(), mTracks, SearchFragment.this, SearchFragment.this, R.layout.track_item);
