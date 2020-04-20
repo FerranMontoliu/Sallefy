@@ -50,7 +50,7 @@ public class AddTrackToPlaylistFragment extends Fragment implements TrackListAda
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_add_song_playlist, container, false);
+        v = inflater.inflate(R.layout.fragment_add_track_to_playlist, container, false);
 
         rvTracks = v.findViewById(R.id.tracks_rv);
 
