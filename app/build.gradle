@@ -56,6 +56,6 @@ dependencies {
     // Cloudinary
     implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.25.0'
 
-    //BlurDialogFragment
+    // BlurDialogFragment
     implementation 'fr.tvbarthel.blurdialogfragment:lib:2.2.0'
 }

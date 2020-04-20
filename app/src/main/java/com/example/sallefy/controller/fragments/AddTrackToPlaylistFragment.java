@@ -75,6 +75,11 @@ public class AddTrackToPlaylistFragment extends Fragment implements TrackListAda
     }
 
     @Override
+    public void onOptionsClick(Track track) {
+        // UNUSED
+    }
+
+    @Override
     public void onTracksReceived(List<Track> tracks) {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rvTracks.setLayoutManager(manager);

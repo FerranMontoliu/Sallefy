@@ -87,6 +87,11 @@ public class UTracksFragment extends Fragment implements ProfileCallback, TrackL
     }
 
     @Override
+    public void onOptionsClick(Track track) {
+        // UNUSED
+    }
+
+    @Override
     public void onUserInfoReceived(User userData) {
 
     }
@@ -152,11 +157,11 @@ public class UTracksFragment extends Fragment implements ProfileCallback, TrackL
 
     @Override
     public void onPlaylistsReceived(List<Playlist> playlists) {
-
+        // UNUSED
     }
 
     @Override
     public void onPlaylistsNotReceived(Throwable throwable) {
-
+        // UNUSED
     }
 }

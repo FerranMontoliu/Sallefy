@@ -23,11 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sallefy.R;
 import com.example.sallefy.controller.MusicPlayer;
 import com.example.sallefy.controller.activities.MainActivity;
-import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.PlaylistAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
 import com.example.sallefy.controller.callbacks.PlayingSongCallback;
-import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.callbacks.TrackListAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
 import com.example.sallefy.controller.restapi.callback.TrackCallback;
@@ -43,7 +41,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class PlaylistFragment extends Fragment implements TrackListAdapterCallback, PlaylistCallback, TrackCallback {
+public class PlaylistFragment extends Fragment implements TrackListAdapterCallback, PlaylistCallback, TrackCallback, PlayingSongCallback {
 
     private Playlist mPlaylist;
     private RecyclerView rvPlaylist;
