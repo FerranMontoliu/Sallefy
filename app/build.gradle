@@ -54,7 +54,7 @@ dependencies {
     implementation 'androidx.palette:palette:1.0.0'
 
     // Cloudinary
-    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.25.0'
+    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.27.0'
 
     // BlurDialogFragment
     implementation 'fr.tvbarthel.blurdialogfragment:lib:2.2.0'
