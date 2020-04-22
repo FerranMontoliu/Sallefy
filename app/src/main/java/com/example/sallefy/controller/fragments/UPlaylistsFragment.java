@@ -1,13 +1,9 @@
 package com.example.sallefy.controller.fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -175,6 +171,11 @@ public class UPlaylistsFragment extends Fragment implements ProfileCallback, Pla
     }
 
     @Override
+    public void onFollowingPlaylistsReceived(List<Playlist> playlists) {
+        //UNUSED
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
     }
@@ -182,6 +183,6 @@ public class UPlaylistsFragment extends Fragment implements ProfileCallback, Pla
     @Override
     public void onPlaylistClick(Playlist playlist) {
         mPlaylist = playlist;
-        PlaylistManager.getInstance(getContext()).chechFollowed(playlist, UPlaylistsFragment.this);
+        PlaylistManager.getInstance(getContext()).checkFollowed(playlist, UPlaylistsFragment.this);
     }
 }

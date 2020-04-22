@@ -330,6 +330,11 @@ public class PlayingSongActivity extends AppCompatActivity implements PlaylistAd
         // UNUSED
     }
 
+    @Override
+    public void onFollowingPlaylistsReceived(List<Playlist> playlists) {
+        //UNUSED
+    }
+
 
     @Override
     public void onFailure(Throwable throwable) {

@@ -134,17 +134,17 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
 
     @Override
     public void onPlaylistFollowed() {
-
+        //UNUSED
     }
 
     @Override
     public void onPlaylistFollowError(Throwable throwable) {
-
+        //UNUSED
     }
 
     @Override
     public void onIsFollowedReceived(Followed followed) {
-
+        //UNUSED
     }
 
 
@@ -156,6 +156,11 @@ public class AddSongPlaylistFragment extends DialogFragment implements PlaylistA
     @Override
     public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
         // UNUSED
+    }
+
+    @Override
+    public void onFollowingPlaylistsReceived(List<Playlist> playlists) {
+        //UNUSED
     }
 
     @Override

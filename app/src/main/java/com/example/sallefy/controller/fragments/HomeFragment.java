@@ -1,11 +1,9 @@
 package com.example.sallefy.controller.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
-import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.PlaylistGroupListAdapter;
 import com.example.sallefy.controller.callbacks.PlaylistAdapterCallback;
 import com.example.sallefy.controller.restapi.callback.PlaylistCallback;
@@ -26,7 +23,6 @@ import com.example.sallefy.model.PlaylistGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class HomeFragment extends Fragment implements PlaylistAdapterCallback, PlaylistCallback {
 
@@ -34,7 +30,7 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
 
     private final static int POPULAR_PLAYLISTS = 0;
     private final static int DISCOVER_PLAYLISTS = 1;
-    private final static int LIKED_PLAYLISTS = 2;
+    private final static int FOLLOWED_PLAYLISTS = 2;
 
 
     private ArrayList<PlaylistGroup> mPlaylistGroups;
@@ -51,10 +47,11 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
         mPlaylistGroups = new ArrayList<>();
         mPlaylistGroups.add(new PlaylistGroup(getContext().getString(R.string.popular_playlists), null));
         mPlaylistGroups.add(new PlaylistGroup(getContext().getString(R.string.discover_playlists), null));
-        mPlaylistGroups.add(new PlaylistGroup(getContext().getString(R.string.liked_playlists), null));
+        mPlaylistGroups.add(new PlaylistGroup(getContext().getString(R.string.following_playlists), null));
 
         PlaylistManager.getInstance(getContext()).getAllPlaylistsByMostFollowed(HomeFragment.this);
         PlaylistManager.getInstance(getContext()).getAllPlaylistsByMostRecent(HomeFragment.this);
+        PlaylistManager.getInstance(getContext()).getAllPlaylistsByFollowed(HomeFragment.this);
     }
 
     @Nullable
@@ -98,7 +95,7 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
     @Override
     public void onPlaylistClick(Playlist playlist) {
         mPlaylist = playlist;
-        PlaylistManager.getInstance(getContext()).chechFollowed(playlist, HomeFragment.this);
+        PlaylistManager.getInstance(getContext()).checkFollowed(playlist, HomeFragment.this);
     }
 
     @Override
@@ -147,14 +144,6 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
 
         ArrayList<Playlist> likedPlaylists = new ArrayList<>();
 
-        for (Playlist p : playlists) {
-            if (p.isLiked()) {
-                likedPlaylists.add(p);
-            }
-        }
-
-        mPlaylistGroups.get(LIKED_PLAYLISTS).setPlaylists(likedPlaylists);
-
         PlaylistGroupListAdapter adapter = new PlaylistGroupListAdapter(getContext(), mPlaylistGroups, HomeFragment.this);
         rvPlaylistGroups.setAdapter(adapter);
     }
@@ -165,6 +154,15 @@ public class HomeFragment extends Fragment implements PlaylistAdapterCallback, P
 
         PlaylistGroupListAdapter adapter = new PlaylistGroupListAdapter(getContext(), mPlaylistGroups, HomeFragment.this);
         rvPlaylistGroups.setAdapter(adapter);
+    }
+
+    @Override
+    public void onFollowingPlaylistsReceived(List<Playlist> playlists) {
+        mPlaylistGroups.get(FOLLOWED_PLAYLISTS).setPlaylists((ArrayList) playlists);
+
+        PlaylistGroupListAdapter adapter = new PlaylistGroupListAdapter(getContext(), mPlaylistGroups, HomeFragment.this);
+        rvPlaylistGroups.setAdapter(adapter);
+
     }
 
     @Override

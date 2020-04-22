@@ -190,7 +190,32 @@ public class PlaylistManager {
         });
     }
 
-    public synchronized void chechFollowed(Playlist playlist, final PlaylistCallback callback) {
+    public synchronized void getAllPlaylistsByFollowed(final PlaylistCallback callback) {
+        UserToken userToken = Session.getInstance(mContext).getUserToken();
+        Call<List<Playlist>> call = mService.getAllPlaylistsByFollowed("Bearer " + userToken.getIdToken());
+        call.enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+                if (response.isSuccessful()) {
+                    callback.onFollowingPlaylistsReceived(response.body());
+                } else {
+                    try {
+                        callback.onPlaylistsNotReceived(new Throwable(response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                callback.onPlaylistNotReceived(t);
+
+            }
+        });
+    }
+
+    public synchronized void checkFollowed(Playlist playlist, final PlaylistCallback callback) {
         UserToken userToken = Session.getInstance(mContext).getUserToken();
         Call<Followed> call = mService.isFollowed(playlist.getId().toString(), "Bearer " + userToken.getIdToken());
         call.enqueue(new Callback<Followed>() {

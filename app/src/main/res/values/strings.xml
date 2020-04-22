@@ -96,7 +96,7 @@
     <string name="default_header">Default Header</string>
     <string name="popular_playlists">Popular Playlists</string>
     <string name="discover_playlists">Discover Playlists</string>
-    <string name="liked_playlists">Liked Playlists</string>
+    <string name="following_playlists">Following Playlists</string>
     <string name="playlist_name_cv">Playlist Name</string>
 
   
@@ -116,17 +116,6 @@
     <string name="are_you_sure">Are you sure you want to delete your account?</string>
     <string name="confirm_delete">DELETE</string>
     <string name="cancel_delete">CANCEL</string>
-  
-    <!-- PLAYLIST -->
-    <string name="follow">Follow</string>
-    <string name="following">Following</string>
-    <string name="shuffle_play">Shuffle Play</string>
-    <string name="pause">Pause</string>
-    <string name="add_songs">Add Songs</string>
-    <string name="track_name">Track name</string>
-    <string name="track_author">Track author</string>
-    <string name="error_unliking_track">The track could not be disliked.</string>
-    <string name="error_liking_track">The track could not be liked.</string>
     <string name="change_password">Change your password</string>
     <string name="hint_new_password">New password</string>
     <string name="hint_current_password">Current password</string>
@@ -136,9 +125,20 @@
     <string name="cancel_change_password">Cancel</string>
     <string name="password_changed_toast">Your password has been changed successfully!</string>
     <string name="password_failure_toast">ERROR: Could not change the password. Check all the fields are correct.</string>
+  
+    <!-- PLAYLIST -->
+    <string name="follow">Follow</string>
+    <string name="following">Following</string>
+    <string name="shuffle_play">Shuffle Play</string>
+    <string name="pause">Pause</string>
+    <string name="add_songs">Add Songs</string>
+    <string name="track_name">Track name</string>
+    <string name="track_author">Track author</string>
 
     <!-- TRACK OPTIONS -->
     <string name="add_queue">Add to queue</string>
     <string name="close">Close</string>
+    <string name="error_unliking_track">The track could not be disliked.</string>
+    <string name="error_liking_track">The track could not be liked.</string>
 
 </resources>

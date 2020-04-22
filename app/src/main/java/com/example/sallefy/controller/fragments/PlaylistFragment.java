@@ -340,6 +340,11 @@ public class PlaylistFragment extends Fragment implements TrackListAdapterCallba
     }
 
     @Override
+    public void onFollowingPlaylistsReceived(List<Playlist> playlists) {
+        //UNUSED
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
 
     }

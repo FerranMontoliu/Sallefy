@@ -1,6 +1,5 @@
 package com.example.sallefy.controller.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
 import com.example.sallefy.controller.MusicPlayer;
-import com.example.sallefy.controller.activities.PlayingSongActivity;
 import com.example.sallefy.controller.adapters.SearchPlaylistListAdapter;
 import com.example.sallefy.controller.adapters.SearchUserListAdapter;
 import com.example.sallefy.controller.adapters.TrackListAdapter;
@@ -252,7 +250,7 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
     @Override
     public void onPlaylistClick(Playlist playlist) {
         mPlaylist = playlist;
-        PlaylistManager.getInstance(getContext()).chechFollowed(playlist, SearchFragment.this);
+        PlaylistManager.getInstance(getContext()).checkFollowed(playlist, SearchFragment.this);
     }
 
     @Override
@@ -329,6 +327,11 @@ public class SearchFragment extends Fragment implements SearchCallback, TrackLis
     @Override
     public void onMostFollowedPlaylistsReceived(List<Playlist> playlists) {
 
+    }
+
+    @Override
+    public void onFollowingPlaylistsReceived(List<Playlist> playlists) {
+        //UNUSED
     }
 
     @Override

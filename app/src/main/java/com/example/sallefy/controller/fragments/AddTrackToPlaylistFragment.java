@@ -180,6 +180,11 @@ public class AddTrackToPlaylistFragment extends Fragment implements TrackListAda
     }
 
     @Override
+    public void onFollowingPlaylistsReceived(List<Playlist> playlists) {
+        //UNUSED
+    }
+
+    @Override
     public void onFailure(Throwable throwable) {
         Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
