@@ -101,7 +101,9 @@ public class Playlist implements Serializable {
     }
 
     public void setUserLogin(String userLogin) {
-        if (user == null) { user = new User(); }
+        if (user == null) {
+            user = new User();
+        }
         user.setLogin(userLogin);
     }
 
@@ -127,7 +129,7 @@ public class Playlist implements Serializable {
         if (getClass() != obj.getClass())
             return false;
 
-        return ((Playlist)obj).getId().equals(this.id);
+        return ((Playlist) obj).getId().equals(this.id);
     }
 
     public boolean isLiked() {
@@ -138,7 +140,7 @@ public class Playlist implements Serializable {
         this.liked = liked;
     }
 
-    public void addTrack (Track track) {
+    public void addTrack(Track track) {
         tracks.add(track);
     }
 }

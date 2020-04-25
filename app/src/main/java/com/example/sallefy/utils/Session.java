@@ -1,7 +1,5 @@
 package com.example.sallefy.utils;
 
-import android.content.Context;
-
 import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserRegister;
 import com.example.sallefy.model.UserToken;
@@ -12,15 +10,13 @@ public class Session {
     public static Session sSession;
     private static Object mutex = new Object();
 
-    private Context mContext;
-
     private UserRegister mUserRegister;
     private User mUser;
     private UserToken mUserToken;
 
     private boolean audioEnabled;
 
-    public static Session getInstance(Context context) {
+    public static Session getInstance() {
         Session result = sSession;
         if (result == null) {
             synchronized (mutex) {
@@ -32,10 +28,7 @@ public class Session {
         return result;
     }
 
-    private Session() {}
-
-    public Session(Context context) {
-        this.mContext = context;
+    public Session() {
         this.mUserRegister = null;
         this.mUserToken = null;
     }

@@ -13,7 +13,7 @@ public class PreferenceUtils {
     public PreferenceUtils() {
     }
 
-    public static boolean saveUser (Context context, String login) {
+    public static boolean saveUser(Context context, String login) {
         SharedPreferences prefs = context.getSharedPreferences(LOGIN_COLLECTION, Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         prefsEditor.putString(KEY_USER, login);
@@ -21,12 +21,12 @@ public class PreferenceUtils {
         return true;
     }
 
-    public static String getUser (Context context) {
+    public static String getUser(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(LOGIN_COLLECTION, Context.MODE_PRIVATE);
         return prefs.getString(KEY_USER, null);
     }
 
-    public static boolean savePassword (Context context, String userId) {
+    public static boolean savePassword(Context context, String userId) {
         SharedPreferences prefs = context.getSharedPreferences(LOGIN_COLLECTION, Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         prefsEditor.putString(KEY_PASSWORD, userId);
@@ -34,7 +34,7 @@ public class PreferenceUtils {
         return true;
     }
 
-    public static String getPassword (Context context) {
+    public static String getPassword(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(LOGIN_COLLECTION, Context.MODE_PRIVATE);
         return prefs.getString(KEY_PASSWORD, null);
     }

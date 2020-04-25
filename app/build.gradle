@@ -10,8 +10,6 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        renderscriptTargetApi 29
-        renderscriptSupportModeEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -27,6 +25,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    viewBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
@@ -42,6 +45,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
@@ -58,4 +62,24 @@ dependencies {
 
     // BlurDialogFragment
     implementation 'fr.tvbarthel.blurdialogfragment:lib:2.2.0'
+
+    // Dagger2
+    api "com.google.dagger:dagger:2.27"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.27"
+    api "com.google.dagger:dagger-android:2.27"
+    api "com.google.dagger:dagger-android-support:2.27"
+    annotationProcessor "com.google.dagger:dagger-android-processor:2.27"
+
+    // RxJava
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.2'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.8.1'
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment:2.2.2"
+    implementation "androidx.navigation:navigation-ui:2.2.2"
+
+    // Fragments
+    implementation "androidx.fragment:fragment:1.2.4"
+
 }

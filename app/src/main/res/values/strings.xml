@@ -1,6 +1,29 @@
 <resources>
     <string name="app_name">Sallefy</string>
 
+    <!-- LABELS -->
+    <string name="login_label">Login</string>
+    <string name="register_label">Register</string>
+    <string name="home_label">Home</string>
+    <string name="playing_song_label">Playing song</string>
+    <string name="add_song_to_playlist_label">Add song to playlist</string>
+    <string name="add_track_to_playlist_label">Add track to playlist</string>
+    <string name="create_track_label">Create track</string>
+    <string name="options_label">Options</string>
+    <string name="playlist_label">Playlist</string>
+    <string name="search_label">Search</string>
+    <string name="track_options_label">Track options</string>
+    <string name="profile_label">Profile</string>
+    <string name="user_playlists_label">User playlists</string>
+    <string name="user_settings_label">User settings</string>
+    <string name="user_tracks">User tracks</string>
+    <string name="your_library_label">Your library</string>
+    <string name="your_library_followers_label">Your library followers</string>
+    <string name="your_library_followings_label">Your library followings</string>
+    <string name="your_library_tracks_label">Your library tracks</string>
+    <string name="your_library_playlists_label">Your library playlists</string>
+
+
     <!-- ERROR TOASTS -->
     <string name="login_failed">Error! Login failed!</string>
     <string name="register_failed">Error! Register failed!</string>
@@ -38,7 +61,8 @@
     <string name="default_track_title">Title</string>
     <string name="fragment_playlists">Playlist Title</string>
     <string name="default_user_login_name">Username</string>
-
+    <string name="no_playlists_to_show">There are no playlists to show…\nCreate your own!</string>
+    <string name="no_followed_playlists">You don\'t follow any playlist yet…\nLook for a cool one and follow it!</string>
 
     <!-- LOGIN AND REGISTER -->
     <string name="login_btn_text">Login</string>
@@ -84,22 +108,22 @@
     <string name="playlist_name">Playlist Name</string>
     <string name="author_name">Author Name</string>
 
-    
+
     <!-- ADD SONG TO PLAYLIST -->
     <string name="select_playlist">Select a Playlist</string>
     <string name="cancel">Cancel</string>
     <string name="playlist_thumbnail_description">Playlist thumbnail</string>
     <string name="select_track">Select a track</string>
-    
-    
+
+
     <!-- HOME -->
     <string name="default_header">Default Header</string>
     <string name="popular_playlists">Popular Playlists</string>
     <string name="discover_playlists">Discover Playlists</string>
-    <string name="liked_playlists">Liked Playlists</string>
+    <string name="followed_playlists">Followed Playlists</string>
     <string name="playlist_name_cv">Playlist Name</string>
 
-  
+
     <!-- SEARCH -->
     <string name="search_hint">Search</string>
     <string name="search_empty_results">There are no results for your search!</string>
@@ -116,7 +140,7 @@
     <string name="are_you_sure">Are you sure you want to delete your account?</string>
     <string name="confirm_delete">DELETE</string>
     <string name="cancel_delete">CANCEL</string>
-  
+
     <!-- PLAYLIST -->
     <string name="follow">Follow</string>
     <string name="following">Following</string>
