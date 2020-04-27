@@ -9,7 +9,6 @@
         android:id="@+id/playlist_cardview"
         android:layout_width="@dimen/card_view_size"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         app:cardBackgroundColor="#00FFFFFF"
         app:cardElevation="0dp"
         app:cardPreventCornerOverlap="false"

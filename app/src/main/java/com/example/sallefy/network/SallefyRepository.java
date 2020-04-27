@@ -563,4 +563,21 @@ public class SallefyRepository {
         });
     }
 
+    public synchronized void getAllFollowedPlaylists(final GetPlaylistsCallback callback) {
+        service.getAllFollowedPlaylists().enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+                if (response.isSuccessful()) {
+                    callback.onPlaylistsReceived(response.body());
+                } else {
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
 }

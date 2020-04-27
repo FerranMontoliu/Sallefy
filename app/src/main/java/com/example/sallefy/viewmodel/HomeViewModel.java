@@ -55,8 +55,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     private void requestFollowedPlaylists() {
-        // TODO: FIX CALL
-        sallefyRepository.getAllPlaylistsByMostFollowed(new GetPlaylistsCallback() {
+        sallefyRepository.getAllFollowedPlaylists(new GetPlaylistsCallback() {
             @Override
             public void onPlaylistsReceived(List<Playlist> playlists) {
                 followedPlaylists.postValue(playlists);

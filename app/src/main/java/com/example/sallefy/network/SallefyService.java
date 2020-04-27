@@ -120,4 +120,7 @@ public interface SallefyService {
 
     @GET("me/followings")
     Call<List<User>> getFollowings();
+
+    @GET("me/playlists/following")
+    Call<List<Playlist>> getAllFollowedPlaylists();
 }
