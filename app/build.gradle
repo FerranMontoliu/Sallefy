@@ -82,4 +82,7 @@ dependencies {
     // Fragments
     implementation "androidx.fragment:fragment:1.2.4"
 
+    // Inject
+    implementation group: 'javax.inject', name: 'javax.inject', version: '1'
+
 }
