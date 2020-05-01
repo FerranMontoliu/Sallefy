@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
 import com.example.sallefy.callback.UserAdapterCallback;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
@@ -73,6 +75,11 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     @Override
     public int getItemCount() {
         return (users != null ? users.size() : 0);
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = (ArrayList) users;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

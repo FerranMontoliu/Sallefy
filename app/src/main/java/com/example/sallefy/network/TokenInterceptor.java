@@ -26,7 +26,7 @@ public class TokenInterceptor implements Interceptor {
         if (TokenManager.isTokenValid(token)) {
             Request request = chain.request()
                     .newBuilder()
-                    .addHeader("Authorization", token)
+                    .addHeader("Authorization", "Bearer " + token)
                     .build();
 
             return chain.proceed(request);
