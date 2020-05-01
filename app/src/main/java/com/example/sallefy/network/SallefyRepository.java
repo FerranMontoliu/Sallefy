@@ -45,9 +45,9 @@ public class SallefyRepository {
     private TokenManager tokenManager;
 
     @Inject
-    public SallefyRepository(SallefyService service, TokenManager tokenManager) {
+    public SallefyRepository(SallefyService service) {
         this.service = service;
-        this.tokenManager = tokenManager;
+        this.tokenManager = TokenManager.getInstance();
     }
 
 

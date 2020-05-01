@@ -16,8 +16,8 @@ public class TokenInterceptor implements Interceptor {
     private TokenManager tokenManager;
 
     @Inject
-    public TokenInterceptor(TokenManager tokenManager) {
-        this.tokenManager = tokenManager;
+    public TokenInterceptor() {
+        this.tokenManager = TokenManager.getInstance();
     }
 
     @Override

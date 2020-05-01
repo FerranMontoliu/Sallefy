@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sallefy.databinding.FragmentPlaylistBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.viewmodel.PlaylistViewModel;
 
 import javax.inject.Inject;
@@ -24,12 +25,14 @@ public class PlaylistFragment extends DaggerFragment {
 
     private FragmentPlaylistBinding binding;
     private PlaylistViewModel playlistViewModel;
+    private Playlist playlist;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPlaylistBinding.inflate(inflater, container, false);
+        playlist = (Playlist)getArguments().getSerializable("playlist");
         return binding.getRoot();
     }
 

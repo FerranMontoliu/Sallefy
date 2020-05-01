@@ -52,7 +52,9 @@
             app:destination="@id/playingSongFragment" />
         <action
             android:id="@+id/action_homeFragment_to_playlistFragment"
-            app:destination="@id/playlistFragment" />
+            app:destination="@id/playlistFragment">
+        </action>
+
     </fragment>
 
     <fragment
@@ -154,6 +156,11 @@
         <action
             android:id="@+id/action_playlistFragment_to_addTrackToPlaylistFragment"
             app:destination="@id/addTrackToPlaylistFragment" />
+        <argument
+            android:name="playlist"
+            app:argType="com.example.sallefy.model.Playlist"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
