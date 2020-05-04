@@ -37,7 +37,6 @@ public class SearchFragment extends DaggerFragment {
     private RecyclerView usersRv;
     private UserListAdapter usersAdapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
