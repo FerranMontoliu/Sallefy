@@ -60,7 +60,7 @@ public class SearchFragment extends DaggerFragment {
     }
 
     private void subscribeObservers() {
-        searchViewModel.getSearch().observe(getViewLifecycleOwner(), search -> {
+        searchViewModel.getSearch(binding.searchEditText.getText().toString()).observe(getViewLifecycleOwner(), search -> {
             if (search.getPlaylists() != null && search.getPlaylists().size() > 0) {
                 playlistsRv.setVisibility(View.VISIBLE);
             }

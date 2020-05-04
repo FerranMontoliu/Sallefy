@@ -24,17 +24,14 @@ public class SearchViewModel extends ViewModel {
 
     private MutableLiveData<Search> searchResults;
 
-    private EditText search;
-
     @Inject
     public SearchViewModel(SallefyRepository sallefyRepository) {
         this.sallefyRepository = sallefyRepository;
-
         this.searchResults = new MutableLiveData<>();
     }
 
-    private void requestSearchResults() {
-        sallefyRepository.getSearchResults(search.getText().toString(), new SearchCallback() {
+    private void requestSearchResults(String searchText) {
+        sallefyRepository.getSearchResults(searchText, new SearchCallback() {
             @Override
             public void onSearchResultsReceived(Search results) {
                 searchResults.postValue(results);
@@ -53,8 +50,8 @@ public class SearchViewModel extends ViewModel {
         });
     }
 
-    public LiveData<Search> getSearch() {
-        requestSearchResults();
+    public LiveData<Search> getSearch(String searchText) {
+        requestSearchResults(searchText);
         return searchResults;
     }
 
