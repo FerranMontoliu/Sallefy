@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.sallefy.adapter.OwnTrackListAdapter;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.network.callback.CreateTrackCallback;
 import com.example.sallefy.network.callback.GetTracksCallback;
+import com.example.sallefy.network.callback.LikeTrackCallback;
 
 import java.util.List;
 
@@ -29,6 +31,20 @@ public class YourLibraryTracksViewModel extends ViewModel {
             @Override
             public void onTrackCreated() {
                 requestOwnTracks();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
+    }
+
+    public void likeTrack(Track track, int position, OwnTrackListAdapter adapter) {
+        sallefyRepository.likeTrack(track, new LikeTrackCallback() {
+            @Override
+            public void onTrackLiked() {
+                adapter.changeTrackLikeStateIcon(position);
             }
 
             @Override

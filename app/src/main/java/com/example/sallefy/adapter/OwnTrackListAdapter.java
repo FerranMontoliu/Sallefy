@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
 import com.example.sallefy.adapter.callback.IListAdapter;
+import com.example.sallefy.adapter.callback.LikeableListAdapter;
 import com.example.sallefy.databinding.ItemOwnTrackBinding;
 import com.example.sallefy.model.Track;
 
@@ -20,10 +21,10 @@ import java.util.List;
 
 public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapter.ViewHolder> {
     private Context context;
-    private IListAdapter callback;
+    private LikeableListAdapter callback;
     private List<Track> items;
 
-    public OwnTrackListAdapter(Context context, IListAdapter callback) {
+    public OwnTrackListAdapter(Context context, LikeableListAdapter callback) {
         this.context = context;
         this.callback = callback;
         items = null;
@@ -40,17 +41,23 @@ public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         if (items != null && items.size() > 0) {
+            Track track = items.get(position);
+
             holder.itemView.setOnClickListener(v -> {
-                callback.onItemSelected(items.get(position));
+                callback.onItemSelected(track);
             });
 
             holder.mLike.setOnClickListener(v -> {
-                changeTrackLikeStateIcon(position);
+                callback.onItemLiked(track, position);
             });
 
-            holder.mTitle.setText(items.get(position).getName());
+            holder.mMore.setOnClickListener(v-> {
+                callback.onItemMore(track);
+            });
 
-            if (items.get(position).isLiked()) {
+            holder.mTitle.setText(track.getName());
+
+            if (track.isLiked()) {
                 holder.mLike.setImageResource(R.drawable.ic_favorite_filled);
             } else {
                 holder.mLike.setImageResource(R.drawable.ic_favorite_unfilled);
@@ -60,10 +67,20 @@ public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapte
                 Glide.with(context)
                         .asBitmap()
                         .placeholder(R.drawable.ic_audiotrack_60dp)
-                        .load(items.get(position).getThumbnail())
+                        .load(track.getThumbnail())
                         .into(holder.mPhoto);
             }
         }
+    }
+
+    public void changeTrackLikeStateIcon(int position) {
+        Track t = items.get(position);
+        if (t.isLiked()) {
+            t.setLiked(false);
+        } else {
+            t.setLiked(true);
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -80,22 +97,14 @@ public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapte
         ImageView mPhoto;
         TextView mTitle;
         ImageButton mLike;
+        ImageButton mMore;
 
         public ViewHolder(ItemOwnTrackBinding binding) {
             super(binding.getRoot());
             mPhoto = binding.amImageIv;
             mTitle = binding.amTitleTv;
             mLike = binding.itLikeIb;
+            mMore = binding.itMoreIb;
         }
-    }
-
-    private void changeTrackLikeStateIcon(int position) {
-        Track t = items.get(position);
-        if (t.isLiked()) {
-            t.setLiked(false);
-        } else {
-            t.setLiked(true);
-        }
-        notifyDataSetChanged();
     }
 }

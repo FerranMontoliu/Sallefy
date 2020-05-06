@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sallefy.R;
 import com.example.sallefy.adapter.OwnTrackListAdapter;
 import com.example.sallefy.adapter.callback.IListAdapter;
+import com.example.sallefy.adapter.callback.LikeableListAdapter;
 import com.example.sallefy.databinding.FragmentYourLibraryTracksBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.Track;
 import com.example.sallefy.viewmodel.YourLibraryTracksViewModel;
 
 import java.util.Objects;
@@ -26,7 +28,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class YourLibraryTracksFragment extends DaggerFragment implements IListAdapter {
+public class YourLibraryTracksFragment extends DaggerFragment implements LikeableListAdapter {
 
     @Inject
     protected ViewModelFactory viewModelFactory;
@@ -87,5 +89,15 @@ public class YourLibraryTracksFragment extends DaggerFragment implements IListAd
     @Override
     public void onItemSelected(Object item) {
         // TODO: OPEN SPECIFIC TRACK FRAGMENT
+    }
+
+    @Override
+    public void onItemLiked(Object item, int position) {
+        yourLibraryTracksViewModel.likeTrack((Track) item, position, adapter);
+    }
+
+    @Override
+    public void onItemMore(Object item) {
+        // TODO: OPEN MORE DIALOG
     }
 }

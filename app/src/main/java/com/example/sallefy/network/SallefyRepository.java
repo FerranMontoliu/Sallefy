@@ -21,6 +21,7 @@ import com.example.sallefy.network.callback.GetPlaylistsCallback;
 import com.example.sallefy.network.callback.GetTracksCallback;
 import com.example.sallefy.network.callback.GetUserCallback;
 import com.example.sallefy.network.callback.GetUsersCallback;
+import com.example.sallefy.network.callback.LikeTrackCallback;
 import com.example.sallefy.network.callback.LoginCallback;
 import com.example.sallefy.network.callback.PasswordChangeCallback;
 import com.example.sallefy.network.callback.PlaylistCallback;
@@ -376,20 +377,20 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void likeTrack(Track track, final TrackCallback callback, final int position) {
+    public synchronized void likeTrack(Track track, final LikeTrackCallback callback) {
         service.likeTrack(track.getId().toString()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    callback.onTrackLiked(position);
+                    callback.onTrackLiked();
                 } else {
-                    callback.onTrackLikedError(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                callback.onTrackLikedError(t);
+                callback.onFailure(t);
             }
         });
     }
