@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
-import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.adapter.callback.LikeableListAdapter;
 import com.example.sallefy.databinding.ItemOwnTrackBinding;
 import com.example.sallefy.model.Track;

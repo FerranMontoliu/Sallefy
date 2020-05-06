@@ -38,16 +38,18 @@ public class OwnPlaylistListAdapter extends RecyclerView.Adapter<OwnPlaylistList
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         if (items != null && items.size() > 0) {
+            Playlist playlist = items.get(position);
+
             holder.itemView.setOnClickListener(v -> {
-                callback.onItemSelected(items.get(position));
+                callback.onItemSelected(playlist);
             });
 
-            holder.tvTitle.setText(items.get(position).getName());
+            holder.tvTitle.setText(playlist.getName());
 
-            if (items.get(position).getThumbnail() != null) {
+            if (playlist.getThumbnail() != null) {
                 Glide.with(context)
                         .asBitmap()
-                        .load(items.get(position).getThumbnail())
+                        .load(playlist.getThumbnail())
                         .into(holder.ivPicture);
             }
         }
@@ -64,7 +66,6 @@ public class OwnPlaylistListAdapter extends RecyclerView.Adapter<OwnPlaylistList
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         TextView tvTitle;
         ImageView ivPicture;
 
