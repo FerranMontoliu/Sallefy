@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,8 @@ import com.example.sallefy.databinding.FragmentYourLibraryPlaylistsBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.viewmodel.YourLibraryPlaylistsViewModel;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -68,6 +71,10 @@ public class YourLibraryPlaylistsFragment extends DaggerFragment implements ILis
         adapter = new OwnPlaylistListAdapter(requireContext(), this);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(Objects.requireNonNull(requireContext().getDrawable(R.drawable.horizontal_divider_item_decoration)));
+        mRecyclerView.addItemDecoration(itemDecoration);
     }
 
     private void showPopup() {
