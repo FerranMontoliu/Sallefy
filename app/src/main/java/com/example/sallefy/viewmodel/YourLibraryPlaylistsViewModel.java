@@ -27,7 +27,7 @@ public class YourLibraryPlaylistsViewModel extends ViewModel {
     public void createPlaylist(Playlist playlist) {
         sallefyRepository.createPlaylist(playlist, new CreatePlaylistCallback() {
             @Override
-            public void onPlaylistCreated(Playlist playlist) {
+            public void onPlaylistCreated() {
                 requestOwnPlaylists();
             }
 
@@ -47,6 +47,7 @@ public class YourLibraryPlaylistsViewModel extends ViewModel {
 
             @Override
             public void onFailure(Throwable throwable) {
+
             }
         });
     }
