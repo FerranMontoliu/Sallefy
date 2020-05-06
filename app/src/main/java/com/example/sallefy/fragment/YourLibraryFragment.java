@@ -1,7 +1,6 @@
 package com.example.sallefy.fragment;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -87,39 +86,26 @@ public class YourLibraryFragment extends DaggerFragment {
         final EditText newPassword = viewInflated.findViewById(R.id.new_password);
         builder.setView(viewInflated);
 
-        builder.setPositiveButton(R.string.change_password_accept, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
+        builder.setPositiveButton(R.string.change_password_accept, (dialog, which) -> {
         });
 
-        builder.setNegativeButton(R.string.cancel_change_password, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(R.string.cancel_change_password, (dialog, which) -> dialog.cancel());
         final AlertDialog dialog = builder.create();
         dialog.show();
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                String strPassword = currentPassword.getText().toString();
-                String strNewPassword = newPassword.getText().toString();
-                if (strNewPassword.trim().isEmpty()) {
-                    newPassword.setError(requireContext().getString(R.string.empty_field_error));
-                }
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String strPassword = currentPassword.getText().toString();
+            String strNewPassword = newPassword.getText().toString();
+            if (strNewPassword.trim().isEmpty()) {
+                newPassword.setError(requireContext().getString(R.string.empty_field_error));
+            }
 
-                if (strPassword.trim().isEmpty()) {
-                    currentPassword.setError(requireContext().getString(R.string.empty_field_error));
-                }
+            if (strPassword.trim().isEmpty()) {
+                currentPassword.setError(requireContext().getString(R.string.empty_field_error));
+            }
 
-                if (!strPassword.trim().isEmpty() && !strNewPassword.trim().isEmpty()){
-                    PasswordChange passwordChange = new PasswordChange(strPassword, strNewPassword);
-                    yourLibraryViewModel.changePassword(passwordChange, dialog);
-                }
+            if (!strPassword.trim().isEmpty() && !strNewPassword.trim().isEmpty()){
+                PasswordChange passwordChange = new PasswordChange(strPassword, strNewPassword);
+                yourLibraryViewModel.changePassword(passwordChange, dialog);
             }
         });
 

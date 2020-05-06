@@ -1,43 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/item_playlist_layout"
-android:layout_width="match_parent"
-android:layout_height="70dp"
-android:layout_marginBottom="1dp"
-android:gravity="center_vertical"
-android:orientation="horizontal">
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/back_dark"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_playlist_layout"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:background="@drawable/item_list_border">
+
 
     <ImageView
         android:id="@+id/am_image_iv"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:padding="3dp"/>
+        android:layout_width="@dimen/item_height_without_border"
+        android:layout_height="@dimen/item_height_without_border"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/playlist_thumbnail_description"
+        android:src="@drawable/ic_audiotrack_60dp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/am_title_tv"
+        style="@style/PlaylistNameTheme"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/am_image_iv"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="15dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+        android:text="@string/playlist_name"
+        android:textAlignment="textStart"
+        android:textColor="@color/light"/>
 
-        <TextView
-            android:id="@+id/am_title_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/default_track_title"
-            android:textAlignment="textStart"
-            android:textColor="@color/light"/>
 
-    </LinearLayout>
-</LinearLayout>
 
-</LinearLayout>
+
+
+
+</RelativeLayout>

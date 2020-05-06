@@ -64,6 +64,7 @@
     <string name="no_playlists_to_show">There are no playlists to show…\nCreate your own!</string>
     <string name="no_followed_playlists">You don\'t follow any playlist yet…\nLook for a cool one and follow it!</string>
 
+
     <!-- LOGIN AND REGISTER -->
     <string name="login_btn_text">Login</string>
     <string name="no_account_tv_text">Don\'t have an account?</string>

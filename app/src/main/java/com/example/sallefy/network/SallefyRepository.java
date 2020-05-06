@@ -14,6 +14,7 @@ import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserLogin;
 import com.example.sallefy.model.UserRegister;
 import com.example.sallefy.model.UserToken;
+import com.example.sallefy.network.callback.CreatePlaylistCallback;
 import com.example.sallefy.network.callback.GenreCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
 import com.example.sallefy.network.callback.GetUserCallback;
@@ -73,20 +74,20 @@ public class SallefyRepository {
 
 
     // PLAYLISTS ENDPOINT
-    public synchronized void createPlaylist(Playlist playlist, final PlaylistCallback callback) {
+    public synchronized void createPlaylist(Playlist playlist, final CreatePlaylistCallback callback) {
         service.createPlaylist(playlist).enqueue(new Callback<Playlist>() {
             @Override
             public void onResponse(Call<Playlist> call, Response<Playlist> response) {
                 if (response.isSuccessful()) {
                     callback.onPlaylistCreated(response.body());
                 } else {
-                    callback.onPlaylistFailure(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<Playlist> call, Throwable t) {
-                callback.onPlaylistFailure(t);
+                callback.onFailure(t);
             }
         });
     }
@@ -491,20 +492,20 @@ public class SallefyRepository {
 
 
     // ME ENDPOINT
-    public synchronized void getOwnPlaylists(final PlaylistCallback callback) {
+    public synchronized void getOwnPlaylists(final GetPlaylistsCallback callback) {
         service.getOwnPlaylists().enqueue(new Callback<List<Playlist>>() {
             @Override
             public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
                 if (response.isSuccessful()) {
                     callback.onPlaylistsReceived(response.body());
                 } else {
-                    callback.onPlaylistsNotReceived(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Playlist>> call, Throwable t) {
-                callback.onPlaylistNotReceived(t);
+                callback.onFailure(t);
             }
         });
     }
