@@ -63,6 +63,9 @@
     <string name="default_user_login_name">Username</string>
     <string name="no_playlists_to_show">There are no playlists to show…\nCreate your own!</string>
     <string name="no_followed_playlists">You don\'t follow any playlist yet…\nLook for a cool one and follow it!</string>
+    <string name="no_own_tracks_to_show">You haven\'t uploaded any track yet…\nTry it out!</string>
+    <string name="no_followers_to_show">You don\'t have any follower yet…\nInvite your friends to follow you!</string>
+    <string name="no_followings_to_show">You aren\'t following anyone yet…\nFollow your favourite artist!</string>
 
     <!-- LOGIN AND REGISTER -->
     <string name="login_btn_text">Login</string>

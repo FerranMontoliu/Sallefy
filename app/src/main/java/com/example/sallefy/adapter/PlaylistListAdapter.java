@@ -17,6 +17,7 @@ import com.example.sallefy.callback.PlaylistAdapterCallback;
 import com.example.sallefy.model.Playlist;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapter.ViewHolder> {
@@ -62,6 +63,11 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
                         .into(holder.mPhoto);
             }
         }
+    }
+
+    public void setPlaylists(List<Playlist> playlists) {
+        this.mPlaylists = (ArrayList) playlists;
+        notifyDataSetChanged();
     }
 
     @Override

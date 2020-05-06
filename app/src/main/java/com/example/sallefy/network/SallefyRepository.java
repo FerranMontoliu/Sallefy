@@ -14,10 +14,16 @@ import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserLogin;
 import com.example.sallefy.model.UserRegister;
 import com.example.sallefy.model.UserToken;
+import com.example.sallefy.network.callback.CreatePlaylistCallback;
+import com.example.sallefy.network.callback.CreateTrackCallback;
 import com.example.sallefy.network.callback.GenreCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
+import com.example.sallefy.network.callback.GetTracksCallback;
 import com.example.sallefy.network.callback.GetUserCallback;
+import com.example.sallefy.network.callback.GetUsersCallback;
+import com.example.sallefy.network.callback.LikeTrackCallback;
 import com.example.sallefy.network.callback.LoginCallback;
+import com.example.sallefy.network.callback.PasswordChangeCallback;
 import com.example.sallefy.network.callback.PlaylistCallback;
 import com.example.sallefy.network.callback.ProfileCallback;
 import com.example.sallefy.network.callback.RegisterCallback;
@@ -72,20 +78,20 @@ public class SallefyRepository {
 
 
     // PLAYLISTS ENDPOINT
-    public synchronized void createPlaylist(Playlist playlist, final PlaylistCallback callback) {
+    public synchronized void createPlaylist(Playlist playlist, final CreatePlaylistCallback callback) {
         service.createPlaylist(playlist).enqueue(new Callback<Playlist>() {
             @Override
             public void onResponse(Call<Playlist> call, Response<Playlist> response) {
                 if (response.isSuccessful()) {
-                    callback.onPlaylistCreated(response.body());
+                    callback.onPlaylistCreated();
                 } else {
-                    callback.onPlaylistFailure(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<Playlist> call, Throwable t) {
-                callback.onPlaylistFailure(t);
+                callback.onFailure(t);
             }
         });
     }
@@ -371,20 +377,20 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void likeTrack(Track track, final TrackCallback callback, final int position) {
+    public synchronized void likeTrack(Track track, final LikeTrackCallback callback) {
         service.likeTrack(track.getId().toString()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    callback.onTrackLiked(position);
+                    callback.onTrackLiked();
                 } else {
-                    callback.onTrackLikedError(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                callback.onTrackLikedError(t);
+                callback.onFailure(t);
             }
         });
     }
@@ -407,12 +413,12 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void createTrack(Track track, final TrackCallback callback) {
+    public synchronized void createTrack(Track track, final CreateTrackCallback callback) {
         service.createTrack(track).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    callback.onCreateTrack();
+                    callback.onTrackCreated();
                 } else {
                     callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
@@ -427,7 +433,7 @@ public class SallefyRepository {
 
 
     // ACCOUNT ENDPOINT
-    public synchronized void changePassword(final PasswordChange passwordChange, final UserCallback callback, final DialogInterface dialog) {
+    public synchronized void changePassword(final PasswordChange passwordChange, final DialogInterface dialog, final PasswordChangeCallback callback) {
         service.changePassword(passwordChange).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -435,7 +441,7 @@ public class SallefyRepository {
                 if (response.isSuccessful()) {
                     callback.onPasswordChanged(dialog);
                 } else {
-                    callback.onPasswordChangeFailure(new Throwable(String.valueOf(response.errorBody())), dialog);
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
@@ -490,43 +496,43 @@ public class SallefyRepository {
 
 
     // ME ENDPOINT
-    public synchronized void getOwnPlaylists(final PlaylistCallback callback) {
+    public synchronized void getOwnPlaylists(final GetPlaylistsCallback callback) {
         service.getOwnPlaylists().enqueue(new Callback<List<Playlist>>() {
             @Override
             public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
                 if (response.isSuccessful()) {
                     callback.onPlaylistsReceived(response.body());
                 } else {
-                    callback.onPlaylistsNotReceived(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Playlist>> call, Throwable t) {
-                callback.onPlaylistNotReceived(t);
+                callback.onFailure(t);
             }
         });
     }
 
-    public synchronized void getOwnTracks(final TrackCallback callback) {
+    public synchronized void getOwnTracks(final GetTracksCallback callback) {
         service.getOwnTracks().enqueue(new Callback<List<Track>>() {
             @Override
             public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
                 if (response.isSuccessful()) {
                     callback.onTracksReceived(response.body());
                 } else {
-                    callback.onNoTracks(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Track>> call, Throwable t) {
-                callback.onNoTracks(t);
+                callback.onFailure(t);
             }
         });
     }
 
-    public synchronized void getFollowers(final UserCallback callback) {
+    public synchronized void getFollowers(final GetUsersCallback callback) {
         service.getFollowers().enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
@@ -545,7 +551,7 @@ public class SallefyRepository {
     }
 
 
-    public synchronized void getFollowings(final UserCallback callback) {
+    public synchronized void getFollowings(final GetUsersCallback callback) {
         service.getFollowings().enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {

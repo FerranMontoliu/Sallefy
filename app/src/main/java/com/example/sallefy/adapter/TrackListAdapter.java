@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
 import com.example.sallefy.callback.TrackListAdapterCallback;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.network.callback.TrackCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.ViewHolder> {
 
@@ -55,6 +57,11 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
 
     public void updateTrackLikeStateIcon(int position, boolean isLiked) {
         mTracks.get(position).setLiked(isLiked);
+        notifyDataSetChanged();
+    }
+
+    public void setTracks(List<Track> tracks) {
+        this.mTracks = (ArrayList) tracks;
         notifyDataSetChanged();
     }
 

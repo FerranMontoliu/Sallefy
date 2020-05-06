@@ -25,7 +25,7 @@ public class HomePlaylistListAdapter extends RecyclerView.Adapter<HomePlaylistLi
     public HomePlaylistListAdapter(Context context, IListAdapter callback) {
         this.context = context;
         this.callback = callback;
-        items = null;
+        this.items = null;
     }
 
     @NonNull
