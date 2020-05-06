@@ -3,70 +3,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_nav_graph"
-    app:startDestination="@id/YourLibraryPlaylistsFragment">
+    app:startDestination="@id/yourLibraryPlaylistsFragment">
 
     <fragment
-        android:id="@+id/YourLibraryPlaylistsFragment"
+        android:id="@+id/yourLibraryPlaylistsFragment"
         android:name="com.example.sallefy.fragment.YourLibraryPlaylistsFragment"
         android:label="@string/your_library_playlists_label"
         tools:layout="@layout/fragment_your_library_playlists">
         <action
-            android:id="@+id/action_YourLibraryPlaylistsFragment_to_YourLibraryTracksFragment"
-            app:destination="@id/YourLibraryTracksFragment" />
+            android:id="@+id/action_yourLibraryPlaylistsFragment_to_yourLibraryTracksFragment"
+            app:destination="@id/yourLibraryTracksFragment" />
         <action
-            android:id="@+id/action_YourLibraryPlaylistsFragment_to_YourLibraryFollowersFragment"
-            app:destination="@id/YourLibraryFollowersFragment" />
+            android:id="@+id/action_yourLibraryPlaylistsFragment_to_yourLibraryFollowersFragment"
+            app:destination="@id/yourLibraryFollowersFragment" />
         <action
-            android:id="@+id/action_YourLibraryPlaylistsFragment_to_YourLibraryFollowingsFragment"
-            app:destination="@id/YourLibraryFollowingsFragment" />
+            android:id="@+id/action_yourLibraryPlaylistsFragment_to_yourLibraryFollowingsFragment"
+            app:destination="@id/yourLibraryFollowingsFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/YourLibraryTracksFragment"
+        android:id="@+id/yourLibraryTracksFragment"
         android:name="com.example.sallefy.fragment.YourLibraryTracksFragment"
         android:label="@string/your_library_tracks_label"
         tools:layout="@layout/fragment_your_library_tracks">
         <action
-            android:id="@+id/action_YourLibraryTracksFragment_to_YourLibraryPlaylistsFragment"
-            app:destination="@id/YourLibraryPlaylistsFragment" />
+            android:id="@+id/action_yourLibraryTracksFragment_to_yourLibraryPlaylistsFragment"
+            app:destination="@id/yourLibraryPlaylistsFragment" />
         <action
-            android:id="@+id/action_YourLibraryTracksFragment_to_YourLibraryFollowersFragment"
-            app:destination="@id/YourLibraryFollowersFragment" />
+            android:id="@+id/action_yourLibraryTracksFragment_to_yourLibraryFollowersFragment"
+            app:destination="@id/yourLibraryFollowersFragment" />
         <action
-            android:id="@+id/action_YourLibraryTracksFragment_to_YourLibraryFollowingsFragment"
-            app:destination="@id/YourLibraryFollowingsFragment" />
+            android:id="@+id/action_yourLibraryTracksFragment_to_yourLibraryFollowingsFragment"
+            app:destination="@id/yourLibraryFollowingsFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/YourLibraryFollowersFragment"
+        android:id="@+id/yourLibraryFollowersFragment"
         android:name="com.example.sallefy.fragment.YourLibraryFollowersFragment"
         android:label="@string/your_library_followers_label"
         tools:layout="@layout/fragment_your_library_followers">
         <action
-            android:id="@+id/action_YourLibraryFollowersFragment_to_YourLibraryPlaylistsFragment"
-            app:destination="@id/YourLibraryPlaylistsFragment" />
+            android:id="@+id/action_yourLibraryFollowersFragment_to_yourLibraryPlaylistsFragment"
+            app:destination="@id/yourLibraryPlaylistsFragment" />
         <action
-            android:id="@+id/action_YourLibraryFollowersFragment_to_YourLibraryTracksFragment"
-            app:destination="@id/YourLibraryTracksFragment" />
+            android:id="@+id/action_yourLibraryFollowersFragment_to_yourLibraryTracksFragment"
+            app:destination="@id/yourLibraryTracksFragment" />
         <action
-            android:id="@+id/action_YourLibraryFollowersFragment_to_YourLibraryFollowingsFragment"
-            app:destination="@id/YourLibraryFollowingsFragment" />
+            android:id="@+id/action_yourLibraryFollowersFragment_to_yourLibraryFollowingsFragment"
+            app:destination="@id/yourLibraryFollowingsFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/YourLibraryFollowingsFragment"
+        android:id="@+id/yourLibraryFollowingsFragment"
         android:name="com.example.sallefy.fragment.YourLibraryFollowingsFragment"
         android:label="@string/your_library_followings_label"
         tools:layout="@layout/fragment_your_library_followings">
         <action
-            android:id="@+id/action_YourLibraryFollowingsFragment_to_YourLibraryPlaylistsFragment"
-            app:destination="@id/YourLibraryPlaylistsFragment" />
+            android:id="@+id/action_yourLibraryFollowingsFragment_to_yourLibraryPlaylistsFragment"
+            app:destination="@id/yourLibraryPlaylistsFragment" />
         <action
-            android:id="@+id/action_YourLibraryFollowingsFragment_to_YourLibraryTracksFragment"
-            app:destination="@id/YourLibraryTracksFragment" />
+            android:id="@+id/action_yourLibraryFollowingsFragment_to_yourLibraryTracksFragment"
+            app:destination="@id/yourLibraryTracksFragment" />
         <action
-            android:id="@+id/action_YourLibraryFollowingsFragment_to_YourLibraryFollowersFragment"
-            app:destination="@id/YourLibraryFollowersFragment" />
+            android:id="@+id/action_yourLibraryFollowingsFragment_to_yourLibraryFollowersFragment"
+            app:destination="@id/yourLibraryFollowersFragment" />
     </fragment>
 
 </navigation>
