@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_container_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark"
-    android:id="@+id/list_container_parent"
     tools:context=".fragment.YourLibraryFragment">
 
     <CheckBox
@@ -31,15 +30,49 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/user_rv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
+    <ImageView
+        android:id="@+id/user_photo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/ic_user_thumbnail"
+        android:backgroundTint="@color/light"
+        android:gravity="center"
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back_btn" />
+
+    <LinearLayout
+        android:id="@+id/username_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/mtrl_card_spacing"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_photo"
+        tools:ignore="PrivateResource">
+
+        <TextView
+            android:id="@+id/user_name"
+            style="@style/ItemTitleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/default_username"
+            android:textColor="@color/light" />
+
+        <ImageButton
+            android:id="@+id/user_settings_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_settings" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -48,7 +81,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_rv">
+        app:layout_constraintTop_toBottomOf="@+id/username_layout">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/user_navigation"
@@ -56,19 +89,23 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             app:itemTextColor="@color/light"
+            app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/user_items"
-            app:labelVisibilityMode="labeled" />
+            app:menu="@menu/user_items" />
 
     </LinearLayout>
 
-    <FrameLayout
+    <fragment
         android:id="@+id/sub_fragment_container"
-        android:layout_width="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:navGraph="@navigation/user_nav_graph">
+    </fragment>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

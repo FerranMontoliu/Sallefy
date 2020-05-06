@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_nav_graph"
+    app:startDestination="@id/YourLibraryPlaylistsFragment">
+
+    <fragment
+        android:id="@+id/YourLibraryPlaylistsFragment"
+        android:name="com.example.sallefy.fragment.YourLibraryPlaylistsFragment"
+        android:label="@string/your_library_playlists_label"
+        tools:layout="@layout/fragment_your_library_playlists">
+        <action
+            android:id="@+id/action_YourLibraryPlaylistsFragment_to_YourLibraryTracksFragment"
+            app:destination="@id/YourLibraryTracksFragment" />
+        <action
+            android:id="@+id/action_YourLibraryPlaylistsFragment_to_YourLibraryFollowersFragment"
+            app:destination="@id/YourLibraryFollowersFragment" />
+        <action
+            android:id="@+id/action_YourLibraryPlaylistsFragment_to_YourLibraryFollowingsFragment"
+            app:destination="@id/YourLibraryFollowingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/YourLibraryTracksFragment"
+        android:name="com.example.sallefy.fragment.YourLibraryTracksFragment"
+        android:label="@string/your_library_tracks_label"
+        tools:layout="@layout/fragment_your_library_tracks">
+        <action
+            android:id="@+id/action_YourLibraryTracksFragment_to_YourLibraryPlaylistsFragment"
+            app:destination="@id/YourLibraryPlaylistsFragment" />
+        <action
+            android:id="@+id/action_YourLibraryTracksFragment_to_YourLibraryFollowersFragment"
+            app:destination="@id/YourLibraryFollowersFragment" />
+        <action
+            android:id="@+id/action_YourLibraryTracksFragment_to_YourLibraryFollowingsFragment"
+            app:destination="@id/YourLibraryFollowingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/YourLibraryFollowersFragment"
+        android:name="com.example.sallefy.fragment.YourLibraryFollowersFragment"
+        android:label="@string/your_library_followers_label"
+        tools:layout="@layout/fragment_your_library_followers">
+        <action
+            android:id="@+id/action_YourLibraryFollowersFragment_to_YourLibraryPlaylistsFragment"
+            app:destination="@id/YourLibraryPlaylistsFragment" />
+        <action
+            android:id="@+id/action_YourLibraryFollowersFragment_to_YourLibraryTracksFragment"
+            app:destination="@id/YourLibraryTracksFragment" />
+        <action
+            android:id="@+id/action_YourLibraryFollowersFragment_to_YourLibraryFollowingsFragment"
+            app:destination="@id/YourLibraryFollowingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/YourLibraryFollowingsFragment"
+        android:name="com.example.sallefy.fragment.YourLibraryFollowingsFragment"
+        android:label="@string/your_library_followings_label"
+        tools:layout="@layout/fragment_your_library_followings">
+        <action
+            android:id="@+id/action_YourLibraryFollowingsFragment_to_YourLibraryPlaylistsFragment"
+            app:destination="@id/YourLibraryPlaylistsFragment" />
+        <action
+            android:id="@+id/action_YourLibraryFollowingsFragment_to_YourLibraryTracksFragment"
+            app:destination="@id/YourLibraryTracksFragment" />
+        <action
+            android:id="@+id/action_YourLibraryFollowingsFragment_to_YourLibraryFollowersFragment"
+            app:destination="@id/YourLibraryFollowersFragment" />
+    </fragment>
+
+</navigation>

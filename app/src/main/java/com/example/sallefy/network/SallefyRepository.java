@@ -18,6 +18,7 @@ import com.example.sallefy.network.callback.GenreCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
 import com.example.sallefy.network.callback.GetUserCallback;
 import com.example.sallefy.network.callback.LoginCallback;
+import com.example.sallefy.network.callback.PasswordChangeCallback;
 import com.example.sallefy.network.callback.PlaylistCallback;
 import com.example.sallefy.network.callback.ProfileCallback;
 import com.example.sallefy.network.callback.RegisterCallback;
@@ -427,7 +428,7 @@ public class SallefyRepository {
 
 
     // ACCOUNT ENDPOINT
-    public synchronized void changePassword(final PasswordChange passwordChange, final UserCallback callback, final DialogInterface dialog) {
+    public synchronized void changePassword(final PasswordChange passwordChange, final DialogInterface dialog, final PasswordChangeCallback callback) {
         service.changePassword(passwordChange).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -435,7 +436,7 @@ public class SallefyRepository {
                 if (response.isSuccessful()) {
                     callback.onPasswordChanged(dialog);
                 } else {
-                    callback.onPasswordChangeFailure(new Throwable(String.valueOf(response.errorBody())), dialog);
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
