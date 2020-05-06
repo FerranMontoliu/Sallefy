@@ -58,7 +58,7 @@ public class YourLibraryPlaylistsFragment extends DaggerFragment implements ILis
     private void initViews() {
         initRv();
 
-        binding.include.addPlaylistBtn.setOnClickListener(v -> {
+        binding.itemPlaylistLayout.addPlaylistBtn.setOnClickListener(v -> {
             showPopup();
         });
     }

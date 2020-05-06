@@ -9,7 +9,7 @@
     tools:context=".fragment.YourLibraryPlaylistsFragment">
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/item_playlist_layout"
         layout="@layout/item_create_playlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
