@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
 import com.example.sallefy.databinding.FragmentProfileBinding;
 import com.example.sallefy.factory.ViewModelFactory;
@@ -60,13 +61,25 @@ public class ProfileFragment extends DaggerFragment {
         NavigationFixer.adjustGravity(binding.profileNavigation);
         NavigationFixer.adjustWidth(binding.profileNavigation);
 
-        binding.profileUsername.setText(profileViewModel.getUserName());
+        if (profileViewModel.getUserImage() != null)
+            binding.profileUsername.setText(profileViewModel.getUserName());
+
+        if (profileViewModel.getUserImage() != null) {
+            Glide.with(requireContext())
+                    .asBitmap()
+                    .load(profileViewModel.getUserImage())
+                    .into(binding.profilePhoto);
+        }
 
         if (profileViewModel.isOwnUser())
             binding.userFollowBtn.setVisibility(View.GONE);
 
         binding.backProfile.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
+        });
+
+        binding.userFollowBtn.setOnClickListener(v -> {
+            profileViewModel.followUserToggle();
         });
     }
 

@@ -10,6 +10,7 @@ import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.network.callback.FollowCheckCallback;
 import com.example.sallefy.network.callback.FollowToggleCallback;
 
+
 import javax.inject.Inject;
 
 public class ProfileViewModel extends ViewModel {
@@ -63,7 +64,7 @@ public class ProfileViewModel extends ViewModel {
         return mIsFollowed;
     }
 
-    private void followUserToggle() {
+    public void followUserToggle() {
         sallefyRepository.followUserToggle(getUserName(), new FollowToggleCallback() {
             @Override
             public void onObjectFollowChanged() {

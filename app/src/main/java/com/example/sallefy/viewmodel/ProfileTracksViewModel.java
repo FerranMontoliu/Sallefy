@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.sallefy.adapter.TrackListAdapter;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.network.callback.GetTracksCallback;
+import com.example.sallefy.network.callback.LikeTrackCallback;
 
 import java.util.List;
 
@@ -40,5 +42,19 @@ public class ProfileTracksViewModel extends ViewModel {
     public LiveData<List<Track>> getUserTracks(String username) {
         requestUserTracks(username);
         return mTracks;
+    }
+
+    public void likeTrack(Track track, int position, TrackListAdapter adapter) {
+        sallefyRepository.likeTrack(track, new LikeTrackCallback() {
+            @Override
+            public void onTrackLiked() {
+                adapter.changeTrackLikeStateIcon(position);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
     }
 }
