@@ -9,27 +9,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.sallefy.databinding.FragmentUserTracksBinding;
+import com.example.sallefy.databinding.FragmentProfileTracksBinding;
 import com.example.sallefy.factory.ViewModelFactory;
-import com.example.sallefy.viewmodel.UserTracksViewModel;
+import com.example.sallefy.viewmodel.ProfileTracksViewModel;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class UserTracksFragment extends DaggerFragment {
+public class ProfileTracksFragment extends DaggerFragment {
 
     @Inject
     protected ViewModelFactory viewModelFactory;
 
-    private FragmentUserTracksBinding binding;
-    private UserTracksViewModel userTracksViewModel;
+    private FragmentProfileTracksBinding binding;
+    private ProfileTracksViewModel profileTracksViewModel;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentUserTracksBinding.inflate(inflater, container, false);
+        binding = FragmentProfileTracksBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -37,7 +37,7 @@ public class UserTracksFragment extends DaggerFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        userTracksViewModel = new ViewModelProvider(this, viewModelFactory).get(UserTracksViewModel.class);
+        profileTracksViewModel = new ViewModelProvider(this, viewModelFactory).get(ProfileTracksViewModel.class);
 
         initViews();
 

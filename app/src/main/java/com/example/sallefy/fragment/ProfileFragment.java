@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.sallefy.R;
 import com.example.sallefy.databinding.FragmentProfileBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.User;
 import com.example.sallefy.utils.NavigationFixer;
 import com.example.sallefy.viewmodel.ProfileViewModel;
 
@@ -44,8 +45,11 @@ public class ProfileFragment extends DaggerFragment {
 
         profileViewModel = new ViewModelProvider(this, viewModelFactory).get(ProfileViewModel.class);
 
-        //NavController navController = Navigation.findNavController(requireActivity(), R.id.sub_fragment_container_profile);
-        //NavigationUI.setupWithNavController(binding.profileNavigation, navController);
+        if (getArguments() != null)
+            profileViewModel.setUser((User) getArguments().getSerializable("user"));
+
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.sub_fragment_container_profile);
+        NavigationUI.setupWithNavController(binding.profileNavigation, navController);
 
         initViews();
 
@@ -56,7 +60,9 @@ public class ProfileFragment extends DaggerFragment {
         NavigationFixer.adjustGravity(binding.profileNavigation);
         NavigationFixer.adjustWidth(binding.profileNavigation);
 
-
+        if (profileViewModel.isOwnUser()) {
+            binding.userFollowBtn.setVisibility(View.GONE);
+        }
     }
 
     private void subscribeObservers() {

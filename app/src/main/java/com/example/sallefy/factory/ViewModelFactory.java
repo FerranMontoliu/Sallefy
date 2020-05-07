@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.sallefy.auth.UserManager;
 import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.viewmodel.AddSongToPlaylistViewModel;
 import com.example.sallefy.viewmodel.AddTrackToPlaylistViewModel;
@@ -14,12 +13,12 @@ import com.example.sallefy.viewmodel.LoginViewModel;
 import com.example.sallefy.viewmodel.OptionsViewModel;
 import com.example.sallefy.viewmodel.PlayingSongViewModel;
 import com.example.sallefy.viewmodel.PlaylistViewModel;
+import com.example.sallefy.viewmodel.ProfileTracksViewModel;
 import com.example.sallefy.viewmodel.ProfileViewModel;
 import com.example.sallefy.viewmodel.RegisterViewModel;
 import com.example.sallefy.viewmodel.SearchViewModel;
 import com.example.sallefy.viewmodel.TrackOptionsViewModel;
-import com.example.sallefy.viewmodel.UserPlaylistsViewModel;
-import com.example.sallefy.viewmodel.UserTracksViewModel;
+import com.example.sallefy.viewmodel.ProfilePlaylistsViewModel;
 import com.example.sallefy.viewmodel.YourLibraryFollowersViewModel;
 import com.example.sallefy.viewmodel.YourLibraryFollowingsViewModel;
 import com.example.sallefy.viewmodel.YourLibraryPlaylistsViewModel;
@@ -34,12 +33,10 @@ import dagger.Module;
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private SallefyRepository sallefyRepository;
-    private UserManager userManager;
 
     @Inject
-    public ViewModelFactory(SallefyRepository sallefyRepository, UserManager userManager) {
+    public ViewModelFactory(SallefyRepository sallefyRepository) {
         this.sallefyRepository = sallefyRepository;
-        this.userManager = userManager;
     }
 
     @NonNull
@@ -79,11 +76,11 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(TrackOptionsViewModel.class)) {
             return (T) new TrackOptionsViewModel(sallefyRepository);
         }
-        if (modelClass.isAssignableFrom(UserPlaylistsViewModel.class)) {
-            return (T) new UserPlaylistsViewModel(sallefyRepository);
+        if (modelClass.isAssignableFrom(ProfilePlaylistsViewModel.class)) {
+            return (T) new ProfilePlaylistsViewModel(sallefyRepository);
         }
-        if (modelClass.isAssignableFrom(UserTracksViewModel.class)) {
-            return (T) new UserTracksViewModel(sallefyRepository);
+        if (modelClass.isAssignableFrom(ProfileTracksViewModel.class)) {
+            return (T) new ProfileTracksViewModel(sallefyRepository);
         }
         if (modelClass.isAssignableFrom(ProfileViewModel.class)) {
             return (T) new ProfileViewModel(sallefyRepository);

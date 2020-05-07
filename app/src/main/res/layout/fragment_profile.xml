@@ -102,14 +102,16 @@
 
     </LinearLayout>
 
-    <!--<fragment
+    <fragment
         android:id="@+id/sub_fragment_container_profile"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:defaultNavHost="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:navGraph="@navigation/profile_nav_graph" />-->
+        app:navGraph="@navigation/profile_nav_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

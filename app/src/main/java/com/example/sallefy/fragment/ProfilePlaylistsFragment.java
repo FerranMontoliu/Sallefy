@@ -9,27 +9,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.sallefy.databinding.FragmentUserPlaylistsBinding;
+import com.example.sallefy.databinding.FragmentProfilePlaylistsBinding;
 import com.example.sallefy.factory.ViewModelFactory;
-import com.example.sallefy.viewmodel.UserPlaylistsViewModel;
+import com.example.sallefy.viewmodel.ProfilePlaylistsViewModel;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class UserPlaylistsFragment extends DaggerFragment {
+public class ProfilePlaylistsFragment extends DaggerFragment {
 
     @Inject
     protected ViewModelFactory viewModelFactory;
 
-    private FragmentUserPlaylistsBinding binding;
-    private UserPlaylistsViewModel userPlaylistsViewModel;
+    private FragmentProfilePlaylistsBinding binding;
+    private ProfilePlaylistsViewModel profilePlaylistsViewModel;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentUserPlaylistsBinding.inflate(inflater, container, false);
+        binding = FragmentProfilePlaylistsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -37,7 +37,7 @@ public class UserPlaylistsFragment extends DaggerFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        userPlaylistsViewModel = new ViewModelProvider(this, viewModelFactory).get(UserPlaylistsViewModel.class);
+        profilePlaylistsViewModel = new ViewModelProvider(this, viewModelFactory).get(ProfilePlaylistsViewModel.class);
 
         initViews();
 

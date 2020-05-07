@@ -30,7 +30,7 @@ import com.example.sallefy.network.callback.RegisterCallback;
 import com.example.sallefy.network.callback.SearchCallback;
 import com.example.sallefy.network.callback.TrackCallback;
 import com.example.sallefy.network.callback.UserCallback;
-import com.example.sallefy.utils.Session;
+import com.example.sallefy.auth.Session;
 
 import java.util.List;
 
@@ -228,7 +228,7 @@ public class SallefyRepository {
     }
 
     public synchronized void getActualUser(final GetUserCallback callback) {
-        service.getUserById(Session.getInstance().getUser().getLogin()).enqueue(new Callback<User>() {
+        service.getUserById(Session.getUser().getLogin()).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
@@ -360,7 +360,7 @@ public class SallefyRepository {
     }
 
     public synchronized void deleteUser(final UserCallback callback) {
-        service.deleteUser(Session.getInstance().getUser().getLogin()).enqueue(new Callback<ResponseBody>() {
+        service.deleteUser(Session.getUser().getLogin()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {

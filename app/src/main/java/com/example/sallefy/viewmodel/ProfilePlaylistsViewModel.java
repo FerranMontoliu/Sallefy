@@ -12,13 +12,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class UserPlaylistsViewModel extends ViewModel {
+public class ProfilePlaylistsViewModel extends ViewModel {
 
     private SallefyRepository sallefyRepository;
     private MutableLiveData<List<Playlist>> mPlaylists;
 
     @Inject
-    public UserPlaylistsViewModel(SallefyRepository sallefyRepository) {
+    public ProfilePlaylistsViewModel(SallefyRepository sallefyRepository) {
         this.sallefyRepository = sallefyRepository;
         this.mPlaylists = new MutableLiveData<>();
     }

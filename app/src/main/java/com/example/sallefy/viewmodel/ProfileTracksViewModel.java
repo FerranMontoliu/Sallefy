@@ -12,13 +12,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class UserTracksViewModel extends ViewModel {
+public class ProfileTracksViewModel extends ViewModel {
 
     private SallefyRepository sallefyRepository;
     private MutableLiveData<List<Track>> mTracks;
 
     @Inject
-    public UserTracksViewModel(SallefyRepository sallefyRepository) {
+    public ProfileTracksViewModel(SallefyRepository sallefyRepository) {
         this.sallefyRepository = sallefyRepository;
         this.mTracks = new MutableLiveData<>();
     }

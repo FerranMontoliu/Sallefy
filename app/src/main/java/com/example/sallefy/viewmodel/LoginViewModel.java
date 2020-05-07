@@ -6,7 +6,7 @@ import com.example.sallefy.model.User;
 import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.network.callback.GetUserCallback;
 import com.example.sallefy.network.callback.LoginCallback;
-import com.example.sallefy.utils.Session;
+import com.example.sallefy.auth.Session;
 
 import javax.inject.Inject;
 
@@ -36,7 +36,7 @@ public class LoginViewModel extends ViewModel {
         sallefyRepository.getUserById(username, new GetUserCallback() {
             @Override
             public void onUserReceived(User user) {
-                Session.getInstance().setUser(user);
+                Session.setUser(user);
             }
 
             @Override
