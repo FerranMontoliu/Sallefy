@@ -13,7 +13,6 @@ import com.example.sallefy.fragment.RegisterFragment;
 import com.example.sallefy.fragment.SearchFragment;
 import com.example.sallefy.fragment.TrackOptionsFragment;
 import com.example.sallefy.fragment.UserPlaylistsFragment;
-import com.example.sallefy.fragment.UserSettingsFragment;
 import com.example.sallefy.fragment.UserTracksFragment;
 import com.example.sallefy.fragment.YourLibraryFollowersFragment;
 import com.example.sallefy.fragment.YourLibraryFollowingsFragment;
@@ -65,9 +64,6 @@ public abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract UserPlaylistsFragment userPlaylistsFragment();
-
-    @ContributesAndroidInjector
-    abstract UserSettingsFragment userSettingsFragment();
 
     @ContributesAndroidInjector
     abstract UserTracksFragment userTracksFragment();

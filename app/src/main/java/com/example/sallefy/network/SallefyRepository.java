@@ -323,38 +323,38 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void getUserTracks(String username, final ProfileCallback callback) {
+    public synchronized void getUserTracks(String username, final GetTracksCallback callback) {
         service.getUserTracks(username).enqueue(new Callback<List<Track>>() {
             @Override
             public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
                 if (response.isSuccessful()) {
                     callback.onTracksReceived(response.body());
                 } else {
-                    callback.onNoTracks(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Track>> call, Throwable t) {
-                callback.onNoTracks(t);
+                callback.onFailure(t);
             }
         });
     }
 
-    public synchronized void getUserPlaylists(String username, final ProfileCallback callback) {
+    public synchronized void getUserPlaylists(String username, final GetPlaylistsCallback callback) {
         service.getUserPlaylists(username).enqueue(new Callback<List<Playlist>>() {
             @Override
             public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
                 if (response.isSuccessful()) {
                     callback.onPlaylistsReceived(response.body());
                 } else {
-                    callback.onPlaylistsNotReceived(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Playlist>> call, Throwable t) {
-                callback.onPlaylistsNotReceived(t);
+                callback.onFailure(t);
             }
         });
     }

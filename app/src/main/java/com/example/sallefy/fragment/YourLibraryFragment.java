@@ -23,6 +23,7 @@ import com.example.sallefy.databinding.FragmentYourLibraryBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.PasswordChange;
 import com.example.sallefy.model.User;
+import com.example.sallefy.utils.NavigationFixer;
 import com.example.sallefy.viewmodel.YourLibraryViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -62,8 +63,9 @@ public class YourLibraryFragment extends DaggerFragment {
     }
 
     private void initViews() {
-        adjustGravity(binding.userNavigation);
-        adjustWidth(binding.userNavigation);
+        NavigationFixer.adjustGravity(binding.userNavigation);
+        NavigationFixer.adjustWidth(binding.userNavigation);
+
         binding.backBtn.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
         });
@@ -78,6 +80,23 @@ public class YourLibraryFragment extends DaggerFragment {
 
         binding.userPhoto.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_yourLibraryFragment_to_profileFragment);
+        });
+    }
+
+    private void subscribeObservers() {
+        yourLibraryViewModel.getUserData().observe(getViewLifecycleOwner(), user -> {
+            if (user != null) {
+                if (user.getLogin() != null) {
+                    binding.userName.setText(user.getLogin());
+                }
+
+                if (user.getImageUrl() != null) {
+                    Glide.with(requireContext())
+                            .asBitmap()
+                            .load(user.getImageUrl())
+                            .into(binding.userPhoto);
+                }
+            }
         });
     }
 
@@ -107,63 +126,11 @@ public class YourLibraryFragment extends DaggerFragment {
                 currentPassword.setError(requireContext().getString(R.string.empty_field_error));
             }
 
-            if (!strPassword.trim().isEmpty() && !strNewPassword.trim().isEmpty()){
+            if (!strPassword.trim().isEmpty() && !strNewPassword.trim().isEmpty()) {
                 PasswordChange passwordChange = new PasswordChange(strPassword, strNewPassword);
                 yourLibraryViewModel.changePassword(passwordChange, dialog);
             }
         });
 
-    }
-
-    private void subscribeObservers() {
-        yourLibraryViewModel.getUserData().observe(getViewLifecycleOwner(), user -> {
-            if (user != null) {
-                if (user.getLogin() != null) {
-                    binding.userName.setText(user.getLogin());
-                }
-
-                if (user.getImageUrl() != null) {
-                    Glide.with(requireContext())
-                            .asBitmap()
-                            .load(user.getImageUrl())
-                            .into(binding.userPhoto);
-                }
-            }
-        });
-    }
-
-    private static void adjustGravity(View v) {
-        if (v.getId() == com.google.android.material.R.id.smallLabel) {
-            ViewGroup parent = (ViewGroup) v.getParent();
-            parent.setPadding(0, 0, 0, 0);
-
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) parent.getLayoutParams();
-            params.gravity = Gravity.CENTER;
-            parent.setLayoutParams(params);
-        }
-
-        if (v instanceof ViewGroup) {
-            ViewGroup vg = (ViewGroup) v;
-
-            for (int i = 0; i < vg.getChildCount(); i++) {
-                adjustGravity(vg.getChildAt(i));
-            }
-        }
-    }
-
-    private static void adjustWidth(BottomNavigationView nav) {
-        try {
-            Field menuViewField = nav.getClass().getDeclaredField("mMenuView");
-            menuViewField.setAccessible(true);
-            Object menuView = menuViewField.get(nav);
-
-            assert menuView != null;
-            Field itemWidth = menuView.getClass().getDeclaredField("mActiveItemMaxWidth");
-            itemWidth.setAccessible(true);
-            itemWidth.setInt(menuView, Integer.MAX_VALUE);
-        }
-        catch (Exception ignored) {
-
-        }
     }
 }

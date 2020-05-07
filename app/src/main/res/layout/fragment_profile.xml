@@ -56,7 +56,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/item_profile_username"
+                android:id="@+id/profile_username"
                 style="@style/ItemTitleTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,13 +102,14 @@
 
     </LinearLayout>
 
-    <fragment
+    <!--<fragment
         android:id="@+id/sub_fragment_container_profile"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:navGraph="@navigation/profile_nav_graph" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:navGraph="@navigation/profile_nav_graph" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
