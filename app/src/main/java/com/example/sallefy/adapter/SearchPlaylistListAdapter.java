@@ -37,7 +37,7 @@ public class SearchPlaylistListAdapter extends RecyclerView.Adapter<SearchPlayli
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: called.");
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_playlist_2, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_playlist, parent, false);
         return new SearchPlaylistListAdapter.ViewHolder(itemView);
     }
 

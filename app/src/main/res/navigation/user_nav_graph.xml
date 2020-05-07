@@ -10,15 +10,6 @@
         android:name="com.example.sallefy.fragment.YourLibraryPlaylistsFragment"
         android:label="@string/your_library_playlists_label"
         tools:layout="@layout/fragment_your_library_playlists">
-        <action
-            android:id="@+id/action_yourLibraryPlaylistsFragment_to_yourLibraryTracksFragment"
-            app:destination="@id/yourLibraryTracksFragment" />
-        <action
-            android:id="@+id/action_yourLibraryPlaylistsFragment_to_yourLibraryFollowersFragment"
-            app:destination="@id/yourLibraryFollowersFragment" />
-        <action
-            android:id="@+id/action_yourLibraryPlaylistsFragment_to_yourLibraryFollowingsFragment"
-            app:destination="@id/yourLibraryFollowingsFragment" />
     </fragment>
 
     <fragment
@@ -26,15 +17,6 @@
         android:name="com.example.sallefy.fragment.YourLibraryTracksFragment"
         android:label="@string/your_library_tracks_label"
         tools:layout="@layout/fragment_your_library_tracks">
-        <action
-            android:id="@+id/action_yourLibraryTracksFragment_to_yourLibraryPlaylistsFragment"
-            app:destination="@id/yourLibraryPlaylistsFragment" />
-        <action
-            android:id="@+id/action_yourLibraryTracksFragment_to_yourLibraryFollowersFragment"
-            app:destination="@id/yourLibraryFollowersFragment" />
-        <action
-            android:id="@+id/action_yourLibraryTracksFragment_to_yourLibraryFollowingsFragment"
-            app:destination="@id/yourLibraryFollowingsFragment" />
     </fragment>
 
     <fragment
@@ -42,15 +24,6 @@
         android:name="com.example.sallefy.fragment.YourLibraryFollowersFragment"
         android:label="@string/your_library_followers_label"
         tools:layout="@layout/fragment_your_library_followers">
-        <action
-            android:id="@+id/action_yourLibraryFollowersFragment_to_yourLibraryPlaylistsFragment"
-            app:destination="@id/yourLibraryPlaylistsFragment" />
-        <action
-            android:id="@+id/action_yourLibraryFollowersFragment_to_yourLibraryTracksFragment"
-            app:destination="@id/yourLibraryTracksFragment" />
-        <action
-            android:id="@+id/action_yourLibraryFollowersFragment_to_yourLibraryFollowingsFragment"
-            app:destination="@id/yourLibraryFollowingsFragment" />
     </fragment>
 
     <fragment
@@ -58,15 +31,6 @@
         android:name="com.example.sallefy.fragment.YourLibraryFollowingsFragment"
         android:label="@string/your_library_followings_label"
         tools:layout="@layout/fragment_your_library_followings">
-        <action
-            android:id="@+id/action_yourLibraryFollowingsFragment_to_yourLibraryPlaylistsFragment"
-            app:destination="@id/yourLibraryPlaylistsFragment" />
-        <action
-            android:id="@+id/action_yourLibraryFollowingsFragment_to_yourLibraryTracksFragment"
-            app:destination="@id/yourLibraryTracksFragment" />
-        <action
-            android:id="@+id/action_yourLibraryFollowingsFragment_to_yourLibraryFollowersFragment"
-            app:destination="@id/yourLibraryFollowersFragment" />
     </fragment>
 
 </navigation>

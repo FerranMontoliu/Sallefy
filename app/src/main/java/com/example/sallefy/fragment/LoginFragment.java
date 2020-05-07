@@ -18,7 +18,6 @@ import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.UserToken;
 import com.example.sallefy.network.callback.LoginCallback;
 import com.example.sallefy.utils.PreferenceUtils;
-import com.example.sallefy.utils.Session;
 import com.example.sallefy.viewmodel.LoginViewModel;
 
 import javax.inject.Inject;
@@ -83,7 +82,6 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
 
     @Override
     public void onLoginSuccess(UserToken userToken) {
-        Session.getInstance().setUserToken(userToken);
         String username = binding.loginUsername.getText().toString();
 
         loginViewModel.saveUser(username);

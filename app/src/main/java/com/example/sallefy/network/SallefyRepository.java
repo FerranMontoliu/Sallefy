@@ -16,6 +16,8 @@ import com.example.sallefy.model.UserRegister;
 import com.example.sallefy.model.UserToken;
 import com.example.sallefy.network.callback.CreatePlaylistCallback;
 import com.example.sallefy.network.callback.CreateTrackCallback;
+import com.example.sallefy.network.callback.FollowCheckCallback;
+import com.example.sallefy.network.callback.FollowToggleCallback;
 import com.example.sallefy.network.callback.GenreCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
 import com.example.sallefy.network.callback.GetTracksCallback;
@@ -30,7 +32,7 @@ import com.example.sallefy.network.callback.RegisterCallback;
 import com.example.sallefy.network.callback.SearchCallback;
 import com.example.sallefy.network.callback.TrackCallback;
 import com.example.sallefy.network.callback.UserCallback;
-import com.example.sallefy.utils.Session;
+import com.example.sallefy.auth.Session;
 
 import java.util.List;
 
@@ -169,32 +171,32 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void followPlaylist(Playlist playlist, final PlaylistCallback callback) {
+    public synchronized void followPlaylist(Playlist playlist, final FollowToggleCallback callback) {
         service.followPlaylist(playlist.getId().toString()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    callback.onPlaylistFollowed();
+                    callback.onObjectFollowChanged();
                 } else {
-                    callback.onPlaylistFollowError(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                callback.onPlaylistFollowError(t);
+                callback.onFailure(t);
 
             }
         });
     }
 
 
-    public synchronized void isPlaylistFollowed(Playlist playlist, final PlaylistCallback callback) {
+    public synchronized void isPlaylistFollowed(Playlist playlist, final FollowCheckCallback callback) {
         service.isPlaylistFollowed(playlist.getId().toString()).enqueue(new Callback<Followed>() {
             @Override
             public void onResponse(Call<Followed> call, Response<Followed> response) {
                 if (response.isSuccessful()) {
-                    callback.onIsFollowedReceived(response.body());
+                    callback.onObjectFollowedReceived(response.body().getFollowed());
                 } else {
                     callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
@@ -228,7 +230,7 @@ public class SallefyRepository {
     }
 
     public synchronized void getActualUser(final GetUserCallback callback) {
-        service.getUserById(Session.getInstance().getUser().getLogin()).enqueue(new Callback<User>() {
+        service.getUserById(Session.getUser().getLogin()).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
@@ -286,12 +288,12 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void isUserFollowed(String username, final ProfileCallback callback) {
+    public synchronized void isUserFollowed(String username, final FollowCheckCallback callback) {
         service.isUserFollowed(username).enqueue(new Callback<Followed>() {
             @Override
             public void onResponse(Call<Followed> call, Response<Followed> response) {
                 if (response.isSuccessful()) {
-                    callback.onIsFollowedReceived(response.body().getFollowed());
+                    callback.onObjectFollowedReceived(response.body().getFollowed());
                 } else {
                     callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
@@ -304,15 +306,15 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void followUserToggle(String username, final ProfileCallback callback) {
+    public synchronized void followUserToggle(String username, final FollowToggleCallback callback) {
         service.followUserToggle(username).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int code = response.code();
                 if (response.isSuccessful()) {
-                    callback.onFollowToggle();
+                    callback.onObjectFollowChanged();
                 } else {
-                    callback.onFollowFailure(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
@@ -323,44 +325,44 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void getUserTracks(String username, final ProfileCallback callback) {
+    public synchronized void getUserTracks(String username, final GetTracksCallback callback) {
         service.getUserTracks(username).enqueue(new Callback<List<Track>>() {
             @Override
             public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
                 if (response.isSuccessful()) {
                     callback.onTracksReceived(response.body());
                 } else {
-                    callback.onNoTracks(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Track>> call, Throwable t) {
-                callback.onNoTracks(t);
+                callback.onFailure(t);
             }
         });
     }
 
-    public synchronized void getUserPlaylists(String username, final ProfileCallback callback) {
+    public synchronized void getUserPlaylists(String username, final GetPlaylistsCallback callback) {
         service.getUserPlaylists(username).enqueue(new Callback<List<Playlist>>() {
             @Override
             public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
                 if (response.isSuccessful()) {
                     callback.onPlaylistsReceived(response.body());
                 } else {
-                    callback.onPlaylistsNotReceived(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Playlist>> call, Throwable t) {
-                callback.onPlaylistsNotReceived(t);
+                callback.onFailure(t);
             }
         });
     }
 
     public synchronized void deleteUser(final UserCallback callback) {
-        service.deleteUser(Session.getInstance().getUser().getLogin()).enqueue(new Callback<ResponseBody>() {
+        service.deleteUser(Session.getUser().getLogin()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {

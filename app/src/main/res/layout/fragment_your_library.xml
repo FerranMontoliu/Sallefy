@@ -105,7 +105,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:navGraph="@navigation/user_nav_graph">
-    </fragment>
+        app:navGraph="@navigation/user_nav_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
