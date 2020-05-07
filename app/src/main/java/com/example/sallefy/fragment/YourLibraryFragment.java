@@ -75,6 +75,10 @@ public class YourLibraryFragment extends DaggerFragment {
         binding.userSettingsBtn.setOnClickListener(v -> {
             showUserSettingsDialog(yourLibraryViewModel.getUser());
         });
+
+        binding.userPhoto.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_yourLibraryFragment_to_profileFragment);
+        });
     }
 
     private void showUserSettingsDialog(User user) {

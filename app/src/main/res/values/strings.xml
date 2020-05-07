@@ -15,6 +15,7 @@
     <string name="track_options_label">Track options</string>
     <string name="profile_label">Profile</string>
     <string name="user_playlists_label">User playlists</string>
+    <string name="user_tracks_label">User tracks</string>
     <string name="user_settings_label">User settings</string>
     <string name="user_tracks">User tracks</string>
     <string name="your_library_label">Your library</string>
@@ -66,6 +67,7 @@
     <string name="no_own_tracks_to_show">You haven\'t uploaded any track yet…\nTry it out!</string>
     <string name="no_followers_to_show">You don\'t have any follower yet…\nInvite your friends to follow you!</string>
     <string name="no_followings_to_show">You aren\'t following anyone yet…\nFollow your favourite artist!</string>
+
 
     <!-- LOGIN AND REGISTER -->
     <string name="login_btn_text">Login</string>

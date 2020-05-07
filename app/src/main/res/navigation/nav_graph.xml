@@ -42,12 +42,6 @@
         android:label="@string/home_label"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_yourLibraryFragment"
-            app:destination="@id/yourLibraryFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_playingSongFragment"
             app:destination="@id/playingSongFragment" />
         <action
@@ -60,12 +54,6 @@
         android:name="com.example.sallefy.fragment.SearchFragment"
         android:label="@string/search_label"
         tools:layout="@layout/fragment_search">
-        <action
-            android:id="@+id/action_searchFragment_to_yourLibraryFragment"
-            app:destination="@id/yourLibraryFragment" />
-        <action
-            android:id="@+id/action_searchFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_searchFragment_to_playingSongFragment"
             app:destination="@id/playingSongFragment" />
@@ -83,12 +71,6 @@
         android:label="@string/your_library_label"
         tools:layout="@layout/fragment_your_library">
         <action
-            android:id="@+id/action_yourLibraryFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
-            android:id="@+id/action_yourLibraryFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
             android:id="@+id/action_yourLibraryFragment_to_playingSongFragment"
             app:destination="@id/playingSongFragment" />
         <action
@@ -103,6 +85,9 @@
         <action
             android:id="@+id/action_yourLibraryFragment_to_trackOptionsFragment"
             app:destination="@id/trackOptionsFragment" />
+        <action
+            android:id="@+id/action_yourLibraryFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
     <fragment
