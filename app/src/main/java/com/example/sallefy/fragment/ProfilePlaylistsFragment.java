@@ -17,6 +17,7 @@ import com.example.sallefy.adapter.PlaylistListAdapter;
 import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.databinding.FragmentProfilePlaylistsBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.ProfilePlaylistsViewModel;
 
 import java.util.Objects;
@@ -66,7 +67,9 @@ public class ProfilePlaylistsFragment extends DaggerFragment implements IListAda
     }
 
     private void subscribeObservers() {
-        profilePlaylistsViewModel.getUserPlaylists("ferran.montoliu").observe(getViewLifecycleOwner(), playlists -> {
+        User user = (User) requireActivity().getIntent().getExtras().getSerializable("clickedUser");
+        if (user == null) return;
+        profilePlaylistsViewModel.getUserPlaylists(user.getLogin()).observe(getViewLifecycleOwner(), playlists -> {
             if (playlists != null && playlists.size() > 0) {
                 mRecyclerView.setVisibility(View.VISIBLE);
                 binding.playlistsEmptyTv.setVisibility(View.GONE);

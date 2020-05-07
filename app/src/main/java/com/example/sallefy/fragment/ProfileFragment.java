@@ -46,8 +46,10 @@ public class ProfileFragment extends DaggerFragment {
 
         profileViewModel = new ViewModelProvider(this, viewModelFactory).get(ProfileViewModel.class);
 
-        if (getArguments() != null)
+        if (getArguments() != null) {
             profileViewModel.setUser(ProfileFragmentArgs.fromBundle(getArguments()).getUser());
+            requireActivity().getIntent().putExtra("clickedUser", ProfileFragmentArgs.fromBundle(getArguments()).getUser());
+        }
 
         NavController navController = Navigation.findNavController(requireActivity(), R.id.sub_fragment_container_profile);
         NavigationUI.setupWithNavController(binding.profileNavigation, navController);
@@ -61,7 +63,7 @@ public class ProfileFragment extends DaggerFragment {
         NavigationFixer.adjustGravity(binding.profileNavigation);
         NavigationFixer.adjustWidth(binding.profileNavigation);
 
-        if (profileViewModel.getUserImage() != null)
+        if (profileViewModel.getUserName() != null)
             binding.profileUsername.setText(profileViewModel.getUserName());
 
         if (profileViewModel.getUserImage() != null) {

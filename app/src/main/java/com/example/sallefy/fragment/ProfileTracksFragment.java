@@ -20,6 +20,7 @@ import com.example.sallefy.adapter.callback.LikeableListAdapter;
 import com.example.sallefy.databinding.FragmentProfileTracksBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.ProfileTracksViewModel;
 import com.example.sallefy.viewmodel.ProfileViewModel;
 
@@ -70,8 +71,9 @@ public class ProfileTracksFragment extends DaggerFragment implements LikeableLis
     }
 
     private void subscribeObservers() {
-        // TODO: CHANGE HARDCODED NAME
-        profileTracksViewModel.getUserTracks("ferran.montoliu").observe(getViewLifecycleOwner(), tracks -> {
+        User user = (User) requireActivity().getIntent().getExtras().getSerializable("clickedUser");
+        if (user == null) return;
+        profileTracksViewModel.getUserTracks(user.getLogin()).observe(getViewLifecycleOwner(), tracks -> {
             if (tracks != null && tracks.size() > 0) {
                 mRecyclerView.setVisibility(View.VISIBLE);
                 binding.tracksEmptyTv.setVisibility(View.GONE);

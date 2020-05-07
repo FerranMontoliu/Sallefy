@@ -38,6 +38,10 @@ public class ProfileViewModel extends ViewModel {
         return user.getLogin();
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public boolean isOwnUser() {
         if (this.user != null)
             return Session.getUser().getLogin().equals(this.user.getLogin());
