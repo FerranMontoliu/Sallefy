@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -24,6 +25,7 @@ import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.PasswordChange;
 import com.example.sallefy.model.User;
 import com.example.sallefy.utils.NavigationFixer;
+import com.example.sallefy.viewmodel.ProfileViewModel;
 import com.example.sallefy.viewmodel.YourLibraryViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -79,7 +81,10 @@ public class YourLibraryFragment extends DaggerFragment {
         });
 
         binding.userPhoto.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_yourLibraryFragment_to_profileFragment);
+            YourLibraryFragmentDirections.ActionYourLibraryFragmentToProfileFragment action =
+                    YourLibraryFragmentDirections.actionYourLibraryFragmentToProfileFragment();
+            action.setUser(yourLibraryViewModel.getUser());
+            Navigation.findNavController(v).navigate(action);
         });
     }
 

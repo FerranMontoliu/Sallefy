@@ -87,7 +87,13 @@
             app:destination="@id/trackOptionsFragment" />
         <action
             android:id="@+id/action_yourLibraryFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment" >
+            <argument
+                android:name="user"
+                app:argType="com.example.sallefy.model.User"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </action>
     </fragment>
 
     <fragment
@@ -139,6 +145,9 @@
         <action
             android:id="@+id/action_playlistFragment_to_addTrackToPlaylistFragment"
             app:destination="@id/addTrackToPlaylistFragment" />
+        <action
+            android:id="@+id/action_playlistFragment_to_playingSongFragment"
+            app:destination="@id/playingSongFragment" />
     </fragment>
 
     <fragment
@@ -146,12 +155,21 @@
         android:name="com.example.sallefy.fragment.ProfileFragment"
         android:label="@string/profile_label"
         tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="user"
+            app:argType="com.example.sallefy.model.User"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
         <action
             android:id="@+id/action_profileFragment_to_trackOptionsFragment"
             app:destination="@id/trackOptionsFragment" />
         <action
             android:id="@+id/action_profileFragment_to_playlistFragment"
             app:destination="@id/playlistFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_playingSongFragment"
+            app:destination="@id/playingSongFragment" />
     </fragment>
 
     <fragment

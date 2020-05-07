@@ -16,6 +16,8 @@ import com.example.sallefy.model.UserRegister;
 import com.example.sallefy.model.UserToken;
 import com.example.sallefy.network.callback.CreatePlaylistCallback;
 import com.example.sallefy.network.callback.CreateTrackCallback;
+import com.example.sallefy.network.callback.FollowCheckCallback;
+import com.example.sallefy.network.callback.FollowToggleCallback;
 import com.example.sallefy.network.callback.GenreCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
 import com.example.sallefy.network.callback.GetTracksCallback;
@@ -169,32 +171,32 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void followPlaylist(Playlist playlist, final PlaylistCallback callback) {
+    public synchronized void followPlaylist(Playlist playlist, final FollowToggleCallback callback) {
         service.followPlaylist(playlist.getId().toString()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    callback.onPlaylistFollowed();
+                    callback.onObjectFollowChanged();
                 } else {
-                    callback.onPlaylistFollowError(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                callback.onPlaylistFollowError(t);
+                callback.onFailure(t);
 
             }
         });
     }
 
 
-    public synchronized void isPlaylistFollowed(Playlist playlist, final PlaylistCallback callback) {
+    public synchronized void isPlaylistFollowed(Playlist playlist, final FollowCheckCallback callback) {
         service.isPlaylistFollowed(playlist.getId().toString()).enqueue(new Callback<Followed>() {
             @Override
             public void onResponse(Call<Followed> call, Response<Followed> response) {
                 if (response.isSuccessful()) {
-                    callback.onIsFollowedReceived(response.body());
+                    callback.onObjectFollowedReceived(response.body().getFollowed());
                 } else {
                     callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
@@ -286,12 +288,12 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void isUserFollowed(String username, final ProfileCallback callback) {
+    public synchronized void isUserFollowed(String username, final FollowCheckCallback callback) {
         service.isUserFollowed(username).enqueue(new Callback<Followed>() {
             @Override
             public void onResponse(Call<Followed> call, Response<Followed> response) {
                 if (response.isSuccessful()) {
-                    callback.onIsFollowedReceived(response.body().getFollowed());
+                    callback.onObjectFollowedReceived(response.body().getFollowed());
                 } else {
                     callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
@@ -304,15 +306,15 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void followUserToggle(String username, final ProfileCallback callback) {
+    public synchronized void followUserToggle(String username, final FollowToggleCallback callback) {
         service.followUserToggle(username).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int code = response.code();
                 if (response.isSuccessful()) {
-                    callback.onFollowToggle();
+                    callback.onObjectFollowChanged();
                 } else {
-                    callback.onFollowFailure(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 

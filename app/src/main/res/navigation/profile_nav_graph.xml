@@ -8,14 +8,14 @@
     <fragment
         android:id="@+id/userPlaylistsFragment"
         android:name="com.example.sallefy.fragment.ProfilePlaylistsFragment"
-        android:label="@string/user_playlists_label"
+        android:label="@string/profile_playlists_label"
         tools:layout="@layout/fragment_profile_playlists">
     </fragment>
 
     <fragment
         android:id="@+id/userTracksFragment"
         android:name="com.example.sallefy.fragment.ProfileTracksFragment"
-        android:label="@string/user_tracks_label"
+        android:label="@string/profile_tracks_label"
         tools:layout="@layout/fragment_profile_tracks">
     </fragment>
 

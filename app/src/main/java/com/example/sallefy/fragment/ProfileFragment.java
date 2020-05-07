@@ -10,12 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.sallefy.R;
 import com.example.sallefy.databinding.FragmentProfileBinding;
 import com.example.sallefy.factory.ViewModelFactory;
-import com.example.sallefy.model.User;
 import com.example.sallefy.utils.NavigationFixer;
 import com.example.sallefy.viewmodel.ProfileViewModel;
 
@@ -46,7 +46,7 @@ public class ProfileFragment extends DaggerFragment {
         profileViewModel = new ViewModelProvider(this, viewModelFactory).get(ProfileViewModel.class);
 
         if (getArguments() != null)
-            profileViewModel.setUser((User) getArguments().getSerializable("user"));
+            profileViewModel.setUser(ProfileFragmentArgs.fromBundle(getArguments()).getUser());
 
         NavController navController = Navigation.findNavController(requireActivity(), R.id.sub_fragment_container_profile);
         NavigationUI.setupWithNavController(binding.profileNavigation, navController);
@@ -60,12 +60,25 @@ public class ProfileFragment extends DaggerFragment {
         NavigationFixer.adjustGravity(binding.profileNavigation);
         NavigationFixer.adjustWidth(binding.profileNavigation);
 
-        if (profileViewModel.isOwnUser()) {
+        binding.profileUsername.setText(profileViewModel.getUserName());
+
+        if (profileViewModel.isOwnUser())
             binding.userFollowBtn.setVisibility(View.GONE);
-        }
+
+        binding.backProfile.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).popBackStack();
+        });
     }
 
     private void subscribeObservers() {
-
+        if (!profileViewModel.isOwnUser()) {
+            profileViewModel.isFollowed().observe(getViewLifecycleOwner(), isFollowed -> {
+                if (isFollowed != null)
+                    if (isFollowed)
+                        binding.userFollowBtn.setText(R.string.following);
+                    else
+                        binding.userFollowBtn.setText(R.string.follow);
+            });
+        }
     }
 }

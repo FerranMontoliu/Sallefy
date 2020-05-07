@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
+import io.reactivex.rxjava3.annotations.Nullable;
+
 public class User implements Serializable {
 
     @SerializedName("activated")
