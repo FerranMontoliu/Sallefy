@@ -14,7 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
+import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.callback.UserAdapterCallback;
+import com.example.sallefy.databinding.ItemTrackBinding;
+import com.example.sallefy.databinding.ItemUserBinding;
+import com.example.sallefy.databinding.ItemUserListBinding;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.User;
 
@@ -25,46 +29,45 @@ import java.util.List;
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
 
     public static final String TAG = UserListAdapter.class.getName();
-    private ArrayList<User> users;
-    private Context mContext;
-    private UserAdapterCallback mCallback;
-    private int layoutId;
+    private List<User> items;
+    private Context context;
+    private IListAdapter callback;
 
 
-    public UserListAdapter(ArrayList<User> users, Context context, UserAdapterCallback callback, int layoutId) {
-        this.users = users;
-        mContext = context;
-        mCallback = callback;
-        this.layoutId = layoutId;
+    public UserListAdapter(Context context, IListAdapter callback) {
+        this.items = null;
+        this.context = context;
+        this.callback = callback;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: called.");
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        return new UserListAdapter.ViewHolder(itemView);
+        ItemUserListBinding binding =
+                ItemUserListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        if (users != null && users.size() > 0) {
-            holder.mLayout.setOnClickListener(new View.OnClickListener() {
+        if (items != null && items.size() > 0) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mCallback != null)
-                        mCallback.onUserClick(users.get(position));
+                    if (callback != null)
+                        callback.onItemSelected(items.get(position));
                 }
             });
-            holder.mLoginName.setText(users.get(position).getLogin());
-            if (users.get(position).getImageUrl() != null) {
-                Glide.with(mContext)
+            holder.mLoginName.setText(items.get(position).getLogin());
+            if (items.get(position).getImageUrl() != null) {
+                Glide.with(context)
                         .asBitmap()
                         .placeholder(R.drawable.ic_user_thumbnail)
-                        .load(users.get(position).getImageUrl())
+                        .load(items.get(position).getImageUrl())
                         .into(holder.mPhoto);
             } else {
-                Glide.with(mContext)
+                Glide.with(context)
                         .asBitmap()
                         .load(R.drawable.ic_user_thumbnail)
                         .into(holder.mPhoto);
@@ -74,11 +77,11 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return (users != null ? users.size() : 0);
+        return (items != null ? items.size() : 0);
     }
 
     public void setUsers(List<User> users) {
-        this.users = (ArrayList) users;
+        this.items = users;
         notifyDataSetChanged();
     }
 
@@ -87,8 +90,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         ImageView mPhoto;
         TextView mLoginName;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
+        public ViewHolder(@NonNull ItemUserListBinding binding) {
+            super(binding.getRoot());
             mLayout = itemView.findViewById(R.id.item_user_layout);
             mPhoto = itemView.findViewById(R.id.item_user_photo);
             mLoginName = itemView.findViewById(R.id.item_user_login_name);
