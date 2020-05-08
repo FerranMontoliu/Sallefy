@@ -2,11 +2,9 @@ package com.example.sallefy.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,122 +12,98 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
-import com.example.sallefy.callback.TrackListAdapterCallback;
+import com.example.sallefy.adapter.callback.LikeableListAdapter;
+import com.example.sallefy.databinding.ItemOwnTrackBinding;
 import com.example.sallefy.model.Track;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapter.ViewHolder> {
+    private Context context;
+    private LikeableListAdapter callback;
+    private List<Track> items;
 
-    public static final String TAG = OwnPlaylistListAdapter.class.getName();
-
-    private ArrayList<Track> mTracks;
-    private Context mContext;
-    private TrackListAdapterCallback mCallback;
-    private int layoutId;
-    private OnItemClickListener mListener;
-
-
-    public OwnTrackListAdapter(ArrayList<Track> tracks, Context context, TrackListAdapterCallback callback, int layoutId) {
-        mTracks = tracks;
-        mContext = context;
-        mCallback = callback;
-        this.layoutId = layoutId;
-    }
-
-
-    public interface OnItemClickListener {
-        void onLikeClick(Track track, int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
-    }
-
-    public void changeTrackLikeStateIcon(int position) {
-        if (mTracks.get(position).isLiked()) {
-            mTracks.get(position).setLiked(false);
-        } else {
-            mTracks.get(position).setLiked(true);
-        }
-        notifyDataSetChanged();
-    }
-
-    public void updateTrackLikeStateIcon(int position, boolean isLiked) {
-        mTracks.get(position).setLiked(isLiked);
-        notifyDataSetChanged();
+    public OwnTrackListAdapter(Context context, LikeableListAdapter callback) {
+        this.context = context;
+        this.callback = callback;
+        items = null;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        return new OwnTrackListAdapter.ViewHolder(itemView, mListener);
+        ItemOwnTrackBinding binding =
+                ItemOwnTrackBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        if (mTracks != null && mTracks.size() > 0) {
-            holder.mLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mCallback != null)
-                        mCallback.onTrackClick(mTracks.get(position));
-                }
-            });
-            holder.mTitle.setText(mTracks.get(position).getName());
-            holder.mAuthor.setText(mTracks.get(position).getUser().getLogin());
+        if (items != null && items.size() > 0) {
+            Track track = items.get(position);
 
-            if (mTracks.get(position).isLiked()) {
+            holder.itemView.setOnClickListener(v -> {
+                callback.onItemSelected(track);
+            });
+
+            holder.mLike.setOnClickListener(v -> {
+                callback.onItemLiked(track, position);
+            });
+
+            holder.mMore.setOnClickListener(v-> {
+                callback.onItemMore(track);
+            });
+
+            holder.mTitle.setText(track.getName());
+
+            if (track.isLiked()) {
                 holder.mLike.setImageResource(R.drawable.ic_favorite_filled);
             } else {
                 holder.mLike.setImageResource(R.drawable.ic_favorite_unfilled);
             }
 
-            if (mTracks.get(position).getThumbnail() != null) {
-                Glide.with(mContext)
+            if (items.get(position).getThumbnail() != null) {
+                Glide.with(context)
                         .asBitmap()
                         .placeholder(R.drawable.ic_audiotrack_60dp)
-                        .load(mTracks.get(position).getThumbnail())
+                        .load(track.getThumbnail())
                         .into(holder.mPhoto);
             }
         }
     }
 
+    public void changeTrackLikeStateIcon(int position) {
+        Track t = items.get(position);
+        if (t.isLiked()) {
+            t.setLiked(false);
+        } else {
+            t.setLiked(true);
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
-        return (mTracks != null ? mTracks.size() : 0);
+        return (items != null ? items.size() : 0);
+    }
+
+    public void setTracks(List<Track> tracks) {
+        this.items = tracks;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        RelativeLayout mLayout;
         ImageView mPhoto;
         TextView mTitle;
-        TextView mAuthor;
         ImageButton mLike;
+        ImageButton mMore;
 
-        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
-            super(itemView);
-            mLayout = itemView.findViewById(R.id.item_track_layout);
-            mPhoto = itemView.findViewById(R.id.am_image_iv);
-            mTitle = itemView.findViewById(R.id.am_title_tv);
-            mAuthor = itemView.findViewById(R.id.am_author_tv);
-            mLike = itemView.findViewById(R.id.it_like_ib);
-
-            mLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onLikeClick(mTracks.get(position), position);
-                        }
-                    }
-                }
-
-            });
+        public ViewHolder(ItemOwnTrackBinding binding) {
+            super(binding.getRoot());
+            mPhoto = binding.amImageIv;
+            mTitle = binding.amTitleTv;
+            mLike = binding.itLikeIb;
+            mMore = binding.itMoreIb;
         }
-
-
     }
 }

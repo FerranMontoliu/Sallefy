@@ -7,10 +7,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.sallefy.R;
-import com.example.sallefy.auth.UserManager;
 import com.example.sallefy.databinding.ActivityMainBinding;
-
-import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -20,8 +17,6 @@ public class MainActivity extends DaggerAppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
 
     private ActivityMainBinding binding;
-    @Inject
-    protected UserManager userManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

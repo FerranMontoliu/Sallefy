@@ -9,12 +9,11 @@ import com.example.sallefy.fragment.OptionsFragment;
 import com.example.sallefy.fragment.PlayingSongFragment;
 import com.example.sallefy.fragment.PlaylistFragment;
 import com.example.sallefy.fragment.ProfileFragment;
+import com.example.sallefy.fragment.ProfilePlaylistsFragment;
+import com.example.sallefy.fragment.ProfileTracksFragment;
 import com.example.sallefy.fragment.RegisterFragment;
 import com.example.sallefy.fragment.SearchFragment;
 import com.example.sallefy.fragment.TrackOptionsFragment;
-import com.example.sallefy.fragment.UserPlaylistsFragment;
-import com.example.sallefy.fragment.UserSettingsFragment;
-import com.example.sallefy.fragment.UserTracksFragment;
 import com.example.sallefy.fragment.YourLibraryFollowersFragment;
 import com.example.sallefy.fragment.YourLibraryFollowingsFragment;
 import com.example.sallefy.fragment.YourLibraryFragment;
@@ -64,13 +63,10 @@ public abstract class FragmentModule {
     abstract ProfileFragment profileFragment();
 
     @ContributesAndroidInjector
-    abstract UserPlaylistsFragment userPlaylistsFragment();
+    abstract ProfilePlaylistsFragment userPlaylistsFragment();
 
     @ContributesAndroidInjector
-    abstract UserSettingsFragment userSettingsFragment();
-
-    @ContributesAndroidInjector
-    abstract UserTracksFragment userTracksFragment();
+    abstract ProfileTracksFragment userTracksFragment();
 
     @ContributesAndroidInjector
     abstract YourLibraryFragment yourLibraryFragment();

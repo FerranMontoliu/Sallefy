@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/darker_background"
     android:orientation="vertical"
-    tools:context=".fragment.YourLibraryFollowingsFragment">
+    tools:context=".fragment.ProfilePlaylistsFragment">
 
     <TextView
-        android:id="@+id/users_empty_tv"
+        android:id="@+id/playlists_empty_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="24dp"
         android:gravity="center"
-        android:text="@string/no_followings_to_show" />
+        android:text="@string/no_playlists_to_show" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/users_rv"
+        android:id="@+id/playlists_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="1dp"

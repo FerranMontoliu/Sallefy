@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.sallefy.adapter.OwnTrackListAdapter;
+import com.example.sallefy.adapter.TrackListAdapter;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.network.SallefyRepository;
-import com.example.sallefy.network.callback.CreateTrackCallback;
 import com.example.sallefy.network.callback.GetTracksCallback;
 import com.example.sallefy.network.callback.LikeTrackCallback;
 
@@ -15,47 +14,19 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class YourLibraryTracksViewModel extends ViewModel {
+public class ProfileTracksViewModel extends ViewModel {
 
     private SallefyRepository sallefyRepository;
     private MutableLiveData<List<Track>> mTracks;
 
     @Inject
-    public YourLibraryTracksViewModel(SallefyRepository sallefyRepository) {
+    public ProfileTracksViewModel(SallefyRepository sallefyRepository) {
         this.sallefyRepository = sallefyRepository;
         this.mTracks = new MutableLiveData<>();
     }
 
-    public void createTrack(Track track) {
-        sallefyRepository.createTrack(track, new CreateTrackCallback() {
-            @Override
-            public void onTrackCreated() {
-                requestOwnTracks();
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-        });
-    }
-
-    public void likeTrack(Track track, int position, OwnTrackListAdapter adapter) {
-        sallefyRepository.likeTrack(track, new LikeTrackCallback() {
-            @Override
-            public void onTrackLiked() {
-                adapter.changeTrackLikeStateIcon(position);
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-        });
-    }
-
-    private void requestOwnTracks() {
-        sallefyRepository.getOwnTracks(new GetTracksCallback() {
+    private void requestUserTracks(String username) {
+        sallefyRepository.getUserTracks(username, new GetTracksCallback() {
             @Override
             public void onTracksReceived(List<Track> tracks) {
                 mTracks.postValue(tracks);
@@ -68,8 +39,22 @@ public class YourLibraryTracksViewModel extends ViewModel {
         });
     }
 
-    public LiveData<List<Track>> getOwnTracks() {
-        requestOwnTracks();
+    public LiveData<List<Track>> getUserTracks(String username) {
+        requestUserTracks(username);
         return mTracks;
+    }
+
+    public void likeTrack(Track track, int position, TrackListAdapter adapter) {
+        sallefyRepository.likeTrack(track, new LikeTrackCallback() {
+            @Override
+            public void onTrackLiked() {
+                adapter.changeTrackLikeStateIcon(position);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
     }
 }
