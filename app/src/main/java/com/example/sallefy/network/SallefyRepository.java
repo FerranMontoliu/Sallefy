@@ -171,7 +171,7 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void followPlaylist(Playlist playlist, final FollowToggleCallback callback) {
+    public synchronized void followPlaylistToggle(Playlist playlist, final FollowToggleCallback callback) {
         service.followPlaylist(playlist.getId().toString()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

@@ -39,6 +39,11 @@ public class PlaylistFragment extends DaggerFragment {
 
         playlistViewModel = new ViewModelProvider(this, viewModelFactory).get(PlaylistViewModel.class);
 
+        if (getArguments() != null) {
+            playlistViewModel.setPlaylist(PlaylistFragmentArgs.fromBundle(getArguments()).getPlaylist());
+            requireActivity().getIntent().putExtra("clickedUser", ProfileFragmentArgs.fromBundle(getArguments()).getUser());
+        }
+
         initViews();
 
         subscribeObservers();
