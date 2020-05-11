@@ -12,15 +12,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sallefy.R;
 import com.example.sallefy.adapter.PlaylistListAdapter;
 import com.example.sallefy.adapter.SearchTrackListAdapter;
 import com.example.sallefy.adapter.UserListAdapter;
 import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.databinding.FragmentSearchBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.Playlist;
+import com.example.sallefy.model.Track;
+import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.SearchViewModel;
 
 import java.util.List;
@@ -137,6 +142,14 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
     @Override
     public void onItemSelected(Object item) {
         //TODO: OPEN PLAYLIST/USER/SONG FRAGMENT
+        if(item instanceof User){
+            Navigation.findNavController(getView()).navigate(R.id.action_searchFragment_to_profileFragment);
+        } else if (item instanceof Playlist){
+            //SearchFragmentDirections.ActionSearchFragmentToPlaylistFragment action =
+            Navigation.findNavController(getView()).navigate(R.id.action_searchFragment_to_playlistFragment);
+        } else if (item instanceof Track){
+            //Navigation.findNavController(getView());
+        }
     }
 
 }
