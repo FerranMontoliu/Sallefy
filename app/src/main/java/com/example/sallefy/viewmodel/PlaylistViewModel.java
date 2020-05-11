@@ -4,9 +4,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.sallefy.R;
+import com.example.sallefy.activity.MainActivity;
+import com.example.sallefy.model.Playlist;
+import com.example.sallefy.model.Track;
 import com.example.sallefy.auth.Session;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.network.SallefyRepository;
+import com.example.sallefy.utils.MusicPlayer;
+
+import java.util.Random;
 import com.example.sallefy.network.callback.FollowCheckCallback;
 import com.example.sallefy.network.callback.FollowToggleCallback;
 
@@ -78,5 +85,35 @@ public class PlaylistViewModel extends ViewModel {
             public void onFailure(Throwable throwable) {
             }
         });
+    }
+
+    public void newShuffleTrack() {
+        MusicPlayer musicPlayer = MusicPlayer.getInstance();
+        Random r = new Random();
+        Track track;
+
+        if (musicPlayer.isReady()) {
+
+            int nextTrack = r.nextInt(playlist.getTracks().size());
+
+            while (nextTrack == musicPlayer.getCurrentPlaylistTrack()) {
+                nextTrack = r.nextInt(playlist.getTracks().size());
+            }
+
+            track = playlist.getTracks().get(nextTrack);
+            musicPlayer.onNewTrackClicked(track, playlist);
+
+        } else {
+            track = playlist.getTracks().get(r.nextInt(playlist.getTracks().size()));
+            musicPlayer.onNewTrackClicked(track, playlist);
+        }
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
+    }
+
+    public Playlist getPlaylist() {
+        return playlist;
     }
 }

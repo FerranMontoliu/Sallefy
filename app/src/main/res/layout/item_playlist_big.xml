@@ -20,13 +20,13 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/fp_playlist_image_iv"
+                android:id="@+id/playlist_thumbnail"
                 android:layout_width="@dimen/playlist_image"
                 android:layout_height="@dimen/playlist_image"
                 android:src="@drawable/ic_library_music" />
 
             <TextView
-                android:id="@+id/fp_playlist_name_tv"
+                android:id="@+id/playlist_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
@@ -35,7 +35,7 @@
                 android:textAppearance="@style/SongTitleTheme" />
 
             <TextView
-                android:id="@+id/fp_playlist_user_tv"
+                android:id="@+id/playlist_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"

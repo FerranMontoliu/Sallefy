@@ -80,11 +80,19 @@
     <style name="PlaylistNameTheme" parent="NoTitle">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/light_hint</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
     </style>
 
     <style name="AuthorNameTheme" parent="NoTitle">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/light_hint</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
     </style>
 
     <style name="NavigationTheme" parent="NoTitle">

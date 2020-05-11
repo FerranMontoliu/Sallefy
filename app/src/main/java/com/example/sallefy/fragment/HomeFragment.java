@@ -5,17 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NavigationRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sallefy.R;
 import com.example.sallefy.activity.MainActivity;
 import com.example.sallefy.adapter.HomePlaylistListAdapter;
 import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.databinding.FragmentHomeBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.utils.MarginItemDecorator;
 import com.example.sallefy.viewmodel.HomeViewModel;
 
@@ -114,6 +118,11 @@ public class HomeFragment extends DaggerFragment implements IListAdapter {
 
     @Override
     public void onItemSelected(Object item) {
-        // TODO: OPEN SPECIFIC PLAYLIST FRAGMENT
+        if (item instanceof Playlist) {
+            HomeFragmentDirections.ActionHomeFragmentToPlaylistFragment action =
+                    HomeFragmentDirections.actionHomeFragmentToPlaylistFragment();
+            action.setPlaylist((Playlist)item);
+            Navigation.findNavController(binding.getRoot()).navigate(action);
+        }
     }
 }

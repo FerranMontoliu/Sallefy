@@ -77,9 +77,9 @@ public class SearchPlaylistListAdapter extends RecyclerView.Adapter<SearchPlayli
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mLayout = itemView.findViewById(R.id.item_playlist_layout);
-            mPhoto = itemView.findViewById(R.id.am_image_iv);
-            mTitle = itemView.findViewById(R.id.am_title_tv);
-            mAuthor = itemView.findViewById(R.id.am_author_tv);
+            mPhoto = itemView.findViewById(R.id.main_track_image);
+            mTitle = itemView.findViewById(R.id.main_track_title);
+            mAuthor = itemView.findViewById(R.id.main_author_title);
         }
     }
 }
