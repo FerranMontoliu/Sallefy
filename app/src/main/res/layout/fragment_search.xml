@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.SearchFragment">
     <CheckBox
         android:id="@+id/back_btn_search"
         android:layout_width="wrap_content"
@@ -33,99 +35,90 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back_btn_search" />
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/search_nsv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/search_edit_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:paddingBottom="50dp"
-        android:gravity="top">
-        <ScrollView
-            android:id="@+id/search_nsv"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@id/search_edit_text"
+        android:layout_gravity="top">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toBottomOf="@id/search_edit_text"
-            android:layout_gravity="top">
-
-            <LinearLayout
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical"
+            android:gravity="top">
+            <TextView
+                android:id="@+id/playlists_text"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
                 app:layout_constraintTop_toTopOf="parent"
-                android:orientation="vertical"
-                android:gravity="top">
-                <TextView
-                    android:id="@+id/playlists_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="gone"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/search_playlists"
-                    style="@style/TitleSearchResults">
-                </TextView>
+                android:text="@string/search_playlists"
+                style="@style/TitleSearchResults">
+            </TextView>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/playlists_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/playlists_text" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/playlists_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playlists_text" />
 
-                <TextView
-                    android:id="@+id/tracks_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="gone"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintTop_toBottomOf="@id/playlists_rv"
-                    android:text="@string/search_tracks"
-                    style="@style/TitleSearchResults">
-                </TextView>
+            <TextView
+                android:id="@+id/tracks_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toBottomOf="@id/playlists_rv"
+                android:text="@string/search_tracks"
+                style="@style/TitleSearchResults">
+            </TextView>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/tracks_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tracks_text" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tracks_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tracks_text" />
 
-                <TextView
-                    android:id="@+id/users_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="gone"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintTop_toBottomOf="@id/tracks_rv"
-                    android:text="@string/search_users"
-                    style="@style/TitleSearchResults">
-                </TextView>
+            <TextView
+                android:id="@+id/users_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toBottomOf="@id/tracks_rv"
+                android:text="@string/search_users"
+                style="@style/TitleSearchResults">
+            </TextView>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/users_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/users_text" />
-            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/users_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/users_text" />
+        </LinearLayout>
 
-        </ScrollView>
-    </LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

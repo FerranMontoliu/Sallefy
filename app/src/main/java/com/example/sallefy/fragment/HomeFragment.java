@@ -72,21 +72,21 @@ public class HomeFragment extends DaggerFragment implements IListAdapter {
 
     private void initRecyclerViews() {
         topRv = binding.topPlaylistsRv;
-        topAdapter = new HomePlaylistListAdapter(getContext(), this);
+        topAdapter = new HomePlaylistListAdapter(requireContext(), this);
         topRv.setAdapter(topAdapter);
-        topRv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        topRv.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
         topRv.addItemDecoration(decorator);
 
         recentRv = binding.recentPlaylistsRv;
-        recentAdapter = new HomePlaylistListAdapter(getContext(), this);
+        recentAdapter = new HomePlaylistListAdapter(requireContext(), this);
         recentRv.setAdapter(recentAdapter);
-        recentRv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        recentRv.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
         recentRv.addItemDecoration(decorator);
 
         followedRv = binding.followedPlaylistsRv;
-        followedAdapter = new HomePlaylistListAdapter(getContext(), this);
+        followedAdapter = new HomePlaylistListAdapter(requireContext(), this);
         followedRv.setAdapter(followedAdapter);
-        followedRv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        followedRv.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
         followedRv.addItemDecoration(decorator);
     }
 

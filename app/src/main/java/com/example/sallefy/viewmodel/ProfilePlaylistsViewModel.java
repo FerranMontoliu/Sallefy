@@ -5,41 +5,27 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sallefy.model.Playlist;
+import com.example.sallefy.model.User;
 import com.example.sallefy.network.SallefyRepository;
-import com.example.sallefy.network.callback.CreatePlaylistCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class YourLibraryPlaylistsViewModel extends ViewModel {
+public class ProfilePlaylistsViewModel extends ViewModel {
 
     private SallefyRepository sallefyRepository;
     private MutableLiveData<List<Playlist>> mPlaylists;
 
     @Inject
-    public YourLibraryPlaylistsViewModel(SallefyRepository sallefyRepository) {
+    public ProfilePlaylistsViewModel(SallefyRepository sallefyRepository) {
         this.sallefyRepository = sallefyRepository;
         this.mPlaylists = new MutableLiveData<>();
     }
 
-    public void createPlaylist(Playlist playlist) {
-        sallefyRepository.createPlaylist(playlist, new CreatePlaylistCallback() {
-            @Override
-            public void onPlaylistCreated() {
-                requestOwnPlaylists();
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-        });
-    }
-
-    private void requestOwnPlaylists() {
-        sallefyRepository.getOwnPlaylists(new GetPlaylistsCallback() {
+    private void requestUserPlaylists(String username) {
+        sallefyRepository.getUserPlaylists(username, new GetPlaylistsCallback() {
             @Override
             public void onPlaylistsReceived(List<Playlist> playlists) {
                 mPlaylists.postValue(playlists);
@@ -52,8 +38,8 @@ public class YourLibraryPlaylistsViewModel extends ViewModel {
         });
     }
 
-    public LiveData<List<Playlist>> getOwnPlaylists() {
-        requestOwnPlaylists();
+    public LiveData<List<Playlist>> getUserPlaylists(String username) {
+        requestUserPlaylists(username);
         return mPlaylists;
     }
 }

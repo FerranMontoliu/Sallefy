@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_playlists"
+    <item android:id="@+id/userPlaylistsFragment"
         android:title="@string/your_playlists" />
-    <item android:id="@+id/action_tracks"
+    <item android:id="@+id/userTracksFragment"
         android:title="@string/your_tracks"/>
 </menu>

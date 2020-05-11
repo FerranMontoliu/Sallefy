@@ -16,158 +16,106 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
+import com.example.sallefy.adapter.callback.LikeableListAdapter;
 import com.example.sallefy.callback.TrackListAdapterCallback;
+import com.example.sallefy.databinding.ItemTrackBinding;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.network.callback.TrackCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.ViewHolder> {
+    private Context context;
+    private LikeableListAdapter callback;
+    private List<Track> items;
 
-    private static final String TAG = "TrackListAdapter";
-    private ArrayList<Track> mTracks;
-    private Context mContext;
-    private int mLayoutId;
-    private TrackListAdapterCallback mCallback;
-    private OnItemClickListener mListener;
-    private TrackCallback mTrackCallback;
-
-    public TrackListAdapter(Context context, ArrayList<Track> tracks, TrackListAdapterCallback callback, TrackCallback trackCallback, int layoutId) {
-        mContext = context;
-        mTracks = tracks;
-        mLayoutId = layoutId;
-        mCallback = callback;
-        mTrackCallback = trackCallback;
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
-    }
-
-    public void changeTrackLikeStateIcon(int position) {
-        if (mTracks.get(position).isLiked()) {
-            mTracks.get(position).setLiked(false);
-        } else {
-            mTracks.get(position).setLiked(true);
-        }
-        notifyDataSetChanged();
-    }
-
-    public void updateTrackLikeStateIcon(int position, boolean isLiked) {
-        mTracks.get(position).setLiked(isLiked);
-        notifyDataSetChanged();
+    public TrackListAdapter(Context context, LikeableListAdapter callback) {
+        this.context = context;
+        this.callback = callback;
+        items = null;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder: called.");
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
-        return new TrackListAdapter.ViewHolder(itemView, mLayoutId, mListener);
+        ItemTrackBinding binding =
+                ItemTrackBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding);
     }
 
-    public interface OnItemClickListener {
-        void onLikeClick(Track track, int position);
-    }
-
+    @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.tvTitle.setText(mTracks.get(position).getName());
-        holder.tvAuthor.setText(mTracks.get(position).getUserLogin());
-        if (mTracks.get(position).getThumbnail() != null) {
-            Glide.with(mContext)
-                    .asBitmap()
-                    .placeholder(R.drawable.ic_library_music)
-                    .load(mTracks.get(position).getThumbnail())
-                    .into(holder.ivPicture);
-        }
+        if (items != null && items.size() > 0) {
+            Track track = items.get(position);
 
-        if (mLayoutId == R.layout.item_track) {
-            if (mTracks.get(position).isLiked()) {
-                holder.ibLike.setImageResource(R.drawable.ic_favorite_filled);
+            holder.itemView.setOnClickListener(v -> {
+                callback.onItemSelected(track);
+            });
+
+            holder.mLike.setOnClickListener(v -> {
+                callback.onItemLiked(track, position);
+            });
+
+            holder.mMore.setOnClickListener(v-> {
+                callback.onItemMore(track);
+            });
+
+            holder.mTitle.setText(track.getName());
+
+            holder.mAuthor.setText(track.getUserLogin());
+
+            if (track.isLiked()) {
+                holder.mLike.setImageResource(R.drawable.ic_favorite_filled);
             } else {
-                holder.ibLike.setImageResource(R.drawable.ic_favorite_unfilled);
+                holder.mLike.setImageResource(R.drawable.ic_favorite_unfilled);
             }
 
-            holder.ibMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallback.onOptionsClick(mTracks.get(position));
-                }
-            });
-
-            holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallback.onTrackClick(mTracks.get(position));
-                }
-            });
-
-        } else {
-            holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallback.onTrackClick(mTracks.get(position));
-                }
-            });
+            if (items.get(position).getThumbnail() != null) {
+                Glide.with(context)
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_audiotrack_60dp)
+                        .load(track.getThumbnail())
+                        .into(holder.mPhoto);
+            }
         }
+    }
+
+    public void changeTrackLikeStateIcon(int position) {
+        Track t = items.get(position);
+        if (t.isLiked()) {
+            t.setLiked(false);
+        } else {
+            t.setLiked(true);
+        }
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mTracks != null ? mTracks.size() : 0;
+        return (items != null ? items.size() : 0);
+    }
+
+    public void setTracks(List<Track> tracks) {
+        this.items = tracks;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView mPhoto;
+        TextView mTitle;
+        TextView mAuthor;
+        ImageButton mLike;
+        ImageButton mMore;
 
-        TextView tvTitle;
-        TextView tvAuthor;
-        ImageView ivPicture;
-        ImageButton ibLike;
-        ImageButton ibMore;
-        LinearLayout linearLayout;
-        RelativeLayout relativeLayout;
-
-        public ViewHolder(@NonNull View itemView, int layoutId, final OnItemClickListener listener) {
-            super(itemView);
-            tvTitle = itemView.findViewById(R.id.am_title_tv);
-            tvAuthor = itemView.findViewById(R.id.am_author_tv);
-            ivPicture = itemView.findViewById(R.id.am_image_iv);
-
-            if (layoutId == R.layout.item_track) {
-                ibMore = itemView.findViewById(R.id.it_more_ib);
-                ibLike = itemView.findViewById(R.id.it_like_ib);
-                relativeLayout = itemView.findViewById(R.id.item_track_layout);
-            } else {
-                linearLayout = itemView.findViewById(R.id.item_track_layout);
-            }
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-
-                        }
-                    }
-                }
-            });
-
-            if (ibLike != null) {
-                ibLike.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (listener != null) {
-                            int position = getAdapterPosition();
-                            if (position != RecyclerView.NO_POSITION) {
-                                listener.onLikeClick(mTracks.get(position), position);
-                            }
-                        }
-                    }
-
-                });
-            }
-
+        public ViewHolder(ItemTrackBinding binding) {
+            super(binding.getRoot());
+            mPhoto = binding.amImageIv;
+            mTitle = binding.amTitleTv;
+            mAuthor = binding.amAuthorTv;
+            mLike = binding.itLikeIb;
+            mMore = binding.itMoreIb;
         }
     }
 }
