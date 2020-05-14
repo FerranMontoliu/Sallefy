@@ -70,8 +70,8 @@ public interface SallefyService {
     @GET("users/{login}/playlists")
     Call<List<Playlist>> getUserPlaylists(@Path("login") String login);
 
-    @DELETE("users/{login}")
-    Call<ResponseBody> deleteUser(@Path("login") String login);
+    @DELETE("account")
+    Call<ResponseBody> deleteUser();
 
 
     // SEARCH ENDPOINT

@@ -361,7 +361,7 @@ public class SallefyRepository {
     }
 
     public synchronized void deleteUser(final DeleteUserCallback callback) {
-        service.deleteUser(Session.getUser().getLogin()).enqueue(new Callback<ResponseBody>() {
+        service.deleteUser().enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
