@@ -63,9 +63,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             });
 
             holder.mTitle.setText(track.getName());
-            holder.mTitle.setSelected(true);
             holder.mAuthor.setText(track.getUserLogin());
-            holder.mAuthor.setSelected(true);
             holder.mLike.setImageResource(track.isLiked() ? R.drawable.ic_favorite_filled : R.drawable.ic_favorite_unfilled);
 
             if (items.get(position).getThumbnail() != null) {

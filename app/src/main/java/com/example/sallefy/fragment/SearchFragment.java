@@ -143,7 +143,10 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
     public void onItemSelected(Object item) {
         //TODO: OPEN PLAYLIST/USER/SONG FRAGMENT
         if(item instanceof User){
-            Navigation.findNavController(getView()).navigate(R.id.action_searchFragment_to_profileFragment);
+            SearchFragmentDirections.ActionSearchFragmentToProfileFragment action =
+                    SearchFragmentDirections.actionSearchFragmentToProfileFragment();
+            action.setUser((User) item);
+            Navigation.findNavController(getView()).navigate(action);
         } else if (item instanceof Playlist){
             SearchFragmentDirections.ActionSearchFragmentToPlaylistFragment action =
                     SearchFragmentDirections.actionSearchFragmentToPlaylistFragment();

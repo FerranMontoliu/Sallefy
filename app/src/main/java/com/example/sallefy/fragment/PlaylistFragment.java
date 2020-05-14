@@ -37,6 +37,7 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
 
     private FragmentPlaylistBinding binding;
     private PlaylistViewModel playlistViewModel;
+    private TrackListAdapter adapter;
 
 
     @Override
@@ -68,7 +69,7 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         binding.playlistTracksRv.setLayoutManager(manager);
-        TrackListAdapter adapter = new TrackListAdapter(getContext(), PlaylistFragment.this);
+        adapter = new TrackListAdapter(getContext(), PlaylistFragment.this);
         adapter.setTracks(playlistViewModel.getPlaylist().getTracks());
         binding.playlistTracksRv.setAdapter(adapter);
 
@@ -146,13 +147,20 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
         binding.playlistFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //PlaylistManager.getInstance(getContext()).followPlaylist(mPlaylist, PlaylistFragment.this);
+                playlistViewModel.followPlaylistToggle();
             }
         });
     }
 
     private void subscribeObservers() {
-
+        playlistViewModel.isFollowed().observe(getViewLifecycleOwner(), isFollowed -> {
+            if (isFollowed != null){
+                if (isFollowed)
+                    binding.playlistFollow.setText(R.string.following);
+                else
+                    binding.playlistFollow.setText(R.string.follow);
+            }
+        });
     }
 
     @Override
@@ -193,7 +201,7 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
 
     @Override
     public void onItemLiked(Object item, int position) {
-        //TrackManager.getInstance(getContext()).likeTrack(track, PlaylistFragment.this, position);
+        playlistViewModel.likeTrack((Track) item, position, adapter);
     }
 
     @Override

@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sallefy.R;
 import com.example.sallefy.activity.MainActivity;
+import com.example.sallefy.adapter.TrackListAdapter;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.auth.Session;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.network.SallefyRepository;
+import com.example.sallefy.network.callback.LikeTrackCallback;
 import com.example.sallefy.utils.MusicPlayer;
 
 import java.util.Random;
@@ -107,6 +109,20 @@ public class PlaylistViewModel extends ViewModel {
             track = playlist.getTracks().get(r.nextInt(playlist.getTracks().size()));
             musicPlayer.onNewTrackClicked(track, playlist);
         }
+    }
+
+    public void likeTrack(Track track, int position, TrackListAdapter adapter) {
+        sallefyRepository.likeTrack(track, new LikeTrackCallback() {
+            @Override
+            public void onTrackLiked() {
+                adapter.changeTrackLikeStateIcon(position);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
     }
 
 }
