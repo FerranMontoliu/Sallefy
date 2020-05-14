@@ -155,6 +155,9 @@
         <action
             android:id="@+id/action_optionsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_optionsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -176,7 +179,6 @@
         <action
             android:id="@+id/action_playlistFragment_to_playingSongFragment"
             app:destination="@id/playingSongFragment" />
-
     </fragment>
 
     <fragment
