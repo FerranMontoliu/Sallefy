@@ -27,11 +27,10 @@ import com.example.sallefy.network.callback.LikeTrackCallback;
 import com.example.sallefy.network.callback.LoginCallback;
 import com.example.sallefy.network.callback.PasswordChangeCallback;
 import com.example.sallefy.network.callback.PlaylistCallback;
-import com.example.sallefy.network.callback.ProfileCallback;
 import com.example.sallefy.network.callback.RegisterCallback;
 import com.example.sallefy.network.callback.SearchCallback;
 import com.example.sallefy.network.callback.TrackCallback;
-import com.example.sallefy.network.callback.UserCallback;
+import com.example.sallefy.network.callback.DeleteUserCallback;
 import com.example.sallefy.auth.Session;
 
 import java.util.List;
@@ -361,20 +360,20 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void deleteUser(final UserCallback callback) {
+    public synchronized void deleteUser(final DeleteUserCallback callback) {
         service.deleteUser(Session.getUser().getLogin()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     callback.onAccountDeleted();
                 } else {
-                    callback.onDeleteFailure(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                callback.onDeleteFailure(t);
+                callback.onFailure(t);
             }
         });
     }
