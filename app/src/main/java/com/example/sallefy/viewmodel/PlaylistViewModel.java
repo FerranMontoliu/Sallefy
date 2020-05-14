@@ -109,11 +109,4 @@ public class PlaylistViewModel extends ViewModel {
         }
     }
 
-    public void setPlaylist(Playlist playlist) {
-        this.playlist = playlist;
-    }
-
-    public Playlist getPlaylist() {
-        return playlist;
-    }
 }

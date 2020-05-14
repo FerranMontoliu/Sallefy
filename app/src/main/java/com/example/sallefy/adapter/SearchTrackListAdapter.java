@@ -89,9 +89,9 @@ public class SearchTrackListAdapter extends RecyclerView.Adapter<SearchTrackList
 
         public ViewHolder(@NonNull TrackItemBinding binding) {
             super(binding.getRoot());
-            tvTitle = itemView.findViewById(R.id.am_title_tv);
-            tvAuthor = itemView.findViewById(R.id.am_author_tv);
-            ivPicture = itemView.findViewById(R.id.am_image_iv);
+            tvTitle = itemView.findViewById(R.id.main_track_title);
+            tvAuthor = itemView.findViewById(R.id.main_author_title);
+            ivPicture = itemView.findViewById(R.id.main_track_image);
             linearLayout = itemView.findViewById(R.id.item_track_layout);
 
 
