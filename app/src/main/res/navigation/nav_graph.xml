@@ -74,7 +74,15 @@
         </action>
         <action
             android:id="@+id/action_searchFragment_to_trackOptionsFragment"
-            app:destination="@id/trackOptionsFragment" />
+            app:destination="@id/trackOptionsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left">
+            <argument
+                android:name="track"
+                app:argType="com.example.sallefy.model.Track"
+                app:nullable="true"
+                android:defaultValue="@null"/>
+        </action>
         <action
             android:id="@+id/action_searchFragment_to_profileFragment"
             app:destination="@id/profileFragment"
@@ -211,6 +219,11 @@
         <action
             android:id="@+id/action_trackOptionsFragment_to_addSongToPlaylistFragment"
             app:destination="@id/addSongToPlaylistFragment" />
+        <argument
+            android:name="track"
+            app:argType="com.example.sallefy.model.Track"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
 </navigation>
