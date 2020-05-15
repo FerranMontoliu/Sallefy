@@ -6,7 +6,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +16,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sallefy.R;
 import com.example.sallefy.adapter.PlaylistListAdapter;
 import com.example.sallefy.adapter.SearchTrackListAdapter;
 import com.example.sallefy.adapter.UserListAdapter;
@@ -28,8 +26,6 @@ import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.SearchViewModel;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -43,7 +39,6 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
     private FragmentSearchBinding binding;
     private SearchViewModel searchViewModel;
 
-    private EditText searchEt;
     private TextView playlistsTv;
     private RecyclerView playlistsRv;
     private PlaylistListAdapter playlistsAdapter;
@@ -72,16 +67,15 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
         subscribeObservers();
     }
 
-    private void initSearchEditText(){
-
+    private void initSearchEditText() {
         binding.backBtnSearch.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
         });
 
-        searchEt = binding.searchEditText;
-        searchEt.addTextChangedListener(new TextWatcher() {
+        binding.searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -89,26 +83,27 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
     private void initRecyclerViews() {
         playlistsRv = binding.playlistsRv;
         playlistsTv = binding.playlistsText;
-        playlistsAdapter = new PlaylistListAdapter(getContext(), this);
+        playlistsAdapter = new PlaylistListAdapter(requireContext(), this);
         playlistsRv.setAdapter(playlistsAdapter);
         playlistsRv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
 
         tracksRv = binding.tracksRv;
         tracksTv = binding.tracksText;
-        trackAdapter = new SearchTrackListAdapter(getContext(), this);
+        trackAdapter = new SearchTrackListAdapter(requireContext(), this);
         tracksRv.setAdapter(trackAdapter);
         tracksRv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
 
         usersRv = binding.usersRv;
         usersTv = binding.usersText;
-        usersAdapter = new UserListAdapter(getContext(), this);
+        usersAdapter = new UserListAdapter(requireContext(), this);
         usersRv.setAdapter(usersAdapter);
         usersRv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
     }
@@ -140,29 +135,30 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
                 usersTv.setVisibility(View.GONE);
                 usersRv.setVisibility(View.GONE);
             }
-            usersAdapter.setUsers(search.getUsers());
 
+            usersAdapter.setUsers(search.getUsers());
         });
     }
 
     @Override
     public void onItemSelected(Object item) {
-        if(item instanceof User){
+        if (item instanceof User) {
             SearchFragmentDirections.ActionSearchFragmentToProfileFragment action =
                     SearchFragmentDirections.actionSearchFragmentToProfileFragment();
             action.setUser((User) item);
-            Navigation.findNavController(getView()).navigate(action);
-        } else if (item instanceof Playlist){
+            Navigation.findNavController(binding.getRoot()).navigate(action);
+
+        } else if (item instanceof Playlist) {
             SearchFragmentDirections.ActionSearchFragmentToPlaylistFragment action =
                     SearchFragmentDirections.actionSearchFragmentToPlaylistFragment();
             action.setPlaylist((Playlist) item);
-            Navigation.findNavController(getView()).navigate(action);
-        } else if (item instanceof Track){
+            Navigation.findNavController(binding.getRoot()).navigate(action);
+
+        } else if (item instanceof Track) {
             SearchFragmentDirections.ActionSearchFragmentToTrackOptionsFragment action =
                     SearchFragmentDirections.actionSearchFragmentToTrackOptionsFragment();
             action.setTrack((Track) item);
-            Navigation.findNavController(getView()).navigate(action);
+            Navigation.findNavController(binding.getRoot()).navigate(action);
         }
     }
-
 }

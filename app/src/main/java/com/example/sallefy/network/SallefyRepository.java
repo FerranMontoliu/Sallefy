@@ -255,14 +255,14 @@ public class SallefyRepository {
                 if (response.isSuccessful()) {
                     callback.onSearchResultsReceived(response.body());
                 } else {
-                    callback.onNoResults(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
 
             }
 
             @Override
             public void onFailure(Call<Search> call, Throwable t) {
-                callback.onNoResults(t);
+                callback.onFailure(t);
             }
         });
     }
