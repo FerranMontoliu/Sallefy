@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,6 +73,11 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
     }
 
     private void initSearchEditText(){
+
+        binding.backBtnSearch.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).popBackStack();
+        });
+
         searchEt = binding.searchEditText;
         searchEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -141,7 +147,6 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
 
     @Override
     public void onItemSelected(Object item) {
-        //TODO: OPEN PLAYLIST/USER/SONG FRAGMENT
         if(item instanceof User){
             SearchFragmentDirections.ActionSearchFragmentToProfileFragment action =
                     SearchFragmentDirections.actionSearchFragmentToProfileFragment();

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -149,6 +150,10 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
             public void onClick(View v) {
                 playlistViewModel.followPlaylistToggle();
             }
+        });
+
+        binding.playlistBack.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).popBackStack();
         });
     }
 
