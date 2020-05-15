@@ -71,7 +71,7 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
     private void hideBottom() {
         com.example.sallefy.databinding.ActivityMainBinding activityBinding = ((MainActivity) requireActivity()).getBinding();
         activityBinding.bottomNavigation.setVisibility(View.GONE);
-        activityBinding.amPlayingSong.setVisibility(View.GONE);
+        activityBinding.mainPlayingSong.setVisibility(View.GONE);
     }
 
     private boolean checkExistingPreferences() {

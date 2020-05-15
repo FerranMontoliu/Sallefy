@@ -118,11 +118,11 @@ public class HomeFragment extends DaggerFragment implements IListAdapter {
 
     @Override
     public void onItemSelected(Object item) {
-        // TODO: OPEN PLAYLIST
         if (item instanceof Playlist) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("playlist", (Playlist) item);
-            Navigation.findNavController(binding.getRoot()).navigate(R.id.action_homeFragment_to_playlistFragment, bundle);
+            HomeFragmentDirections.ActionHomeFragmentToPlaylistFragment action =
+                    HomeFragmentDirections.actionHomeFragmentToPlaylistFragment();
+            action.setPlaylist((Playlist)item);
+            Navigation.findNavController(binding.getRoot()).navigate(action);
         }
     }
 }

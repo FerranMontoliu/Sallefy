@@ -79,8 +79,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.8.1'
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment:2.2.2"
-    implementation "androidx.navigation:navigation-ui:2.2.2"
+    implementation "androidx.navigation:navigation-fragment:2.3.0-alpha06"
+    implementation "androidx.navigation:navigation-ui:2.3.0-alpha06"
 
     // Fragments
     implementation "androidx.fragment:fragment:1.2.4"

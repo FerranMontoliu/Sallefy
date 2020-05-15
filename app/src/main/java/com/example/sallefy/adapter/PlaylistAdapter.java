@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
+import com.example.sallefy.callback.PlaylistAdapterCallback;
 import com.example.sallefy.model.Playlist;
+
+import java.util.ArrayList;
 
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
@@ -69,9 +72,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mLayout = itemView.findViewById(R.id.item_playlist_layout);
-            mPhoto = itemView.findViewById(R.id.fp_playlist_image_iv);
-            mTitle = itemView.findViewById(R.id.fp_playlist_name_tv);
-            mAuthor = itemView.findViewById(R.id.fp_playlist_user_tv);
+            mPhoto = itemView.findViewById(R.id.playlist_thumbnail);
+            mTitle = itemView.findViewById(R.id.playlist_name);
+            mAuthor = itemView.findViewById(R.id.playlist_author);
         }
     }
 }

@@ -63,14 +63,8 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             });
 
             holder.mTitle.setText(track.getName());
-
             holder.mAuthor.setText(track.getUserLogin());
-
-            if (track.isLiked()) {
-                holder.mLike.setImageResource(R.drawable.ic_favorite_filled);
-            } else {
-                holder.mLike.setImageResource(R.drawable.ic_favorite_unfilled);
-            }
+            holder.mLike.setImageResource(track.isLiked() ? R.drawable.ic_favorite_filled : R.drawable.ic_favorite_unfilled);
 
             if (items.get(position).getThumbnail() != null) {
                 Glide.with(context)
@@ -111,9 +105,9 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
 
         public ViewHolder(ItemTrackBinding binding) {
             super(binding.getRoot());
-            mPhoto = binding.amImageIv;
-            mTitle = binding.amTitleTv;
-            mAuthor = binding.amAuthorTv;
+            mPhoto = binding.mainTrackImage;
+            mTitle = binding.mainTrackTitle;
+            mAuthor = binding.mainAuthorTitle;
             mLike = binding.itLikeIb;
             mMore = binding.itMoreIb;
         }

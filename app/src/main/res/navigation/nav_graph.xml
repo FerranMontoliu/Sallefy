@@ -46,7 +46,13 @@
             app:destination="@id/playingSongFragment" />
         <action
             android:id="@+id/action_homeFragment_to_playlistFragment"
-            app:destination="@id/playlistFragment" />
+            app:destination="@id/playlistFragment" >
+            <argument
+                android:name="playlist"
+                app:argType="com.example.sallefy.model.Playlist"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </action>
     </fragment>
 
     <fragment
@@ -59,10 +65,35 @@
             app:destination="@id/playingSongFragment" />
         <action
             android:id="@+id/action_searchFragment_to_playlistFragment"
-            app:destination="@id/playlistFragment" />
+            app:destination="@id/playlistFragment">
+            <argument
+                android:name="playlist"
+                app:argType="com.example.sallefy.model.Playlist"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </action>
         <action
             android:id="@+id/action_searchFragment_to_trackOptionsFragment"
-            app:destination="@id/trackOptionsFragment" />
+            app:destination="@id/trackOptionsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left">
+            <argument
+                android:name="track"
+                app:argType="com.example.sallefy.model.Track"
+                app:nullable="true"
+                android:defaultValue="@null"/>
+        </action>
+        <action
+            android:id="@+id/action_searchFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left">
+            <argument
+                android:name="user"
+                app:argType="com.example.sallefy.model.User"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </action>
     </fragment>
 
     <fragment
@@ -142,6 +173,11 @@
         android:name="com.example.sallefy.fragment.PlaylistFragment"
         android:label="@string/playlist_label"
         tools:layout="@layout/fragment_playlist">
+        <argument
+            android:name="playlist"
+            app:argType="com.example.sallefy.model.Playlist"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_playlistFragment_to_trackOptionsFragment"
             app:destination="@id/trackOptionsFragment" />
@@ -151,11 +187,6 @@
         <action
             android:id="@+id/action_playlistFragment_to_playingSongFragment"
             app:destination="@id/playingSongFragment" />
-        <argument
-            android:name="playlist"
-            app:argType="com.example.sallefy.model.Playlist"
-            app:nullable="true"
-            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -188,6 +219,11 @@
         <action
             android:id="@+id/action_trackOptionsFragment_to_addSongToPlaylistFragment"
             app:destination="@id/addSongToPlaylistFragment" />
+        <argument
+            android:name="track"
+            app:argType="com.example.sallefy.model.Track"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
 </navigation>

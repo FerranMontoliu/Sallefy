@@ -63,6 +63,10 @@ public class ProfileFragment extends DaggerFragment {
         NavigationFixer.adjustGravity(binding.profileNavigation);
         NavigationFixer.adjustWidth(binding.profileNavigation);
 
+        binding.backProfile.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).popBackStack();
+        });
+
         if (profileViewModel.getUserName() != null)
             binding.profileUsername.setText(profileViewModel.getUserName());
 

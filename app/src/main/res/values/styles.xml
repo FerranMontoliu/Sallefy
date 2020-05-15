@@ -70,6 +70,9 @@
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
         <item name="android:scrollHorizontally">true</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:paddingRight">15dip</item>
+        <item name="android:freezesText">true</item>
     </style>
 
     <style name="ArtistNameTheme" parent="NoTitle">
@@ -80,11 +83,29 @@
     <style name="PlaylistNameTheme" parent="NoTitle">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/light_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:paddingRight">15dip</item>
+        <item name="android:freezesText">true</item>
     </style>
 
     <style name="AuthorNameTheme" parent="NoTitle">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/light_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:paddingRight">15dip</item>
+        <item name="android:freezesText">true</item>
     </style>
 
     <style name="NavigationTheme" parent="NoTitle">
