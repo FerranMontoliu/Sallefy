@@ -89,13 +89,19 @@ public class YourLibraryPlaylistsFragment extends DaggerFragment implements ILis
             dialog.dismiss();
             String playlistName = input.getText().toString();
             if (playlistName.trim().isEmpty()) {
-                Toast.makeText(getContext(), R.string.error_name_playlist, Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), R.string.error_name_playlist, Toast.LENGTH_LONG).show();
             } else {
                 Playlist playlist = new Playlist();
                 playlist.setName(playlistName);
                 yourLibraryPlaylistsViewModel.createPlaylist(playlist);
             }
         });
+
+        builder.setNegativeButton(R.string.cancel_text_playlist, (dialog, which) ->  {
+            dialog.cancel();
+        });
+
+        builder.show();
     }
 
     private void subscribeObservers() {
