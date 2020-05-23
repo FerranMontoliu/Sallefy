@@ -64,9 +64,9 @@ public class CreateTrackViewModel extends ViewModel {
             return;
 
         if (thumbnailUri != null)
-            uploadThumbnailFile();
-
-        uploadTrackFile(genrePosition, callback);
+            uploadTrackAndThumbnailFile(genrePosition, callback);
+        else
+            uploadTrackFile(genrePosition, callback);
     }
 
     public LiveData<List<Genre>> getGenres() {
@@ -78,8 +78,16 @@ public class CreateTrackViewModel extends ViewModel {
         trackFileName = filename;
     }
 
+    public void setThumbnailFileName(String filename) {
+        thumbnailFileName = filename;
+    }
+
     public void setTrackUri(Uri uri) {
         trackUri = uri;
+    }
+
+    public void setThumbnailUri(Uri uri) {
+        thumbnailUri = uri;
     }
 
     public void initCloudinaryManager(Context context) {
@@ -111,9 +119,9 @@ public class CreateTrackViewModel extends ViewModel {
                         Track track = new Track();
                         track.setId(null);
                         track.setName(trackFileName);
-                        if (thumbnailUrl != null) {
+                        if (thumbnailUrl != null)
                             track.setThumbnail(thumbnailUrl);
-                        }
+
                         track.setUrl((String) resultData.get("url"));
                         ArrayList<Genre> genres = new ArrayList<>();
                         genres.add(mGenres.getValue().get(genrePosition));
@@ -135,7 +143,7 @@ public class CreateTrackViewModel extends ViewModel {
                 .dispatch();
     }
 
-    private void uploadThumbnailFile() {
+    private void uploadTrackAndThumbnailFile(int genrePosition, CreateTrackCallback callback) {
         Map<String, Object> options = new HashMap<>();
         options.put("public_id", thumbnailFileName);
         options.put("folder", "sallefy/thumbnails");
@@ -158,6 +166,7 @@ public class CreateTrackViewModel extends ViewModel {
                     @Override
                     public void onSuccess(String requestId, Map resultData) {
                         thumbnailUrl = (String) resultData.get("url");
+                        uploadTrackFile(genrePosition, callback);
                     }
 
                     @Override

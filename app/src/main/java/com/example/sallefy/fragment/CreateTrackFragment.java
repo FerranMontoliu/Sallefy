@@ -62,7 +62,7 @@ public class CreateTrackFragment extends DaggerFragment {
 
     private void initViews() {
         binding.uploadThumbnailBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             startActivityForResult(intent, CreateTrackViewModel.PICK_IMAGE);
         });
@@ -126,14 +126,14 @@ public class CreateTrackFragment extends DaggerFragment {
                 if (resultCode == RESULT_OK) {
                     try {
                         if (data.getData() != null) {
-                            createTrackViewModel.setTrackUri(data.getData());
+                            createTrackViewModel.setThumbnailUri(data.getData());
                             String path = data.getData().getPath();
                             if (path != null) {
                                 final String filename = path.substring(path.lastIndexOf("/") + 1);
                                 final InputStream imageStream = requireActivity().getContentResolver().openInputStream(data.getData());
                                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                                 binding.thumbnailIv.setImageBitmap(selectedImage);
-                                createTrackViewModel.setTrackFileName(filename);
+                                createTrackViewModel.setThumbnailFileName(filename);
                             }
                         }
                     } catch (FileNotFoundException e) {
