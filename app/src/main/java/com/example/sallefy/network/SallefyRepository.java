@@ -66,13 +66,13 @@ public class SallefyRepository {
                 if (response.isSuccessful()) {
                     callback.onGenresReceived(response.body());
                 } else {
-                    callback.onNoGenres(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Genre>> call, Throwable t) {
-                callback.onNoGenres(t);
+                callback.onFailure(t);
             }
         });
     }

@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface GenreCallback extends FailureCallback {
     void onGenresReceived(List<Genre> genres);
-
-    void onNoGenres(Throwable throwable);
 }
