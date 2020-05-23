@@ -1,6 +1,8 @@
 package com.example.sallefy.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +19,19 @@ import com.example.sallefy.R;
 import com.example.sallefy.databinding.FragmentCreateTrackBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Genre;
+import com.example.sallefy.network.callback.CreateTrackCallback;
 import com.example.sallefy.viewmodel.CreateTrackViewModel;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
+
+import static android.app.Activity.RESULT_OK;
+
 
 public class CreateTrackFragment extends DaggerFragment {
 
@@ -72,7 +80,20 @@ public class CreateTrackFragment extends DaggerFragment {
         binding.addBtn.setOnClickListener(v -> {
             if (!binding.titleEt.getText().toString().isEmpty()) {
                 Toast.makeText(getContext(), R.string.uploading_track, Toast.LENGTH_LONG).show();
-                // TODO: LOGIC
+                createTrackViewModel.initCloudinaryManager(requireContext());
+
+                createTrackViewModel.uploadTrack(binding.genreSpinner.getSelectedItemPosition(), new CreateTrackCallback() {
+                    @Override
+                    public void onTrackCreated() {
+                        NavHostFragment.findNavController(CreateTrackFragment.this).popBackStack();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Toast.makeText(getContext(), R.string.error_uploading_track, Toast.LENGTH_LONG).show();
+                    }
+                });
+
             } else {
                 Toast.makeText(getContext(), R.string.error_enter_name, Toast.LENGTH_LONG).show();
             }
@@ -93,5 +114,49 @@ public class CreateTrackFragment extends DaggerFragment {
                 binding.genreSpinner.setAdapter(adapter);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+
+        switch (reqCode) {
+            case CreateTrackViewModel.PICK_IMAGE:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        if (data.getData() != null) {
+                            createTrackViewModel.setTrackUri(data.getData());
+                            String path = data.getData().getPath();
+                            if (path != null) {
+                                final String filename = path.substring(path.lastIndexOf("/") + 1);
+                                final InputStream imageStream = requireActivity().getContentResolver().openInputStream(data.getData());
+                                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                                binding.thumbnailIv.setImageBitmap(selectedImage);
+                                createTrackViewModel.setTrackFileName(filename);
+                            }
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getContext(), R.string.exploded, Toast.LENGTH_LONG).show();
+                    }
+                }
+                break;
+
+            case CreateTrackViewModel.PICK_FILE:
+                if (resultCode == RESULT_OK) {
+                    if (data.getData() != null) {
+                        createTrackViewModel.setTrackUri(data.getData());
+                        String path = data.getData().getPath();
+                        if (path != null) {
+                            final String filename = path.substring(path.lastIndexOf("/") + 1);
+                            binding.trackFileTv.setText(filename);
+                            createTrackViewModel.setTrackFileName(filename);
+                        }
+                    }
+                } else {
+                    Toast.makeText(getContext(), R.string.pick_a_document, Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
     }
 }
