@@ -82,6 +82,7 @@ public class CreateTrackFragment extends DaggerFragment {
                 Toast.makeText(getContext(), R.string.uploading_track, Toast.LENGTH_LONG).show();
                 createTrackViewModel.initCloudinaryManager(requireContext());
 
+                createTrackViewModel.setTrackFileName(binding.titleEt.getText().toString());
                 createTrackViewModel.uploadTrack(binding.genreSpinner.getSelectedItemPosition(), new CreateTrackCallback() {
                     @Override
                     public void onTrackCreated() {
@@ -150,7 +151,6 @@ public class CreateTrackFragment extends DaggerFragment {
                         if (path != null) {
                             final String filename = path.substring(path.lastIndexOf("/") + 1);
                             binding.trackFileTv.setText(filename);
-                            createTrackViewModel.setTrackFileName(filename);
                         }
                     }
                 } else {
