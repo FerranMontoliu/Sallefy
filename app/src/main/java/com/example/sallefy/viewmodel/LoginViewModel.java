@@ -2,6 +2,8 @@ package com.example.sallefy.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.sallefy.model.Playlist;
+import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
 import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.network.callback.GetUserCallback;
@@ -44,5 +46,17 @@ public class LoginViewModel extends ViewModel {
 
             }
         });
+    }
+
+    public Track getSharedTrack() {
+        // TODO: IMPLEMENT
+    }
+
+    public Playlist getSharedPlaylist() {
+        // TODO: IMPLEMENT
+    }
+
+    public User getSharedUser() {
+        // TODO: IMPLEMENT
     }
 }

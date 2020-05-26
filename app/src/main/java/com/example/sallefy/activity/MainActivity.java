@@ -1,9 +1,9 @@
 package com.example.sallefy.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -25,7 +25,7 @@ import com.example.sallefy.utils.MusicPlayer;
 import dagger.android.support.DaggerAppCompatActivity;
 
 
-public class MainActivity  extends DaggerAppCompatActivity implements PlayingSongCallback {
+public class MainActivity extends DaggerAppCompatActivity implements PlayingSongCallback {
 
     private static final String TAG = MainActivity.class.getName();
 
@@ -43,27 +43,49 @@ public class MainActivity  extends DaggerAppCompatActivity implements PlayingSon
         mMusicPlayer = MusicPlayer.getInstance();
         mMusicPlayer.setPlayingSongCallback(MainActivity.this);
 
-        binding.mainPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mMusicPlayer.isReady())
-                    mMusicPlayer.onPlayPauseClicked();
-            }
+        binding.mainPlay.setOnClickListener(v -> {
+            if (mMusicPlayer.isReady())
+                mMusicPlayer.onPlayPauseClicked();
         });
 
-        binding.mainPlayingSong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*Intent intent = new Intent(getApplicationContext(), PlayingSongActivity.class);
-                intent.putExtra("newTrack", false);
-                startActivity(intent);*/
-            }
+        binding.mainPlayingSong.setOnClickListener(v -> {
+            /*Intent intent = new Intent(getApplicationContext(), PlayingSongActivity.class);
+            intent.putExtra("newTrack", false);
+            startActivity(intent);*/
         });
 
         setContentView(binding.getRoot());
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+
+        // Open shared link
+        Intent intent = getIntent();
+        if (intent == null)
+            return;
+
+        Uri uri = intent.getData();
+        if (uri == null)
+            return;
+
+        String path = uri.getPath();
+        if (path == null)
+            return;
+
+        String data = path.substring(path.lastIndexOf("/") + 1);
+
+        if (path.contains("track"))
+            intent.putExtra("sharedTrack", data);
+
+        else if (path.contains("playlist"))
+            intent.putExtra("sharedPlaylist", data);
+
+        else if (path.contains("user"))
+            intent.putExtra("sharedUser", data);
+
+        else
+            Toast.makeText(getApplicationContext(), R.string.error_bad_url, Toast.LENGTH_LONG).show();
+
     }
 
     public ActivityMainBinding getBinding() {
@@ -123,7 +145,7 @@ public class MainActivity  extends DaggerAppCompatActivity implements PlayingSon
 
     @Override
     public void onErrorPreparingMediaPlayer() {
-        Toast.makeText(getApplicationContext(),"Error, couldn't play the music.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), R.string.error_couldnt_play_song, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -162,13 +184,8 @@ public class MainActivity  extends DaggerAppCompatActivity implements PlayingSon
         Runnable runnable;
         binding.mainProgress.setProgress(mMusicPlayer.getCurrentPosition());
 
-        if(mMusicPlayer.isPlaying()) {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    updateSeekBar();
-                }
-            };
+        if (mMusicPlayer.isPlaying()) {
+            runnable = this::updateSeekBar;
             handler.postDelayed(runnable, 1000);
         }
     }

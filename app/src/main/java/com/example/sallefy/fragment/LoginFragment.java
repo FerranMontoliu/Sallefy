@@ -1,5 +1,6 @@
 package com.example.sallefy.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,9 +48,13 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
 
         hideBottom();
 
+        initViews();
+    }
+
+    private void initViews() {
         if (checkExistingPreferences()) {
             binding.loginUsername.setText(PreferenceUtils.getUser(requireContext()));
-            binding.loginPassword.setText(PreferenceUtils.getUser(requireContext()));
+            binding.loginPassword.setText(PreferenceUtils.getPassword(requireContext()));
         }
 
         binding.loginLoginToRegister.setOnClickListener(v -> {
@@ -80,6 +85,19 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
                 && PreferenceUtils.getPassword(requireContext()) != null;
     }
 
+    private boolean sharedLinkUsed(Intent intent) {
+        if (intent == null)
+            return false;
+
+        Bundle extras = intent.getExtras();
+        if (extras == null)
+            return false;
+
+        return extras.containsKey("sharedTrack")
+                || extras.containsKey("sharedPlaylist")
+                || extras.containsKey("sharedUser");
+    }
+
     @Override
     public void onLoginSuccess(UserToken userToken) {
         String username = binding.loginUsername.getText().toString();
@@ -91,7 +109,19 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
             PreferenceUtils.savePassword(requireContext(), binding.loginPassword.getText().toString());
         }
 
-        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_loginFragment_to_homeFragment);
+        if (!sharedLinkUsed(requireActivity().getIntent())) {
+            Navigation.findNavController(binding.getRoot()).navigate(R.id.action_loginFragment_to_homeFragment);
+        } else {
+            Bundle extras = requireActivity().getIntent().getExtras();
+            if (extras.containsKey("sharedTrack")) {
+                // TODO: NAVIGATE
+            } else if (extras.containsKey("sharedPlaylist")) {
+                // TODO: NAVIGATE
+            } else {
+                // TODO: NAVIGATE
+            }
+        }
+
     }
 
     @Override

@@ -9,7 +9,6 @@ public class CloudinaryManager {
 
     @SuppressLint("StaticFieldLeak")
     private static CloudinaryManager sManager;
-    private Context mContext;
 
     public static CloudinaryManager getInstance(Context context) {
         if (sManager == null) {
@@ -19,7 +18,6 @@ public class CloudinaryManager {
     }
 
     private CloudinaryManager(Context context) {
-        mContext = context;
-        MediaManager.init(mContext, CloudinaryConfigs.getConfigurations());
+        MediaManager.init(context, CloudinaryConfigs.getConfigurations());
     }
 }
