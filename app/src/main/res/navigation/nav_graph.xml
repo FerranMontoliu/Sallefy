@@ -27,13 +27,31 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment">
+            <argument
+                android:name="user"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.User"
+                app:nullable="true" />
+        </action>
         <action
             android:id="@+id/action_loginFragment_to_playlistFragment"
-            app:destination="@id/playlistFragment" />
+            app:destination="@id/playlistFragment">
+            <argument
+                android:name="playlist"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Playlist"
+                app:nullable="true" />
+        </action>
         <action
             android:id="@+id/action_loginFragment_to_trackOptionsFragment"
-            app:destination="@id/trackOptionsFragment" />
+            app:destination="@id/trackOptionsFragment">
+            <argument
+                android:name="track"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Track"
+                app:nullable="true" />
+        </action>
 
     </fragment>
 

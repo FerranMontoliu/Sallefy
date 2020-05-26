@@ -16,6 +16,9 @@ import com.example.sallefy.R;
 import com.example.sallefy.activity.MainActivity;
 import com.example.sallefy.databinding.FragmentLoginBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.Playlist;
+import com.example.sallefy.model.Track;
+import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserToken;
 import com.example.sallefy.network.callback.LoginCallback;
 import com.example.sallefy.utils.PreferenceUtils;
@@ -109,19 +112,38 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
             PreferenceUtils.savePassword(requireContext(), binding.loginPassword.getText().toString());
         }
 
-        if (!sharedLinkUsed(requireActivity().getIntent())) {
-            Navigation.findNavController(binding.getRoot()).navigate(R.id.action_loginFragment_to_homeFragment);
-        } else {
+        if (sharedLinkUsed(requireActivity().getIntent())) {
             Bundle extras = requireActivity().getIntent().getExtras();
             if (extras.containsKey("sharedTrack")) {
-                // TODO: NAVIGATE
+                Track track = loginViewModel.getSharedTrack(extras.getString("sharedTrack"));
+                if (track != null) {
+                    LoginFragmentDirections.ActionLoginFragmentToTrackOptionsFragment action =
+                            LoginFragmentDirections.actionLoginFragmentToTrackOptionsFragment();
+                    action.setTrack(track);
+                    Navigation.findNavController(binding.getRoot()).navigate(action);
+                }
+
             } else if (extras.containsKey("sharedPlaylist")) {
-                // TODO: NAVIGATE
+                Playlist playlist = loginViewModel.getSharedPlaylist(extras.getString("sharedPlaylist"));
+                if (playlist != null) {
+                    LoginFragmentDirections.ActionLoginFragmentToPlaylistFragment action =
+                            LoginFragmentDirections.actionLoginFragmentToPlaylistFragment();
+                    action.setPlaylist(playlist);
+                    Navigation.findNavController(binding.getRoot()).navigate(action);
+                }
+
             } else {
-                // TODO: NAVIGATE
+                User user = loginViewModel.getSharedUser(extras.getString("sharedUser"));
+                if ((user != null)) {
+                    LoginFragmentDirections.ActionLoginFragmentToProfileFragment action =
+                            LoginFragmentDirections.actionLoginFragmentToProfileFragment();
+                    action.setUser(user);
+                    Navigation.findNavController(binding.getRoot()).navigate(action);
+                }
             }
         }
 
+        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_loginFragment_to_homeFragment);
     }
 
     @Override
