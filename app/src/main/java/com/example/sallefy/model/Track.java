@@ -1,10 +1,19 @@
 package com.example.sallefy.model;
 
+import com.example.sallefy.objectbox.GenreListConverter;
+import com.example.sallefy.objectbox.UserConverter;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
+import io.objectbox.annotation.Convert;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.relation.ToMany;
+import io.objectbox.relation.ToOne;
+
+@Entity
 public class Track implements Serializable {
 
     @SerializedName("color")
@@ -14,15 +23,17 @@ public class Track implements Serializable {
     private Integer duration;
 
     @SerializedName("genres")
+    @Convert(converter = GenreListConverter.class, dbType = String.class)
     private List<Genre> genres = null;
 
     @SerializedName("id")
-    private Integer id;
+    @Id private long id;
 
     @SerializedName("name")
     private String name;
 
     @SerializedName("owner")
+    @Convert(converter = UserConverter.class, dbType = String.class)
     private User user;
 
     @SerializedName("released")
@@ -62,11 +73,11 @@ public class Track implements Serializable {
         this.genres = genres;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

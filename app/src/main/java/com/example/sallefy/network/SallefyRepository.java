@@ -379,7 +379,7 @@ public class SallefyRepository {
     }
 
     public synchronized void likeTrack(Track track, final LikeTrackCallback callback) {
-        service.likeTrack(track.getId().toString()).enqueue(new Callback<ResponseBody>() {
+        service.likeTrack(Long.toString(track.getId())).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -397,7 +397,7 @@ public class SallefyRepository {
     }
 
     public synchronized void isTrackLiked(Track track, final TrackCallback callback, final int position) {
-        service.isTrackLiked(track.getId().toString()).enqueue(new Callback<Liked>() {
+        service.isTrackLiked(Long.toString(track.getId())).enqueue(new Callback<Liked>() {
             @Override
             public void onResponse(Call<Liked> call, Response<Liked> response) {
                 if (response.isSuccessful()) {
