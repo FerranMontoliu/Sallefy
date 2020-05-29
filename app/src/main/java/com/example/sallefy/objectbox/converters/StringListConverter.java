@@ -1,4 +1,4 @@
-package com.example.sallefy.objectbox;
+package com.example.sallefy.objectbox.converters;
 
 import org.json.JSONArray;
 

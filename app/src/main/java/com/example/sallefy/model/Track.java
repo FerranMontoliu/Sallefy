@@ -1,7 +1,7 @@
 package com.example.sallefy.model;
 
-import com.example.sallefy.objectbox.GenreListConverter;
-import com.example.sallefy.objectbox.UserConverter;
+import com.example.sallefy.objectbox.converters.GenreListConverter;
+import com.example.sallefy.objectbox.converters.UserConverter;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -10,8 +10,6 @@ import java.util.List;
 import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
-import io.objectbox.relation.ToMany;
-import io.objectbox.relation.ToOne;
 
 @Entity
 public class Track implements Serializable {
@@ -27,7 +25,8 @@ public class Track implements Serializable {
     private List<Genre> genres = null;
 
     @SerializedName("id")
-    @Id private long id;
+    @Id(assignable = true)
+    private long id;
 
     @SerializedName("name")
     private String name;

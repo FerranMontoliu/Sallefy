@@ -1,0 +1,215 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:1772298542414685808",
+      "lastPropertyId": "3:8778091715950005529",
+      "name": "Genre",
+      "properties": [
+        {
+          "id": "1:6455260413092403008",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:9201127535753592991",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:8778091715950005529",
+          "name": "popularity",
+          "type": 5,
+          "flags": 2
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:6815328904493110598",
+      "lastPropertyId": "12:8248500565712886698",
+      "name": "Track",
+      "properties": [
+        {
+          "id": "1:1387724225067004480",
+          "name": "color",
+          "type": 9
+        },
+        {
+          "id": "2:3739898199295368517",
+          "name": "duration",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "3:6183347362687386226",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "4:6595546344311441543",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:6641031409852897829",
+          "name": "released",
+          "type": 9
+        },
+        {
+          "id": "6:5686959494363144531",
+          "name": "thumbnail",
+          "type": 9
+        },
+        {
+          "id": "7:7931779064480271753",
+          "name": "url",
+          "type": 9
+        },
+        {
+          "id": "8:1037730584651722098",
+          "name": "selected",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "9:8539501704201817640",
+          "name": "liked",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "11:2504025593115942922",
+          "name": "genres",
+          "type": 9
+        },
+        {
+          "id": "12:8248500565712886698",
+          "name": "user",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:5032183568869239662",
+      "lastPropertyId": "17:2933357774134341319",
+      "name": "User",
+      "properties": [
+        {
+          "id": "1:8317630229753651712",
+          "name": "activated",
+          "type": 1,
+          "flags": 2
+        },
+        {
+          "id": "2:9087131106034675351",
+          "name": "authorities",
+          "type": 9
+        },
+        {
+          "id": "3:3506068788453912892",
+          "name": "createdBy",
+          "type": 9
+        },
+        {
+          "id": "4:4217746797950344126",
+          "name": "createdDate",
+          "type": 9
+        },
+        {
+          "id": "5:8299452129874715186",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "6:6154987287415264145",
+          "name": "firstName",
+          "type": 9
+        },
+        {
+          "id": "7:3706357360205120762",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "8:3348479453531386046",
+          "name": "imageUrl",
+          "type": 9
+        },
+        {
+          "id": "9:7894669507828105428",
+          "name": "langKey",
+          "type": 9
+        },
+        {
+          "id": "10:7553821250876467372",
+          "name": "lastModifiedBy",
+          "type": 9
+        },
+        {
+          "id": "11:740158444961741422",
+          "name": "lastModifiedDate",
+          "type": 9
+        },
+        {
+          "id": "12:270847161617822574",
+          "name": "lastName",
+          "type": 9
+        },
+        {
+          "id": "13:8952658533514045287",
+          "name": "playlists",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "14:2544780701310127309",
+          "name": "tracks",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "15:5479770041892196697",
+          "name": "followers",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "16:4501803660531151529",
+          "name": "following",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "17:2933357774134341319",
+          "name": "login",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:5032183568869239662",
+  "lastIndexId": "1:7621153300439609382",
+  "lastRelationId": "1:536266186787545487",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [
+    7621153300439609382
+  ],
+  "retiredPropertyUids": [
+    1197154705763946957
+  ],
+  "retiredRelationUids": [
+    536266186787545487
+  ],
+  "version": 1
+}

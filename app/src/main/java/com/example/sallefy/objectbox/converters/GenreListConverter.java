@@ -1,4 +1,4 @@
-package com.example.sallefy.objectbox;
+package com.example.sallefy.objectbox.converters;
 
 import com.example.sallefy.model.Genre;
 import com.google.gson.Gson;

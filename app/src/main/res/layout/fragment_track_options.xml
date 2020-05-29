@@ -87,6 +87,34 @@
                     android:src="@drawable/ic_add_queue_light_24dp" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/fto_download_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/fto_add_queue_rl">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/download"
+                    android:textAppearance="@style/TrackOption" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_download" />
+            </RelativeLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,6 +1,6 @@
 package com.example.sallefy.model;
 
-import com.example.sallefy.objectbox.StringListConverter;
+import com.example.sallefy.objectbox.converters.StringListConverter;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -9,7 +9,6 @@ import java.util.List;
 import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
-import io.reactivex.rxjava3.annotations.Nullable;
 
 @Entity
 public class User implements Serializable {
@@ -34,7 +33,8 @@ public class User implements Serializable {
     private String firstName;
 
     @SerializedName("id")
-    @Id private long id;
+    @Id(assignable = true)
+    private long id;
 
     @SerializedName("imageUrl")
     private String imageUrl;
