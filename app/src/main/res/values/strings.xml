@@ -162,6 +162,8 @@
     <string name="track_author">Track author</string>
     <string name="error_unliking_track">The track could not be disliked.</string>
     <string name="error_liking_track">The track could not be liked.</string>
+
+    <!-- PASSWORD CHANGE -->
     <string name="change_password">Change your password</string>
     <string name="hint_new_password">New password</string>
     <string name="hint_current_password">Current password</string>
@@ -176,5 +178,7 @@
     <!-- TRACK OPTIONS -->
     <string name="add_queue">Add to queue</string>
     <string name="close">Close</string>
+    <string name="download">Download</string>
+    <string name="downloaded">Downloaded</string>
 
 </resources>

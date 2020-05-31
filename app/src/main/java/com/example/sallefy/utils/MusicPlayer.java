@@ -329,7 +329,7 @@ public class MusicPlayer implements MusicPlayerCallback {
         int i = 0;
 
         for (Track track: playlist.getTracks()) {
-            if (track.getId().equals(targetTrack.getId())){
+            if (Long.toString(track.getId()).equals(Long.toString(targetTrack.getId()))){
                 return i;
             }
             i++;

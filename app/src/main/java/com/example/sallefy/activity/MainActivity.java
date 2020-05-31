@@ -20,6 +20,7 @@ import com.example.sallefy.databinding.ActivityMainBinding;
 import com.example.sallefy.fragment.PlaylistFragment;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.objectbox.ObjectBox;
 import com.example.sallefy.utils.MusicPlayer;
 
 import dagger.android.support.DaggerAppCompatActivity;
@@ -37,6 +38,7 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.NoTitle);
         super.onCreate(savedInstanceState);
+        ObjectBox.init(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         mDisplayPlaying = false;

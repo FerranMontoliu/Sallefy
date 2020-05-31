@@ -31,9 +31,7 @@ public class SearchViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Throwable throwable) {
-
-            }
+            public void onFailure(Throwable throwable) {}
         });
     }
 
