@@ -68,9 +68,23 @@ public class TrackOptionsFragment extends DaggerFragment {
                     .into(binding.ftoThumbnailIv);
         }
 
+        binding.ftoDownloadRl.setOnClickListener(v -> {
+            trackOptionsViewModel.downloadTrackToggle();
+        });
+
     }
 
     private void subscribeObservers() {
-
+        trackOptionsViewModel.isDownloaded().observe(getViewLifecycleOwner(), isDownloaded ->{
+            if (isDownloaded){
+                binding.imageView4.setImageDrawable(getResources().getDrawable(R.drawable.ic_downloaded, getActivity().getTheme()));
+                binding.textView5.setText(R.string.downloaded);
+                binding.textView5.setTextColor(getResources().getColor(R.color.green, getActivity().getTheme()));
+            } else {
+                binding.imageView4.setImageDrawable(getResources().getDrawable(R.drawable.ic_download, getActivity().getTheme()));
+                binding.textView5.setText(R.string.download);
+                binding.textView5.setTextColor(getResources().getColor(R.color.light, getActivity().getTheme()));
+            }
+        });
     }
 }
