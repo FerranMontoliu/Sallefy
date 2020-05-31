@@ -20,6 +20,7 @@ import com.example.sallefy.adapter.callback.LikeableListAdapter;
 import com.example.sallefy.databinding.FragmentYourLibraryTracksBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.YourLibraryTracksViewModel;
 
 import java.util.Objects;
@@ -88,7 +89,10 @@ public class YourLibraryTracksFragment extends DaggerFragment implements Likeabl
 
     @Override
     public void onItemSelected(Object item) {
-        // TODO: OPEN SPECIFIC TRACK FRAGMENT
+        YourLibraryFragmentDirections.ActionYourLibraryFragmentToPlayingSongFragment action =
+                YourLibraryFragmentDirections.actionYourLibraryFragmentToPlayingSongFragment();
+        action.setTrack((Track) item);
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action);
     }
 
     @Override
@@ -98,6 +102,9 @@ public class YourLibraryTracksFragment extends DaggerFragment implements Likeabl
 
     @Override
     public void onItemMore(Object item) {
-        // TODO: OPEN MORE DIALOG
+        YourLibraryFragmentDirections.ActionYourLibraryFragmentToTrackOptionsFragment action =
+                YourLibraryFragmentDirections.actionYourLibraryFragmentToTrackOptionsFragment();
+        action.setTrack((Track) item);
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action);
     }
 }

@@ -2,6 +2,7 @@ package com.example.sallefy.network;
 
 import android.content.DialogInterface;
 
+import com.example.sallefy.auth.Session;
 import com.example.sallefy.auth.TokenManager;
 import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Genre;
@@ -16,10 +17,13 @@ import com.example.sallefy.model.UserRegister;
 import com.example.sallefy.model.UserToken;
 import com.example.sallefy.network.callback.CreatePlaylistCallback;
 import com.example.sallefy.network.callback.CreateTrackCallback;
+import com.example.sallefy.network.callback.DeleteUserCallback;
 import com.example.sallefy.network.callback.FollowCheckCallback;
 import com.example.sallefy.network.callback.FollowToggleCallback;
 import com.example.sallefy.network.callback.GenreCallback;
+import com.example.sallefy.network.callback.GetPlaylistCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
+import com.example.sallefy.network.callback.GetTrackCallback;
 import com.example.sallefy.network.callback.GetTracksCallback;
 import com.example.sallefy.network.callback.GetUserCallback;
 import com.example.sallefy.network.callback.GetUsersCallback;
@@ -30,8 +34,6 @@ import com.example.sallefy.network.callback.PlaylistCallback;
 import com.example.sallefy.network.callback.RegisterCallback;
 import com.example.sallefy.network.callback.SearchCallback;
 import com.example.sallefy.network.callback.TrackCallback;
-import com.example.sallefy.network.callback.DeleteUserCallback;
-import com.example.sallefy.auth.Session;
 
 import java.util.List;
 
@@ -97,20 +99,20 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void getPlaylistById(Integer idPlaylist, final PlaylistCallback callback) {
+    public synchronized void getPlaylistById(Integer idPlaylist, final GetPlaylistCallback callback) {
         service.getPlaylistById(idPlaylist).enqueue(new Callback<Playlist>() {
             @Override
             public void onResponse(Call<Playlist> call, Response<Playlist> response) {
                 if (response.isSuccessful()) {
                     callback.onPlaylistReceived(response.body());
                 } else {
-                    callback.onPlaylistNotReceived(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<Playlist> call, Throwable t) {
-                callback.onPlaylistNotReceived(t);
+                callback.onFailure(t);
             }
         });
     }
@@ -269,20 +271,20 @@ public class SallefyRepository {
 
 
     // TRACKS ENDPOINT
-    public synchronized void getAllTracks(final TrackCallback callback) {
-        service.getAllTracks().enqueue(new Callback<List<Track>>() {
+    public synchronized void getTrackById(String id, final GetTrackCallback callback) {
+        service.getTrackById(id).enqueue(new Callback<Track>() {
             @Override
-            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
+            public void onResponse(Call<Track> call, Response<Track> response) {
                 if (response.isSuccessful()) {
-                    callback.onTracksReceived(response.body());
+                    callback.onTrackReceived(response.body());
                 } else {
-                    callback.onNoTracks(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Track>> call, Throwable t) {
-                callback.onNoTracks(t);
+            public void onFailure(Call<Track> call, Throwable t) {
+                callback.onFailure(t);
             }
         });
     }
@@ -309,7 +311,6 @@ public class SallefyRepository {
         service.followUserToggle(username).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                int code = response.code();
                 if (response.isSuccessful()) {
                     callback.onObjectFollowChanged();
                 } else {

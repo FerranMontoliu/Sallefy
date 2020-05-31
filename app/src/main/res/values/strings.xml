@@ -42,6 +42,8 @@
     <string name="error_enter_name">You must enter a name for the track!</string>
     <string name="error_adding_track">An error occurred while adding the selected track!</string>
     <string name="error_deleting_account">An error occurred! We couldn\'t delete your account!</string>
+    <string name="error_couldnt_play_song">"Error! We couldn\'t play the song!"</string>
+    <string name="error_bad_url">Sorry…We can\'t open this URL!</string>
 
 
     <!-- INFO TOASTS -->
@@ -139,6 +141,7 @@
     <string name="search_tracks">Tracks</string>
     <string name="search_users">Users</string>
 
+
     <!-- OPTIONS -->
     <string name="your_profile">Your profile</string>
     <string name="delete_account">Delete account</string>
@@ -147,6 +150,7 @@
     <string name="are_you_sure">Are you sure you want to delete your account?</string>
     <string name="confirm_delete">DELETE</string>
     <string name="cancel_delete">CANCEL</string>
+
 
     <!-- PLAYLIST -->
     <string name="follow">Follow</string>
@@ -169,6 +173,7 @@
     <string name="cancel_change_password">Cancel</string>
     <string name="password_changed_toast">Your password has been changed successfully!</string>
     <string name="password_failure_toast">ERROR: Could not change the password. Check all the fields are correct.</string>
+
 
     <!-- TRACK OPTIONS -->
     <string name="add_queue">Add to queue</string>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.example.sallefy.adapter.UserListAdapter;
 import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.databinding.FragmentYourLibraryFollowingsBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.YourLibraryFollowingsViewModel;
 
 import java.util.Objects;
@@ -77,6 +79,9 @@ public class YourLibraryFollowingsFragment extends DaggerFragment implements ILi
 
     @Override
     public void onItemSelected(Object item) {
-        // TODO: OPEN SPECIFIC USER FRAGMENT
+        YourLibraryFragmentDirections.ActionYourLibraryFragmentToProfileFragment action =
+                YourLibraryFragmentDirections.actionYourLibraryFragmentToProfileFragment();
+        action.setUser((User) item);
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action);
     }
 }

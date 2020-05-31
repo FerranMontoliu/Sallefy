@@ -1,5 +1,6 @@
 package com.example.sallefy.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,9 @@ import com.example.sallefy.R;
 import com.example.sallefy.activity.MainActivity;
 import com.example.sallefy.databinding.FragmentLoginBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.Playlist;
+import com.example.sallefy.model.Track;
+import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserToken;
 import com.example.sallefy.network.callback.LoginCallback;
 import com.example.sallefy.utils.PreferenceUtils;
@@ -47,9 +51,13 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
 
         hideBottom();
 
+        initViews();
+    }
+
+    private void initViews() {
         if (checkExistingPreferences()) {
             binding.loginUsername.setText(PreferenceUtils.getUser(requireContext()));
-            binding.loginPassword.setText(PreferenceUtils.getUser(requireContext()));
+            binding.loginPassword.setText(PreferenceUtils.getPassword(requireContext()));
         }
 
         binding.loginLoginToRegister.setOnClickListener(v -> {
@@ -80,6 +88,19 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
                 && PreferenceUtils.getPassword(requireContext()) != null;
     }
 
+    private boolean sharedLinkUsed(Intent intent) {
+        if (intent == null)
+            return false;
+
+        Bundle extras = intent.getExtras();
+        if (extras == null)
+            return false;
+
+        return extras.containsKey("sharedTrack")
+                || extras.containsKey("sharedPlaylist")
+                || extras.containsKey("sharedUser");
+    }
+
     @Override
     public void onLoginSuccess(UserToken userToken) {
         String username = binding.loginUsername.getText().toString();
@@ -89,6 +110,37 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
         if (loginViewModel.getRememberPreferences()) {
             PreferenceUtils.saveUser(requireContext(), username);
             PreferenceUtils.savePassword(requireContext(), binding.loginPassword.getText().toString());
+        }
+
+        if (sharedLinkUsed(requireActivity().getIntent())) {
+            Bundle extras = requireActivity().getIntent().getExtras();
+            if (extras.containsKey("sharedTrack")) {
+                Track track = loginViewModel.getSharedTrack(extras.getString("sharedTrack"));
+                if (track != null) {
+                    LoginFragmentDirections.ActionLoginFragmentToTrackOptionsFragment action =
+                            LoginFragmentDirections.actionLoginFragmentToTrackOptionsFragment();
+                    action.setTrack(track);
+                    Navigation.findNavController(binding.getRoot()).navigate(action);
+                }
+
+            } else if (extras.containsKey("sharedPlaylist")) {
+                Playlist playlist = loginViewModel.getSharedPlaylist(extras.getString("sharedPlaylist"));
+                if (playlist != null) {
+                    LoginFragmentDirections.ActionLoginFragmentToPlaylistFragment action =
+                            LoginFragmentDirections.actionLoginFragmentToPlaylistFragment();
+                    action.setPlaylist(playlist);
+                    Navigation.findNavController(binding.getRoot()).navigate(action);
+                }
+
+            } else {
+                User user = loginViewModel.getSharedUser(extras.getString("sharedUser"));
+                if ((user != null)) {
+                    LoginFragmentDirections.ActionLoginFragmentToProfileFragment action =
+                            LoginFragmentDirections.actionLoginFragmentToProfileFragment();
+                    action.setUser(user);
+                    Navigation.findNavController(binding.getRoot()).navigate(action);
+                }
+            }
         }
 
         Navigation.findNavController(binding.getRoot()).navigate(R.id.action_loginFragment_to_homeFragment);
