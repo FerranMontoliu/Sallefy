@@ -25,7 +25,7 @@ public class TrackOptionsViewModel extends ViewModel {
         this.sallefyRepository = sallefyRepository;
         this.track = null;
         this.mIsDownloaded = new MutableLiveData<>();
-        boxStore = ObjectBox.getBoxStore();
+        this.boxStore = ObjectBox.getBoxStore();
     }
 
     public Track getTrack() {
@@ -36,20 +36,16 @@ public class TrackOptionsViewModel extends ViewModel {
         this.track = track;
     }
 
-    public LiveData<Boolean> isDownloaded(){
+    public LiveData<Boolean> isDownloaded() {
         requestIsDownloaded();
         return mIsDownloaded;
     }
 
-    private void requestIsDownloaded(){
-        if (boxStore.boxFor(Track.class).query().equal(Track_.id, track.getId()).build().count() != 0){
-            mIsDownloaded.postValue(true);
-        } else {
-            mIsDownloaded.postValue(false);
-        }
+    private void requestIsDownloaded() {
+        mIsDownloaded.postValue(boxStore.boxFor(Track.class).query().equal(Track_.id, track.getId()).build().count() != 0);
     }
 
-    public void downloadTrackToggle(){
+    public void downloadTrackToggle() {
         if (!mIsDownloaded.getValue()) {
             boxStore.boxFor(Track.class).put(track);
             //TODO: Download track URL

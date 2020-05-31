@@ -180,5 +180,6 @@
     <string name="close">Close</string>
     <string name="download">Download</string>
     <string name="downloaded">Downloaded</string>
+    <string name="share">Share</string>
 
 </resources>
