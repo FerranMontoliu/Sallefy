@@ -89,11 +89,17 @@ public class ProfileTracksFragment extends DaggerFragment implements LikeableLis
 
     @Override
     public void onItemMore(Object item) {
-        // TODO: OPEN MORE DIALOG
+        ProfileFragmentDirections.ActionProfileFragmentToTrackOptionsFragment action =
+                ProfileFragmentDirections.actionProfileFragmentToTrackOptionsFragment();
+        action.setTrack((Track) item);
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action);
     }
 
     @Override
     public void onItemSelected(Object item) {
-        // TODO: OPEN SPECIFIC TRACK FRAGMENT
+        ProfileFragmentDirections.ActionProfileFragmentToPlayingSongFragment action =
+                ProfileFragmentDirections.actionProfileFragmentToPlayingSongFragment();
+        action.setTrack((Track) item);
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action);
     }
 }

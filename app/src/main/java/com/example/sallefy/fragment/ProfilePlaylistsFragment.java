@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,8 @@ import com.example.sallefy.adapter.PlaylistListAdapter;
 import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.databinding.FragmentProfilePlaylistsBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.Playlist;
+import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.ProfilePlaylistsViewModel;
 
@@ -80,6 +83,9 @@ public class ProfilePlaylistsFragment extends DaggerFragment implements IListAda
 
     @Override
     public void onItemSelected(Object item) {
-        // TODO: OPEN SPECIFIC PLAYLIST FRAGMENT
+        ProfileFragmentDirections.ActionProfileFragmentToPlaylistFragment action =
+                ProfileFragmentDirections.actionProfileFragmentToPlaylistFragment();
+        action.setPlaylist((Playlist) item);
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action);
     }
 }

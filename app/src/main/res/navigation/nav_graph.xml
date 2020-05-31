@@ -128,7 +128,13 @@
         tools:layout="@layout/fragment_your_library">
         <action
             android:id="@+id/action_yourLibraryFragment_to_playingSongFragment"
-            app:destination="@id/playingSongFragment" />
+            app:destination="@id/playingSongFragment">
+            <argument
+                android:name="track"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Track"
+                app:nullable="true" />
+        </action>
         <action
             android:id="@+id/action_yourLibraryFragment_to_createTrackFragment"
             app:destination="@id/createTrackFragment" />
@@ -156,7 +162,13 @@
         android:id="@+id/playingSongFragment"
         android:name="com.example.sallefy.fragment.PlayingSongFragment"
         android:label="@string/playing_song_label"
-        tools:layout="@layout/fragment_playing_song" />
+        tools:layout="@layout/fragment_playing_song">
+        <argument
+            android:name="track"
+            android:defaultValue="@null"
+            app:argType="com.example.sallefy.model.Track"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/addSongToPlaylistFragment"

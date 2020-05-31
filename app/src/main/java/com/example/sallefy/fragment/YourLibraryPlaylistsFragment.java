@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -116,6 +117,9 @@ public class YourLibraryPlaylistsFragment extends DaggerFragment implements ILis
 
     @Override
     public void onItemSelected(Object item) {
-        // TODO: OPEN SPECIFIC PLAYLIST FRAGMENT
+        YourLibraryFragmentDirections.ActionYourLibraryFragmentToPlaylistFragment action =
+                YourLibraryFragmentDirections.actionYourLibraryFragmentToPlaylistFragment();
+        action.setPlaylist((Playlist) item);
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action);
     }
 }
