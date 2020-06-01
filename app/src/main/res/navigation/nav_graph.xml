@@ -156,6 +156,9 @@
                 app:argType="com.example.sallefy.model.User"
                 app:nullable="true" />
         </action>
+        <action
+            android:id="@+id/action_yourLibraryFragment_to_createPlaylistFragment"
+            app:destination="@id/createPlaylistFragment" />
     </fragment>
 
     <fragment
@@ -258,5 +261,11 @@
             app:argType="com.example.sallefy.model.Track"
             app:nullable="true" />
     </fragment>
+
+    <fragment
+        android:id="@+id/createPlaylistFragment"
+        android:name="com.example.sallefy.fragment.CreatePlaylistFragment"
+        android:label="@string/create_playlist_label"
+        tools:layout="@layout/fragment_create_playlist" />
 
 </navigation>

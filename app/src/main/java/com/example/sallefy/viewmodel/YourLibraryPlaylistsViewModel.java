@@ -24,20 +24,6 @@ public class YourLibraryPlaylistsViewModel extends ViewModel {
         this.mPlaylists = new MutableLiveData<>();
     }
 
-    public void createPlaylist(Playlist playlist) {
-        sallefyRepository.createPlaylist(playlist, new CreatePlaylistCallback() {
-            @Override
-            public void onPlaylistCreated() {
-                requestOwnPlaylists();
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-        });
-    }
-
     private void requestOwnPlaylists() {
         sallefyRepository.getOwnPlaylists(new GetPlaylistsCallback() {
             @Override

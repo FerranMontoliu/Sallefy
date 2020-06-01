@@ -9,6 +9,7 @@
     <string name="add_song_to_playlist_label">Add song to playlist</string>
     <string name="add_track_to_playlist_label">Add track to playlist</string>
     <string name="create_track_label">Create track</string>
+    <string name="create_playlist_label">Create playlist</string>
     <string name="options_label">Options</string>
     <string name="playlist_label">Playlist</string>
     <string name="search_label">Search</string>
@@ -39,7 +40,8 @@
     <string name="error_getting_genres">Error getting the genres!</string>
     <string name="error_uploading_track">Error uploading the track!</string>
     <string name="track_uploaded">Track uploaded successfully!</string>
-    <string name="error_enter_name">You must enter a name for the track!</string>
+    <string name="error_enter_name_track">You must enter a name for the track!</string>
+    <string name="error_enter_name_playlist">You must enter a name for the playlist!</string>
     <string name="error_adding_track">An error occurred while adding the selected track!</string>
     <string name="error_deleting_account">An error occurred! We couldn\'t delete your account!</string>
     <string name="error_couldnt_play_song">"Error! We couldn\'t play the song!"</string>
@@ -50,6 +52,7 @@
     <!-- INFO TOASTS -->
     <string name="register_success">User registered successfully!</string>
     <string name="uploading_track">Uploading track… Please wait.</string>
+    <string name="creating_playlist">Creating playlist… Please wait.</string>
     <string name="playlist_created_success">Playlist created!</string>
     <string name="track_added">The track was added successfully!</string>
     <string name="account_deleted">Your account was deleted successfully!</string>
@@ -97,7 +100,7 @@
     <string name="new_track">New track</string>
     <string name="default_username">Username</string>
     <string name="give_name_playlist">Give your playlist a name.</string>
-    <string name="hint_create_playlist">Playlist title</string>
+    <string name="hint_create_playlist">Enter the title of the playlist</string>
     <string name="cancel_text_playlist">CANCEL</string>
     <string name="create_text_playlist">CREATE</string>
     <string name="own_tracks_playlist_name">Own tracks</string>
@@ -163,6 +166,7 @@
     <string name="track_author">Track author</string>
     <string name="error_unliking_track">The track could not be disliked.</string>
     <string name="error_liking_track">The track could not be liked.</string>
+
 
     <!-- PASSWORD CHANGE -->
     <string name="change_password">Change your password</string>

@@ -1,12 +1,9 @@
 package com.example.sallefy.fragment;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,7 +60,7 @@ public class YourLibraryPlaylistsFragment extends DaggerFragment implements ILis
         initRv();
 
         binding.itemPlaylistLayout.addPlaylistBtn.setOnClickListener(v -> {
-            showPopup();
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(R.id.action_yourLibraryFragment_to_createPlaylistFragment);
         });
     }
 
@@ -76,33 +73,6 @@ public class YourLibraryPlaylistsFragment extends DaggerFragment implements ILis
                 DividerItemDecoration.VERTICAL);
         itemDecoration.setDrawable(Objects.requireNonNull(requireContext().getDrawable(R.drawable.horizontal_divider_item_decoration)));
         mRecyclerView.addItemDecoration(itemDecoration);
-    }
-
-    private void showPopup() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(R.string.give_name_playlist);
-        View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.fragment_popup_create_playlist, (ViewGroup) getView(), false);
-
-        final EditText input = viewInflated.findViewById(R.id.input);
-        builder.setView(viewInflated);
-
-        builder.setPositiveButton(R.string.create_text_playlist, (dialog, which) -> {
-            dialog.dismiss();
-            String playlistName = input.getText().toString();
-            if (playlistName.trim().isEmpty()) {
-                Toast.makeText(requireContext(), R.string.error_name_playlist, Toast.LENGTH_LONG).show();
-            } else {
-                Playlist playlist = new Playlist();
-                playlist.setName(playlistName);
-                yourLibraryPlaylistsViewModel.createPlaylist(playlist);
-            }
-        });
-
-        builder.setNegativeButton(R.string.cancel_text_playlist, (dialog, which) ->  {
-            dialog.cancel();
-        });
-
-        builder.show();
     }
 
     private void subscribeObservers() {

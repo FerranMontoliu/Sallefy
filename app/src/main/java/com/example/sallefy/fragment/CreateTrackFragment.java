@@ -97,7 +97,7 @@ public class CreateTrackFragment extends DaggerFragment {
                 });
 
             } else {
-                Toast.makeText(getContext(), R.string.error_enter_name, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.error_enter_name_track, Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -2,6 +2,7 @@ package com.example.sallefy.di.module;
 
 import com.example.sallefy.fragment.AddSongToPlaylistFragment;
 import com.example.sallefy.fragment.AddTrackToPlaylistFragment;
+import com.example.sallefy.fragment.CreatePlaylistFragment;
 import com.example.sallefy.fragment.CreateTrackFragment;
 import com.example.sallefy.fragment.HomeFragment;
 import com.example.sallefy.fragment.LoginFragment;
@@ -83,4 +84,6 @@ public abstract class FragmentModule {
     @ContributesAndroidInjector
     abstract YourLibraryTracksFragment yourLibraryTracksFragment();
 
+    @ContributesAndroidInjector
+    abstract CreatePlaylistFragment createPlaylistFragment();
 }

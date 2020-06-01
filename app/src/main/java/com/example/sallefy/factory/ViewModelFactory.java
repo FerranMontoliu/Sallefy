@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.viewmodel.AddSongToPlaylistViewModel;
 import com.example.sallefy.viewmodel.AddTrackToPlaylistViewModel;
+import com.example.sallefy.viewmodel.CreatePlaylistViewModel;
 import com.example.sallefy.viewmodel.CreateTrackViewModel;
 import com.example.sallefy.viewmodel.HomeViewModel;
 import com.example.sallefy.viewmodel.LoginViewModel;
@@ -99,6 +100,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         }
         if (modelClass.isAssignableFrom(YourLibraryViewModel.class)) {
             return (T) new YourLibraryViewModel(sallefyRepository);
+        }
+        if (modelClass.isAssignableFrom(CreatePlaylistViewModel.class)) {
+            return (T) new CreatePlaylistViewModel(sallefyRepository);
         }
 
 
