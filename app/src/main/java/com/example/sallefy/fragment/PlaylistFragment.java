@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,8 +25,6 @@ import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.utils.MusicPlayer;
 import com.example.sallefy.viewmodel.PlaylistViewModel;
-
-import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -64,10 +63,6 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
     }
 
     private void initViews() {
-        /*for (int i = 0; i  < tracks.size(); i++){
-            TrackManager.getInstance(getContext()).checkLiked(tracks.get(i), PlaylistFragment.this, i);
-        }*/
-
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         binding.playlistTracksRv.setLayoutManager(manager);
         adapter = new TrackListAdapter(getContext(), PlaylistFragment.this);
@@ -79,38 +74,28 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
         binding.playlistAuthor.setText(playlistViewModel.getPlaylist().getUser().getLogin());
 
         if (playlistViewModel.getPlaylist().getThumbnail() != null) {
-            Glide.with(getContext())
+            Glide.with(requireContext())
                     .asBitmap()
                     .placeholder(R.drawable.ic_audiotrack_60dp)
                     .load(playlistViewModel.getPlaylist().getThumbnail())
                     .into(binding.playlistThumbnail);
         }
 
-        binding.playlistBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*FragmentManager fm = getFragmentManager();
-                assert fm != null;
-                if (fm.getBackStackEntryCount() > 0) {
-                    fm.popBackStack();
-                }*/
-            }
+        binding.playlistBack.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).popBackStack();
         });
 
-        binding.playlistAddSongs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*AddTrackToPlaylistFragment addTrackToPlaylistFragment = new AddTrackToPlaylistFragment();
-                Bundle args = new Bundle();
-                args.putSerializable("playlist", mPlaylist);
-                addTrackToPlaylistFragment.setArguments(args);
+        binding.playlistAddSongs.setOnClickListener(v -> {
+            /*AddTrackToPlaylistFragment addTrackToPlaylistFragment = new AddTrackToPlaylistFragment();
+            Bundle args = new Bundle();
+            args.putSerializable("playlist", mPlaylist);
+            addTrackToPlaylistFragment.setArguments(args);
 
-                getFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, addTrackToPlaylistFragment)
-                        .remove(PlaylistFragment.this)
-                        .addToBackStack(null)
-                        .commit();*/
-            }
+            getFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, addTrackToPlaylistFragment)
+                    .remove(PlaylistFragment.this)
+                    .addToBackStack(null)
+                    .commit();*/
         });
 
         MusicPlayer musicPlayer = MusicPlayer.getInstance();
@@ -120,52 +105,58 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
             binding.playlistShufflePlay.setText(R.string.shuffle_play);
         }
 
-        binding.playlistShufflePlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MusicPlayer musicPlayer = MusicPlayer.getInstance();
-                musicPlayer.setShuffle(true);
-
-                if (musicPlayer.isReady()) {
-
-                    if (musicPlayer.isPlaying() && musicPlayer.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
-                        musicPlayer.onPlayPauseClicked();
-                        binding.playlistShufflePlay.setText(R.string.shuffle_play);
-
-                    } else {
-                        playlistViewModel.newShuffleTrack();
-                        binding.playlistShufflePlay.setText(R.string.pause);
-                    }
-
-                } else {
-                    musicPlayer.setPlayingSongCallback((MainActivity)getActivity());
-                    playlistViewModel.newShuffleTrack();
-                    binding.playlistShufflePlay.setText(R.string.pause);
-                }
-            }
+        binding.playlistShufflePlay.setOnClickListener(v -> {
+            shufflePlay();
         });
 
-        binding.playlistFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playlistViewModel.followPlaylistToggle();
-            }
+        binding.playlistFollow.setOnClickListener(v -> {
+            playlistViewModel.followPlaylistToggle();
         });
 
         binding.playlistBack.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
         });
+
+        binding.playlistShare.setOnClickListener(v -> {
+            sharePlaylistLink();
+        });
+    }
+
+    private void sharePlaylistLink() {
+
     }
 
     private void subscribeObservers() {
         playlistViewModel.isFollowed().observe(getViewLifecycleOwner(), isFollowed -> {
-            if (isFollowed != null){
+            if (isFollowed != null) {
                 if (isFollowed)
                     binding.playlistFollow.setText(R.string.following);
                 else
                     binding.playlistFollow.setText(R.string.follow);
             }
         });
+    }
+
+    private void shufflePlay() {
+        MusicPlayer musicPlayer1 = MusicPlayer.getInstance();
+        musicPlayer1.setShuffle(true);
+
+        if (musicPlayer1.isReady()) {
+
+            if (musicPlayer1.isPlaying() && musicPlayer1.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
+                musicPlayer1.onPlayPauseClicked();
+                binding.playlistShufflePlay.setText(R.string.shuffle_play);
+
+            } else {
+                playlistViewModel.newShuffleTrack();
+                binding.playlistShufflePlay.setText(R.string.pause);
+            }
+
+        } else {
+            musicPlayer1.setPlayingSongCallback((MainActivity) requireActivity());
+            playlistViewModel.newShuffleTrack();
+            binding.playlistShufflePlay.setText(R.string.pause);
+        }
     }
 
     @Override
@@ -211,15 +202,9 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
 
     @Override
     public void onItemMore(Object item) {
-        /*FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-        Fragment prev = getFragmentManager().findFragmentByTag(TrackOptionsFragment.TAG);
-        if (prev != null) {
-            transaction.remove(prev);
-        }
-        transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
-        transaction.addToBackStack(null);
-        DialogFragment dialogFragment = TrackOptionsFragment.getInstance(track);
-        dialogFragment.show(transaction, TrackOptionsFragment.TAG);*/
+        PlaylistFragmentDirections.ActionPlaylistFragmentToTrackOptionsFragment action =
+                PlaylistFragmentDirections.actionPlaylistFragmentToTrackOptionsFragment();
+        action.setTrack((Track) item);
+        Navigation.findNavController(binding.getRoot()).navigate(action);
     }
 }

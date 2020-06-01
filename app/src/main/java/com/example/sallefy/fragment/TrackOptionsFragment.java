@@ -29,6 +29,7 @@ import com.example.sallefy.R;
 import com.example.sallefy.activity.MainActivity;
 import com.example.sallefy.databinding.FragmentTrackOptionsBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.utils.BitmapUtils;
 import com.example.sallefy.viewmodel.TrackOptionsViewModel;
 
 import java.io.ByteArrayOutputStream;
@@ -114,7 +115,7 @@ public class TrackOptionsFragment extends DaggerFragment {
     }
 
     private void shareTrackLink() {
-        Bitmap bitmap = getBitmapFromView(binding.ftoThumbnailIv);
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(binding.ftoThumbnailIv);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -125,20 +126,6 @@ public class TrackOptionsFragment extends DaggerFragment {
         intent.putExtra(Intent.EXTRA_STREAM, imageUri);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_track_via)));
-    }
-
-
-    private Bitmap getBitmapFromView(View view) {
-        Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(returnedBitmap);
-        Drawable bgDrawable = view.getBackground();
-        if (bgDrawable != null)
-            bgDrawable.draw(canvas);
-        else
-            canvas.drawColor(Color.WHITE);
-
-        view.draw(canvas);
-        return returnedBitmap;
     }
 
     private void subscribeObservers() {
