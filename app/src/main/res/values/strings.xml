@@ -44,6 +44,7 @@
     <string name="error_deleting_account">An error occurred! We couldn\'t delete your account!</string>
     <string name="error_couldnt_play_song">"Error! We couldn\'t play the song!"</string>
     <string name="error_bad_url">Sorry…We can\'t open this URL!</string>
+    <string name="error_external_permission">"Permission denied to read your external storage!"</string>
 
 
     <!-- INFO TOASTS -->
@@ -181,5 +182,7 @@
     <string name="download">Download</string>
     <string name="downloaded">Downloaded</string>
     <string name="share">Share</string>
+    <string name="share_track_via">Share track via</string>
+    <string name="share_song_text">Listen to this &#57932; song on Sallefy!&#57629;&#57629;\n\nClick the following link to open the app:\nhttps://open.sallefy.com/track/</string>
 
 </resources>
