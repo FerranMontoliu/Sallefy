@@ -73,8 +73,8 @@ public interface SallefyService {
     @DELETE("account")
     Call<ResponseBody> deleteUser();
 
-    @PUT("users")
-    Call<User> updateUser(@Body User user);
+    @POST("account")
+    Call<ResponseBody> updateUser(@Body User user);
 
 
     // SEARCH ENDPOINT

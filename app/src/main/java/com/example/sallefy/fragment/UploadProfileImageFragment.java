@@ -55,21 +55,12 @@ public class UploadProfileImageFragment extends DaggerFragment {
 
         uploadProfileImageViewModel = new ViewModelProvider(this, viewModelFactory).get(UploadProfileImageViewModel.class);
 
-        if (getArguments() != null) {
-            uploadProfileImageViewModel.setUser(UploadProfileImageFragmentArgs.fromBundle(getArguments()).getUser());
-        }
-
         initViews();
+
+        subscribeObserver();
     }
 
     private void initViews() {
-
-        Glide.with(requireContext())
-                .asBitmap()
-                .placeholder(R.drawable.ic_user_thumbnail)
-                .load(uploadProfileImageViewModel.getUser().getImageUrl())
-                .into(binding.photoIv);
-
         binding.uploadPhotoBtn.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
@@ -95,6 +86,16 @@ public class UploadProfileImageFragment extends DaggerFragment {
                     Toast.makeText(getContext(), R.string.error_uploading_photo, Toast.LENGTH_LONG).show();
                 }
             });
+        });
+    }
+
+    private void subscribeObserver() {
+        uploadProfileImageViewModel.getOwnUser().observe(getViewLifecycleOwner(), user -> {
+            Glide.with(requireContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_user_thumbnail)
+                    .load(uploadProfileImageViewModel.getUser().getImageUrl())
+                    .into(binding.photoIv);
         });
     }
 

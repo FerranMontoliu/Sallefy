@@ -3,6 +3,8 @@ package com.example.sallefy.viewmodel;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.cloudinary.android.MediaManager;
@@ -29,20 +31,35 @@ public class UploadProfileImageViewModel extends ViewModel {
     private String photoFileName;
     private Uri photoUri;
 
-    private User user;
+    private MutableLiveData<User> mUser;
 
     @Inject
     public UploadProfileImageViewModel(SallefyRepository sallefyRepository) {
         this.sallefyRepository = sallefyRepository;
-        this.user = null;
+        this.mUser = new MutableLiveData<>();
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    private void requestOwnUser() {
+        sallefyRepository.getUserById(Session.getUser().getLogin(), new GetUserCallback() {
+            @Override
+            public void onUserReceived(User user) {
+                mUser.postValue(user);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
+    }
+
+    public LiveData<User> getOwnUser() {
+        requestOwnUser();
+        return mUser;
     }
 
     public User getUser() {
-        return user;
+        return mUser.getValue();
     }
 
     public void uploadPhoto(UpdateUserCallback callback) {
@@ -84,8 +101,8 @@ public class UploadProfileImageViewModel extends ViewModel {
 
                     @Override
                     public void onSuccess(String requestId, Map resultData) {
-                        user.setImageUrl((String) resultData.get("url"));
-                        sallefyRepository.updateUser(user, callback);
+                        getUser().setImageUrl((String) resultData.get("url"));
+                        sallefyRepository.updateUser(getUser(), callback);
                     }
 
                     @Override
