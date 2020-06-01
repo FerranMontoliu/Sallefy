@@ -17,5 +17,5 @@
     <dimen name="playlist_image">150dp</dimen>
 
     <!-- TRACK OPTIONS -->
-    <dimen name="track_thumbnail_medium">200dp</dimen>
+    <dimen name="track_thumbnail_medium">150dp</dimen>
 </resources>

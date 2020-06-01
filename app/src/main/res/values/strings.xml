@@ -181,5 +181,7 @@
     <string name="download">Download</string>
     <string name="downloaded">Downloaded</string>
     <string name="share">Share</string>
+    <string name="like">Like track</string>
+    <string name="liked">Liked</string>
 
 </resources>

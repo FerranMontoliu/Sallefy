@@ -72,6 +72,10 @@ public class TrackOptionsFragment extends DaggerFragment {
             trackOptionsViewModel.downloadTrackToggle();
         });
 
+        binding.ftoLikeRl.setOnClickListener(v ->  {
+            trackOptionsViewModel.likeTrackToggle();
+        });
+
     }
 
     private void subscribeObservers() {
@@ -85,6 +89,18 @@ public class TrackOptionsFragment extends DaggerFragment {
                 binding.textView5.setText(R.string.download);
                 binding.textView5.setTextColor(getResources().getColor(R.color.light, getActivity().getTheme()));
             }
+        });
+
+        trackOptionsViewModel.isLiked().observe(getViewLifecycleOwner(), isLiked -> {
+           if (isLiked){
+               binding.likeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_filled, getActivity().getTheme()));
+               binding.likeTv.setText(R.string.liked);
+               binding.likeTv.setTextColor(getResources().getColor(R.color.green, getActivity().getTheme()));
+           } else {
+               binding.likeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_unfilled, getActivity().getTheme()));
+               binding.likeTv.setText(R.string.like);
+               binding.likeTv.setTextColor(getResources().getColor(R.color.light, getActivity().getTheme()));
+           }
         });
     }
 }
