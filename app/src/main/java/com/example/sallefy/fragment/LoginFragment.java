@@ -117,8 +117,8 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
             if (extras.containsKey("sharedTrack")) {
                 Track track = loginViewModel.getSharedTrack(extras.getString("sharedTrack"));
                 if (track != null) {
-                    LoginFragmentDirections.ActionLoginFragmentToTrackOptionsFragment action =
-                            LoginFragmentDirections.actionLoginFragmentToTrackOptionsFragment();
+                    LoginFragmentDirections.ActionLoginFragmentToPlayingSongFragment action =
+                            LoginFragmentDirections.actionLoginFragmentToPlayingSongFragment();
                     action.setTrack(track);
                     Navigation.findNavController(binding.getRoot()).navigate(action);
                 }
@@ -141,9 +141,9 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
                     Navigation.findNavController(binding.getRoot()).navigate(action);
                 }
             }
+        } else {
+            Navigation.findNavController(binding.getRoot()).navigate(R.id.action_loginFragment_to_homeFragment);
         }
-
-        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_loginFragment_to_homeFragment);
     }
 
     @Override
