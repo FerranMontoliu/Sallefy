@@ -1,13 +1,22 @@
 package com.example.sallefy.fragment;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,10 +31,11 @@ import com.example.sallefy.databinding.FragmentPlaylistBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.utils.BitmapUtils;
 import com.example.sallefy.utils.MusicPlayer;
 import com.example.sallefy.viewmodel.PlaylistViewModel;
 
-import java.util.Random;
+import java.io.ByteArrayOutputStream;
 
 import javax.inject.Inject;
 
@@ -64,10 +74,6 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
     }
 
     private void initViews() {
-        /*for (int i = 0; i  < tracks.size(); i++){
-            TrackManager.getInstance(getContext()).checkLiked(tracks.get(i), PlaylistFragment.this, i);
-        }*/
-
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         binding.playlistTracksRv.setLayoutManager(manager);
         adapter = new TrackListAdapter(getContext(), PlaylistFragment.this);
@@ -79,38 +85,19 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
         binding.playlistAuthor.setText(playlistViewModel.getPlaylist().getUser().getLogin());
 
         if (playlistViewModel.getPlaylist().getThumbnail() != null) {
-            Glide.with(getContext())
+            Glide.with(requireContext())
                     .asBitmap()
                     .placeholder(R.drawable.ic_audiotrack_60dp)
                     .load(playlistViewModel.getPlaylist().getThumbnail())
                     .into(binding.playlistThumbnail);
         }
 
-        binding.playlistBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*FragmentManager fm = getFragmentManager();
-                assert fm != null;
-                if (fm.getBackStackEntryCount() > 0) {
-                    fm.popBackStack();
-                }*/
-            }
+        binding.playlistBack.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).popBackStack();
         });
 
-        binding.playlistAddSongs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*AddTrackToPlaylistFragment addTrackToPlaylistFragment = new AddTrackToPlaylistFragment();
-                Bundle args = new Bundle();
-                args.putSerializable("playlist", mPlaylist);
-                addTrackToPlaylistFragment.setArguments(args);
-
-                getFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, addTrackToPlaylistFragment)
-                        .remove(PlaylistFragment.this)
-                        .addToBackStack(null)
-                        .commit();*/
-            }
+        binding.playlistAddSongs.setOnClickListener(v -> {
+            // TODO: OPEN ADD SONG TO PLAYLIST OR ADD TRACK TO PLAYLIST FRAGMENT
         });
 
         MusicPlayer musicPlayer = MusicPlayer.getInstance();
@@ -120,52 +107,83 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
             binding.playlistShufflePlay.setText(R.string.shuffle_play);
         }
 
-        binding.playlistShufflePlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MusicPlayer musicPlayer = MusicPlayer.getInstance();
-                musicPlayer.setShuffle(true);
-
-                if (musicPlayer.isReady()) {
-
-                    if (musicPlayer.isPlaying() && musicPlayer.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
-                        musicPlayer.onPlayPauseClicked();
-                        binding.playlistShufflePlay.setText(R.string.shuffle_play);
-
-                    } else {
-                        playlistViewModel.newShuffleTrack();
-                        binding.playlistShufflePlay.setText(R.string.pause);
-                    }
-
-                } else {
-                    musicPlayer.setPlayingSongCallback((MainActivity)getActivity());
-                    playlistViewModel.newShuffleTrack();
-                    binding.playlistShufflePlay.setText(R.string.pause);
-                }
-            }
+        binding.playlistShufflePlay.setOnClickListener(v -> {
+            shufflePlay();
         });
 
-        binding.playlistFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playlistViewModel.followPlaylistToggle();
-            }
+        binding.playlistFollow.setOnClickListener(v -> {
+            playlistViewModel.followPlaylistToggle();
         });
 
         binding.playlistBack.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
         });
+
+        binding.playlistShare.setOnClickListener(v -> {
+            checkForPermissions();
+        });
+    }
+
+    private void checkForPermissions() {
+        int permissionWrite = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permissionRead = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (permissionWrite != PackageManager.PERMISSION_GRANTED || permissionRead != PackageManager.PERMISSION_GRANTED)
+            askForPermission();
+        else
+            sharePlaylistLink();
+    }
+
+    private void askForPermission() {
+        ActivityCompat.requestPermissions(requireActivity(),
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+    }
+
+    private void sharePlaylistLink() {
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(binding.playlistThumbnail);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        String path = MediaStore.Images.Media.insertImage(requireContext().getContentResolver(), bitmap, "shared_image", null);
+        Uri imageUri = Uri.parse(path);
+        intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_playlist_text) + playlistViewModel.getPlaylist().getId());
+        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_playlist_via)));
     }
 
     private void subscribeObservers() {
         playlistViewModel.isFollowed().observe(getViewLifecycleOwner(), isFollowed -> {
-            if (isFollowed != null){
+            if (isFollowed != null) {
                 if (isFollowed)
                     binding.playlistFollow.setText(R.string.following);
                 else
                     binding.playlistFollow.setText(R.string.follow);
             }
         });
+    }
+
+    private void shufflePlay() {
+        MusicPlayer musicPlayer1 = MusicPlayer.getInstance();
+        musicPlayer1.setShuffle(true);
+
+        if (musicPlayer1.isReady()) {
+
+            if (musicPlayer1.isPlaying() && musicPlayer1.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
+                musicPlayer1.onPlayPauseClicked();
+                binding.playlistShufflePlay.setText(R.string.shuffle_play);
+
+            } else {
+                playlistViewModel.newShuffleTrack();
+                binding.playlistShufflePlay.setText(R.string.pause);
+            }
+
+        } else {
+            musicPlayer1.setPlayingSongCallback((MainActivity) requireActivity());
+            playlistViewModel.newShuffleTrack();
+            binding.playlistShufflePlay.setText(R.string.pause);
+        }
     }
 
     @Override
@@ -211,15 +229,9 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
 
     @Override
     public void onItemMore(Object item) {
-        /*FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-        Fragment prev = getFragmentManager().findFragmentByTag(TrackOptionsFragment.TAG);
-        if (prev != null) {
-            transaction.remove(prev);
-        }
-        transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
-        transaction.addToBackStack(null);
-        DialogFragment dialogFragment = TrackOptionsFragment.getInstance(track);
-        dialogFragment.show(transaction, TrackOptionsFragment.TAG);*/
+        PlaylistFragmentDirections.ActionPlaylistFragmentToTrackOptionsFragment action =
+                PlaylistFragmentDirections.actionPlaylistFragmentToTrackOptionsFragment();
+        action.setTrack((Track) item);
+        Navigation.findNavController(binding.getRoot()).navigate(action);
     }
 }

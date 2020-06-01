@@ -15,6 +15,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/playlist_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#00FFFFFF"
+        android:src="@drawable/ic_share"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -32,7 +42,7 @@
 
             <Button
                 android:id="@+id/playlist_follow"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/secondary_button"
