@@ -270,9 +270,9 @@ public class SallefyRepository {
     }
 
     public synchronized void updateUser(User user, final UpdateUserCallback callback) {
-        service.updateUser(user).enqueue(new Callback<ResponseBody>() {
+        service.updateUser(user).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     callback.onUserUpdated();
                 } else {
@@ -281,7 +281,7 @@ public class SallefyRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 callback.onFailure(t);
             }
         });
@@ -475,7 +475,6 @@ public class SallefyRepository {
         service.changePassword(passwordChange).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                int code = response.code();
                 if (response.isSuccessful()) {
                     callback.onPasswordChanged(dialog);
                 } else {

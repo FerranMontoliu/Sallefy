@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
 import com.example.sallefy.databinding.FragmentUploadProfileImageBinding;
 import com.example.sallefy.factory.ViewModelFactory;
@@ -62,6 +63,13 @@ public class UploadProfileImageFragment extends DaggerFragment {
     }
 
     private void initViews() {
+
+        Glide.with(requireContext())
+                .asBitmap()
+                .placeholder(R.drawable.ic_user_thumbnail)
+                .load(uploadProfileImageViewModel.getUser().getImageUrl())
+                .into(binding.photoIv);
+
         binding.uploadPhotoBtn.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
@@ -105,7 +113,13 @@ public class UploadProfileImageFragment extends DaggerFragment {
                                 final String filename = path.substring(path.lastIndexOf("/") + 1);
                                 final InputStream imageStream = requireActivity().getContentResolver().openInputStream(data.getData());
                                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                                binding.photoIv.setImageBitmap(selectedImage);
+
+                                Glide.with(requireContext())
+                                        .asBitmap()
+                                        .placeholder(R.drawable.ic_user_thumbnail)
+                                        .load(selectedImage)
+                                        .into(binding.photoIv);
+
                                 uploadProfileImageViewModel.setPhotoFileName(filename);
                             }
                         }

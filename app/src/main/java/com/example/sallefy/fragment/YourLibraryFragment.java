@@ -95,12 +95,11 @@ public class YourLibraryFragment extends DaggerFragment {
                     binding.userName.setText(user.getLogin());
                 }
 
-                if (user.getImageUrl() != null) {
-                    Glide.with(requireContext())
-                            .asBitmap()
-                            .load(user.getImageUrl())
-                            .into(binding.userPhoto);
-                }
+                Glide.with(requireContext())
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_user_thumbnail)
+                        .load(user.getImageUrl())
+                        .into(binding.userPhoto);
             }
         });
     }

@@ -13,7 +13,7 @@
         android:layout_height="@dimen/item_height_without_border"
         android:layout_centerVertical="true"
         android:contentDescription="@string/playlist_thumbnail_description"
-        android:src="@drawable/ic_audiotrack_60dp" />
+        android:src="@drawable/ic_library_music" />
 
     <TextView
         android:id="@+id/am_title_tv"

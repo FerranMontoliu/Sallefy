@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
+import com.example.sallefy.auth.Session;
 import com.example.sallefy.model.User;
 import com.example.sallefy.network.SallefyRepository;
+import com.example.sallefy.network.callback.GetUserCallback;
 import com.example.sallefy.network.callback.UpdateUserCallback;
 import com.example.sallefy.utils.CloudinaryManager;
 
@@ -37,6 +39,10 @@ public class UploadProfileImageViewModel extends ViewModel {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void uploadPhoto(UpdateUserCallback callback) {

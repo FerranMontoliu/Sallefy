@@ -34,7 +34,6 @@
         android:id="@+id/user_photo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/ic_user_thumbnail"
         android:backgroundTint="@color/light"
         android:gravity="center"
         android:scaleType="centerInside"
