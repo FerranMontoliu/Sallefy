@@ -182,7 +182,14 @@
     <string name="download">Download</string>
     <string name="downloaded">Downloaded</string>
     <string name="share">Share</string>
+
+
+    <!-- SHARE -->
     <string name="share_track_via">Share track via</string>
     <string name="share_song_text">Listen to this &#57932; song on Sallefy!&#57629;&#57629;\n\nClick the following link to open the app:\nhttps://open.sallefy.com/track/</string>
+    <string name="share_playlist_via">Share playlist via</string>
+    <string name="share_playlist_text">Listen to this &#57932; playlist on Sallefy!&#57629;&#57629;\n\nClick the following link to open the app:\nhttps://open.sallefy.com/playlist/</string>
+    <string name="share_user_via">Share artist via</string>
+    <string name="share_user_text">Check out this &#57932; artist on Sallefy!&#57629;&#57629;\n\nClick the following link to open the app:\nhttps://open.sallefy.com/user/</string>
 
 </resources>

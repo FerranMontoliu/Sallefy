@@ -1,12 +1,20 @@
 package com.example.sallefy.fragment;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -23,8 +31,11 @@ import com.example.sallefy.databinding.FragmentPlaylistBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.utils.BitmapUtils;
 import com.example.sallefy.utils.MusicPlayer;
 import com.example.sallefy.viewmodel.PlaylistViewModel;
+
+import java.io.ByteArrayOutputStream;
 
 import javax.inject.Inject;
 
@@ -86,16 +97,7 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
         });
 
         binding.playlistAddSongs.setOnClickListener(v -> {
-            /*AddTrackToPlaylistFragment addTrackToPlaylistFragment = new AddTrackToPlaylistFragment();
-            Bundle args = new Bundle();
-            args.putSerializable("playlist", mPlaylist);
-            addTrackToPlaylistFragment.setArguments(args);
-
-            getFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, addTrackToPlaylistFragment)
-                    .remove(PlaylistFragment.this)
-                    .addToBackStack(null)
-                    .commit();*/
+            // TODO: OPEN ADD SONG TO PLAYLIST OR ADD TRACK TO PLAYLIST FRAGMENT
         });
 
         MusicPlayer musicPlayer = MusicPlayer.getInstance();
@@ -118,12 +120,37 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
         });
 
         binding.playlistShare.setOnClickListener(v -> {
-            sharePlaylistLink();
+            checkForPermissions();
         });
     }
 
-    private void sharePlaylistLink() {
+    private void checkForPermissions() {
+        int permissionWrite = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permissionRead = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
 
+        if (permissionWrite != PackageManager.PERMISSION_GRANTED || permissionRead != PackageManager.PERMISSION_GRANTED)
+            askForPermission();
+        else
+            sharePlaylistLink();
+    }
+
+    private void askForPermission() {
+        ActivityCompat.requestPermissions(requireActivity(),
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+    }
+
+    private void sharePlaylistLink() {
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(binding.playlistThumbnail);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        String path = MediaStore.Images.Media.insertImage(requireContext().getContentResolver(), bitmap, "shared_image", null);
+        Uri imageUri = Uri.parse(path);
+        intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_playlist_text) + playlistViewModel.getPlaylist().getId());
+        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_playlist_via)));
     }
 
     private void subscribeObservers() {
