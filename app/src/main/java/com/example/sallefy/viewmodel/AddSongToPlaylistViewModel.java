@@ -32,10 +32,6 @@ public class AddSongToPlaylistViewModel extends ViewModel {
         this.mTrack = track;
     }
 
-    public Track getTrack() {
-        return mTrack;
-    }
-
     public void updatePlaylist(Playlist playlist, UpdatePlaylistCallback callback) {
         if (mTrack != null) {
             playlist.addTrack(mTrack);

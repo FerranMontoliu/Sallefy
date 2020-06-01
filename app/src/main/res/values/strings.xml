@@ -76,6 +76,7 @@
     <string name="no_followers_to_show">You don\'t have any follower yet…\nInvite your friends to follow you!</string>
     <string name="no_followings_to_show">You aren\'t following anyone yet…\nFollow your favourite artist!</string>
     <string name="no_followers_to_show_other">This user doesn\'t have any follower yet…\nFollow him/her!</string>
+    <string name="no_tracks_to_show">There are no tracks to show…\nUpload your own!</string>
 
 
     <!-- LOGIN AND REGISTER -->

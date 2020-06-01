@@ -26,6 +26,7 @@ import com.example.sallefy.R;
 import com.example.sallefy.activity.MainActivity;
 import com.example.sallefy.adapter.TrackListAdapter;
 import com.example.sallefy.adapter.callback.LikeableListAdapter;
+import com.example.sallefy.auth.Session;
 import com.example.sallefy.callback.PlayingSongCallback;
 import com.example.sallefy.databinding.FragmentPlaylistBinding;
 import com.example.sallefy.factory.ViewModelFactory;
@@ -96,9 +97,16 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
             NavHostFragment.findNavController(this).popBackStack();
         });
 
-        binding.playlistAddSongs.setOnClickListener(v -> {
-            // TODO: OPEN ADD SONG TO PLAYLIST OR ADD TRACK TO PLAYLIST FRAGMENT
-        });
+        if (!playlistViewModel.getPlaylist().getUser().getLogin().equals(Session.getUser().getLogin())) {
+            binding.playlistAddSongs.setVisibility(View.GONE);
+        } else {
+            binding.playlistAddSongs.setOnClickListener(v -> {
+                PlaylistFragmentDirections.ActionPlaylistFragmentToAddTrackToPlaylistFragment action =
+                        PlaylistFragmentDirections.actionPlaylistFragmentToAddTrackToPlaylistFragment();
+                action.setPlaylist(playlistViewModel.getPlaylist());
+                Navigation.findNavController(v).navigate(action);
+            });
+        }
 
         MusicPlayer musicPlayer = MusicPlayer.getInstance();
         if (musicPlayer.isReady() && musicPlayer.isPlaying() && musicPlayer.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
@@ -136,7 +144,7 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
 
     private void askForPermission() {
         ActivityCompat.requestPermissions(requireActivity(),
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
     }
 
     private void sharePlaylistLink() {

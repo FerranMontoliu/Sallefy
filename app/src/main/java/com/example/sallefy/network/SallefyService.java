@@ -83,6 +83,9 @@ public interface SallefyService {
 
 
     // TRACKS ENDPOINT
+    @GET("tracks")
+    Call<List<Track>> getAllTracks();
+
     @GET("tracks/{id}")
     Call<Track> getTrackById(@Path("id") String id);
 

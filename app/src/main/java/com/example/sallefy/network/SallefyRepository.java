@@ -49,7 +49,6 @@ import retrofit2.Response;
 
 @Singleton
 public class SallefyRepository {
-    private static final String TAG = SallefyRepository.class.getName();
 
     private SallefyService service;
     private TokenManager tokenManager;
@@ -290,6 +289,24 @@ public class SallefyRepository {
 
 
     // TRACKS ENDPOINT
+    public synchronized void getAllTracks(final GetTracksCallback callback) {
+        service.getAllTracks().enqueue(new Callback<List<Track>>() {
+            @Override
+            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
+                if (response.isSuccessful()) {
+                    callback.onTracksReceived(response.body());
+                } else {
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Track>> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
     public synchronized void getTrackById(String id, final GetTrackCallback callback) {
         service.getTrackById(id).enqueue(new Callback<Track>() {
             @Override

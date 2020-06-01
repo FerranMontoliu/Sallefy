@@ -204,6 +204,15 @@
             android:defaultValue="@null"
             app:argType="com.example.sallefy.model.Playlist"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_addTrackToPlaylistFragment_to_trackOptionsFragment"
+            app:destination="@id/trackOptionsFragment">
+            <argument
+                android:name="track"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Track"
+                app:nullable="true" />
+        </action>
     </fragment>
 
     <fragment
