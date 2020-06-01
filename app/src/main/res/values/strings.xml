@@ -23,6 +23,7 @@
     <string name="your_library_followings_label">Your library followings</string>
     <string name="your_library_tracks_label">Your library tracks</string>
     <string name="your_library_playlists_label">Your library playlists</string>
+    <string name="upload_profile_image_label">Upload profile image</string>
 
 
     <!-- ERROR TOASTS -->
@@ -197,5 +198,11 @@
     <string name="share_playlist_text">Listen to this &#57932; playlist on Sallefy!&#57629;&#57629;\n\nClick the following link to open the app:\nhttps://open.sallefy.com/playlist/</string>
     <string name="share_user_via">Share artist via</string>
     <string name="share_user_text">Check out this &#57932; artist on Sallefy!&#57629;&#57629;\n\nClick the following link to open the app:\nhttps://open.sallefy.com/user/</string>
+
+
+    <!-- UPLOAD PROFILE IMAGE -->
+    <string name="upload_photo_btn">Upload a profile picture</string>
+    <string name="uploading_profile_image">Uploading photo… Please wait.</string>
+    <string name="error_uploading_photo">Error uploading the photo!</string>
 
 </resources>

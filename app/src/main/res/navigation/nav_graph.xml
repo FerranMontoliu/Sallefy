@@ -159,6 +159,15 @@
         <action
             android:id="@+id/action_yourLibraryFragment_to_createPlaylistFragment"
             app:destination="@id/createPlaylistFragment" />
+        <action
+            android:id="@+id/action_yourLibraryFragment_to_uploadPofileImageFragment"
+            app:destination="@id/uploadPofileImageFragment">
+            <argument
+                android:name="user"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.User"
+                app:nullable="true" />
+        </action>
     </fragment>
 
     <fragment
@@ -267,5 +276,17 @@
         android:name="com.example.sallefy.fragment.CreatePlaylistFragment"
         android:label="@string/create_playlist_label"
         tools:layout="@layout/fragment_create_playlist" />
+
+    <fragment
+        android:id="@+id/uploadPofileImageFragment"
+        android:name="com.example.sallefy.fragment.UploadProfileImageFragment"
+        android:label="@string/upload_profile_image_label"
+        tools:layout="@layout/fragment_upload_profile_image">
+        <argument
+            android:name="user"
+            android:defaultValue="@null"
+            app:argType="com.example.sallefy.model.User"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>

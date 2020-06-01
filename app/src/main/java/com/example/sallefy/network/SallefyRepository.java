@@ -34,6 +34,7 @@ import com.example.sallefy.network.callback.PlaylistCallback;
 import com.example.sallefy.network.callback.RegisterCallback;
 import com.example.sallefy.network.callback.SearchCallback;
 import com.example.sallefy.network.callback.TrackCallback;
+import com.example.sallefy.network.callback.UpdateUserCallback;
 
 import java.util.List;
 
@@ -264,6 +265,24 @@ public class SallefyRepository {
 
             @Override
             public void onFailure(Call<Search> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
+    public synchronized void updateUser(User user, final UpdateUserCallback callback) {
+        service.updateUser(user).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    callback.onUserUpdated();
+                } else {
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 callback.onFailure(t);
             }
         });

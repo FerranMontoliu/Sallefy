@@ -20,6 +20,7 @@ import com.example.sallefy.viewmodel.RegisterViewModel;
 import com.example.sallefy.viewmodel.SearchViewModel;
 import com.example.sallefy.viewmodel.TrackOptionsViewModel;
 import com.example.sallefy.viewmodel.ProfilePlaylistsViewModel;
+import com.example.sallefy.viewmodel.UploadProfileImageViewModel;
 import com.example.sallefy.viewmodel.YourLibraryFollowersViewModel;
 import com.example.sallefy.viewmodel.YourLibraryFollowingsViewModel;
 import com.example.sallefy.viewmodel.YourLibraryPlaylistsViewModel;
@@ -103,6 +104,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         }
         if (modelClass.isAssignableFrom(CreatePlaylistViewModel.class)) {
             return (T) new CreatePlaylistViewModel(sallefyRepository);
+        }
+        if (modelClass.isAssignableFrom(UploadProfileImageViewModel.class)) {
+            return (T) new UploadProfileImageViewModel(sallefyRepository);
         }
 
 

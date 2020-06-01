@@ -81,8 +81,8 @@ public class YourLibraryFragment extends DaggerFragment {
         });
 
         binding.userPhoto.setOnClickListener(v -> {
-            YourLibraryFragmentDirections.ActionYourLibraryFragmentToProfileFragment action =
-                    YourLibraryFragmentDirections.actionYourLibraryFragmentToProfileFragment();
+            YourLibraryFragmentDirections.ActionYourLibraryFragmentToUploadPofileImageFragment action =
+                    YourLibraryFragmentDirections.actionYourLibraryFragmentToUploadPofileImageFragment();
             action.setUser(yourLibraryViewModel.getUser());
             Navigation.findNavController(v).navigate(action);
         });
