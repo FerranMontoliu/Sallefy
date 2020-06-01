@@ -44,8 +44,8 @@
                 app:nullable="true" />
         </action>
         <action
-            android:id="@+id/action_loginFragment_to_trackOptionsFragment"
-            app:destination="@id/trackOptionsFragment">
+            android:id="@+id/action_loginFragment_to_playingSongFragment"
+            app:destination="@id/playingSongFragment">
             <argument
                 android:name="track"
                 android:defaultValue="@null"
