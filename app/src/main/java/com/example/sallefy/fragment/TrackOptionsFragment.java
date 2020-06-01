@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
@@ -75,7 +76,7 @@ public class TrackOptionsFragment extends DaggerFragment {
     private void initViews() {
 
         binding.ftoCloseTv.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).popBackStack();
+            Navigation.findNavController(v).popBackStack();
         });
 
         binding.ftoArtistNameTv.setText(trackOptionsViewModel.getTrack().getUserLogin());
@@ -99,6 +100,13 @@ public class TrackOptionsFragment extends DaggerFragment {
 
         binding.ftoShareRl.setOnClickListener(v -> {
             checkForPermissions();
+        });
+
+        binding.ftoAddToPlaylistRl.setOnClickListener(v -> {
+            TrackOptionsFragmentDirections.ActionTrackOptionsFragmentToAddSongToPlaylistFragment action =
+                    TrackOptionsFragmentDirections.actionTrackOptionsFragmentToAddSongToPlaylistFragment();
+            action.setTrack(trackOptionsViewModel.getTrack());
+            Navigation.findNavController(v).navigate(action);
         });
 
     }

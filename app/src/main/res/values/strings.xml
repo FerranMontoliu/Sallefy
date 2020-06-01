@@ -189,7 +189,7 @@
     <string name="share">Share</string>
     <string name="like">Like track</string>
     <string name="liked">Liked</string>
-
+    <string name="add_to_playlist">Add to a playlist</string>
 
     <!-- SHARE -->
     <string name="share_track_via">Share track via</string>

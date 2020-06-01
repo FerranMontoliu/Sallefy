@@ -55,7 +55,7 @@ public class UploadProfileImageFragment extends DaggerFragment {
         uploadProfileImageViewModel = new ViewModelProvider(this, viewModelFactory).get(UploadProfileImageViewModel.class);
 
         if (getArguments() != null) {
-            uploadProfileImageViewModel.setUser(ProfileFragmentArgs.fromBundle(getArguments()).getUser());
+            uploadProfileImageViewModel.setUser(UploadProfileImageFragmentArgs.fromBundle(getArguments()).getUser());
         }
 
         initViews();

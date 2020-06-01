@@ -116,11 +116,39 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/fto_download_rl"
+                android:id="@+id/fto_add_to_playlist_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@+id/fto_add_queue_rl">
+
+                <TextView
+                    android:id="@+id/add_to_playlist_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/add_to_playlist"
+                    android:textAppearance="@style/TrackOption" />
+
+                <ImageView
+                    android:id="@+id/add_to_playlist_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_add_light_24dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fto_download_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/fto_add_to_playlist_rl">
 
                 <TextView
                     android:id="@+id/textView5"

@@ -30,7 +30,7 @@ import com.example.sallefy.network.callback.GetUsersCallback;
 import com.example.sallefy.network.callback.LikeTrackCallback;
 import com.example.sallefy.network.callback.LoginCallback;
 import com.example.sallefy.network.callback.PasswordChangeCallback;
-import com.example.sallefy.network.callback.PlaylistCallback;
+import com.example.sallefy.network.callback.UpdatePlaylistCallback;
 import com.example.sallefy.network.callback.RegisterCallback;
 import com.example.sallefy.network.callback.SearchCallback;
 import com.example.sallefy.network.callback.TrackCallback;
@@ -155,20 +155,20 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void updatePlaylist(Playlist playlist, final PlaylistCallback callback) {
+    public synchronized void updatePlaylist(Playlist playlist, final UpdatePlaylistCallback callback) {
         service.updatePlaylist(playlist).enqueue(new Callback<Playlist>() {
             @Override
             public void onResponse(Call<Playlist> call, Response<Playlist> response) {
                 if (response.isSuccessful()) {
-                    callback.onPlaylistUpdated(response.body());
+                    callback.onPlaylistUpdated();
                 } else {
-                    callback.onPlaylistNotUpdated(new Throwable(String.valueOf(response.errorBody())));
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
             public void onFailure(Call<Playlist> call, Throwable t) {
-                callback.onPlaylistNotUpdated(t);
+                callback.onFailure(t);
             }
         });
     }
