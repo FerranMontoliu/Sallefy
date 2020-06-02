@@ -14,6 +14,7 @@ import com.example.sallefy.viewmodel.LoginViewModel;
 import com.example.sallefy.viewmodel.OptionsViewModel;
 import com.example.sallefy.viewmodel.PlayingSongViewModel;
 import com.example.sallefy.viewmodel.PlaylistViewModel;
+import com.example.sallefy.viewmodel.ProfileTopTracksViewModel;
 import com.example.sallefy.viewmodel.ProfileTracksViewModel;
 import com.example.sallefy.viewmodel.ProfileViewModel;
 import com.example.sallefy.viewmodel.RegisterViewModel;
@@ -111,6 +112,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         }
         if (modelClass.isAssignableFrom(StatisticsViewModel.class)) {
             return (T) new StatisticsViewModel(sallefyRepository);
+        }
+        if (modelClass.isAssignableFrom(ProfileTopTracksViewModel.class)) {
+            return (T) new ProfileTopTracksViewModel(sallefyRepository);
         }
 
 

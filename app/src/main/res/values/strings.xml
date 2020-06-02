@@ -25,6 +25,7 @@
     <string name="your_library_playlists_label">Your library playlists</string>
     <string name="upload_profile_image_label">Upload profile image</string>
     <string name="statistics_label">Statistics</string>
+    <string name="profile_top_tracks_label">Top 5 tracks</string>
 
 
     <!-- ERROR TOASTS -->
@@ -208,4 +209,10 @@
     <string name="uploading_profile_image">Uploading photo… Please wait.</string>
     <string name="error_uploading_photo">Error uploading the photo!</string>
 
+    
+    <!-- STATISTICS -->
+    <string name="top_5_tracks">TOP 5 TRACKS</string>
+    <string name="top_10_tracks_more_likes">TOP 10 tracks by number of likes</string>
+    <string name="top_10_playlists_more_followed">TOP 10 playlists by number of followers</string>
+    <string name="song_evolution_per_month">Song evolution per month</string>
 </resources>

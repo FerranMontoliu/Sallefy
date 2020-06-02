@@ -11,6 +11,7 @@ import com.example.sallefy.fragment.PlayingSongFragment;
 import com.example.sallefy.fragment.PlaylistFragment;
 import com.example.sallefy.fragment.ProfileFragment;
 import com.example.sallefy.fragment.ProfilePlaylistsFragment;
+import com.example.sallefy.fragment.ProfileTopTracksFragment;
 import com.example.sallefy.fragment.ProfileTracksFragment;
 import com.example.sallefy.fragment.RegisterFragment;
 import com.example.sallefy.fragment.SearchFragment;
@@ -94,4 +95,7 @@ public abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract StatisticsFragment statisticsFragment();
+
+    @ContributesAndroidInjector
+    abstract ProfileTopTracksFragment profileTopTracksFragment();
 }

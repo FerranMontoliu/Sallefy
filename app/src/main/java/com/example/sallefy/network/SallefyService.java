@@ -19,6 +19,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -130,4 +131,9 @@ public interface SallefyService {
 
     @GET("me/playlists/following")
     Call<List<Playlist>> getAllFollowedPlaylists();
+
+
+    // PLAYBACK ENDPOINT
+    @GET("playbacks")
+    Call<List<Track>> getUserTopTracks(@Query("user") String username);
 }

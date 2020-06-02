@@ -29,4 +29,16 @@
             android:defaultValue="@null" />
     </fragment>
 
+    <fragment
+        android:id="@+id/userTopTracksFragment"
+        android:name="com.example.sallefy.fragment.ProfileTopTracksFragment"
+        android:label="@string/profile_top_tracks_label"
+        tools:layout="@layout/fragment_profile_top_tracks">
+        <argument
+            android:name="user"
+            app:argType="com.example.sallefy.model.User"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
 </navigation>

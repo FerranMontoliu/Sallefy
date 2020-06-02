@@ -625,4 +625,24 @@ public class SallefyRepository {
             }
         });
     }
+
+
+    // PLAYBACK ENDPOINT
+    public synchronized void getUserTopTracks(String login, final GetTracksCallback callback) {
+        service.getUserTopTracks(login).enqueue(new Callback<List<Track>>() {
+            @Override
+            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
+                if (response.isSuccessful()) {
+                    callback.onTracksReceived(response.body());
+                } else {
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Track>> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
 }
