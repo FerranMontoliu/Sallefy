@@ -3,6 +3,7 @@ package com.example.sallefy.network;
 import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Genre;
 import com.example.sallefy.model.Liked;
+import com.example.sallefy.model.NewTrack;
 import com.example.sallefy.model.PasswordChange;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Search;
@@ -96,7 +97,7 @@ public interface SallefyService {
     Call<Liked> isTrackLiked(@Path("id") String id);
 
     @POST("tracks")
-    Call<ResponseBody> createTrack(@Body Track track);
+    Call<Track> createTrack(@Body NewTrack track);
 
 
     // ACCOUNT ENDPOINT

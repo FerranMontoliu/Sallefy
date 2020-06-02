@@ -70,7 +70,8 @@ public class CreateTrackFragment extends DaggerFragment {
 
         binding.uploadTrackBtn.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("audio/*");
+            intent.setType("*/*");
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"audio/*", "video/*"});
             startActivityForResult(intent, CreateTrackViewModel.PICK_FILE);
         });
 

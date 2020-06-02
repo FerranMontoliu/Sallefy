@@ -11,6 +11,7 @@ import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.example.sallefy.model.Genre;
+import com.example.sallefy.model.NewTrack;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.network.callback.CreateTrackCallback;
@@ -116,8 +117,7 @@ public class CreateTrackViewModel extends ViewModel {
 
                     @Override
                     public void onSuccess(String requestId, Map resultData) {
-                        Track track = new Track();
-                        track.setId(null);
+                        NewTrack track = new NewTrack();
                         track.setName(trackFileName);
                         if (thumbnailUrl != null)
                             track.setThumbnail(thumbnailUrl);

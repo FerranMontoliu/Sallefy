@@ -7,6 +7,7 @@ import com.example.sallefy.auth.TokenManager;
 import com.example.sallefy.model.Followed;
 import com.example.sallefy.model.Genre;
 import com.example.sallefy.model.Liked;
+import com.example.sallefy.model.NewTrack;
 import com.example.sallefy.model.PasswordChange;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Search;
@@ -451,19 +452,20 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void createTrack(Track track, final CreateTrackCallback callback) {
-        service.createTrack(track).enqueue(new Callback<ResponseBody>() {
+    public synchronized void createTrack(NewTrack track, final CreateTrackCallback callback) {
+        service.createTrack(track).enqueue(new Callback<Track>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<Track> call, Response<Track> response) {
                 if (response.isSuccessful()) {
                     callback.onTrackCreated();
                 } else {
+                    System.out.println("EEEEEEEEEEEEEEEEEEEEEE -->  " + response.code());
                     callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<Track> call, Throwable t) {
                 callback.onFailure(t);
             }
         });

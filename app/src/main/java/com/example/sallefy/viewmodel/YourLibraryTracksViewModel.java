@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sallefy.adapter.OwnTrackListAdapter;
+import com.example.sallefy.model.NewTrack;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.network.callback.CreateTrackCallback;
@@ -26,7 +27,7 @@ public class YourLibraryTracksViewModel extends ViewModel {
         this.mTracks = new MutableLiveData<>();
     }
 
-    public void createTrack(Track track) {
+    public void createTrack(NewTrack track) {
         sallefyRepository.createTrack(track, new CreateTrackCallback() {
             @Override
             public void onTrackCreated() {
