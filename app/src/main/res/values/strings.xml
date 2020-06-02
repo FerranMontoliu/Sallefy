@@ -24,6 +24,7 @@
     <string name="your_library_tracks_label">Your library tracks</string>
     <string name="your_library_playlists_label">Your library playlists</string>
     <string name="upload_profile_image_label">Upload profile image</string>
+    <string name="statistics_label">Statistics</string>
 
 
     <!-- ERROR TOASTS -->

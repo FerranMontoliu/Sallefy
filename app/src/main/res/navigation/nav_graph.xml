@@ -232,6 +232,9 @@
         <action
             android:id="@+id/action_optionsFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_optionsFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
 
     <fragment
@@ -312,5 +315,11 @@
             app:argType="com.example.sallefy.model.User"
             app:nullable="true" />
     </fragment>
+
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.example.sallefy.fragment.StatisticsFragment"
+        android:label="@string/statistics_label"
+        tools:layout="@layout/fragment_statistics" />
 
 </navigation>

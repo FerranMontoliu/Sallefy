@@ -58,7 +58,7 @@ public class OptionsFragment extends DaggerFragment {
         }
 
         binding.backSettings.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).popBackStack();
+            Navigation.findNavController(v).popBackStack();
         });
 
         binding.settingsProfile.setOnClickListener(v -> {
@@ -75,6 +75,10 @@ public class OptionsFragment extends DaggerFragment {
         binding.settingsLogout.setOnClickListener(v -> {
             optionsViewModel.logOut();
             Navigation.findNavController(v).navigate(R.id.action_optionsFragment_to_loginFragment);
+        });
+
+        binding.statisticsLayout.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_optionsFragment_to_statisticsFragment);
         });
     }
 
