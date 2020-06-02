@@ -17,6 +17,7 @@ import com.example.sallefy.fragment.RegisterFragment;
 import com.example.sallefy.fragment.SearchFragment;
 import com.example.sallefy.fragment.StatisticsFragment;
 import com.example.sallefy.fragment.TrackOptionsFragment;
+import com.example.sallefy.fragment.TrackStatisticsFragment;
 import com.example.sallefy.fragment.UploadProfileImageFragment;
 import com.example.sallefy.fragment.YourLibraryFollowersFragment;
 import com.example.sallefy.fragment.YourLibraryFollowingsFragment;
@@ -98,4 +99,7 @@ public abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract ProfileTopTracksFragment profileTopTracksFragment();
+
+    @ContributesAndroidInjector
+    abstract TrackStatisticsFragment trackStatisticsFragment();
 }

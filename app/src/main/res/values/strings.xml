@@ -26,6 +26,7 @@
     <string name="upload_profile_image_label">Upload profile image</string>
     <string name="statistics_label">Statistics</string>
     <string name="profile_top_tracks_label">Top 5 tracks</string>
+    <string name="track_statistics_label">Track statistics</string>
 
 
     <!-- ERROR TOASTS -->
@@ -194,6 +195,8 @@
     <string name="like">Like track</string>
     <string name="liked">Liked</string>
     <string name="add_to_playlist">Add to a playlist</string>
+    <string name="track_statistics">Cool track statistics</string>
+
 
     <!-- SHARE -->
     <string name="share_track_via">Share track via</string>

@@ -99,6 +99,12 @@ public class TrackOptionsFragment extends DaggerFragment {
             Navigation.findNavController(v).navigate(action);
         });
 
+        binding.ftoStatisticsRl.setOnClickListener(v -> {
+            TrackOptionsFragmentDirections.ActionTrackOptionsFragmentToTrackStatisticsFragment action =
+                    TrackOptionsFragmentDirections.actionTrackOptionsFragmentToTrackStatisticsFragment();
+            action.setTrack(trackOptionsViewModel.getTrack());
+            Navigation.findNavController(v).navigate(action);
+        });
     }
 
     private void checkForPermissions() {

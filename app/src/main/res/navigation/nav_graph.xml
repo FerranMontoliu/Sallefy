@@ -296,6 +296,15 @@
             android:defaultValue="@null"
             app:argType="com.example.sallefy.model.Track"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_trackOptionsFragment_to_trackStatisticsFragment"
+            app:destination="@id/trackStatisticsFragment">
+            <argument
+                android:name="track"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Track"
+                app:nullable="true" />
+        </action>
     </fragment>
 
     <fragment
@@ -321,5 +330,17 @@
         android:name="com.example.sallefy.fragment.StatisticsFragment"
         android:label="@string/statistics_label"
         tools:layout="@layout/fragment_statistics" />
+
+    <fragment
+        android:id="@+id/trackStatisticsFragment"
+        android:name="com.example.sallefy.fragment.TrackStatisticsFragment"
+        android:label="@string/track_statistics_label"
+        tools:layout="@layout/fragment_track_statistics">
+        <argument
+            android:name="track"
+            android:defaultValue="@null"
+            app:argType="com.example.sallefy.model.Track"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>

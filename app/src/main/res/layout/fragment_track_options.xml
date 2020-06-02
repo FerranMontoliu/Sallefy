@@ -173,11 +173,39 @@
 
 
             <RelativeLayout
-                android:id="@+id/fto_share_rl"
+                android:id="@+id/fto_statistics_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@+id/fto_download_rl">
+
+                <TextView
+                    android:id="@+id/statistics_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/track_statistics"
+                    android:textAppearance="@style/TrackOption" />
+
+                <ImageView
+                    android:id="@+id/statistics_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_chart" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fto_share_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/fto_statistics_rl">
 
                 <TextView
                     android:id="@+id/share_tv"
