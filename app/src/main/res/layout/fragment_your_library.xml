@@ -30,16 +30,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/user_photo"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/user_photo_layout"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:backgroundTint="@color/light"
-        android:gravity="center"
-        android:scaleType="centerInside"
+        android:elevation="12dp"
+        app:cardCornerRadius="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/back_btn">
+
+        <ImageView
+            android:id="@+id/user_photo"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop" />
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:id="@+id/username_layout"
@@ -50,7 +57,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_photo"
+        app:layout_constraintTop_toBottomOf="@id/user_photo_layout"
         tools:ignore="PrivateResource">
 
         <TextView

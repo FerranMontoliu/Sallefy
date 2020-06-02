@@ -81,12 +81,12 @@ public class ProfileFragment extends DaggerFragment {
         if (profileViewModel.getUserName() != null)
             binding.profileUsername.setText(profileViewModel.getUserName());
 
-        if (profileViewModel.getUserImage() != null) {
-            Glide.with(requireContext())
-                    .asBitmap()
-                    .load(profileViewModel.getUserImage())
-                    .into(binding.profilePhoto);
-        }
+        Glide.with(requireContext())
+                .asBitmap()
+                .placeholder(R.drawable.ic_user_thumbnail)
+                .load(profileViewModel.getUserImage())
+                .into(binding.profilePhoto);
+
 
         if (profileViewModel.isOwnUser())
             binding.userFollowBtn.setVisibility(View.GONE);
