@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -122,7 +123,7 @@ public class HomeFragment extends DaggerFragment implements IListAdapter {
             HomeFragmentDirections.ActionHomeFragmentToPlaylistFragment action =
                     HomeFragmentDirections.actionHomeFragmentToPlaylistFragment();
             action.setPlaylist((Playlist)item);
-            Navigation.findNavController(binding.getRoot()).navigate(action);
+            NavHostFragment.findNavController(HomeFragment.this).navigate(action);
         }
     }
 }
