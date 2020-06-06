@@ -31,6 +31,7 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
     private MusicPlayer mMusicPlayer;
     private ActivityMainBinding binding;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.NoTitle);

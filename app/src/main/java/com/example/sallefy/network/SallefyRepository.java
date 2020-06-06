@@ -22,6 +22,7 @@ import com.example.sallefy.network.callback.DeleteUserCallback;
 import com.example.sallefy.network.callback.FollowCheckCallback;
 import com.example.sallefy.network.callback.FollowToggleCallback;
 import com.example.sallefy.network.callback.GenreCallback;
+import com.example.sallefy.network.callback.GetItemsCallback;
 import com.example.sallefy.network.callback.GetPlaylistCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
 import com.example.sallefy.network.callback.GetTrackCallback;
@@ -630,6 +631,43 @@ public class SallefyRepository {
     // PLAYBACK ENDPOINT
     public synchronized void getUserTopTracks(String login, final GetTracksCallback callback) {
         service.getUserTopTracks(login).enqueue(new Callback<List<Track>>() {
+            @Override
+            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
+                if (response.isSuccessful()) {
+                    callback.onTracksReceived(response.body());
+                } else {
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Track>> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
+    //STATISTICS
+    public synchronized void getTopFollowedPlaylists(final GetPlaylistsCallback callback) {
+        service.getTopFollowedPlaylists().enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+                if (response.isSuccessful()) {
+                    callback.onPlaylistsReceived(response.body());
+                } else {
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
+    public synchronized void getTopLikedTracks(final GetTracksCallback callback) {
+        service.getTopLikedTracks().enqueue(new Callback<List<Track>>() {
             @Override
             public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
                 if (response.isSuccessful()) {
