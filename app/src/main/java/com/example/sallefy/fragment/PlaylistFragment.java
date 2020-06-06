@@ -81,7 +81,7 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
         adapter.setTracks(playlistViewModel.getPlaylist().getTracks());
         binding.playlistTracksRv.setAdapter(adapter);
 
-        binding.playlistName.setText(playlistViewModel.getPlaylist().getName());
+        binding.playlistName.setText(playlistViewModel.getPlaylistName());
         binding.playlistName.setSelected(true);
         binding.playlistAuthor.setText(playlistViewModel.getPlaylist().getUser().getLogin());
 

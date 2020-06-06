@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
 import com.example.sallefy.callback.PlayingSongCallback;
 import com.example.sallefy.databinding.ActivityMainBinding;
+import com.example.sallefy.fragment.PlayingSongFragment;
 import com.example.sallefy.fragment.PlaylistFragment;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
@@ -48,6 +50,15 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
         });
 
         binding.mainPlayingSong.setOnClickListener(v -> {
+            //TODO: Mirar si es pot canviar per una navigation
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("track", mMusicPlayer.getCurrentTrack());
+            PlayingSongFragment playingSongFragment = new PlayingSongFragment();
+            playingSongFragment.setArguments(bundle);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.nav_host_fragment, playingSongFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
             /*Intent intent = new Intent(getApplicationContext(), PlayingSongActivity.class);
             intent.putExtra("newTrack", false);
             startActivity(intent);*/

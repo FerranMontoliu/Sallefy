@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
+
 public class PlayingSongFragment extends DaggerFragment {
 
     @Inject
@@ -39,6 +40,10 @@ public class PlayingSongFragment extends DaggerFragment {
         super.onViewCreated(view, savedInstanceState);
 
         playingSongViewModel = new ViewModelProvider(this, viewModelFactory).get(PlayingSongViewModel.class);
+
+        if (getArguments() != null) {
+            playingSongViewModel.setTrack(PlayingSongFragmentArgs.fromBundle(getArguments()).getTrack());
+        }
 
         hideBottom();
 
