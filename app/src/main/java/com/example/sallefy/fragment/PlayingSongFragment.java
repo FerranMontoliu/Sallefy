@@ -10,13 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
@@ -82,22 +77,24 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
         binding.apsSongName.setText(playingSongViewModel.getTrack().getName());
         binding.apsArtistName.setText(playingSongViewModel.getTrack().getUser().getLogin());
-        binding.apsPlaylistNameTv.setText(playingSongViewModel.getPlaylist().getName());
-/*
+
+        if (playingSongViewModel.getPlaylist() != null)
+            binding.apsPlaylistNameTv.setText(playingSongViewModel.getPlaylist().getName());
+
+        //TODO: CHECK LIKED
+        /*
         TrackManager.getInstance(getApplicationContext()).checkLiked(track, PlayingSongActivity.this, 0);
-*/
-        Glide.with(getContext())
+        */
+        Glide.with(requireContext())
                 .asBitmap()
                 .placeholder(R.drawable.ic_audiotrack_60dp)
                 .load(playingSongViewModel.getTrack().getThumbnail())
                 .into(binding.songThumbnail);
 
         binding.trackOptions.setOnClickListener(v -> {
-            //TODO: navigation controller not detected well
             PlayingSongFragmentDirections.ActionPlayingSongFragmentToTrackOptionsFragment action =
                     PlayingSongFragmentDirections.actionPlayingSongFragmentToTrackOptionsFragment();
             action.setTrack(playingSongViewModel.getTrack());
-            //NavController navController = Navigation.findNavController(v);
             Navigation.findNavController(v).navigate(action);
         });
 
@@ -105,35 +102,23 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
             Navigation.findNavController(v).popBackStack();
         });
 
-        binding.apsLikeIb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: Like Song
-                /*
-                TrackManager.getInstance(getApplicationContext()).likeTrack(track, PlayingSongActivity.this, 0);
-                */
-            }
+        binding.apsLikeIb.setOnClickListener(v -> {
+            //TODO: LIKE SONG
+            /*
+            TrackManager.getInstance(getApplicationContext()).likeTrack(track, PlayingSongActivity.this, 0);
+            */
         });
 
-        binding.apsPlayPauseIb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMusicPlayer.onPlayPauseClicked();
-            }
+        binding.apsPlayPauseIb.setOnClickListener(v -> {
+            mMusicPlayer.onPlayPauseClicked();
         });
 
-        binding.apsNextIb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMusicPlayer.onNextTrackClicked();
-            }
+        binding.apsNextIb.setOnClickListener(v -> {
+            mMusicPlayer.onNextTrackClicked();
         });
 
-        binding.apsPrevIb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMusicPlayer.onPreviousTrackClicked();
-            }
+        binding.apsPrevIb.setOnClickListener(v -> {
+            mMusicPlayer.onPreviousTrackClicked();
         });
 
         binding.apsPlayPauseIb.setImageResource(mMusicPlayer.isPlaying() ? R.drawable.ic_pause_light_80dp : R.drawable.ic_play_light_80dp);
@@ -158,21 +143,15 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         });
 
         binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoop() ? R.drawable.ic_repeat_green_28dp : R.drawable.ic_repeat_light_28dp);
-        binding.apsLoopIb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoop() ? R.drawable.ic_repeat_light_28dp : R.drawable.ic_repeat_green_28dp);
-                MusicPlayer.getInstance().onLoopClicked();
-            }
+        binding.apsLoopIb.setOnClickListener(v -> {
+            binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoop() ? R.drawable.ic_repeat_light_28dp : R.drawable.ic_repeat_green_28dp);
+            MusicPlayer.getInstance().onLoopClicked();
         });
 
         binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffle() ? R.drawable.ic_shuffle_green_28dp : R.drawable.ic_shuffle_light_28dp);
-        binding.apsShuffleIb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffle() ? R.drawable.ic_shuffle_light_28dp : R.drawable.ic_shuffle_green_28dp);
-                MusicPlayer.getInstance().onShuffleClicked();
-            }
+        binding.apsShuffleIb.setOnClickListener(v -> {
+            binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffle() ? R.drawable.ic_shuffle_light_28dp : R.drawable.ic_shuffle_green_28dp);
+            MusicPlayer.getInstance().onShuffleClicked();
         });
 
 
@@ -184,12 +163,7 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         binding.apsProgressSb.setProgress(mMusicPlayer.getCurrentPosition());
 
         if (mMusicPlayer.isPlaying()) {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    updateSeekBar();
-                }
-            };
+            runnable = this::updateSeekBar;
             handler.postDelayed(runnable, 1000);
         }
     }
@@ -200,7 +174,7 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
     @Override
     public void onErrorPreparingMediaPlayer() {
-        Toast.makeText(getContext(), "Error, couldn't play the music.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), R.string.error_couldnt_play_song, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -208,14 +182,12 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         binding.apsProgressSb.setProgress(0);
         binding.apsProgressSb.setMax(duration);
         updateSeekBar();
-
     }
 
     @Override
     public void onPlayTrack() {
         binding.apsPlayPauseIb.setImageResource(R.drawable.ic_pause_light_80dp);
         updateSeekBar();
-
     }
 
     @Override
@@ -229,12 +201,12 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         binding.apsArtistName.setText(track.getUser().getLogin());
         binding.apsPlaylistNameTv.setText(playlist.getName());
 
+        //TODO: CHECK LIKED
         /*
-        //TODO: Check liked
         TrackManager.getInstance(getContext()).checkLiked(track, PlayingSongActivity.this, 0);
-         */
+        */
 
-        Glide.with(getContext())
+        Glide.with(requireContext())
                 .asBitmap()
                 .placeholder(R.drawable.ic_audiotrack_60dp)
                 .load(track.getThumbnail())

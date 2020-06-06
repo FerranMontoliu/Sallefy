@@ -51,6 +51,7 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
 
         binding.mainPlayingSong.setOnClickListener(v -> {
             //TODO: Mirar si es pot canviar per una navigation
+
             Bundle bundle = new Bundle();
             bundle.putSerializable("track", mMusicPlayer.getCurrentTrack());
             bundle.putSerializable("playlist", mMusicPlayer.getCurrentPlaylist());
@@ -60,6 +61,7 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
             transaction.replace(R.id.nav_host_fragment, playingSongFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+
             /*Intent intent = new Intent(getApplicationContext(), PlayingSongActivity.class);
             intent.putExtra("newTrack", false);
             startActivity(intent);*/
