@@ -51,6 +51,11 @@
                 android:defaultValue="@null"
                 app:argType="com.example.sallefy.model.Track"
                 app:nullable="true" />
+            <argument
+                android:name="playlist"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Playlist"
+                app:nullable="true" />
         </action>
 
     </fragment>
@@ -69,12 +74,16 @@
         <action
             android:id="@+id/action_homeFragment_to_playingSongFragment"
             app:destination="@id/playingSongFragment" >
-
             <argument
                 android:name="track"
                 app:argType="com.example.sallefy.model.Track"
                 app:nullable="true"
                 android:defaultValue="@null" />
+            <argument
+                android:name="playlist"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Playlist"
+                app:nullable="true" />
         </action>
         <action
             android:id="@+id/action_homeFragment_to_playlistFragment"
@@ -95,12 +104,16 @@
         <action
             android:id="@+id/action_searchFragment_to_playingSongFragment"
             app:destination="@id/playingSongFragment" >
-
             <argument
                 android:name="track"
                 android:defaultValue="@null"
                 app:argType="com.example.sallefy.model.Track"
                 app:nullable="true"/>
+            <argument
+                android:name="playlist"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Playlist"
+                app:nullable="true" />
         </action>
         <action
             android:id="@+id/action_searchFragment_to_playlistFragment"
@@ -147,6 +160,11 @@
                 android:name="track"
                 android:defaultValue="@null"
                 app:argType="com.example.sallefy.model.Track"
+                app:nullable="true" />
+            <argument
+                android:name="playlist"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Playlist"
                 app:nullable="true" />
         </action>
         <action
@@ -200,6 +218,20 @@
             android:defaultValue="@null"
             app:argType="com.example.sallefy.model.Track"
             app:nullable="true" />
+        <argument
+            android:name="playlist"
+            android:defaultValue="@null"
+            app:argType="com.example.sallefy.model.Playlist"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_playingSongFragment_to_trackOptionsFragment"
+            app:destination="@id/trackOptionsFragment">
+            <argument
+                android:name="track"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Track"
+                app:nullable="true" />
+        </action>
     </fragment>
 
     <fragment
@@ -307,12 +339,16 @@
         <action
             android:id="@+id/action_profileFragment_to_playingSongFragment"
             app:destination="@id/playingSongFragment" >
-
             <argument
                 android:name="track"
                 app:argType="com.example.sallefy.model.Track"
                 app:nullable="true"
                 android:defaultValue="@null" />
+            <argument
+                android:name="playlist"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Playlist"
+                app:nullable="true" />
         </action>
     </fragment>
 

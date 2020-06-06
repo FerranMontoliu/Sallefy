@@ -77,7 +77,7 @@ public class TrackOptionsFragment extends DaggerFragment {
                     .asBitmap()
                     .placeholder(R.drawable.ic_audiotrack_60dp)
                     .load(trackOptionsViewModel.getTrack().getThumbnail())
-                    .into(binding.ftoThumbnailIv);
+                    .into(binding.songThumbnail);
         }
 
         binding.ftoDownloadRl.setOnClickListener(v -> {
@@ -123,7 +123,7 @@ public class TrackOptionsFragment extends DaggerFragment {
     }
 
     private void shareTrackLink() {
-        Bitmap bitmap = BitmapUtils.getBitmapFromView(binding.ftoThumbnailIv);
+        Bitmap bitmap = BitmapUtils.getBitmapFromView(binding.songThumbnail);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
         Intent intent = new Intent(Intent.ACTION_SEND);

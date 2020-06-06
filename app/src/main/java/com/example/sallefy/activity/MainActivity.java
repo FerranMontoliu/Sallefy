@@ -53,6 +53,7 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
             //TODO: Mirar si es pot canviar per una navigation
             Bundle bundle = new Bundle();
             bundle.putSerializable("track", mMusicPlayer.getCurrentTrack());
+            bundle.putSerializable("playlist", mMusicPlayer.getCurrentPlaylist());
             PlayingSongFragment playingSongFragment = new PlayingSongFragment();
             playingSongFragment.setArguments(bundle);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
