@@ -215,7 +215,8 @@
     
     <!-- STATISTICS -->
     <string name="top_5_tracks">TOP 5 TRACKS</string>
-    <string name="top_10_tracks_more_likes">TOP 10 tracks by number of likes</string>
-    <string name="top_10_playlists_more_followed">TOP 10 playlists by number of followers</string>
+    <string name="top_10_tracks_more_likes">TOP 10 Most liked tracks</string>
+    <string name="top_10_playlists_more_followed">TOP 10 most followed playlists</string>
     <string name="song_evolution_per_month">Song evolution per month</string>
+    <string name="statistics_empty">There are no statistics for this track!</string>
 </resources>

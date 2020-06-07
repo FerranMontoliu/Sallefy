@@ -126,6 +126,12 @@
         <item name="android:textColor">@color/light</item>
     </style>
 
+    <style name="SmallHeaderTheme">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light</item>
+    </style>
+
     <style name="PlaylistNameCVTheme" parent="NoTitle">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/light_hint</item>
@@ -145,4 +151,12 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/light</item>
     </style>
+
+    <!-- STATISTICS -->
+    <style name="StatPostionTheme">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/green</item>
+    </style>
+
 </resources>

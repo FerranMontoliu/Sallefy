@@ -16,5 +16,18 @@
         android:button="@drawable/ic_back_arrow"
         app:buttonTint="@color/light" />
 
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/track_stats_bc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/statistics_empty_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/statistics_empty"
+        android:visibility="visible"/>
 
 </LinearLayout>

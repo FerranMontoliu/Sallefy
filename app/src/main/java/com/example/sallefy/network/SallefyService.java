@@ -8,6 +8,7 @@ import com.example.sallefy.model.PasswordChange;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Search;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.model.TrackStatistics;
 import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserLogin;
 import com.example.sallefy.model.UserRegister;
@@ -134,6 +135,16 @@ public interface SallefyService {
 
 
     // PLAYBACK ENDPOINT
+    @GET("users/{login}/tracks?popular=true&size=5")
+    Call<List<Track>> getUserTopTracks(@Path("login") String username);
+
+    //STATISTICS ENDPOINT
+    @GET("playlists?popular=true&size=10")
+    Call<List<Playlist>> getTopFollowedPlaylists();
+
+    @GET("tracks?liked=true&size=10")
+    Call<List<Track>> getTopLikedTracks();
+
     @GET("playbacks")
-    Call<List<Track>> getUserTopTracks(@Query("user") String username);
+    Call<List<TrackStatistics>> getTrackStatistics(@Query("trackId") Long id);
 }
