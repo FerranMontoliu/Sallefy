@@ -118,6 +118,33 @@
         app:layout_constraintTop_toBottomOf="@+id/track_file_tv"
         style="@style/GreenButton"/>
 
+    <TextView
+        android:id="@+id/video_file_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/light"
+        android:textColorHint="@color/light_hint"
+        android:hint="@string/no_file_selected"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/upload_video_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/upload_video_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/track_file_tv"
+        style="@style/GreenButton"/>
+
     <LinearLayout
         android:id="@+id/linearLayout_low"
         android:layout_width="match_parent"

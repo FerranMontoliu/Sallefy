@@ -75,6 +75,13 @@ public class CreateTrackFragment extends DaggerFragment {
             startActivityForResult(intent, CreateTrackViewModel.PICK_FILE);
         });
 
+        binding.uploadVideoBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"video/*"});
+            startActivityForResult(intent, CreateTrackViewModel.PICK_FILE);
+        });
+
         binding.cancelBtn.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
         });
@@ -153,6 +160,21 @@ public class CreateTrackFragment extends DaggerFragment {
                         if (path != null) {
                             final String filename = path.substring(path.lastIndexOf("/") + 1);
                             binding.trackFileTv.setText(filename);
+                        }
+                    }
+                } else {
+                    Toast.makeText(getContext(), R.string.pick_a_document, Toast.LENGTH_LONG).show();
+                }
+                break;
+
+            case CreateTrackViewModel.PICK_VIDEO:
+                if (resultCode == RESULT_OK) {
+                    if (data.getData() != null) {
+                        createTrackViewModel.setVideoUri(data.getData());
+                        String path = data.getData().getPath();
+                        if (path != null) {
+                            final String filename = path.substring(path.lastIndexOf("/") + 1);
+                            binding.videoFileTv.setText(filename);
                         }
                     }
                 } else {

@@ -40,14 +40,20 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
         ObjectBox.init(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-        mDisplayPlaying = false;
+
         mMusicPlayer = MusicPlayer.getInstance();
         mMusicPlayer.setPlayingSongCallback(MainActivity.this);
+        mDisplayPlaying = mMusicPlayer.isReady();
 
         binding.mainPlay.setOnClickListener(v -> {
             if (mMusicPlayer.isReady())
                 mMusicPlayer.onPlayPauseClicked();
         });
+
+        setContentView(binding.getRoot());
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
 
         binding.mainPlayingSong.setOnClickListener(v -> {
             //TODO: Mirar si es pot canviar per una navigation
@@ -55,22 +61,17 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
             Bundle bundle = new Bundle();
             bundle.putSerializable("track", mMusicPlayer.getCurrentTrack());
             bundle.putSerializable("playlist", mMusicPlayer.getCurrentPlaylist());
-            PlayingSongFragment playingSongFragment = new PlayingSongFragment();
+
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.playingSongFragment, bundle);
+
+            /*PlayingSongFragment playingSongFragment = new PlayingSongFragment();
             playingSongFragment.setArguments(bundle);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.nav_host_fragment, playingSongFragment);
             transaction.addToBackStack(null);
-            transaction.commit();
+            transaction.commit();*/
 
-            /*Intent intent = new Intent(getApplicationContext(), PlayingSongActivity.class);
-            intent.putExtra("newTrack", false);
-            startActivity(intent);*/
         });
-
-        setContentView(binding.getRoot());
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
 
         // Open shared link
         Intent intent = getIntent();
@@ -205,5 +206,13 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
 }
