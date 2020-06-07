@@ -44,9 +44,15 @@ public class Track implements Serializable {
     @SerializedName("url")
     private String url;
 
+    private String data;
+
     private boolean selected = false;
 
     private boolean liked;
+
+    public String getData() { return data; }
+
+    public void setData(String data) { this.data = data; }
 
     public String getColor() {
         return color;

@@ -89,4 +89,7 @@ dependencies {
 
     // Inject
     implementation group: 'javax.inject', name: 'javax.inject', version: '1'
+
+    //Volley
+    implementation 'com.android.volley:volley:1.1.1'
 }
