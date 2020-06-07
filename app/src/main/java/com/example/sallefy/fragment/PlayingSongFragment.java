@@ -21,6 +21,7 @@ import com.example.sallefy.databinding.FragmentPlayingSongBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.network.callback.LikeTrackCallback;
 import com.example.sallefy.utils.MusicPlayer;
 import com.example.sallefy.viewmodel.PlayingSongViewModel;
 
@@ -37,6 +38,7 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
     private FragmentPlayingSongBinding binding;
     private PlayingSongViewModel playingSongViewModel;
     private MusicPlayer mMusicPlayer;
+
 
 
     @Override
@@ -97,10 +99,6 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         if (playingSongViewModel.getPlaylist() != null)
             binding.apsPlaylistNameTv.setText(playingSongViewModel.getPlaylist().getName());
 
-        //TODO: CHECK LIKED
-        /*
-        TrackManager.getInstance(getApplicationContext()).checkLiked(track, PlayingSongActivity.this, 0);
-        */
         Glide.with(requireContext())
                 .asBitmap()
                 .placeholder(R.drawable.ic_audiotrack_60dp)
@@ -120,10 +118,7 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         });
 
         binding.apsLikeIb.setOnClickListener(v -> {
-            //TODO: LIKE SONG
-            /*
-            TrackManager.getInstance(getApplicationContext()).likeTrack(track, PlayingSongActivity.this, 0);
-            */
+            playingSongViewModel.likeTrackToggle();
         });
 
         binding.apsPlayPauseIb.setOnClickListener(v -> {
@@ -186,7 +181,13 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
     }
 
     private void subscribeObservers() {
-
+        playingSongViewModel.isLiked().observe(getViewLifecycleOwner(), isLiked -> {
+            if (isLiked){
+                binding.apsLikeIb.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_filled, getActivity().getTheme()));
+            } else {
+                binding.apsLikeIb.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_unfilled, getActivity().getTheme()));
+            }
+        });
     }
 
     @Override
@@ -220,10 +221,8 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
             binding.apsPlaylistNameTv.setText(playlist.getName());
         }
 
-        //TODO: CHECK LIKED
-        /*
-        TrackManager.getInstance(getContext()).checkLiked(track, PlayingSongActivity.this, 0);
-        */
+        playingSongViewModel.setTrack(track);
+        playingSongViewModel.isLiked();
 
         Glide.with(requireContext())
                 .asBitmap()
@@ -233,4 +232,5 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
         updateSeekBar();
     }
+
 }
