@@ -3,6 +3,7 @@ package com.example.sallefy.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
@@ -30,7 +31,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class PlayingSongFragment extends DaggerFragment implements PlayingSongCallback {
+public class PlayingSongFragment extends DaggerFragment implements PlayingSongCallback, SurfaceHolder.Callback {
 
     @Inject
     protected ViewModelFactory viewModelFactory;
@@ -38,7 +39,6 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
     private FragmentPlayingSongBinding binding;
     private PlayingSongViewModel playingSongViewModel;
     private MusicPlayer mMusicPlayer;
-
 
 
     @Override
@@ -54,22 +54,12 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
         mMusicPlayer = MusicPlayer.getInstance();
         mMusicPlayer.setPlayingSongCallback(PlayingSongFragment.this);
-        mMusicPlayer.setVidHolder(binding.songVideo.getHolder());
 
         playingSongViewModel = new ViewModelProvider(this, viewModelFactory).get(PlayingSongViewModel.class);
 
         if (getArguments() != null) {
             playingSongViewModel.setTrack(PlayingSongFragmentArgs.fromBundle(getArguments()).getTrack());
             playingSongViewModel.setPlaylist(PlayingSongFragmentArgs.fromBundle(getArguments()).getPlaylist());
-        }
-
-        if (playingSongViewModel.getTrack() != null &&
-                playingSongViewModel.getTrack().getHasVideo()) {
-            binding.songVideo.setVisibility(View.VISIBLE);
-            binding.songThumbnail.setVisibility(View.GONE);
-        } else {
-            binding.songVideo.setVisibility(View.GONE);
-            binding.songThumbnail.setVisibility(View.VISIBLE);
         }
 
         if (playingSongViewModel.getTrack() != null &&
@@ -100,12 +90,25 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         ((MainActivity)getActivity()).updateTrack();
     }
 
+    private void displayVideoThumbnail() {
+        if (playingSongViewModel.getTrack() != null &&
+                playingSongViewModel.getTrack().getHasVideo()) {
+            binding.songVideo.setVisibility(View.VISIBLE);
+            binding.songThumbnail.setVisibility(View.GONE);
+        } else {
+            binding.songVideo.setVisibility(View.GONE);
+            binding.songThumbnail.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void initViews() {
-        binding.apsSongName.setSelected(true);
-        binding.apsPlaylistNameTv.setSelected(true);
+        binding.songVideo.getHolder().addCallback(PlayingSongFragment.this);
+        displayVideoThumbnail();
 
         binding.apsSongName.setText(playingSongViewModel.getTrack().getName());
         binding.apsArtistName.setText(playingSongViewModel.getTrack().getUser().getLogin());
+        binding.apsSongName.setSelected(true);
+        binding.apsPlaylistNameTv.setSelected(true);
 
         if (playingSongViewModel.getPlaylist() != null)
             binding.apsPlaylistNameTv.setText(playingSongViewModel.getPlaylist().getName());
@@ -242,6 +245,21 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
                 .into(binding.songThumbnail);
 
         updateSeekBar();
+        displayVideoThumbnail();
     }
 
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        mMusicPlayer.setVidHolder(binding.songVideo.getHolder());
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        //Unused
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        mMusicPlayer.setVidHolder(null);
+    }
 }

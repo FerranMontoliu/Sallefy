@@ -97,6 +97,9 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     public void setVidHolder(SurfaceHolder vidHolder) {
         this.vidHolder = vidHolder;
+        if (vidHolder != null && mPrimaryPlayer != null && mPrimaryPlayer.getTrack().getHasVideo()) {
+            mPrimaryPlayer.setDisplay(vidHolder);
+        }
     }
 
     @Override
@@ -322,11 +325,9 @@ public class MusicPlayer implements MusicPlayerCallback {
             public void run() {
                 try {
                     player.reset();
-
-                    if (player.getTrack().getHasVideo()) {
+                    if (vidHolder != null && player.getTrack().getHasVideo()) {
                         player.setDisplay(vidHolder);
                     }
-
                     player.setDataSource(player.getTrack().getUrl());
                     player.prepare();
                 } catch (IOException e) {
