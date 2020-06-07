@@ -100,9 +100,15 @@ public class StatisticsFragment extends DaggerFragment implements IListAdapter {
     @Override
     public void onItemSelected(Object item) {
         if (item instanceof Track) {
-
+            StatisticsFragmentDirections.ActionStatisticsFragmentToPlayingSongFragment action =
+                    StatisticsFragmentDirections.actionStatisticsFragmentToPlayingSongFragment();
+            action.setTrack((Track) item);
+            Navigation.findNavController(binding.getRoot()).navigate(action);
         } else {
-
+            StatisticsFragmentDirections.ActionStatisticsFragmentToPlaylistFragment action =
+                    StatisticsFragmentDirections.actionStatisticsFragmentToPlaylistFragment();
+            action.setPlaylist((Playlist) item);
+            Navigation.findNavController(binding.getRoot()).navigate(action);
         }
     }
 }
