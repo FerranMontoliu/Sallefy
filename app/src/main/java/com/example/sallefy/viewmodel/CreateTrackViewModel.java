@@ -61,13 +61,15 @@ public class CreateTrackViewModel extends ViewModel {
     }
 
     public void uploadTrack(int genrePosition, CreateTrackCallback callback) {
+
         if (trackUri == null)
             return;
 
-        if (thumbnailUri != null)
+        if (thumbnailUri != null) {
             uploadTrackAndThumbnailFile(genrePosition, callback);
-        else
+        } else {
             uploadTrackFile(genrePosition, callback);
+        }
     }
 
     public LiveData<List<Genre>> getGenres() {
@@ -121,6 +123,8 @@ public class CreateTrackViewModel extends ViewModel {
                         track.setName(trackFileName);
                         if (thumbnailUrl != null)
                             track.setThumbnail(thumbnailUrl);
+
+
 
                         track.setUrl((String) resultData.get("url"));
                         ArrayList<Genre> genres = new ArrayList<>();
@@ -181,4 +185,8 @@ public class CreateTrackViewModel extends ViewModel {
                 })
                 .dispatch();
     }
+
+
+
+
 }

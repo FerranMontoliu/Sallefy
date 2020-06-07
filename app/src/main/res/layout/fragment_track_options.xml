@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/fto_thumbnail_iv"
+                android:id="@+id/song_thumbnail"
                 android:layout_width="@dimen/track_thumbnail_medium"
                 android:layout_height="@dimen/track_thumbnail_medium"
                 android:layout_marginTop="100dp"
@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fto_thumbnail_iv" />
+                app:layout_constraintTop_toBottomOf="@+id/song_thumbnail" />
 
             <TextView
                 android:id="@+id/fto_artist_name_tv"
