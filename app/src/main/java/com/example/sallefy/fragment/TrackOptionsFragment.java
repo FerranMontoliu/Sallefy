@@ -81,7 +81,7 @@ public class TrackOptionsFragment extends DaggerFragment {
         }
 
         binding.ftoDownloadRl.setOnClickListener(v -> {
-            trackOptionsViewModel.downloadTrackToggle();
+            checkForDownloadPermissions();
         });
 
         binding.ftoLikeRl.setOnClickListener(v ->  {
@@ -107,6 +107,16 @@ public class TrackOptionsFragment extends DaggerFragment {
         });
     }
 
+    private void checkForDownloadPermissions() {
+        int permissionWrite = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permissionRead = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (permissionWrite != PackageManager.PERMISSION_GRANTED || permissionRead != PackageManager.PERMISSION_GRANTED)
+            askForDownloadPermission();
+        else
+            trackOptionsViewModel.downloadTrackToggle();;
+    }
+
     private void checkForPermissions() {
         int permissionWrite = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int permissionRead = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -120,6 +130,11 @@ public class TrackOptionsFragment extends DaggerFragment {
     private void askForPermission() {
         ActivityCompat.requestPermissions(requireActivity(),
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+    }
+
+    private void askForDownloadPermission() {
+        ActivityCompat.requestPermissions(requireActivity(),
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
     }
 
     private void shareTrackLink() {
@@ -171,6 +186,18 @@ public class TrackOptionsFragment extends DaggerFragment {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission granted
                     shareTrackLink();
+                } else {
+                    // Permission denied
+                    Toast.makeText(requireContext(), R.string.error_external_permission, Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+            case 2: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission granted
+                    trackOptionsViewModel.downloadTrackToggle();
                 } else {
                     // Permission denied
                     Toast.makeText(requireContext(), R.string.error_external_permission, Toast.LENGTH_LONG).show();

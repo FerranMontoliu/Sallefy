@@ -3,8 +3,6 @@ package com.example.sallefy.network;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.example.sallefy.network.callback.DownloadCallback;
 
@@ -39,11 +37,10 @@ public class DownloadFileAsync extends AsyncTask<String, String, String> {
             URLConnection connection = url.openConnection();
             connection.connect();
             int lenghtOfFile = connection.getContentLength();
+
             InputStream input = new BufferedInputStream(url.openStream());
-            input.toString();
             String path = new File("").getAbsolutePath();
-            //File trackFile = new File(path + "data/", idTrack + ".mp3");
-            /*File trackFile = new File(Environment.getExternalStorageDirectory(), "/" + idTrack + ".mp3");
+            File trackFile = new File(Environment.getExternalStorageDirectory(), "/" + idTrack + ".mp3");
             OutputStream output = new FileOutputStream(trackFile);
             byte data[] = new byte[1024];
             long total = 0;
@@ -52,11 +49,11 @@ public class DownloadFileAsync extends AsyncTask<String, String, String> {
                 publishProgress(""+(int)((total*100)/lenghtOfFile));
                 output.write(data, 0, count);
             }
-
             output.flush();
-            output.close();*/
+            output.close();
             input.close();
-            callback.onDownloaded(input.toString());
+            callback.onDownloaded();
+
         } catch (Exception e) {
             callback.onFailure(new Throwable(e));
         }
@@ -67,4 +64,5 @@ public class DownloadFileAsync extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String unused) {}
+
 }

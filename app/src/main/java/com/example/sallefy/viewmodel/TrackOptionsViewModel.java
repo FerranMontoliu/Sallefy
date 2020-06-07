@@ -1,7 +1,6 @@
 package com.example.sallefy.viewmodel;
 
-import android.content.Context;
-import android.widget.Toast;
+import android.os.Environment;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -10,16 +9,12 @@ import androidx.lifecycle.ViewModel;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.Track_;
 import com.example.sallefy.network.DownloadFileAsync;
-import com.example.sallefy.network.DownloadManager;
 import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.network.callback.DownloadCallback;
 import com.example.sallefy.network.callback.LikeTrackCallback;
 import com.example.sallefy.objectbox.ObjectBox;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -70,12 +65,10 @@ public class TrackOptionsViewModel extends ViewModel{
 
     public void downloadTrackToggle() {
         if (!mIsDownloaded.getValue()) {
-            //TODO: Download track URL
             DownloadFileAsync downloadFileAsync = new DownloadFileAsync(new DownloadCallback(){
                 @Override
-                public void onDownloaded(String data) {
+                public void onDownloaded() {
                     mIsDownloaded.postValue(!mIsDownloaded.getValue());
-                    track.setData(data);
                     boxStore.boxFor(Track.class).put(track);
                 }
 
@@ -85,6 +78,10 @@ public class TrackOptionsViewModel extends ViewModel{
             downloadFileAsync.execute(track.getUrl());
         } else {
             boxStore.boxFor(Track.class).remove(track.getId());
+            File file = new File(Environment.getExternalStorageDirectory(), "/" + track.getId() + ".mp3");
+            if (file.exists()){
+                file.delete();
+            }
             mIsDownloaded.postValue(!mIsDownloaded.getValue());
         }
     }
