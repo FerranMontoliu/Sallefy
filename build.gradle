@@ -4,13 +4,13 @@ buildscript {
     repositories {
         google()
         jcenter()
-
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath "io.objectbox:objectbox-gradle-plugin:2.5.1"
         classpath 'com.android.tools.build:gradle:4.0.0'
-
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.0-beta01"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
 
     }
 }
@@ -19,6 +19,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
 
     }
 }

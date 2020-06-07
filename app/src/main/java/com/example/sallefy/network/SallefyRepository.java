@@ -12,6 +12,7 @@ import com.example.sallefy.model.PasswordChange;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Search;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.model.TrackStatistics;
 import com.example.sallefy.model.User;
 import com.example.sallefy.model.UserLogin;
 import com.example.sallefy.model.UserRegister;
@@ -25,6 +26,7 @@ import com.example.sallefy.network.callback.GenreCallback;
 import com.example.sallefy.network.callback.GetItemsCallback;
 import com.example.sallefy.network.callback.GetPlaylistCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
+import com.example.sallefy.network.callback.GetStatisticsCallback;
 import com.example.sallefy.network.callback.GetTrackCallback;
 import com.example.sallefy.network.callback.GetTracksCallback;
 import com.example.sallefy.network.callback.GetUserCallback;
@@ -679,6 +681,25 @@ public class SallefyRepository {
 
             @Override
             public void onFailure(Call<List<Track>> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
+    //TRACK STATISTICS
+    public synchronized void getTrackStatistics(Track track, final GetStatisticsCallback callback) {
+        service.getTrackStatistics(track.getId()).enqueue(new Callback<List<TrackStatistics>>() {
+            @Override
+            public void onResponse(Call<List<TrackStatistics>> call, Response<List<TrackStatistics>> response) {
+                if (response.isSuccessful()) {
+                    callback.onStatisticsReceived(response.body());
+                } else {
+                    callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TrackStatistics>> call, Throwable t) {
                 callback.onFailure(t);
             }
         });
