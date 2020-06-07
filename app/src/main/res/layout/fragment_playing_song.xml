@@ -38,16 +38,31 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="20dp" />
 
-    <ImageView
-        android:id="@+id/song_thumbnail"
-        android:layout_width="@dimen/track_thumbnail_big"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/thumbnail_video"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/track_thumbnail_big"
         android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_audiotrack_60dp" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <SurfaceView
+            android:id="@+id/song_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/song_thumbnail"
+            android:layout_width="@dimen/track_thumbnail_big"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_audiotrack_60dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
         android:id="@+id/aps_play_pause_ib"
@@ -71,7 +86,7 @@
         android:text="@string/song_title"
         android:textAppearance="@style/SongTitleTheme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/song_thumbnail" />
+        app:layout_constraintTop_toBottomOf="@+id/thumbnail_video" />
 
     <TextView
         android:id="@+id/aps_artist_name"

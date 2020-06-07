@@ -31,7 +31,6 @@ public class CreateTrackViewModel extends ViewModel {
 
     public static final int PICK_IMAGE = 0;
     public static final int PICK_FILE = 1;
-    public static final int PICK_VIDEO = 2;
 
     private MutableLiveData<List<Genre>> mGenres;
     private String trackFileName;
@@ -39,8 +38,6 @@ public class CreateTrackViewModel extends ViewModel {
     private String thumbnailFileName;
     private Uri thumbnailUri;
     private String thumbnailUrl;
-    private String videoFileName;
-    private Uri videoUri;
 
 
     @Inject
@@ -64,17 +61,14 @@ public class CreateTrackViewModel extends ViewModel {
     }
 
     public void uploadTrack(int genrePosition, CreateTrackCallback callback) {
-        if (videoUri != null && thumbnailUri == null) {
-            uploadVideoFile(genrePosition, callback);
 
-        } else if (videoUri != null) {
-            uploadVideoAndThumbnailFile(genrePosition, callback);
+        if (trackUri == null)
+            return;
 
-        } else if (trackUri != null && thumbnailUri == null) {
-            uploadTrackFile(genrePosition, callback);
-
-        } else if (trackUri != null) {
+        if (thumbnailUri != null) {
             uploadTrackAndThumbnailFile(genrePosition, callback);
+        } else {
+            uploadTrackFile(genrePosition, callback);
         }
     }
 
@@ -193,98 +187,6 @@ public class CreateTrackViewModel extends ViewModel {
     }
 
 
-    private void uploadVideoFile(int genrePosition, CreateTrackCallback callback) {
-        Map<String, Object> options = new HashMap<>();
-        options.put("public_id", videoFileName);
-        options.put("folder", "sallefy/songs");
-        options.put("resource_type", "video");
 
-        MediaManager.get().upload(videoUri)
-                .unsigned(videoFileName)
-                .options(options)
-                .callback(new UploadCallback() {
-                    @Override
-                    public void onStart(String requestId) {
 
-                    }
-
-                    @Override
-                    public void onProgress(String requestId, long bytes, long totalBytes) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(String requestId, Map resultData) {
-                        NewTrack track = new NewTrack();
-                        track.setName(trackFileName);
-                        if (thumbnailUrl != null)
-                            track.setThumbnail(thumbnailUrl);
-
-                        track.setUrl((String) resultData.get("url"));
-                        ArrayList<Genre> genres = new ArrayList<>();
-                        genres.add(mGenres.getValue().get(genrePosition));
-                        track.setGenres(genres);
-
-                        sallefyRepository.createTrack(track, callback);
-                    }
-
-                    @Override
-                    public void onError(String requestId, ErrorInfo error) {
-
-                    }
-
-                    @Override
-                    public void onReschedule(String requestId, ErrorInfo error) {
-
-                    }
-                })
-                .dispatch();
-    }
-
-    private void uploadVideoAndThumbnailFile(int genrePosition, CreateTrackCallback callback) {
-        Map<String, Object> options = new HashMap<>();
-        options.put("public_id", thumbnailFileName);
-        options.put("folder", "sallefy/thumbnails");
-        options.put("resource_type", "image");
-
-        MediaManager.get().upload(thumbnailUri)
-                .unsigned(thumbnailFileName)
-                .options(options)
-                .callback(new UploadCallback() {
-                    @Override
-                    public void onStart(String requestId) {
-
-                    }
-
-                    @Override
-                    public void onProgress(String requestId, long bytes, long totalBytes) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(String requestId, Map resultData) {
-                        thumbnailUrl = (String) resultData.get("url");
-                        uploadVideoFile(genrePosition, callback);
-                    }
-
-                    @Override
-                    public void onError(String requestId, ErrorInfo error) {
-
-                    }
-
-                    @Override
-                    public void onReschedule(String requestId, ErrorInfo error) {
-
-                    }
-                })
-                .dispatch();
-    }
-
-    public void setVideoFileName(String videoFileName) {
-        this.videoFileName = videoFileName;
-    }
-
-    public void setVideoUri(Uri videoUri) {
-        this.videoUri = videoUri;
-    }
 }

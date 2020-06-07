@@ -40,7 +40,6 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
         ObjectBox.init(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-
         mMusicPlayer = MusicPlayer.getInstance();
         mMusicPlayer.setPlayingSongCallback(MainActivity.this);
         mDisplayPlaying = mMusicPlayer.isReady();

@@ -1,6 +1,8 @@
 package com.example.sallefy.utils;
 
 import android.media.MediaPlayer;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 import com.example.sallefy.callback.MusicPlayerCallback;
 import com.example.sallefy.callback.PlayingSongCallback;
@@ -17,6 +19,8 @@ import java.util.Random;
 public class MusicPlayer implements MusicPlayerCallback {
 
     private static MusicPlayer musicPlayer = null;
+
+    private SurfaceHolder vidHolder;
 
     private static final String PLAY_VIEW = "paused";
     private static final String PAUSE_VIEW = "playing";
@@ -90,6 +94,13 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     public void setPlayingSongCallback(PlayingSongCallback playingSongCallback) {
         mPlayingSongCallback = playingSongCallback;
+    }
+
+    public void setVidHolder(SurfaceHolder vidHolder) {
+        this.vidHolder = vidHolder;
+        if (vidHolder != null && mPrimaryPlayer != null && mPrimaryPlayer.getTrack().getHasVideo()) {
+            mPrimaryPlayer.setDisplay(vidHolder);
+        }
     }
 
     @Override
@@ -315,6 +326,9 @@ public class MusicPlayer implements MusicPlayerCallback {
             public void run() {
                 try {
                     player.reset();
+                    if (vidHolder != null && player.getTrack().getHasVideo()) {
+                        player.setDisplay(vidHolder);
+                    }
                     player.setDataSource(player.getTrack().getUrl());
                     player.prepare();
                 } catch (IOException e) {
@@ -418,4 +432,6 @@ public class MusicPlayer implements MusicPlayerCallback {
             return false;
         }
     }
+
+
 }
