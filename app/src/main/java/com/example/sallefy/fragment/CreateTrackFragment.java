@@ -79,7 +79,7 @@ public class CreateTrackFragment extends DaggerFragment {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
             intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"video/*"});
-            startActivityForResult(intent, CreateTrackViewModel.PICK_FILE);
+            startActivityForResult(intent, CreateTrackViewModel.PICK_VIDEO);
         });
 
         binding.cancelBtn.setOnClickListener(v -> {

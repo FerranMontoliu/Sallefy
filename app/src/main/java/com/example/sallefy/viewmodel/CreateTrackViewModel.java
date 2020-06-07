@@ -196,7 +196,7 @@ public class CreateTrackViewModel extends ViewModel {
     private void uploadVideoFile(int genrePosition, CreateTrackCallback callback) {
         Map<String, Object> options = new HashMap<>();
         options.put("public_id", videoFileName);
-        options.put("folder", "sallefy/songs");
+        options.put("folder", "sallefy/videos");
         options.put("resource_type", "video");
 
         MediaManager.get().upload(videoUri)

@@ -132,7 +132,7 @@
         android:hint="@string/no_file_selected"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/upload_track_btn" />
 
     <Button
         android:id="@+id/upload_video_btn"
@@ -142,7 +142,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/upload_video_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/track_file_tv"
+        app:layout_constraintTop_toBottomOf="@+id/video_file_tv"
         style="@style/GreenButton"/>
 
     <LinearLayout
@@ -151,7 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/upload_track_btn">
+        app:layout_constraintTop_toBottomOf="@+id/upload_video_btn">
 
         <Button
             android:id="@+id/cancel_btn"

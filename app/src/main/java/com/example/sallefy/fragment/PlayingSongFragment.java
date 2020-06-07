@@ -52,11 +52,22 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
         mMusicPlayer = MusicPlayer.getInstance();
         mMusicPlayer.setPlayingSongCallback(PlayingSongFragment.this);
+        mMusicPlayer.setVidHolder(binding.songVideo.getHolder());
+
         playingSongViewModel = new ViewModelProvider(this, viewModelFactory).get(PlayingSongViewModel.class);
 
         if (getArguments() != null) {
             playingSongViewModel.setTrack(PlayingSongFragmentArgs.fromBundle(getArguments()).getTrack());
             playingSongViewModel.setPlaylist(PlayingSongFragmentArgs.fromBundle(getArguments()).getPlaylist());
+        }
+
+        if (playingSongViewModel.getTrack() != null &&
+                playingSongViewModel.getTrack().getHasVideo()) {
+            binding.songVideo.setVisibility(View.VISIBLE);
+            binding.songThumbnail.setVisibility(View.GONE);
+        } else {
+            binding.songVideo.setVisibility(View.GONE);
+            binding.songThumbnail.setVisibility(View.VISIBLE);
         }
 
         if (playingSongViewModel.getTrack() != null &&
