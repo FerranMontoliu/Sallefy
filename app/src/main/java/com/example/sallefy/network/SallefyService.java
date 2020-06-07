@@ -135,9 +135,8 @@ public interface SallefyService {
 
 
     // PLAYBACK ENDPOINT
-    @GET("playbacks")
-    Call<List<Track>> getUserTopTracks(@Query("user") String username);
-
+    @GET("users/{login}/tracks?popular=true&size=5")
+    Call<List<Track>> getUserTopTracks(@Path("login") String username);
 
     //STATISTICS ENDPOINT
     @GET("playlists?popular=true&size=10")

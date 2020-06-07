@@ -76,7 +76,7 @@ public class ProfileTopTracksFragment extends DaggerFragment implements Likeable
                 mRecyclerView.setVisibility(View.VISIBLE);
                 binding.tracksEmptyTv.setVisibility(View.GONE);
             }
-            //adapter.setTracks(tracks);
+            adapter.setTracks(tracks);
         });
     }
 
