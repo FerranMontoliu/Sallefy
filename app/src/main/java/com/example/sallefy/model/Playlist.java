@@ -129,7 +129,7 @@ public class Playlist implements Serializable {
         if (getClass() != obj.getClass())
             return false;
 
-        return ((Playlist) obj).getId().equals(this.id);
+        return ((Playlist) obj).getId().equals(this.id) && ((Playlist) obj).getName().equals(this.name);
     }
 
     public boolean isLiked() {

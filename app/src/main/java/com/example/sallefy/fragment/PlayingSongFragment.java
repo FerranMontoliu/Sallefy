@@ -51,11 +51,19 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         super.onViewCreated(view, savedInstanceState);
 
         mMusicPlayer = MusicPlayer.getInstance();
+        mMusicPlayer.setPlayingSongCallback(PlayingSongFragment.this);
         playingSongViewModel = new ViewModelProvider(this, viewModelFactory).get(PlayingSongViewModel.class);
 
         if (getArguments() != null) {
             playingSongViewModel.setTrack(PlayingSongFragmentArgs.fromBundle(getArguments()).getTrack());
             playingSongViewModel.setPlaylist(PlayingSongFragmentArgs.fromBundle(getArguments()).getPlaylist());
+        }
+
+        if (playingSongViewModel.getTrack() != null &&
+                playingSongViewModel.getPlaylist() != null &&
+                playingSongViewModel.getPlaylist() != mMusicPlayer.getCurrentPlaylist() &&
+                playingSongViewModel.getTrack() != mMusicPlayer.getCurrentTrack()) {
+            mMusicPlayer.onNewTrackClicked(playingSongViewModel.getTrack(), playingSongViewModel.getPlaylist());
         }
 
         hideBottom();
@@ -69,6 +77,14 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         com.example.sallefy.databinding.ActivityMainBinding activityBinding = ((MainActivity) requireActivity()).getBinding();
         activityBinding.bottomNavigation.setVisibility(View.GONE);
         activityBinding.mainPlayingSong.setVisibility(View.GONE);
+    }
+
+    private void showBottom() {
+        com.example.sallefy.databinding.ActivityMainBinding activityBinding = ((MainActivity) requireActivity()).getBinding();
+        activityBinding.bottomNavigation.setVisibility(View.VISIBLE);
+        activityBinding.mainPlayingSong.setVisibility(View.VISIBLE);
+        mMusicPlayer.setPlayingSongCallback((MainActivity)getActivity());
+        ((MainActivity)getActivity()).updateTrack();
     }
 
     private void initViews() {
@@ -99,6 +115,7 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         });
 
         binding.backSong.setOnClickListener(v -> {
+            showBottom();
             Navigation.findNavController(v).popBackStack();
         });
 
@@ -199,7 +216,9 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
     public void onChangedTrack(Track track, Playlist playlist) {
         binding.apsSongName.setText(track.getName());
         binding.apsArtistName.setText(track.getUser().getLogin());
-        binding.apsPlaylistNameTv.setText(playlist.getName());
+        if (playlist != null) {
+            binding.apsPlaylistNameTv.setText(playlist.getName());
+        }
 
         //TODO: CHECK LIKED
         /*

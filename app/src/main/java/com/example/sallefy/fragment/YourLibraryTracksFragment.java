@@ -19,6 +19,7 @@ import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.adapter.callback.LikeableListAdapter;
 import com.example.sallefy.databinding.FragmentYourLibraryTracksBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.YourLibraryTracksViewModel;
@@ -92,6 +93,10 @@ public class YourLibraryTracksFragment extends DaggerFragment implements Likeabl
         YourLibraryFragmentDirections.ActionYourLibraryFragmentToPlayingSongFragment action =
                 YourLibraryFragmentDirections.actionYourLibraryFragmentToPlayingSongFragment();
         action.setTrack((Track) item);
+        Playlist playlist = new Playlist();
+        playlist.setName("My tracks");
+        playlist.setId(Integer.MAX_VALUE);
+        action.setPlaylist(playlist);
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action);
     }
 

@@ -371,7 +371,12 @@ public class MusicPlayer implements MusicPlayerCallback {
     }
 
     public Track getCurrentTrack() {
-        return mPrimaryPlayer.getTrack();
+        if (mPrimaryPlayer != null) {
+            return mPrimaryPlayer.getTrack();
+
+        } else {
+            return null;
+        }
     }
 
     public int getDuration() {
@@ -382,7 +387,11 @@ public class MusicPlayer implements MusicPlayerCallback {
     }
 
     public Playlist getCurrentPlaylist() {
-        return mPrimaryPlayer.getPlaylist();
+        if (mPrimaryPlayer != null) {
+            return mPrimaryPlayer.getPlaylist();
+        } else {
+            return null;
+        }
     }
 
     public void setShuffle(boolean shuffle) {
