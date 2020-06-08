@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.sallefy.R;
 import com.example.sallefy.callback.MusicPlayerCallback;
 import com.example.sallefy.callback.PlayingSongCallback;
+import com.example.sallefy.fragment.PlayingSongFragment;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
@@ -135,7 +136,7 @@ public class MusicPlayer implements MusicPlayerCallback {
                 mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
 
             } else if(!mPrimaryPlayer.isPreparing()) {
-                preparePlayer(mPrimaryPlayer);
+                preparePlayer(mPrimaryPlayer, mPlayingSongCallback);
             }
             playTrack();
             prepareNextPlayer();
@@ -151,19 +152,32 @@ public class MusicPlayer implements MusicPlayerCallback {
             pauseTrack();
 
         if (!mPreviousPlayers.isEmpty()) {
+            //Current song to next song
             mNextPlayer = mPrimaryPlayer;
             mNextPlayer.setWaiting(false);
+            mNextPlayer.reset();
+
+            if (mNextPlayer.getTrack().hasVideo()) {
+                mNextPlayer.setPrepared(false);
+            }
+
             mNextPlayer.setOnPreparedListener(mDefaultListener);
 
+            //Previous song to current song
             mPrimaryPlayer = mPreviousPlayers.pop();
             mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
             mCurrentPlaylistTrack = mPrimaryPlayer.getmCurrentPlaylistTrack() != -1 ? mPrimaryPlayer.getmCurrentPlaylistTrack() : mCurrentPlaylistTrack;
 
-            mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
-            mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
-            if (mPrimaryPlayer.isPrepared())
+            if (mPrimaryPlayer.isPrepared()) {
                 mPrimaryPlayer.seekTo(0);
+                mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
+                mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
 
+            } else if(!mPrimaryPlayer.isPreparing()) {
+                preparePlayer(mPrimaryPlayer, mPlayingSongCallback);
+            }
+
+            //Play
             playTrack();
 
         } else {
@@ -205,7 +219,7 @@ public class MusicPlayer implements MusicPlayerCallback {
         mPrimaryPlayer = new CustomMediaPlayer(track, mPlaylist, mCurrentPlaylistTrack);
         mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
         mPrimaryPlayer.setPrepared(false);
-        preparePlayer(mPrimaryPlayer);
+        preparePlayer(mPrimaryPlayer, mPlayingSongCallback);
     }
 
 
@@ -265,7 +279,7 @@ public class MusicPlayer implements MusicPlayerCallback {
             mPrimaryPlayer = new CustomMediaPlayer(track, mPlaylist, mCurrentPlaylistTrack);
             mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
             mPrimaryPlayer.setPrepared(false);
-            preparePlayer(mPrimaryPlayer);
+            preparePlayer(mPrimaryPlayer, mPlayingSongCallback);
             nextIsFine = true;
         }
     }
@@ -323,10 +337,10 @@ public class MusicPlayer implements MusicPlayerCallback {
         mNextPlayer = new CustomMediaPlayer(track, playlist, trackIndex);
         mNextPlayer.setOnPreparedListener(mDefaultListener);
         mNextPlayer.setPrepared(false);
-        preparePlayer(mNextPlayer);
+        preparePlayer(mNextPlayer, mPlayingSongCallback);
     }
 
-    private void preparePlayer(final CustomMediaPlayer player) {
+    private void preparePlayer(final CustomMediaPlayer player, PlayingSongCallback callback) {
 
         Thread connection = new Thread(new Runnable() {
             @Override
@@ -335,6 +349,11 @@ public class MusicPlayer implements MusicPlayerCallback {
                     if (player == mPrimaryPlayer || !player.getTrack().hasVideo()) {
                         player.setPreparing(true);
                         player.reset();
+
+                        if (player == mPrimaryPlayer) {
+
+                            callback.onChangedTrack(player.getTrack(), player.getPlaylist());
+                        }
 
                         //Wait for playing song to set the holder
                         if (vidHolder != null && player.getTrack().hasVideo()) {

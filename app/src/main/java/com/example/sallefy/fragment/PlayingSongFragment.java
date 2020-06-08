@@ -25,6 +25,8 @@ import com.example.sallefy.model.Track;
 import com.example.sallefy.utils.MusicPlayer;
 import com.example.sallefy.viewmodel.PlayingSongViewModel;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
@@ -228,24 +230,32 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
     @Override
     public void onChangedTrack(Track track, Playlist playlist) {
+        Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-        binding.apsSongName.setText(track.getName());
-        binding.apsArtistName.setText(track.getUser().getLogin());
-        if (playlist != null) {
-            binding.apsPlaylistNameTv.setText(playlist.getName());
-        }
+                if (playingSongViewModel.getTrack() != track || playingSongViewModel.getPlaylist() != playlist) {
+                    binding.apsSongName.setText(track.getName());
+                    binding.apsArtistName.setText(track.getUser().getLogin());
+                    if (playlist != null) {
+                        binding.apsPlaylistNameTv.setText(playlist.getName());
+                    }
 
-        playingSongViewModel.setTrack(track);
-        displayVideoThumbnail();
-        playingSongViewModel.isLiked();
+                    playingSongViewModel.setTrack(track);
+                    playingSongViewModel.setPlaylist(playlist);
+                    displayVideoThumbnail();
+                    playingSongViewModel.isLiked();
 
-        Glide.with(requireContext())
-                .asBitmap()
-                .placeholder(R.drawable.ic_audiotrack_60dp)
-                .load(track.getThumbnail())
-                .into(binding.songThumbnail);
+                    Glide.with(requireContext())
+                            .asBitmap()
+                            .placeholder(R.drawable.ic_audiotrack_60dp)
+                            .load(track.getThumbnail())
+                            .into(binding.songThumbnail);
 
-        updateSeekBar();
+                    updateSeekBar();
+                }
+            }
+        });
     }
 
     @Override
