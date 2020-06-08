@@ -14,4 +14,6 @@
     <color name="darker_background">#171717</color>
     <color name="border_light_gray">#a9a9a9</color>
     <color name="greenPrimary">#377837</color>
+    <color name="mtrl_btn_stroke_color_selector">#CCCCCC</color>
+
 </resources>
