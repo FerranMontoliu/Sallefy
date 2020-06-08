@@ -197,6 +197,8 @@
     <string name="liked">Liked</string>
     <string name="add_to_playlist">Add to a playlist</string>
     <string name="track_statistics">Cool track statistics</string>
+    <string name="download_started">Download has started</string>
+    <string name="added_queue">Track added to queue</string>
 
 
     <!-- SHARE -->
