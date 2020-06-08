@@ -40,6 +40,7 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
     private FragmentPlayingSongBinding binding;
     private PlayingSongViewModel playingSongViewModel;
     private MusicPlayer mMusicPlayer;
+    private boolean updateSeekBar = false;
 
 
     @Override
@@ -157,7 +158,10 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         binding.apsProgressSb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mMusicPlayer.onProgressChanged(progress);
+                if (updateSeekBar) {
+                    mMusicPlayer.onProgressChanged(progress);
+                }
+
             }
 
             @Override
@@ -232,33 +236,27 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
     @Override
     public void onChangedTrack(Track track, Playlist playlist) {
-        Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                if (playingSongViewModel.getTrack() != track || playingSongViewModel.getPlaylist() != playlist) {
-                    binding.apsSongName.setText(track.getName());
-                    binding.apsSongName.setSelected(true);
-                    binding.apsArtistName.setText(track.getUser().getLogin());
-                    if (playlist != null) {
-                        binding.apsPlaylistNameTv.setText(playlist.getName());
-                    }
-                    binding.apsArtistName.setSelected(true);
-                    playingSongViewModel.setTrack(track);
-                    playingSongViewModel.setPlaylist(playlist);
-                    displayVideoThumbnail();
-                    playingSongViewModel.isLiked();
-
-                    Glide.with(requireContext())
-                            .asBitmap()
-                            .placeholder(R.drawable.ic_audiotrack_60dp)
-                            .load(track.getThumbnail())
-                            .into(binding.songThumbnail);
-
-                    updateSeekBar();
-                }
+        if (playingSongViewModel.getTrack() != track || playingSongViewModel.getPlaylist() != playlist) {
+            binding.apsSongName.setText(track.getName());
+            binding.apsSongName.setSelected(true);
+            binding.apsArtistName.setText(track.getUser().getLogin());
+            if (playlist != null) {
+                binding.apsPlaylistNameTv.setText(playlist.getName());
             }
-        });
+            binding.apsArtistName.setSelected(true);
+            playingSongViewModel.setTrack(track);
+            playingSongViewModel.setPlaylist(playlist);
+            displayVideoThumbnail();
+            playingSongViewModel.isLiked();
+
+            Glide.with(requireContext())
+                    .asBitmap()
+                    .placeholder(R.drawable.ic_audiotrack_60dp)
+                    .load(track.getThumbnail())
+                    .into(binding.songThumbnail);
+
+            updateSeekBar();
+        }
     }
 
     @Override
@@ -275,4 +273,17 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
     public void surfaceDestroyed(SurfaceHolder holder) {
         mMusicPlayer.updateVidHolder(null);
     }
+
+    @Override
+    public void onResume() {
+        updateSeekBar = true;
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        updateSeekBar = false;
+        super.onPause();
+    }
+
 }
