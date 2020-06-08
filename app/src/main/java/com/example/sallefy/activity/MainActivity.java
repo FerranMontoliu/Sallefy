@@ -55,21 +55,11 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
 
         binding.mainPlayingSong.setOnClickListener(v -> {
-            //TODO: Mirar si es pot canviar per una navigation
-
             Bundle bundle = new Bundle();
             bundle.putSerializable("track", mMusicPlayer.getCurrentTrack());
             bundle.putSerializable("playlist", mMusicPlayer.getCurrentPlaylist());
 
             Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.playingSongFragment, bundle);
-
-            /*PlayingSongFragment playingSongFragment = new PlayingSongFragment();
-            playingSongFragment.setArguments(bundle);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.nav_host_fragment, playingSongFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();*/
-
         });
 
         // Open shared link

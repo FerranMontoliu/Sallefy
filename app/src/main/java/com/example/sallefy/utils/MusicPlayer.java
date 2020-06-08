@@ -289,7 +289,7 @@ public class MusicPlayer implements MusicPlayerCallback {
             mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
             mPrimaryPlayer.setPrepared(false);
             preparePlayer(mPrimaryPlayer, mPlayingSongCallback);
-            nextIsFine = true;
+            //nextIsFine = true;
         }
     }
 
@@ -362,26 +362,9 @@ public class MusicPlayer implements MusicPlayerCallback {
                         player.setPreparing(true);
                         player.reset();
 
-                        /*if (player == mPrimaryPlayer) {
-
-                            callback.onChangedTrack(player.getTrack(), player.getPlaylist());
-                        }*/
-
-                        //Wait for playing song to set the holder
-                        if (vidHolder != null && player.getTrack().hasVideo()) {
+                        if (player.getTrack().hasVideo()) {
                             player.setDisplay(vidHolder);
 
-                        } else if (player.getTrack().hasVideo()) {
-                            synchronized (this) {
-                                long timeout = System.currentTimeMillis();
-                                /*while (vidHolder == null) {
-                                    if (System.currentTimeMillis() - timeout > 10000)
-                                        break;
-                                }*/
-                                if (vidHolder != null) {
-                                    player.setDisplay(vidHolder);
-                                }
-                            }
                         }
 
                         player.setDataSource(player.getTrack().getUrl());

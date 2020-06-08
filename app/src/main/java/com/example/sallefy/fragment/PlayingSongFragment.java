@@ -109,10 +109,12 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         binding.apsSongName.setText(playingSongViewModel.getTrack().getName());
         binding.apsArtistName.setText(playingSongViewModel.getTrack().getUser().getLogin());
         binding.apsSongName.setSelected(true);
-        binding.apsPlaylistNameTv.setSelected(true);
+        binding.apsArtistName.setSelected(true);
 
-        if (playingSongViewModel.getPlaylist() != null)
+        if (playingSongViewModel.getPlaylist() != null) {
             binding.apsPlaylistNameTv.setText(playingSongViewModel.getPlaylist().getName());
+            binding.apsPlaylistNameTv.setSelected(true);
+        }
 
         Glide.with(requireContext())
                 .asBitmap()
