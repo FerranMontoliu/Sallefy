@@ -19,6 +19,7 @@ import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.adapter.callback.LikeableListAdapter;
 import com.example.sallefy.databinding.FragmentYourLibraryTracksBinding;
 import com.example.sallefy.factory.ViewModelFactory;
+import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.YourLibraryTracksViewModel;
@@ -40,6 +41,8 @@ public class YourLibraryTracksFragment extends DaggerFragment implements Likeabl
     private RecyclerView mRecyclerView;
     private OwnTrackListAdapter adapter;
 
+    private Playlist playlist;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,6 +59,10 @@ public class YourLibraryTracksFragment extends DaggerFragment implements Likeabl
         initViews();
 
         subscribeObservers();
+
+        playlist = new Playlist();
+        playlist.setName("My tracks");
+        playlist.setId(Integer.MAX_VALUE);
     }
 
     private void initViews() {
@@ -82,6 +89,7 @@ public class YourLibraryTracksFragment extends DaggerFragment implements Likeabl
             if (tracks != null && tracks.size() > 0) {
                 mRecyclerView.setVisibility(View.VISIBLE);
                 binding.tracksEmptyTv.setVisibility(View.GONE);
+                playlist.setTracks(tracks);
             }
             adapter.setTracks(tracks);
         });
@@ -92,6 +100,7 @@ public class YourLibraryTracksFragment extends DaggerFragment implements Likeabl
         YourLibraryFragmentDirections.ActionYourLibraryFragmentToPlayingSongFragment action =
                 YourLibraryFragmentDirections.actionYourLibraryFragmentToPlayingSongFragment();
         action.setTrack((Track) item);
+        action.setPlaylist(playlist);
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action);
     }
 

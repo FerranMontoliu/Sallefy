@@ -1,12 +1,18 @@
 package com.example.sallefy.utils;
 
 import android.media.MediaPlayer;
+import android.os.Environment;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 import com.example.sallefy.callback.MusicPlayerCallback;
 import com.example.sallefy.callback.PlayingSongCallback;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.model.Track_;
+import com.example.sallefy.objectbox.ObjectBox;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -16,6 +22,8 @@ import java.util.Random;
 public class MusicPlayer implements MusicPlayerCallback {
 
     private static MusicPlayer musicPlayer = null;
+
+    private SurfaceHolder vidHolder;
 
     private static final String PLAY_VIEW = "paused";
     private static final String PAUSE_VIEW = "playing";
@@ -89,6 +97,13 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     public void setPlayingSongCallback(PlayingSongCallback playingSongCallback) {
         mPlayingSongCallback = playingSongCallback;
+    }
+
+    public void setVidHolder(SurfaceHolder vidHolder) {
+        this.vidHolder = vidHolder;
+        if (vidHolder != null && mPrimaryPlayer != null && mPrimaryPlayer.getTrack().getHasVideo()) {
+            mPrimaryPlayer.setDisplay(vidHolder);
+        }
     }
 
     @Override
@@ -314,7 +329,21 @@ public class MusicPlayer implements MusicPlayerCallback {
             public void run() {
                 try {
                     player.reset();
-                    player.setDataSource(player.getTrack().getUrl());
+                    if (vidHolder != null && player.getTrack().getHasVideo()) {
+                        player.setDisplay(vidHolder);
+                    }
+                    if (ObjectBox.getBoxStore().boxFor(Track.class).query().equal(Track_.id, player.getTrack().getId()).build().count() != 0) {
+                        String[] splitUrl = player.getTrack().getUrl().split("/");
+                        String path = Environment.getExternalStorageDirectory() + "/" + splitUrl[splitUrl.length - 1];
+                        File file = new File(path);
+                        if (file.exists()) {
+                            player.setDataSource(path);
+                        } else {
+                            player.setDataSource(player.getTrack().getUrl());
+                        }
+                    } else {
+                        player.setDataSource(player.getTrack().getUrl());
+                    }
                     player.prepare();
                 } catch (IOException e) {
                     mPlayingSongCallback.onErrorPreparingMediaPlayer();
@@ -371,7 +400,12 @@ public class MusicPlayer implements MusicPlayerCallback {
     }
 
     public Track getCurrentTrack() {
-        return mPrimaryPlayer.getTrack();
+        if (mPrimaryPlayer != null) {
+            return mPrimaryPlayer.getTrack();
+
+        } else {
+            return null;
+        }
     }
 
     public int getDuration() {
@@ -382,7 +416,11 @@ public class MusicPlayer implements MusicPlayerCallback {
     }
 
     public Playlist getCurrentPlaylist() {
-        return mPrimaryPlayer.getPlaylist();
+        if (mPrimaryPlayer != null) {
+            return mPrimaryPlayer.getPlaylist();
+        } else {
+            return null;
+        }
     }
 
     public void setShuffle(boolean shuffle) {
@@ -408,4 +446,6 @@ public class MusicPlayer implements MusicPlayerCallback {
             return false;
         }
     }
+
+
 }

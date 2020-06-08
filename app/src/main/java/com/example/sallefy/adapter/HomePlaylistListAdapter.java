@@ -48,12 +48,12 @@ public class HomePlaylistListAdapter extends RecyclerView.Adapter<HomePlaylistLi
             if (items.get(position).getThumbnail() != null) {
                 Glide.with(context)
                         .asBitmap()
-                        .placeholder(R.drawable.ic_audiotrack_60dp)
+                        .placeholder(R.drawable.ic_library_music)
                         .load(items.get(position).getThumbnail())
                         .into(holder.imgView);
             } else {
                 Glide.with(context)
-                        .load(R.drawable.ic_audiotrack_60dp)
+                        .load(R.drawable.ic_library_music)
                         .into(holder.imgView);
             }
         }

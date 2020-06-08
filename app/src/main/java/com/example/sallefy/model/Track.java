@@ -44,6 +44,8 @@ public class Track implements Serializable {
     @SerializedName("url")
     private String url;
 
+    private boolean hasVideo = false;
+
     private boolean selected = false;
 
     private boolean liked;
@@ -142,5 +144,13 @@ public class Track implements Serializable {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean getHasVideo() {
+        return hasVideo;
+    }
+
+    public void setHasVideo(boolean hasVideo) {
+        this.hasVideo = hasVideo;
     }
 }
