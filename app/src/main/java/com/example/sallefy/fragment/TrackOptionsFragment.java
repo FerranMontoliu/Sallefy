@@ -82,6 +82,7 @@ public class TrackOptionsFragment extends DaggerFragment {
         }
 
         binding.ftoDownloadRl.setOnClickListener(v -> {
+            Toast.makeText(requireContext(), R.string.download_started, Toast.LENGTH_LONG).show();
             checkForDownloadPermissions();
         });
 
@@ -91,6 +92,7 @@ public class TrackOptionsFragment extends DaggerFragment {
 
         binding.ftoAddQueueRl.setOnClickListener(v -> {
             MusicPlayer.getInstance().addToQueue(trackOptionsViewModel.getTrack());
+            Toast.makeText(requireContext(), R.string.added_queue, Toast.LENGTH_LONG).show();
         });
 
         binding.ftoShareRl.setOnClickListener(v -> {
