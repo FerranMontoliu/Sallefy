@@ -104,6 +104,10 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     public void updateVidHolder(SurfaceHolder vidHolder) {
         this.vidHolder = vidHolder;
+
+        if (vidHolder != null && mPrimaryPlayer != null && mPrimaryPlayer.isPrepared() && mPrimaryPlayer.getTrack().hasVideo()) {
+            mPrimaryPlayer.setDisplay(vidHolder);
+        }
     }
 
     @Override
@@ -338,6 +342,9 @@ public class MusicPlayer implements MusicPlayerCallback {
             mNextPlayer = null;
             return;
         }
+
+        if (mNextPlayer != null && mNextPlayer.isPrepared() && mNextPlayer.getTrack() == track && mNextPlayer.getPlaylist() == playlist)
+            return;
 
         mNextPlayer = new CustomMediaPlayer(track, playlist, trackIndex);
         mNextPlayer.setOnPreparedListener(mDefaultListener);
