@@ -78,7 +78,8 @@ public class TrackOptionsViewModel extends ViewModel{
             downloadFileAsync.execute(track.getUrl());
         } else {
             boxStore.boxFor(Track.class).remove(track.getId());
-            File file = new File(Environment.getExternalStorageDirectory(), "/" + track.getId() + ".mp3");
+            String[] splitUrl = track.getUrl().split("/");
+            File file = new File(Environment.getExternalStorageDirectory(), "/" + splitUrl[splitUrl.length - 1]);
             if (file.exists()){
                 file.delete();
             }

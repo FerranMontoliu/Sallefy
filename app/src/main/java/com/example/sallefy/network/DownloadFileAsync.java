@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 public class DownloadFileAsync extends AsyncTask<String, String, String> {
 
@@ -40,7 +41,8 @@ public class DownloadFileAsync extends AsyncTask<String, String, String> {
 
             InputStream input = new BufferedInputStream(url.openStream());
             String path = new File("").getAbsolutePath();
-            File trackFile = new File(Environment.getExternalStorageDirectory(), "/" + idTrack + ".mp3");
+            String[] urlSplit = url.getPath().split("/");
+            File trackFile = new File(Environment.getExternalStorageDirectory(), "/" + urlSplit[urlSplit.length - 1]);
             OutputStream output = new FileOutputStream(trackFile);
             byte data[] = new byte[1024];
             long total = 0;

@@ -333,7 +333,8 @@ public class MusicPlayer implements MusicPlayerCallback {
                         player.setDisplay(vidHolder);
                     }
                     if (ObjectBox.getBoxStore().boxFor(Track.class).query().equal(Track_.id, player.getTrack().getId()).build().count() != 0) {
-                        String path = Environment.getExternalStorageDirectory() + "/" + player.getTrack().getId() + ".mp3";
+                        String[] splitUrl = player.getTrack().getUrl().split("/");
+                        String path = Environment.getExternalStorageDirectory() + "/" + splitUrl[splitUrl.length - 1];
                         File file = new File(path);
                         if (file.exists()) {
                             player.setDataSource(path);
