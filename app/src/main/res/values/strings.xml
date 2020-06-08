@@ -114,6 +114,7 @@
     <string name="genre_title_tv">Genre</string>
     <string name="upload_thumbnail_btn">Upload a thumbnail</string>
     <string name="upload_track_btn">Upload a track</string>
+    <string name="upload_video_btn">Upload a video</string>
     <string name="create_track">Add a new track</string>
     <string name="no_file_selected">No file selected</string>
     <string name="add_text_track">ADD</string>

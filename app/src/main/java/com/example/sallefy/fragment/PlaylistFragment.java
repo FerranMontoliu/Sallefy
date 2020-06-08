@@ -81,7 +81,7 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
         adapter.setTracks(playlistViewModel.getPlaylist().getTracks());
         binding.playlistTracksRv.setAdapter(adapter);
 
-        binding.playlistName.setText(playlistViewModel.getPlaylist().getName());
+        binding.playlistName.setText(playlistViewModel.getPlaylistName());
         binding.playlistName.setSelected(true);
         binding.playlistAuthor.setText(playlistViewModel.getPlaylist().getUser().getLogin());
 
@@ -109,7 +109,9 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
         }
 
         MusicPlayer musicPlayer = MusicPlayer.getInstance();
-        if (musicPlayer.isReady() && musicPlayer.isPlaying() && musicPlayer.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
+        if (musicPlayer.isReady() && musicPlayer.isPlaying() &&
+                musicPlayer.getCurrentPlaylist() != null &&
+                musicPlayer.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
             binding.playlistShufflePlay.setText(R.string.pause);
         } else {
             binding.playlistShufflePlay.setText(R.string.shuffle_play);
@@ -178,7 +180,9 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
 
         if (musicPlayer1.isReady()) {
 
-            if (musicPlayer1.isPlaying() && musicPlayer1.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
+            if (musicPlayer1.isPlaying() &&
+                    musicPlayer1.getCurrentPlaylist() != null &&
+                    musicPlayer1.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
                 musicPlayer1.onPlayPauseClicked();
                 binding.playlistShufflePlay.setText(R.string.shuffle_play);
 
@@ -207,7 +211,10 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
     @Override
     public void onPlayTrack() {
         MusicPlayer musicPlayer = MusicPlayer.getInstance();
-        if (musicPlayer.isReady() && musicPlayer.isPlaying() && musicPlayer.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
+        if (musicPlayer.isReady() &&
+                musicPlayer.isPlaying() &&
+                musicPlayer.getCurrentPlaylist() != null &&
+                musicPlayer.getCurrentPlaylist().equals(playlistViewModel.getPlaylist())) {
             binding.playlistShufflePlay.setText(R.string.pause);
         } else {
             binding.playlistShufflePlay.setText(R.string.shuffle_play);

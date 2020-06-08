@@ -159,6 +159,7 @@ public class CreateTrackFragment extends DaggerFragment {
                     Toast.makeText(getContext(), R.string.pick_a_document, Toast.LENGTH_LONG).show();
                 }
                 break;
+
         }
     }
 }
