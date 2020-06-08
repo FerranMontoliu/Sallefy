@@ -398,7 +398,26 @@
         android:id="@+id/statisticsFragment"
         android:name="com.example.sallefy.fragment.StatisticsFragment"
         android:label="@string/statistics_label"
-        tools:layout="@layout/fragment_statistics" />
+        tools:layout="@layout/fragment_statistics">
+        <action
+            android:id="@+id/action_statisticsFragment_to_playingSongFragment"
+            app:destination="@id/playingSongFragment">
+            <argument
+                android:name="track"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Track"
+                app:nullable="true" />
+        </action>
+        <action
+            android:id="@+id/action_statisticsFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment">
+            <argument
+                android:name="playlist"
+                android:defaultValue="@null"
+                app:argType="com.example.sallefy.model.Playlist"
+                app:nullable="true" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/trackStatisticsFragment"

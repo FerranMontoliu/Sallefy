@@ -212,11 +212,13 @@
     <string name="upload_photo_btn">Upload a profile picture</string>
     <string name="uploading_profile_image">Uploading photo… Please wait.</string>
     <string name="error_uploading_photo">Error uploading the photo!</string>
-
     
     <!-- STATISTICS -->
     <string name="top_5_tracks">TOP 5 TRACKS</string>
-    <string name="top_10_tracks_more_likes">TOP 10 tracks by number of likes</string>
-    <string name="top_10_playlists_more_followed">TOP 10 playlists by number of followers</string>
+    <string name="top_10_tracks_more_likes">TOP 10 Most liked tracks</string>
+    <string name="top_10_playlists_more_followed">TOP 10 Most followed playlists</string>
     <string name="song_evolution_per_month">Song evolution per month</string>
+    <string name="statistics_empty">There are no statistics for this track!</string>
+    <string name="track_stats_title">Track monthly reproductions</string>
+
 </resources>

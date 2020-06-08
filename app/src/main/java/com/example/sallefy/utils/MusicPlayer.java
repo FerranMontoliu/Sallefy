@@ -1,6 +1,7 @@
 package com.example.sallefy.utils;
 
 import android.media.MediaPlayer;
+import android.os.Environment;
 import android.view.SurfaceHolder;
 import android.widget.Toast;
 
@@ -10,7 +11,10 @@ import com.example.sallefy.callback.PlayingSongCallback;
 import com.example.sallefy.fragment.PlayingSongFragment;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
+import com.example.sallefy.model.Track_;
+import com.example.sallefy.objectbox.ObjectBox;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -367,7 +371,18 @@ public class MusicPlayer implements MusicPlayerCallback {
 
                         }
 
-                        player.setDataSource(player.getTrack().getUrl());
+                        if (ObjectBox.getBoxStore().boxFor(Track.class).query().equal(Track_.id, player.getTrack().getId()).build().count() != 0) {
+                            String[] splitUrl = player.getTrack().getUrl().split("/");
+                            String path = Environment.getExternalStorageDirectory() + "/" + splitUrl[splitUrl.length - 1];
+                            File file = new File(path);
+                            if (file.exists()) {
+                                player.setDataSource(path);
+                            } else {
+                                player.setDataSource(player.getTrack().getUrl());
+                            }
+                        } else {
+                            player.setDataSource(player.getTrack().getUrl());
+                        }
                         player.prepare();
                     }
                     player.setPreparing(false);

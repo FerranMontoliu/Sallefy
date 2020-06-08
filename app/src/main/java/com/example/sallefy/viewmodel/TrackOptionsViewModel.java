@@ -1,20 +1,26 @@
 package com.example.sallefy.viewmodel;
 
+import android.os.Environment;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.Track_;
+import com.example.sallefy.network.DownloadFileAsync;
 import com.example.sallefy.network.SallefyRepository;
+import com.example.sallefy.network.callback.DownloadCallback;
 import com.example.sallefy.network.callback.LikeTrackCallback;
 import com.example.sallefy.objectbox.ObjectBox;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
 import io.objectbox.BoxStore;
 
-public class TrackOptionsViewModel extends ViewModel {
+public class TrackOptionsViewModel extends ViewModel{
 
     private SallefyRepository sallefyRepository;
     private Track track;
@@ -59,12 +65,26 @@ public class TrackOptionsViewModel extends ViewModel {
 
     public void downloadTrackToggle() {
         if (!mIsDownloaded.getValue()) {
-            boxStore.boxFor(Track.class).put(track);
-            //TODO: Download track URL
+            DownloadFileAsync downloadFileAsync = new DownloadFileAsync(new DownloadCallback(){
+                @Override
+                public void onDownloaded() {
+                    mIsDownloaded.postValue(!mIsDownloaded.getValue());
+                    boxStore.boxFor(Track.class).put(track);
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {}
+            }, track.getId());
+            downloadFileAsync.execute(track.getUrl());
         } else {
             boxStore.boxFor(Track.class).remove(track.getId());
+            String[] splitUrl = track.getUrl().split("/");
+            File file = new File(Environment.getExternalStorageDirectory(), "/" + splitUrl[splitUrl.length - 1]);
+            if (file.exists()){
+                file.delete();
+            }
+            mIsDownloaded.postValue(!mIsDownloaded.getValue());
         }
-        mIsDownloaded.postValue(!mIsDownloaded.getValue());
     }
 
     public void likeTrackToggle() {
