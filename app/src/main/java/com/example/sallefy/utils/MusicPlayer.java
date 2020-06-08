@@ -2,8 +2,9 @@ package com.example.sallefy.utils;
 
 import android.media.MediaPlayer;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.widget.Toast;
 
+import com.example.sallefy.R;
 import com.example.sallefy.callback.MusicPlayerCallback;
 import com.example.sallefy.callback.PlayingSongCallback;
 import com.example.sallefy.model.Playlist;
@@ -58,14 +59,17 @@ public class MusicPlayer implements MusicPlayerCallback {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
-                mPrimaryPlayer.seekTo(0);
+                int pos = mp.getCurrentPosition();
+                int dur = mp.getDuration();
                 mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
                 mPrimaryPlayer.setPrepared(true);
+
                 if (mPrimaryPlayer.isWaiting()) {
-                    //playTrack();
                     mPrimaryPlayer.setWaiting(false);
                 }
+
                 playTrack();
+
                 if (!nextIsFine) {
                     prepareNextPlayer();
                 } else {
@@ -77,6 +81,8 @@ public class MusicPlayer implements MusicPlayerCallback {
         mDefaultListener = new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                int pos = mp.getCurrentPosition();
+                int dur = mp.getDuration();
                 ((CustomMediaPlayer)mp).setPrepared(true);
             }
         };
@@ -95,11 +101,8 @@ public class MusicPlayer implements MusicPlayerCallback {
         mPlayingSongCallback = playingSongCallback;
     }
 
-    public void setVidHolder(SurfaceHolder vidHolder) {
+    public void updateVidHolder(SurfaceHolder vidHolder) {
         this.vidHolder = vidHolder;
-        if (vidHolder != null && mPrimaryPlayer != null && mPrimaryPlayer.getTrack().getHasVideo()) {
-            mPrimaryPlayer.setDisplay(vidHolder);
-        }
     }
 
     @Override
@@ -112,6 +115,7 @@ public class MusicPlayer implements MusicPlayerCallback {
             mPreviousPlayers.removeFirst();
         }
         mPrimaryPlayer.setWaiting(false);
+        mPrimaryPlayer.reset();
         mPrimaryPlayer.setOnPreparedListener(mDefaultListener);
         mPreviousPlayers.push(mPrimaryPlayer);
 
@@ -124,14 +128,17 @@ public class MusicPlayer implements MusicPlayerCallback {
             mPrimaryPlayer = mNextPlayer;
             mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
             mCurrentPlaylistTrack = mPrimaryPlayer.getmCurrentPlaylistTrack() != -1 ? mPrimaryPlayer.getmCurrentPlaylistTrack() : mCurrentPlaylistTrack;
-            prepareNextPlayer();
 
             if (mPrimaryPlayer.isPrepared()) {
+                mPrimaryPlayer.seekTo(0);
                 mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
                 mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
-                restart();
+
+            } else if(!mPrimaryPlayer.isPreparing()) {
+                preparePlayer(mPrimaryPlayer);
             }
             playTrack();
+            prepareNextPlayer();
 
         } else {
             mPlayingSongCallback.onPauseTrack();
@@ -320,16 +327,36 @@ public class MusicPlayer implements MusicPlayerCallback {
     }
 
     private void preparePlayer(final CustomMediaPlayer player) {
+
         Thread connection = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    player.reset();
-                    if (vidHolder != null && player.getTrack().getHasVideo()) {
-                        player.setDisplay(vidHolder);
+                    if (player == mPrimaryPlayer || !player.getTrack().hasVideo()) {
+                        player.setPreparing(true);
+                        player.reset();
+
+                        //Wait for playing song to set the holder
+                        if (vidHolder != null && player.getTrack().hasVideo()) {
+                            player.setDisplay(vidHolder);
+
+                        } else if (player.getTrack().hasVideo()) {
+                            synchronized (this) {
+                                long timeout = System.currentTimeMillis();
+                                while (vidHolder == null) {
+                                    if (System.currentTimeMillis() - timeout > 10000)
+                                        break;
+                                }
+                                if (vidHolder != null) {
+                                    player.setDisplay(vidHolder);
+                                }
+                            }
+                        }
+
+                        player.setDataSource(player.getTrack().getUrl());
+                        player.prepare();
                     }
-                    player.setDataSource(player.getTrack().getUrl());
-                    player.prepare();
+                    player.setPreparing(false);
                 } catch (IOException e) {
                     mPlayingSongCallback.onErrorPreparingMediaPlayer();
                 }
@@ -432,5 +459,7 @@ public class MusicPlayer implements MusicPlayerCallback {
         }
     }
 
-
+    public SurfaceHolder getVidHolder() {
+        return vidHolder;
+    }
 }
