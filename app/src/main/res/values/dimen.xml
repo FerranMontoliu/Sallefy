@@ -11,7 +11,7 @@
     <dimen name="minimized_playing_song_height">63dp</dimen>
 
     <!-- PLAYING SONG-->
-    <dimen name="track_thumbnail_big">275dp</dimen>
+    <dimen name="track_thumbnail_big">200dp</dimen>
 
     <!-- PLAYLIST -->
     <dimen name="playlist_image">150dp</dimen>
