@@ -22,9 +22,10 @@ import com.example.sallefy.databinding.FragmentPlayingSongBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
-import com.example.sallefy.network.callback.LikeTrackCallback;
 import com.example.sallefy.utils.MusicPlayer;
 import com.example.sallefy.viewmodel.PlayingSongViewModel;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -62,18 +63,18 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
             playingSongViewModel.setPlaylist(PlayingSongFragmentArgs.fromBundle(getArguments()).getPlaylist());
         }
 
+        hideBottom();
+
+        initViews();
+
+        subscribeObservers();
+
         if (playingSongViewModel.getTrack() != null &&
                 playingSongViewModel.getPlaylist() != null &&
                 playingSongViewModel.getPlaylist() != mMusicPlayer.getCurrentPlaylist() &&
                 playingSongViewModel.getTrack() != mMusicPlayer.getCurrentTrack()) {
             mMusicPlayer.onNewTrackClicked(playingSongViewModel.getTrack(), playingSongViewModel.getPlaylist());
         }
-
-        hideBottom();
-
-        initViews();
-
-        subscribeObservers();
     }
 
     private void hideBottom() {
@@ -92,9 +93,9 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
     private void displayVideoThumbnail() {
         if (playingSongViewModel.getTrack() != null &&
-                playingSongViewModel.getTrack().getHasVideo()) {
+                playingSongViewModel.getTrack().hasVideo()) {
             binding.songVideo.setVisibility(View.VISIBLE);
-            binding.songThumbnail.setVisibility(View.GONE);
+            binding.songThumbnail.setVisibility(View.GONE); //Actualitza el video holder per el media player actual
         } else {
             binding.songVideo.setVisibility(View.GONE);
             binding.songThumbnail.setVisibility(View.VISIBLE);
@@ -108,10 +109,12 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         binding.apsSongName.setText(playingSongViewModel.getTrack().getName());
         binding.apsArtistName.setText(playingSongViewModel.getTrack().getUser().getLogin());
         binding.apsSongName.setSelected(true);
-        binding.apsPlaylistNameTv.setSelected(true);
+        binding.apsArtistName.setSelected(true);
 
-        if (playingSongViewModel.getPlaylist() != null)
+        if (playingSongViewModel.getPlaylist() != null) {
             binding.apsPlaylistNameTv.setText(playingSongViewModel.getPlaylist().getName());
+            binding.apsPlaylistNameTv.setSelected(true);
+        }
 
         Glide.with(requireContext())
                 .asBitmap()
@@ -229,28 +232,37 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
     @Override
     public void onChangedTrack(Track track, Playlist playlist) {
-        binding.apsSongName.setText(track.getName());
-        binding.apsArtistName.setText(track.getUser().getLogin());
-        if (playlist != null) {
-            binding.apsPlaylistNameTv.setText(playlist.getName());
-        }
+        Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-        playingSongViewModel.setTrack(track);
-        playingSongViewModel.isLiked();
+                if (playingSongViewModel.getTrack() != track || playingSongViewModel.getPlaylist() != playlist) {
+                    binding.apsSongName.setText(track.getName());
+                    binding.apsArtistName.setText(track.getUser().getLogin());
+                    if (playlist != null) {
+                        binding.apsPlaylistNameTv.setText(playlist.getName());
+                    }
 
-        Glide.with(requireContext())
-                .asBitmap()
-                .placeholder(R.drawable.ic_audiotrack_60dp)
-                .load(track.getThumbnail())
-                .into(binding.songThumbnail);
+                    playingSongViewModel.setTrack(track);
+                    playingSongViewModel.setPlaylist(playlist);
+                    displayVideoThumbnail();
+                    playingSongViewModel.isLiked();
 
-        updateSeekBar();
-        displayVideoThumbnail();
+                    Glide.with(requireContext())
+                            .asBitmap()
+                            .placeholder(R.drawable.ic_audiotrack_60dp)
+                            .load(track.getThumbnail())
+                            .into(binding.songThumbnail);
+
+                    updateSeekBar();
+                }
+            }
+        });
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        mMusicPlayer.setVidHolder(binding.songVideo.getHolder());
+        mMusicPlayer.updateVidHolder(binding.songVideo.getHolder());
     }
 
     @Override
@@ -260,6 +272,6 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        mMusicPlayer.setVidHolder(null);
+        mMusicPlayer.updateVidHolder(null);
     }
 }

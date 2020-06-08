@@ -3,10 +3,12 @@ package com.example.sallefy.utils;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.widget.Toast;
 
+import com.example.sallefy.R;
 import com.example.sallefy.callback.MusicPlayerCallback;
 import com.example.sallefy.callback.PlayingSongCallback;
+import com.example.sallefy.fragment.PlayingSongFragment;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.Track_;
@@ -62,14 +64,17 @@ public class MusicPlayer implements MusicPlayerCallback {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
-                mPrimaryPlayer.seekTo(0);
+                int pos = mp.getCurrentPosition();
+                int dur = mp.getDuration();
                 mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
                 mPrimaryPlayer.setPrepared(true);
+
                 if (mPrimaryPlayer.isWaiting()) {
-                    //playTrack();
                     mPrimaryPlayer.setWaiting(false);
                 }
+
                 playTrack();
+
                 if (!nextIsFine) {
                     prepareNextPlayer();
                 } else {
@@ -81,6 +86,8 @@ public class MusicPlayer implements MusicPlayerCallback {
         mDefaultListener = new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                int pos = mp.getCurrentPosition();
+                int dur = mp.getDuration();
                 ((CustomMediaPlayer)mp).setPrepared(true);
             }
         };
@@ -99,9 +106,10 @@ public class MusicPlayer implements MusicPlayerCallback {
         mPlayingSongCallback = playingSongCallback;
     }
 
-    public void setVidHolder(SurfaceHolder vidHolder) {
+    public void updateVidHolder(SurfaceHolder vidHolder) {
         this.vidHolder = vidHolder;
-        if (vidHolder != null && mPrimaryPlayer != null && mPrimaryPlayer.getTrack().getHasVideo()) {
+
+        if (vidHolder != null && mPrimaryPlayer != null && mPrimaryPlayer.getTrack().hasVideo()) {
             mPrimaryPlayer.setDisplay(vidHolder);
         }
     }
@@ -116,6 +124,11 @@ public class MusicPlayer implements MusicPlayerCallback {
             mPreviousPlayers.removeFirst();
         }
         mPrimaryPlayer.setWaiting(false);
+        mPrimaryPlayer.reset();
+        if (mPrimaryPlayer.getTrack().hasVideo()) {
+            mPrimaryPlayer.setPrepared(false);
+        }
+
         mPrimaryPlayer.setOnPreparedListener(mDefaultListener);
         mPreviousPlayers.push(mPrimaryPlayer);
 
@@ -128,14 +141,17 @@ public class MusicPlayer implements MusicPlayerCallback {
             mPrimaryPlayer = mNextPlayer;
             mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
             mCurrentPlaylistTrack = mPrimaryPlayer.getmCurrentPlaylistTrack() != -1 ? mPrimaryPlayer.getmCurrentPlaylistTrack() : mCurrentPlaylistTrack;
-            prepareNextPlayer();
 
             if (mPrimaryPlayer.isPrepared()) {
+                mPrimaryPlayer.seekTo(0);
                 mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
                 mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
-                restart();
+
+            } else if(!mPrimaryPlayer.isPreparing()) {
+                preparePlayer(mPrimaryPlayer, mPlayingSongCallback);
             }
             playTrack();
+            prepareNextPlayer();
 
         } else {
             mPlayingSongCallback.onPauseTrack();
@@ -148,19 +164,33 @@ public class MusicPlayer implements MusicPlayerCallback {
             pauseTrack();
 
         if (!mPreviousPlayers.isEmpty()) {
+            //Current song to next song
             mNextPlayer = mPrimaryPlayer;
             mNextPlayer.setWaiting(false);
+            mNextPlayer.reset();
+
+            if (mNextPlayer.getTrack().hasVideo()) {
+                mNextPlayer.setPrepared(false);
+            }
+            nextIsFine = true;
+
             mNextPlayer.setOnPreparedListener(mDefaultListener);
 
+            //Previous song to current song
             mPrimaryPlayer = mPreviousPlayers.pop();
             mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
             mCurrentPlaylistTrack = mPrimaryPlayer.getmCurrentPlaylistTrack() != -1 ? mPrimaryPlayer.getmCurrentPlaylistTrack() : mCurrentPlaylistTrack;
 
-            mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
-            mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
-            if (mPrimaryPlayer.isPrepared())
+            if (mPrimaryPlayer.isPrepared()) {
                 mPrimaryPlayer.seekTo(0);
+                mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
+                mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
 
+            } else if(!mPrimaryPlayer.isPreparing()) {
+                preparePlayer(mPrimaryPlayer, mPlayingSongCallback);
+            }
+
+            //Play
             playTrack();
 
         } else {
@@ -202,7 +232,7 @@ public class MusicPlayer implements MusicPlayerCallback {
         mPrimaryPlayer = new CustomMediaPlayer(track, mPlaylist, mCurrentPlaylistTrack);
         mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
         mPrimaryPlayer.setPrepared(false);
-        preparePlayer(mPrimaryPlayer);
+        preparePlayer(mPrimaryPlayer, mPlayingSongCallback);
     }
 
 
@@ -262,8 +292,8 @@ public class MusicPlayer implements MusicPlayerCallback {
             mPrimaryPlayer = new CustomMediaPlayer(track, mPlaylist, mCurrentPlaylistTrack);
             mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
             mPrimaryPlayer.setPrepared(false);
-            preparePlayer(mPrimaryPlayer);
-            nextIsFine = true;
+            preparePlayer(mPrimaryPlayer, mPlayingSongCallback);
+            //nextIsFine = true;
         }
     }
 
@@ -317,34 +347,45 @@ public class MusicPlayer implements MusicPlayerCallback {
             return;
         }
 
+        if (mNextPlayer != null && mNextPlayer.isPrepared() && mNextPlayer.getTrack() == track && mNextPlayer.getPlaylist() == playlist)
+            return;
+
         mNextPlayer = new CustomMediaPlayer(track, playlist, trackIndex);
         mNextPlayer.setOnPreparedListener(mDefaultListener);
         mNextPlayer.setPrepared(false);
-        preparePlayer(mNextPlayer);
+        preparePlayer(mNextPlayer, mPlayingSongCallback);
     }
 
-    private void preparePlayer(final CustomMediaPlayer player) {
+    private void preparePlayer(final CustomMediaPlayer player, PlayingSongCallback callback) {
+
         Thread connection = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    player.reset();
-                    if (vidHolder != null && player.getTrack().getHasVideo()) {
-                        player.setDisplay(vidHolder);
-                    }
-                    if (ObjectBox.getBoxStore().boxFor(Track.class).query().equal(Track_.id, player.getTrack().getId()).build().count() != 0) {
-                        String[] splitUrl = player.getTrack().getUrl().split("/");
-                        String path = Environment.getExternalStorageDirectory() + "/" + splitUrl[splitUrl.length - 1];
-                        File file = new File(path);
-                        if (file.exists()) {
-                            player.setDataSource(path);
+                    if (player == mPrimaryPlayer || !player.getTrack().hasVideo()) {
+                        player.setPreparing(true);
+                        player.reset();
+
+                        if (player.getTrack().hasVideo()) {
+                            player.setDisplay(vidHolder);
+
+                        }
+
+                        if (ObjectBox.getBoxStore().boxFor(Track.class).query().equal(Track_.id, player.getTrack().getId()).build().count() != 0) {
+                            String[] splitUrl = player.getTrack().getUrl().split("/");
+                            String path = Environment.getExternalStorageDirectory() + "/" + splitUrl[splitUrl.length - 1];
+                            File file = new File(path);
+                            if (file.exists()) {
+                                player.setDataSource(path);
+                            } else {
+                                player.setDataSource(player.getTrack().getUrl());
+                            }
                         } else {
                             player.setDataSource(player.getTrack().getUrl());
                         }
-                    } else {
-                        player.setDataSource(player.getTrack().getUrl());
+                        player.prepare();
                     }
-                    player.prepare();
+                    player.setPreparing(false);
                 } catch (IOException e) {
                     mPlayingSongCallback.onErrorPreparingMediaPlayer();
                 }
@@ -447,5 +488,7 @@ public class MusicPlayer implements MusicPlayerCallback {
         }
     }
 
-
+    public SurfaceHolder getVidHolder() {
+        return vidHolder;
+    }
 }

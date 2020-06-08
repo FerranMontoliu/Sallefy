@@ -44,8 +44,6 @@ public class Track implements Serializable {
     @SerializedName("url")
     private String url;
 
-    private boolean hasVideo = false;
-
     private boolean selected = false;
 
     private boolean liked;
@@ -146,11 +144,14 @@ public class Track implements Serializable {
         this.selected = selected;
     }
 
-    public boolean getHasVideo() {
-        return hasVideo;
+    public boolean hasVideo(){
+        String[] urlSplit = this.getUrl().split("\\.");
+        String extension = urlSplit[urlSplit.length-1];
+
+        if (extension.equals("mp4")) {
+            return true;
+        }
+        return false;
     }
 
-    public void setHasVideo(boolean hasVideo) {
-        this.hasVideo = hasVideo;
-    }
 }
