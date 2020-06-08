@@ -117,6 +117,10 @@ public class MusicPlayer implements MusicPlayerCallback {
         }
         mPrimaryPlayer.setWaiting(false);
         mPrimaryPlayer.reset();
+        if (mPrimaryPlayer.getTrack().hasVideo()) {
+            mPrimaryPlayer.setPrepared(false);
+        }
+
         mPrimaryPlayer.setOnPreparedListener(mDefaultListener);
         mPreviousPlayers.push(mPrimaryPlayer);
 
@@ -160,6 +164,7 @@ public class MusicPlayer implements MusicPlayerCallback {
             if (mNextPlayer.getTrack().hasVideo()) {
                 mNextPlayer.setPrepared(false);
             }
+            nextIsFine = true;
 
             mNextPlayer.setOnPreparedListener(mDefaultListener);
 
