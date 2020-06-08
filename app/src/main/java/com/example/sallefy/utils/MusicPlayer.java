@@ -105,7 +105,7 @@ public class MusicPlayer implements MusicPlayerCallback {
     public void updateVidHolder(SurfaceHolder vidHolder) {
         this.vidHolder = vidHolder;
 
-        if (vidHolder != null && mPrimaryPlayer != null && mPrimaryPlayer.isPrepared() && mPrimaryPlayer.getTrack().hasVideo()) {
+        if (vidHolder != null && mPrimaryPlayer != null && mPrimaryPlayer.getTrack().hasVideo()) {
             mPrimaryPlayer.setDisplay(vidHolder);
         }
     }
@@ -362,10 +362,10 @@ public class MusicPlayer implements MusicPlayerCallback {
                         player.setPreparing(true);
                         player.reset();
 
-                        if (player == mPrimaryPlayer) {
+                        /*if (player == mPrimaryPlayer) {
 
                             callback.onChangedTrack(player.getTrack(), player.getPlaylist());
-                        }
+                        }*/
 
                         //Wait for playing song to set the holder
                         if (vidHolder != null && player.getTrack().hasVideo()) {
@@ -374,10 +374,10 @@ public class MusicPlayer implements MusicPlayerCallback {
                         } else if (player.getTrack().hasVideo()) {
                             synchronized (this) {
                                 long timeout = System.currentTimeMillis();
-                                while (vidHolder == null) {
+                                /*while (vidHolder == null) {
                                     if (System.currentTimeMillis() - timeout > 10000)
                                         break;
-                                }
+                                }*/
                                 if (vidHolder != null) {
                                     player.setDisplay(vidHolder);
                                 }
