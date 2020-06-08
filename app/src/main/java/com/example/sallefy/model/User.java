@@ -1,16 +1,23 @@
 package com.example.sallefy.model;
 
+import com.example.sallefy.objectbox.converters.StringListConverter;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
+import io.objectbox.annotation.Convert;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+
+@Entity
 public class User implements Serializable {
 
     @SerializedName("activated")
     private Boolean activated;
 
     @SerializedName("authorities")
+    @Convert(converter = StringListConverter.class, dbType = String.class)
     private List<String> authorities = null;
 
     @SerializedName("createdBy")
@@ -26,7 +33,8 @@ public class User implements Serializable {
     private String firstName;
 
     @SerializedName("id")
-    private Integer id;
+    @Id(assignable = true)
+    private long id;
 
     @SerializedName("imageUrl")
     private String imageUrl;
@@ -61,7 +69,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Boolean activated, List<String> authorities, String createdBy, String createdDate, String email, String firstName, Integer id, String imageUrl, String langKey, String lastModifiedBy, String lastModifiedDate, String lastName, Integer playlists, Integer tracks, Integer followers, Integer following, String login) {
+    public User(Boolean activated, List<String> authorities, String createdBy, String createdDate, String email, String firstName, Long id, String imageUrl, String langKey, String lastModifiedBy, String lastModifiedDate, String lastName, Integer playlists, Integer tracks, Integer followers, Integer following, String login) {
         this.activated = activated;
         this.authorities = authorities;
         this.createdBy = createdBy;
@@ -129,11 +137,11 @@ public class User implements Serializable {
         this.firstName = firstName;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

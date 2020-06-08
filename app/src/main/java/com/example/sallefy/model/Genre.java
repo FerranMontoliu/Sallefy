@@ -4,10 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+
+@Entity
 public class Genre implements Serializable {
 
     @SerializedName("id")
-    private Integer id;
+    @Id private long id;
 
     @SerializedName("name")
     private String name;
@@ -15,11 +19,11 @@ public class Genre implements Serializable {
     @SerializedName("popularity")
     private Integer popularity;
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 

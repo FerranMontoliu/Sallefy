@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/fto_thumbnail_iv"
+                android:id="@+id/song_thumbnail"
                 android:layout_width="@dimen/track_thumbnail_medium"
                 android:layout_height="@dimen/track_thumbnail_medium"
                 android:layout_marginTop="100dp"
@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fto_thumbnail_iv" />
+                app:layout_constraintTop_toBottomOf="@+id/song_thumbnail" />
 
             <TextView
                 android:id="@+id/fto_artist_name_tv"
@@ -60,11 +60,39 @@
                 app:layout_constraintTop_toBottomOf="@+id/fto_track_name_tv" />
 
             <RelativeLayout
+                android:id="@+id/fto_like_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/fto_artist_name_tv">
+
+                <TextView
+                    android:id="@+id/like_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/like"
+                    android:textAppearance="@style/TrackOption" />
+
+                <ImageView
+                    android:id="@+id/like_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_favorite_unfilled" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/fto_add_queue_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                app:layout_constraintTop_toBottomOf="@+id/fto_artist_name_tv">
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/fto_like_rl">
 
                 <TextView
                     android:id="@+id/textView4"
@@ -85,6 +113,119 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_add_queue_light_24dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fto_add_to_playlist_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/fto_add_queue_rl">
+
+                <TextView
+                    android:id="@+id/add_to_playlist_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/add_to_playlist"
+                    android:textAppearance="@style/TrackOption" />
+
+                <ImageView
+                    android:id="@+id/add_to_playlist_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_add_light_24dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fto_download_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/fto_add_to_playlist_rl">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/download"
+                    android:textAppearance="@style/TrackOption" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_download" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/fto_statistics_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/fto_download_rl">
+
+                <TextView
+                    android:id="@+id/statistics_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/track_statistics"
+                    android:textAppearance="@style/TrackOption" />
+
+                <ImageView
+                    android:id="@+id/statistics_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_chart" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fto_share_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/fto_statistics_rl">
+
+                <TextView
+                    android:id="@+id/share_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/share"
+                    android:textAppearance="@style/TrackOption" />
+
+                <ImageView
+                    android:id="@+id/share_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_share" />
             </RelativeLayout>
 
 

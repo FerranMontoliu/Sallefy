@@ -1,6 +1,34 @@
 <resources>
     <string name="app_name">Sallefy</string>
 
+    <!-- LABELS -->
+    <string name="login_label">Login</string>
+    <string name="register_label">Register</string>
+    <string name="home_label">Home</string>
+    <string name="playing_song_label">Playing song</string>
+    <string name="add_song_to_playlist_label">Add song to playlist</string>
+    <string name="add_track_to_playlist_label">Add track to playlist</string>
+    <string name="create_track_label">Create track</string>
+    <string name="create_playlist_label">Create playlist</string>
+    <string name="options_label">Options</string>
+    <string name="playlist_label">Playlist</string>
+    <string name="search_label">Search</string>
+    <string name="track_options_label">Track options</string>
+    <string name="profile_label">Profile</string>
+    <string name="profile_playlists_label">User playlists</string>
+    <string name="profile_tracks_label">User tracks</string>
+    <string name="user_settings_label">User settings</string>
+    <string name="your_library_label">Your library</string>
+    <string name="your_library_followers_label">Your library followers</string>
+    <string name="your_library_followings_label">Your library followings</string>
+    <string name="your_library_tracks_label">Your library tracks</string>
+    <string name="your_library_playlists_label">Your library playlists</string>
+    <string name="upload_profile_image_label">Upload profile image</string>
+    <string name="statistics_label">Statistics</string>
+    <string name="profile_top_tracks_label">Top 5 tracks</string>
+    <string name="track_statistics_label">Track statistics</string>
+
+
     <!-- ERROR TOASTS -->
     <string name="login_failed">Error! Login failed!</string>
     <string name="register_failed">Error! Register failed!</string>
@@ -16,15 +44,22 @@
     <string name="error_getting_genres">Error getting the genres!</string>
     <string name="error_uploading_track">Error uploading the track!</string>
     <string name="track_uploaded">Track uploaded successfully!</string>
-    <string name="error_enter_name">You must enter a name for the track!</string>
+    <string name="error_enter_name_track">You must enter a name for the track!</string>
+    <string name="error_enter_name_playlist">You must enter a name for the playlist!</string>
     <string name="error_adding_track">An error occurred while adding the selected track!</string>
+    <string name="error_deleting_account">An error occurred! We couldn\'t delete your account!</string>
+    <string name="error_couldnt_play_song">"Error! We couldn\'t play the song!"</string>
+    <string name="error_bad_url">Sorry…We can\'t open this URL!</string>
+    <string name="error_external_permission">"Permission denied to read your external storage!"</string>
 
 
     <!-- INFO TOASTS -->
     <string name="register_success">User registered successfully!</string>
     <string name="uploading_track">Uploading track… Please wait.</string>
+    <string name="creating_playlist">Creating playlist… Please wait.</string>
     <string name="playlist_created_success">Playlist created!</string>
     <string name="track_added">The track was added successfully!</string>
+    <string name="account_deleted">Your account was deleted successfully!</string>
 
 
     <!-- MENU -->
@@ -38,6 +73,13 @@
     <string name="default_track_title">Title</string>
     <string name="fragment_playlists">Playlist Title</string>
     <string name="default_user_login_name">Username</string>
+    <string name="no_playlists_to_show">There are no playlists to show…\nCreate your own!</string>
+    <string name="no_followed_playlists">You don\'t follow any playlist yet…\nLook for a cool one and follow it!</string>
+    <string name="no_own_tracks_to_show">You haven\'t uploaded any track yet…\nTry it out!</string>
+    <string name="no_followers_to_show">You don\'t have any follower yet…\nInvite your friends to follow you!</string>
+    <string name="no_followings_to_show">You aren\'t following anyone yet…\nFollow your favourite artist!</string>
+    <string name="no_followers_to_show_other">This user doesn\'t have any follower yet…\nFollow him/her!</string>
+    <string name="no_tracks_to_show">There are no tracks to show…\nUpload your own!</string>
 
 
     <!-- LOGIN AND REGISTER -->
@@ -63,7 +105,7 @@
     <string name="new_track">New track</string>
     <string name="default_username">Username</string>
     <string name="give_name_playlist">Give your playlist a name.</string>
-    <string name="hint_create_playlist">Playlist title</string>
+    <string name="hint_create_playlist">Enter the title of the playlist</string>
     <string name="cancel_text_playlist">CANCEL</string>
     <string name="create_text_playlist">CREATE</string>
     <string name="own_tracks_playlist_name">Own tracks</string>
@@ -72,6 +114,7 @@
     <string name="genre_title_tv">Genre</string>
     <string name="upload_thumbnail_btn">Upload a thumbnail</string>
     <string name="upload_track_btn">Upload a track</string>
+    <string name="upload_video_btn">Upload a video</string>
     <string name="create_track">Add a new track</string>
     <string name="no_file_selected">No file selected</string>
     <string name="add_text_track">ADD</string>
@@ -84,22 +127,22 @@
     <string name="playlist_name">Playlist Name</string>
     <string name="author_name">Author Name</string>
 
-    
+
     <!-- ADD SONG TO PLAYLIST -->
     <string name="select_playlist">Select a Playlist</string>
     <string name="cancel">Cancel</string>
     <string name="playlist_thumbnail_description">Playlist thumbnail</string>
     <string name="select_track">Select a track</string>
-    
-    
+
+
     <!-- HOME -->
     <string name="default_header">Default Header</string>
     <string name="popular_playlists">Popular Playlists</string>
     <string name="discover_playlists">Discover Playlists</string>
-    <string name="liked_playlists">Liked Playlists</string>
+    <string name="followed_playlists">Followed Playlists</string>
     <string name="playlist_name_cv">Playlist Name</string>
 
-  
+
     <!-- SEARCH -->
     <string name="search_hint">Search</string>
     <string name="search_empty_results">There are no results for your search!</string>
@@ -107,6 +150,7 @@
     <string name="search_playlists">Playlists</string>
     <string name="search_tracks">Tracks</string>
     <string name="search_users">Users</string>
+
 
     <!-- OPTIONS -->
     <string name="your_profile">Your profile</string>
@@ -116,7 +160,9 @@
     <string name="are_you_sure">Are you sure you want to delete your account?</string>
     <string name="confirm_delete">DELETE</string>
     <string name="cancel_delete">CANCEL</string>
-  
+    <string name="cool_statistics">Cool statistics</string>
+
+
     <!-- PLAYLIST -->
     <string name="follow">Follow</string>
     <string name="following">Following</string>
@@ -127,6 +173,9 @@
     <string name="track_author">Track author</string>
     <string name="error_unliking_track">The track could not be disliked.</string>
     <string name="error_liking_track">The track could not be liked.</string>
+
+
+    <!-- PASSWORD CHANGE -->
     <string name="change_password">Change your password</string>
     <string name="hint_new_password">New password</string>
     <string name="hint_current_password">Current password</string>
@@ -137,8 +186,39 @@
     <string name="password_changed_toast">Your password has been changed successfully!</string>
     <string name="password_failure_toast">ERROR: Could not change the password. Check all the fields are correct.</string>
 
+
     <!-- TRACK OPTIONS -->
     <string name="add_queue">Add to queue</string>
     <string name="close">Close</string>
+    <string name="download">Download</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="share">Share</string>
+    <string name="like">Like track</string>
+    <string name="liked">Liked</string>
+    <string name="add_to_playlist">Add to a playlist</string>
+    <string name="track_statistics">Cool track statistics</string>
+
+
+    <!-- SHARE -->
+    <string name="share_track_via">Share track via</string>
+    <string name="share_song_text">Listen to this &#57932; song on Sallefy!&#57629;&#57629;\n\nClick the following link to open the app:\nhttps://open.sallefy.com/track/</string>
+    <string name="share_playlist_via">Share playlist via</string>
+    <string name="share_playlist_text">Listen to this &#57932; playlist on Sallefy!&#57629;&#57629;\n\nClick the following link to open the app:\nhttps://open.sallefy.com/playlist/</string>
+    <string name="share_user_via">Share artist via</string>
+    <string name="share_user_text">Check out this &#57932; artist on Sallefy!&#57629;&#57629;\n\nClick the following link to open the app:\nhttps://open.sallefy.com/user/</string>
+
+
+    <!-- UPLOAD PROFILE IMAGE -->
+    <string name="upload_photo_btn">Upload a profile picture</string>
+    <string name="uploading_profile_image">Uploading photo… Please wait.</string>
+    <string name="error_uploading_photo">Error uploading the photo!</string>
+    
+    <!-- STATISTICS -->
+    <string name="top_5_tracks">TOP 5 TRACKS</string>
+    <string name="top_10_tracks_more_likes">TOP 10 Most liked tracks</string>
+    <string name="top_10_playlists_more_followed">TOP 10 Most followed playlists</string>
+    <string name="song_evolution_per_month">Song evolution per month</string>
+    <string name="statistics_empty">There are no statistics for this track!</string>
+    <string name="track_stats_title">Track monthly reproductions</string>
 
 </resources>

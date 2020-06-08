@@ -32,8 +32,6 @@ public class UserRegister {
     private String password;
 
 
-
-
     public UserRegister(String email, String login, String password) {
         this.activated = true;
         this.email = email;

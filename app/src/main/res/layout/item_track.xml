@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_track_layout"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_height"
+    android:background="@color/dark_background"
     android:gravity="center_vertical"
-    android:background="@drawable/item_list_border">
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,39 +13,35 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/am_image_iv"
+            android:id="@+id/main_track_image"
             android:layout_width="@dimen/item_height_without_border"
             android:layout_height="@dimen/item_height_without_border"
-            android:layout_centerVertical="true"
             android:contentDescription="@string/playlist_thumbnail_description"
             android:src="@drawable/ic_audiotrack_60dp" />
 
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/item_img"
             android:layout_marginStart="10dp"
-            android:orientation="vertical"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/am_title_tv"
+                android:id="@+id/main_track_title"
                 style="@style/PlaylistNameTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/track_name"
                 android:textAlignment="textStart"
-                android:textColor="@color/light"/>
+                android:textColor="@color/light" />
 
             <TextView
-                android:id="@+id/am_author_tv"
+                android:id="@+id/main_author_title"
                 style="@style/AuthorNameTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/track_author"
-                android:textColor="@color/light"/>
+                android:textColor="@color/light" />
 
         </LinearLayout>
 
@@ -54,20 +49,16 @@
             android:id="@+id/it_like_ib"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:backgroundTint="#00FFFFFF"
             android:src="@drawable/ic_favorite_unfilled" />
 
-    <ImageButton
-        android:id="@+id/it_more_ib"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:backgroundTint="#00FFFFFF"
-        android:src="@drawable/ic_more_horiz_light"
-        android:layout_marginEnd="10dp" />
+        <ImageButton
+            android:id="@+id/it_more_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#00FFFFFF"
+            android:src="@drawable/ic_more_horiz_light" />
 
     </LinearLayout>
 

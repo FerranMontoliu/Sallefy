@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_container_parent_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark"
-    android:id="@+id/list_container_parent_profile">
+    tools:context=".fragment.ProfileFragment">
 
     <CheckBox
         android:id="@+id/back_profile"
@@ -18,26 +19,72 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/options_profile"
+    <ImageButton
+        android:id="@+id/user_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:button="@drawable/ic_options"
-        app:buttonTint="@color/light"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#00FFFFFF"
+        android:src="@drawable/ic_share"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/profile_rv"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/profile_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/back_profile"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_profile" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:elevation="12dp"
+            app:cardCornerRadius="50dp">
+
+            <ImageView
+                android:id="@+id/profile_photo"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"/>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/profile_username"
+                style="@style/ItemTitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:text="@string/default_username"
+                android:textColor="@color/light" />
+
+            <Button
+                android:id="@+id/user_follow_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/secondary_button"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/follow"
+                android:textColor="@color/light"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -46,7 +93,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_rv">
+        app:layout_constraintTop_toBottomOf="@+id/profile_layout">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/profile_navigation"
@@ -54,18 +101,22 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             app:itemTextColor="@color/light"
+            app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/profile_items"
-            app:labelVisibilityMode="labeled" />
+            app:menu="@menu/profile_items" />
 
     </LinearLayout>
 
-    <FrameLayout
+    <fragment
         android:id="@+id/sub_fragment_container_profile"
-        android:layout_width="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        app:defaultNavHost="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:navGraph="@navigation/profile_nav_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

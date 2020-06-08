@@ -1,0 +1,109 @@
+package com.example.sallefy.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.example.sallefy.R;
+import com.example.sallefy.adapter.callback.LikeableListAdapter;
+import com.example.sallefy.databinding.ItemOwnTrackBinding;
+import com.example.sallefy.model.Track;
+
+import java.util.List;
+
+public class OwnTrackListAdapter extends RecyclerView.Adapter<OwnTrackListAdapter.ViewHolder> {
+    private Context context;
+    private LikeableListAdapter callback;
+    private List<Track> items;
+
+    public OwnTrackListAdapter(Context context, LikeableListAdapter callback) {
+        this.context = context;
+        this.callback = callback;
+        items = null;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemOwnTrackBinding binding =
+                ItemOwnTrackBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        if (items != null && items.size() > 0) {
+            Track track = items.get(position);
+
+            holder.itemView.setOnClickListener(v -> {
+                callback.onItemSelected(track);
+            });
+
+            holder.mLike.setOnClickListener(v -> {
+                callback.onItemLiked(track, position);
+            });
+
+            holder.mMore.setOnClickListener(v-> {
+                callback.onItemMore(track);
+            });
+
+            holder.mTitle.setText(track.getName());
+
+            if (track.isLiked()) {
+                holder.mLike.setImageResource(R.drawable.ic_favorite_filled);
+            } else {
+                holder.mLike.setImageResource(R.drawable.ic_favorite_unfilled);
+            }
+
+            if (items.get(position).getThumbnail() != null) {
+                Glide.with(context)
+                        .asBitmap()
+                        .placeholder(R.drawable.ic_audiotrack_60dp)
+                        .load(track.getThumbnail())
+                        .into(holder.mPhoto);
+            }
+        }
+    }
+
+    public void changeTrackLikeStateIcon(int position) {
+        Track t = items.get(position);
+        if (t.isLiked()) {
+            t.setLiked(false);
+        } else {
+            t.setLiked(true);
+        }
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        return (items != null ? items.size() : 0);
+    }
+
+    public void setTracks(List<Track> tracks) {
+        this.items = tracks;
+        notifyDataSetChanged();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView mPhoto;
+        TextView mTitle;
+        ImageButton mLike;
+        ImageButton mMore;
+
+        public ViewHolder(ItemOwnTrackBinding binding) {
+            super(binding.getRoot());
+            mPhoto = binding.amImageIv;
+            mTitle = binding.amTitleTv;
+            mLike = binding.itLikeIb;
+            mMore = binding.itMoreIb;
+        }
+    }
+}

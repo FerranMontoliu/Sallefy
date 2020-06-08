@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#353535</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="light_hint">#AAAAAA</color>
@@ -14,4 +14,6 @@
     <color name="darker_background">#171717</color>
     <color name="border_light_gray">#a9a9a9</color>
     <color name="greenPrimary">#377837</color>
+    <color name="mtrl_btn_stroke_color_selector">#CCCCCC</color>
+
 </resources>

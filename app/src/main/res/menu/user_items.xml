@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_your_playlists"
+    <item
+        android:id="@+id/yourLibraryPlaylistsFragment"
         android:title="@string/your_playlists" />
-    <item android:id="@+id/action_your_tracks"
-        android:title="@string/your_tracks"/>
-    <item android:id="@+id/action_your_followers"
-        android:title="@string/your_followers"/>
-    <item android:id="@+id/action_your_following"
-        android:title="@string/your_following"/>
+    <item
+        android:id="@+id/yourLibraryTracksFragment"
+        android:title="@string/your_tracks" />
+    <item
+        android:id="@+id/yourLibraryFollowersFragment"
+        android:title="@string/your_followers" />
+    <item
+        android:id="@+id/yourLibraryFollowingsFragment"
+        android:title="@string/your_following" />
 </menu>

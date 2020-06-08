@@ -70,21 +70,51 @@
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
         <item name="android:scrollHorizontally">true</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:paddingRight">15dip</item>
+        <item name="android:freezesText">true</item>
     </style>
 
     <style name="ArtistNameTheme" parent="NoTitle">
         <item name="android:textSize">26sp</item>
         <item name="android:textColor">@color/light_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:paddingRight">15dip</item>
+        <item name="android:freezesText">true</item>
     </style>
 
     <style name="PlaylistNameTheme" parent="NoTitle">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/light_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:paddingRight">15dip</item>
+        <item name="android:freezesText">true</item>
     </style>
 
     <style name="AuthorNameTheme" parent="NoTitle">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/light_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:paddingRight">15dip</item>
+        <item name="android:freezesText">true</item>
     </style>
 
     <style name="NavigationTheme" parent="NoTitle">
@@ -105,6 +135,12 @@
         <item name="android:textColor">@color/light</item>
     </style>
 
+    <style name="SmallHeaderTheme">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light</item>
+    </style>
+
     <style name="PlaylistNameCVTheme" parent="NoTitle">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/light_hint</item>
@@ -112,16 +148,34 @@
 
 
     <!-- PLAYLIST -->
-    <style name="FollowButton">
+    <style name="SecondaryButton">
         <item name="android:textColor">@color/light</item>
         <item name="android:backgroundTint">#00FFFFFF</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:strokeColor">@color/light</item>
+        <item name="android:background">@drawable/secondary_button</item>
     </style>
 
+    <style name="PrimaryButton">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:backgroundTint">#00FFFFFF</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:strokeColor">@color/light</item>
+        <item name="android:background">@drawable/primary_button</item>
+    </style>
 
     <!-- TRACK OPTIONS -->
     <style name="TrackOption">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/light</item>
     </style>
+
+    <!-- STATISTICS -->
+    <style name="StatPostionTheme">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+
 </resources>

@@ -12,13 +12,11 @@ public class Liked implements Serializable {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public Liked() {
     }
 
     /**
-     *
      * @param liked
      */
     public Liked(Boolean liked) {

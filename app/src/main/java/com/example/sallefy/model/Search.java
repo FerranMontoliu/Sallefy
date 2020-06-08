@@ -1,12 +1,11 @@
 package com.example.sallefy.model;
 
-import java.io.Serializable;
-import java.util.List;
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Search implements Serializable
-{
+import java.io.Serializable;
+import java.util.List;
+
+public class Search implements Serializable {
 
     @SerializedName("playlists")
     private List<Playlist> playlists = null;
@@ -18,13 +17,11 @@ public class Search implements Serializable
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public Search() {
     }
 
     /**
-     *
      * @param playlists
      * @param tracks
      * @param users

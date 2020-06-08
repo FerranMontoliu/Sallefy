@@ -1,11 +1,11 @@
 package com.example.sallefy.model;
 
-import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Followed implements Serializable
-{
+import java.io.Serializable;
+
+public class Followed implements Serializable {
 
     @SerializedName("followed")
     @Expose
@@ -14,13 +14,11 @@ public class Followed implements Serializable
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public Followed() {
     }
 
     /**
-     *
      * @param followed
      */
     public Followed(Boolean followed) {

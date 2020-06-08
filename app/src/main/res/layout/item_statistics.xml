@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_statistics_layout"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_margin="5dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:background="@drawable/back_dark"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/position_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="15dp"
+            android:text="1"
+            android:textAppearance="@style/StatPostionTheme"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:id="@+id/item_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/default_track_title"
+                android:textAlignment="textStart"
+                android:textColor="@color/light"/>
+
+            <TextView
+                android:id="@+id/item_owner_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/default_track_author"
+                android:textColor="@color/light"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
