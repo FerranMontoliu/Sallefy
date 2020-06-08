@@ -238,11 +238,12 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
                 if (playingSongViewModel.getTrack() != track || playingSongViewModel.getPlaylist() != playlist) {
                     binding.apsSongName.setText(track.getName());
+                    binding.apsSongName.setSelected(true);
                     binding.apsArtistName.setText(track.getUser().getLogin());
                     if (playlist != null) {
                         binding.apsPlaylistNameTv.setText(playlist.getName());
                     }
-
+                    binding.apsArtistName.setSelected(true);
                     playingSongViewModel.setTrack(track);
                     playingSongViewModel.setPlaylist(playlist);
                     displayVideoThumbnail();

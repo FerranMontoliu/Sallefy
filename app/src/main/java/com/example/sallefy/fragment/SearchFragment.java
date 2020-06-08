@@ -1,5 +1,6 @@
 package com.example.sallefy.fragment;
 
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -135,6 +136,14 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
             }
 
             usersAdapter.setUsers(search.getUsers());
+
+            if((search.getPlaylists() == null && search.getTracks() == null && search.getUsers() == null)
+                || (search.getPlaylists().size() == 0 && search.getTracks().size() == 0 && search.getUsers().size() == 0)){
+                binding.emptySearchResultsTv.setVisibility(View.VISIBLE);
+            } else {
+                binding.emptySearchResultsTv.setVisibility(View.GONE);
+            }
+
         });
     }
 
@@ -156,6 +165,9 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
             SearchFragmentDirections.ActionSearchFragmentToPlayingSongFragment action =
                     SearchFragmentDirections.actionSearchFragmentToPlayingSongFragment();
             action.setTrack((Track) item);
+            Playlist playlist = new Playlist();
+            playlist.setName("Search");
+            action.setPlaylist(playlist);
             Navigation.findNavController(binding.getRoot()).navigate(action);
         }
     }

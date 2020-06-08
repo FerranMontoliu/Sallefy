@@ -76,41 +76,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_play_light_80dp" />
 
-    <TextView
-        android:id="@+id/aps_song_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/aps_track_info_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="15dp"
-        android:maxLength="14"
-        android:text="@string/song_title"
-        android:textAppearance="@style/SongTitleTheme"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/thumbnail_video" />
-    <!-- android:maxLength="14" -->
+        app:layout_constraintTop_toBottomOf="@+id/thumbnail_video">
 
-    <TextView
-        android:id="@+id/aps_artist_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:maxLength="17"
-        android:text="@string/artist_name"
-        android:textAppearance="@style/ArtistNameTheme"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aps_song_name" />
-    <!-- android:maxLength="17" -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp">
 
-    <ImageButton
-        android:id="@+id/aps_like_ib"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/aps_artist_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/aps_song_name"
-        app:srcCompat="@drawable/ic_favorite_unfilled" />
+            <TextView
+                android:id="@+id/aps_song_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/song_title"
+                style="@style/SongTitleTheme" />
+            <!-- android:maxLength="14" -->
+
+            <TextView
+                android:id="@+id/aps_artist_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/artist_name"
+                style="@style/ArtistNameTheme" />
+            <!-- android:maxLength="17" -->
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/aps_like_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:backgroundTint="#00FFFFFF"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_favorite_unfilled" />
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/aps_prev_ib"
@@ -170,7 +177,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aps_artist_name" />
+        app:layout_constraintTop_toBottomOf="@+id/aps_track_info_layout" />
 
     <TextView
         android:id="@+id/aps_playlist_name_tv"

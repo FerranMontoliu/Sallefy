@@ -35,6 +35,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back_btn_search" />
 
+    <TextView
+        android:id="@+id/empty_search_results_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/search_empty_results"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_edit_text">
+
+    </TextView>
+
     <ScrollView
         android:id="@+id/search_nsv"
         android:layout_width="match_parent"
