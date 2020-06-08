@@ -16,18 +16,36 @@
         android:button="@drawable/ic_back_arrow"
         app:buttonTint="@color/light" />
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/track_stats_bc"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_margin="25dp">
 
-    <TextView
-        android:id="@+id/statistics_empty_tv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/statistics_empty"
-        android:visibility="visible"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/track_stats_title"
+            android:layout_marginBottom="10dp"
+            android:textAppearance="@style/SmallHeaderTheme">
+        </TextView>
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/track_stats_bc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/statistics_empty_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/statistics_empty"
+            android:visibility="visible"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

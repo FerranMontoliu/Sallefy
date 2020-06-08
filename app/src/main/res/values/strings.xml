@@ -218,5 +218,6 @@
     <string name="top_10_playlists_more_followed">TOP 10 Most followed playlists</string>
     <string name="song_evolution_per_month">Song evolution per month</string>
     <string name="statistics_empty">There are no statistics for this track!</string>
+    <string name="track_stats_title">Track monthly reproductions</string>
 
 </resources>

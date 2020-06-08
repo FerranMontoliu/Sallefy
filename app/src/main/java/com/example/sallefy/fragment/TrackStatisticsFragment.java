@@ -1,6 +1,7 @@
 package com.example.sallefy.fragment;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -20,6 +22,7 @@ import com.example.sallefy.model.TrackStatistics;
 import com.example.sallefy.viewmodel.TrackStatisticsViewModel;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -112,8 +115,20 @@ public class TrackStatisticsFragment extends DaggerFragment {
                     barEntryArrayList.add(new BarEntry(i, reproductions.get(i)));
                 }
 
+                Description description = new Description();
+                description.setEnabled(false);
+                description.setText(" ");
+                statisticsBc.setDescription(description);
+
                 BarDataSet barDataSet = new BarDataSet(barEntryArrayList, "Reproductions");
-                barDataSet.setColors(ColorTemplate.LIBERTY_COLORS);
+                barDataSet.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+
+                YAxis leftAxis = statisticsBc.getAxisLeft();
+                leftAxis.setTextColor(Color.WHITE);
+                YAxis rightAxis = statisticsBc.getAxisRight();
+                rightAxis.setTextColor(Color.WHITE);
+                Legend legend = statisticsBc.getLegend();
+                legend.setTextColor(Color.WHITE);
 
                 BarData barData = new BarData(barDataSet);
                 barData.setValueTextColor(Color.WHITE);

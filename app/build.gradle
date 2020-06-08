@@ -91,4 +91,5 @@ dependencies {
 
     // Bar Chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
 }

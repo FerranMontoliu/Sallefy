@@ -50,12 +50,12 @@ public class OptionsFragment extends DaggerFragment {
     }
 
     private void initViews() {
-        if (Session.getUser().getImageUrl() != null) {
-            Glide.with(requireContext())
-                    .asBitmap()
-                    .load(Session.getUser().getImageUrl())
-                    .into(binding.settingsProfilePhoto);
-        }
+
+        Glide.with(requireContext())
+                .asBitmap()
+                .placeholder(R.drawable.ic_user_thumbnail)
+                .load(Session.getUser().getImageUrl())
+                .into(binding.settingsProfilePhoto);
 
         binding.backSettings.setOnClickListener(v -> {
             Navigation.findNavController(v).popBackStack();
