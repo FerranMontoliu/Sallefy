@@ -24,6 +24,7 @@ import com.example.sallefy.R;
 import com.example.sallefy.databinding.FragmentTrackOptionsBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.utils.BitmapUtils;
+import com.example.sallefy.utils.MusicPlayer;
 import com.example.sallefy.viewmodel.TrackOptionsViewModel;
 
 import java.io.ByteArrayOutputStream;
@@ -86,6 +87,10 @@ public class TrackOptionsFragment extends DaggerFragment {
 
         binding.ftoLikeRl.setOnClickListener(v ->  {
             trackOptionsViewModel.likeTrackToggle();
+        });
+
+        binding.ftoAddQueueRl.setOnClickListener(v -> {
+            MusicPlayer.getInstance().addToQueue(trackOptionsViewModel.getTrack());
         });
 
         binding.ftoShareRl.setOnClickListener(v -> {

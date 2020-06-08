@@ -53,7 +53,6 @@ public class PlayingSongViewModel extends ViewModel {
 
     public void setTrack(Track track) {
         this.track = track;
-        checkIfVideo();
     }
 
     public Track getTrack() {
@@ -68,15 +67,4 @@ public class PlayingSongViewModel extends ViewModel {
         this.playlist = playlist;
     }
 
-    private boolean checkIfVideo(){
-        String[] urlSplit = track.getUrl().split("\\.");
-        String extension = urlSplit[urlSplit.length-1];
-
-        if (extension.equals("mp4")) {
-            track.setHasVideo(true);
-            return true;
-        }
-        track.setHasVideo(false);
-        return false;
-    }
 }

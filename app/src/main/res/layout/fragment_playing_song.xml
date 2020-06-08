@@ -82,11 +82,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="15dp"
-        android:maxLength="15"
+        android:maxLength="14"
         android:text="@string/song_title"
         android:textAppearance="@style/SongTitleTheme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/thumbnail_video" />
+    <!-- android:maxLength="14" -->
 
     <TextView
         android:id="@+id/aps_artist_name"
@@ -98,6 +99,7 @@
         android:textAppearance="@style/ArtistNameTheme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aps_song_name" />
+    <!-- android:maxLength="17" -->
 
     <ImageButton
         android:id="@+id/aps_like_ib"
@@ -174,13 +176,14 @@
         android:id="@+id/aps_playlist_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLength="18"
         android:text="@string/playlist_name"
         android:textAppearance="@style/PlaylistNameTheme"
+        android:maxLength="14"
         app:layout_constraintBottom_toBottomOf="@+id/back_song"
         app:layout_constraintEnd_toStartOf="@+id/track_options"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/back_song"
         app:layout_constraintTop_toTopOf="@+id/back_song" />
 
+    <!-- android:maxLength="18" -->
 </androidx.constraintlayout.widget.ConstraintLayout>
