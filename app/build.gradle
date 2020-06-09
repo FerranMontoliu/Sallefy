@@ -76,7 +76,7 @@ dependencies {
 
     // RxJava
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.2'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.4'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.8.1'
 
     // Navigation
