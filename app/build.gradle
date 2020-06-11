@@ -84,7 +84,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:2.3.0-alpha06"
 
     // Fragments
-    implementation "androidx.fragment:fragment:1.2.4"
+    implementation "androidx.fragment:fragment:1.2.5"
 
     // Inject
     implementation group: 'javax.inject', name: 'javax.inject', version: '1'
