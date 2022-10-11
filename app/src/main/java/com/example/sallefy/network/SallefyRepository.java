@@ -461,7 +461,6 @@ public class SallefyRepository {
                 if (response.isSuccessful()) {
                     callback.onTrackCreated();
                 } else {
-                    System.out.println("EEEEEEEEEEEEEEEEEEEEEE -->  " + response.code());
                     callback.onFailure(new Throwable(String.valueOf(response.errorBody())));
                 }
             }

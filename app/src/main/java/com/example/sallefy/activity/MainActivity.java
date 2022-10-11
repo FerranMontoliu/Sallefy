@@ -75,8 +75,6 @@ public class MainActivity extends DaggerAppCompatActivity implements PlayingSong
             return;
 
         String data = path.substring(path.lastIndexOf("/") + 1);
-        System.out.println(path);
-        System.out.println(data);
 
         if (path.contains("track"))
             intent.putExtra("sharedTrack", data);
