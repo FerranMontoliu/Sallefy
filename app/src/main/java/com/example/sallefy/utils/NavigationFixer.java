@@ -43,8 +43,7 @@ public class NavigationFixer {
             Field itemWidth = menuView.getClass().getDeclaredField("mActiveItemMaxWidth");
             itemWidth.setAccessible(true);
             itemWidth.setInt(menuView, Integer.MAX_VALUE);
-        }
-        catch (Exception ignored) {
+        } catch (Exception ignored) {
 
         }
     }

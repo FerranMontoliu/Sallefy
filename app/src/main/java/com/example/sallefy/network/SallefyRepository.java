@@ -494,7 +494,7 @@ public class SallefyRepository {
 
 
     // REGISTER ENDPOINT
-    public synchronized void registerAttempt(String email, String username, String password, final RegisterCallback callback) {
+    public synchronized void registerUser(String email, String username, String password, final RegisterCallback callback) {
         service.registerUser(new UserRegister(email, username, password)).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -514,7 +514,7 @@ public class SallefyRepository {
 
 
     // AUTHENTICATE ENDPOINT
-    public synchronized void loginAttempt(String username, String password, final LoginCallback callback) {
+    public synchronized void loginUser(String username, String password, final LoginCallback callback) {
         service.loginUser(new UserLogin(username, password, true)).enqueue(new Callback<UserToken>() {
             @Override
             public void onResponse(Call<UserToken> call, Response<UserToken> response) {

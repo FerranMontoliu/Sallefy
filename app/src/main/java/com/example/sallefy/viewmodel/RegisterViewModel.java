@@ -16,6 +16,6 @@ public class RegisterViewModel extends ViewModel {
     }
 
     public void register(String email, String username, String password, RegisterCallback callback) {
-        sallefyRepository.registerAttempt(email, username, password, callback);
+        sallefyRepository.registerUser(email, username, password, callback);
     }
 }

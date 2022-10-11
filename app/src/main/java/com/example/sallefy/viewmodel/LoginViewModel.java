@@ -32,7 +32,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password, LoginCallback callback) {
-        sallefyRepository.loginAttempt(username, password, callback);
+        sallefyRepository.loginUser(username, password, callback);
     }
 
     public void setRememberPreferences(boolean rememberPreferences) {
