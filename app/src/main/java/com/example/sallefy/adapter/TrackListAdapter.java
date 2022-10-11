@@ -1,14 +1,10 @@
 package com.example.sallefy.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,13 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
 import com.example.sallefy.adapter.callback.LikeableListAdapter;
-import com.example.sallefy.callback.TrackListAdapterCallback;
 import com.example.sallefy.databinding.ItemTrackBinding;
-import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
-import com.example.sallefy.network.callback.TrackCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.ViewHolder> {

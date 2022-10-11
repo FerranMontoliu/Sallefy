@@ -18,7 +18,6 @@ import com.example.sallefy.adapter.UserListAdapter;
 import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.databinding.FragmentYourLibraryFollowersBinding;
 import com.example.sallefy.factory.ViewModelFactory;
-import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.YourLibraryFollowersViewModel;
 

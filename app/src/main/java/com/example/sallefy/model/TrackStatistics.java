@@ -1,11 +1,10 @@
 package com.example.sallefy.model;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 public class TrackStatistics implements Serializable
 {

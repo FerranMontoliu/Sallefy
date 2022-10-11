@@ -1,17 +1,12 @@
 package com.example.sallefy.viewmodel;
 
-import android.widget.Toast;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.TrackStatistics;
 import com.example.sallefy.network.SallefyRepository;
-import com.example.sallefy.network.TokenAuthenticator;
-import com.example.sallefy.network.callback.GetPlaylistsCallback;
 import com.example.sallefy.network.callback.GetStatisticsCallback;
 
 import java.util.ArrayList;

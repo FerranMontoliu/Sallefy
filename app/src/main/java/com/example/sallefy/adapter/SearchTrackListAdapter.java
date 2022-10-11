@@ -5,10 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +18,6 @@ import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.databinding.TrackItemBinding;
 import com.example.sallefy.fragment.SearchFragment;
 import com.example.sallefy.model.Track;
-import com.example.sallefy.network.callback.TrackCallback;
 
 import java.util.List;
 

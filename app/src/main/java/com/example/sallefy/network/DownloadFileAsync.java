@@ -2,7 +2,6 @@ package com.example.sallefy.network;
 
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.provider.MediaStore;
 
 import com.example.sallefy.network.callback.DownloadCallback;
 
@@ -13,7 +12,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
 
 public class DownloadFileAsync extends AsyncTask<String, String, String> {
 

@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
-import com.example.sallefy.callback.PlaylistAdapterCallback;
 import com.example.sallefy.model.Playlist;
-
-import java.util.ArrayList;
 
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {

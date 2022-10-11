@@ -7,9 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.network.SallefyRepository;
-import com.example.sallefy.network.callback.GetItemsCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
-import com.example.sallefy.network.callback.GetTrackCallback;
 import com.example.sallefy.network.callback.GetTracksCallback;
 
 import java.util.List;

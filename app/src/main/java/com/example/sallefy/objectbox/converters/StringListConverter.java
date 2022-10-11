@@ -4,6 +4,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import io.objectbox.converter.PropertyConverter;
 
 public class StringListConverter implements PropertyConverter<List<String>, String> {

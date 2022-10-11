@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -18,7 +17,6 @@ import com.bumptech.glide.Glide;
 import com.example.sallefy.R;
 import com.example.sallefy.callback.PlayingSongCallback;
 import com.example.sallefy.databinding.ActivityMainBinding;
-import com.example.sallefy.fragment.PlayingSongFragment;
 import com.example.sallefy.fragment.PlaylistFragment;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;

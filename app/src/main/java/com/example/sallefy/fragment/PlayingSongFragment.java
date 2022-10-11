@@ -25,8 +25,6 @@ import com.example.sallefy.model.Track;
 import com.example.sallefy.utils.MusicPlayer;
 import com.example.sallefy.viewmodel.PlayingSongViewModel;
 
-import java.util.Objects;
-
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;

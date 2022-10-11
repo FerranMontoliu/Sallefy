@@ -4,8 +4,6 @@ import com.example.sallefy.model.Genre;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,10 +1,6 @@
 package com.example.sallefy.auth;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 
 public class TokenManager {

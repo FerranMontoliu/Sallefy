@@ -4,20 +4,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.sallefy.R;
-import com.example.sallefy.activity.MainActivity;
 import com.example.sallefy.adapter.TrackListAdapter;
-import com.example.sallefy.model.Playlist;
-import com.example.sallefy.model.Track;
 import com.example.sallefy.auth.Session;
 import com.example.sallefy.model.Playlist;
+import com.example.sallefy.model.Track;
 import com.example.sallefy.network.SallefyRepository;
+import com.example.sallefy.network.callback.FollowCheckCallback;
+import com.example.sallefy.network.callback.FollowToggleCallback;
 import com.example.sallefy.network.callback.LikeTrackCallback;
 import com.example.sallefy.utils.MusicPlayer;
 
 import java.util.Random;
-import com.example.sallefy.network.callback.FollowCheckCallback;
-import com.example.sallefy.network.callback.FollowToggleCallback;
 
 import javax.inject.Inject;
 

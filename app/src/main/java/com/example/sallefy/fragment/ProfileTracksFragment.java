@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.R;
-import com.example.sallefy.adapter.OwnTrackListAdapter;
 import com.example.sallefy.adapter.TrackListAdapter;
 import com.example.sallefy.adapter.callback.LikeableListAdapter;
 import com.example.sallefy.databinding.FragmentProfileTracksBinding;
@@ -22,7 +21,6 @@ import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.ProfileTracksViewModel;
-import com.example.sallefy.viewmodel.ProfileViewModel;
 
 import java.util.Objects;
 

@@ -1,6 +1,8 @@
 
 package com.example.sallefy.fragment;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,8 +31,6 @@ import java.io.InputStream;
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
-
-import static android.app.Activity.RESULT_OK;
 
 
 public class UploadProfileImageFragment extends DaggerFragment {

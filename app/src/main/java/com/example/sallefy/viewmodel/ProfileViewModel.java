@@ -10,7 +10,6 @@ import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.network.callback.FollowCheckCallback;
 import com.example.sallefy.network.callback.FollowToggleCallback;
 
-
 import javax.inject.Inject;
 
 public class ProfileViewModel extends ViewModel {

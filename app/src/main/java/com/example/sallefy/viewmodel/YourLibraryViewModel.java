@@ -1,6 +1,5 @@
 package com.example.sallefy.viewmodel;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import androidx.lifecycle.LiveData;

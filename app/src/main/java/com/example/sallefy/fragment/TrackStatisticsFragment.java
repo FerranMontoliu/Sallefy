@@ -1,7 +1,6 @@
 package com.example.sallefy.fragment;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +15,7 @@ import androidx.navigation.Navigation;
 
 import com.example.sallefy.R;
 import com.example.sallefy.databinding.FragmentTrackStatisticsBinding;
-import com.example.sallefy.databinding.TrackItemBinding;
 import com.example.sallefy.factory.ViewModelFactory;
-import com.example.sallefy.model.TrackStatistics;
 import com.example.sallefy.viewmodel.TrackStatisticsViewModel;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -29,10 +26,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 
 import javax.inject.Inject;
 

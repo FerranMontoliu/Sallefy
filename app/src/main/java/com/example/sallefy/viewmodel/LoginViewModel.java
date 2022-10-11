@@ -2,6 +2,7 @@ package com.example.sallefy.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.sallefy.auth.Session;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
@@ -10,7 +11,6 @@ import com.example.sallefy.network.callback.GetPlaylistCallback;
 import com.example.sallefy.network.callback.GetTrackCallback;
 import com.example.sallefy.network.callback.GetUserCallback;
 import com.example.sallefy.network.callback.LoginCallback;
-import com.example.sallefy.auth.Session;
 
 import javax.inject.Inject;
 

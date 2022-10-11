@@ -3,12 +3,9 @@ package com.example.sallefy.utils;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
 
-import com.example.sallefy.R;
 import com.example.sallefy.callback.MusicPlayerCallback;
 import com.example.sallefy.callback.PlayingSongCallback;
-import com.example.sallefy.fragment.PlayingSongFragment;
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 import com.example.sallefy.model.Track_;

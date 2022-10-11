@@ -19,7 +19,6 @@ import com.example.sallefy.adapter.callback.IListAdapter;
 import com.example.sallefy.databinding.FragmentProfilePlaylistsBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Playlist;
-import com.example.sallefy.model.Track;
 import com.example.sallefy.model.User;
 import com.example.sallefy.viewmodel.ProfilePlaylistsViewModel;
 

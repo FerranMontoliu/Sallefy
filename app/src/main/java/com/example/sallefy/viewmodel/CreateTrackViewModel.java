@@ -12,7 +12,6 @@ import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.example.sallefy.model.Genre;
 import com.example.sallefy.model.NewTrack;
-import com.example.sallefy.model.Track;
 import com.example.sallefy.network.SallefyRepository;
 import com.example.sallefy.network.callback.CreateTrackCallback;
 import com.example.sallefy.network.callback.GenreCallback;

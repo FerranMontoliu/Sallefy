@@ -1,6 +1,8 @@
 
 package com.example.sallefy.fragment;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,8 +32,6 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
-
-import static android.app.Activity.RESULT_OK;
 
 
 public class CreateTrackFragment extends DaggerFragment {

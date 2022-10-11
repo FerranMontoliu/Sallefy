@@ -2,18 +2,15 @@ package com.example.sallefy.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -25,11 +22,7 @@ import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.PasswordChange;
 import com.example.sallefy.model.User;
 import com.example.sallefy.utils.NavigationFixer;
-import com.example.sallefy.viewmodel.ProfileViewModel;
 import com.example.sallefy.viewmodel.YourLibraryViewModel;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.lang.reflect.Field;
 
 import javax.inject.Inject;
 

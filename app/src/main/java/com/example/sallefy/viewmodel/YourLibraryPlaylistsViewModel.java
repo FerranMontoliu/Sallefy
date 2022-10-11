@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.network.SallefyRepository;
-import com.example.sallefy.network.callback.CreatePlaylistCallback;
 import com.example.sallefy.network.callback.GetPlaylistsCallback;
 
 import java.util.List;

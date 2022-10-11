@@ -4,9 +4,6 @@ import com.example.sallefy.model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.objectbox.converter.PropertyConverter;
 
 public class UserConverter implements PropertyConverter<User, String> {
