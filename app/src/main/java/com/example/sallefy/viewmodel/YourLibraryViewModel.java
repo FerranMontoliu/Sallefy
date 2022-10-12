@@ -26,7 +26,7 @@ public class YourLibraryViewModel extends ViewModel {
     }
 
     private void requestUserData() {
-        sallefyRepository.getActualUser(new GetUserCallback() {
+        sallefyRepository.getCurrentUser(new GetUserCallback() {
             @Override
             public void onUserReceived(User user) {
                 mUser.postValue(user);

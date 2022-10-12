@@ -233,8 +233,16 @@ public class SallefyRepository {
         });
     }
 
-    public synchronized void getActualUser(final GetUserCallback callback) {
-        service.getUserById(Session.getUser().getLogin()).enqueue(new Callback<User>() {
+    public synchronized void getCurrentUser(final GetUserCallback callback) {
+        User user = Session.getUser();
+
+        // This should never happen
+        if (user == null) {
+            callback.onFailure(null);
+            return;
+        }
+
+        service.getUserById(user.getLogin()).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
