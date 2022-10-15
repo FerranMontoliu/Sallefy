@@ -1,83 +1,81 @@
 package com.example.sallefy.utils;
 
-import android.media.AudioManager;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
-public class CustomMediaPlayer extends MediaPlayer{
-
-    private boolean mPrepared;
-    private boolean mPreparing;
-    private boolean mWaiting;
-    private Track mTrack;
-    private Playlist mPlaylist;
-    private int mCurrentPlaylistTrack;
+public class CustomMediaPlayer extends MediaPlayer {
+    private boolean prepared;
+    private boolean preparing;
+    private boolean waiting;
+    private Track track;
+    private Playlist playlist;
+    private int currentPlaylistTrack;
 
     //trackIndex -1 if queue
-    public CustomMediaPlayer(Track track, Playlist playlist, int trackIndex){
-        this.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mPrepared = false;
-        mWaiting = false;
-        mTrack = track;
-        mPlaylist = playlist;
+    public CustomMediaPlayer(Track track, Playlist playlist, int trackIndex) {
+        this.setAudioAttributes(
+                new AudioAttributes
+                        .Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build());
 
-        this.setOnCompletionListener(new OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if (mPrepared) {
-                    if (MusicPlayer.getInstance().isLoop()) {
-                        MusicPlayer.getInstance().restart();
+        this.prepared = false;
+        this.waiting = false;
+        this.track = track;
+        this.playlist = playlist;
 
-                    } else {
-                        int pos = mp.getCurrentPosition();
-                        int dur = mp.getDuration();
-                        MusicPlayer.getInstance().onNextTrackClicked();
-                    }
+        this.setOnCompletionListener(mp -> {
+            if (prepared) {
+                if (MusicPlayer.getInstance().isLoop()) {
+                    MusicPlayer.getInstance().restart();
+                } else {
+                    MusicPlayer.getInstance().onNextTrackClicked();
                 }
             }
         });
-        mCurrentPlaylistTrack = trackIndex;
+        currentPlaylistTrack = trackIndex;
     }
 
     public boolean isPreparing() {
-        return mPreparing;
+        return preparing;
     }
 
     public void setPreparing(boolean mPreparing) {
-        this.mPreparing = mPreparing;
+        this.preparing = mPreparing;
     }
 
     public boolean isPrepared() {
-        return mPrepared;
+        return prepared;
     }
 
     public void setPrepared(boolean mPrepared) {
-        this.mPrepared = mPrepared;
+        this.prepared = mPrepared;
     }
 
     public boolean isWaiting() {
-        return mWaiting;
+        return waiting;
     }
 
     public void setWaiting(boolean mWaiting) {
-        this.mWaiting = mWaiting;
+        this.waiting = mWaiting;
     }
 
     public Track getTrack() {
-        return mTrack;
+        return track;
     }
 
     public Playlist getPlaylist() {
-        return mPlaylist;
+        return playlist;
     }
 
-    public int getmCurrentPlaylistTrack() {
-        return mCurrentPlaylistTrack;
+    public int getCurrentPlaylistTrack() {
+        return currentPlaylistTrack;
     }
 
-    public void setmCurrentPlaylistTrack(int mCurrentPlaylistTrack) {
-        this.mCurrentPlaylistTrack = mCurrentPlaylistTrack;
+    public void setCurrentPlaylistTrack(int currentPlaylistTrack) {
+        this.currentPlaylistTrack = currentPlaylistTrack;
     }
 }
