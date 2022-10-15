@@ -17,7 +17,7 @@ android {
 
     buildTypes {
         def API_URL_KEY = "API_URL"
-        def API_URL_VALUE = '"http://apollo.eu-west-3.elasticbeanstalk.com/"'
+        def API_URL_VALUE = '"http://apollo.eu-west-3.elasticbeanstalk.com/api/"'
 
         debug {
             buildConfigField "String", API_URL_KEY, API_URL_VALUE
