@@ -92,11 +92,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00FFFFFF"
+                android:contentDescription="@string/play_btn_description"
                 android:src="@drawable/ic_play_light_48dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/play_btn_description" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
 
@@ -107,8 +107,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
-        app:itemIconTint="@color/light"
-        app:itemTextColor="@color/light"
+        app:itemIconTint="@color/bottom_nav_colors"
+        app:itemTextColor="@color/bottom_nav_colors"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/nav_items" />
 
