@@ -9,28 +9,24 @@
         android:id="@+id/yourLibraryPlaylistsFragment"
         android:name="com.example.sallefy.fragment.YourLibraryPlaylistsFragment"
         android:label="@string/your_library_playlists_label"
-        tools:layout="@layout/fragment_your_library_playlists">
-    </fragment>
+        tools:layout="@layout/fragment_your_library_playlists" />
 
     <fragment
         android:id="@+id/yourLibraryTracksFragment"
         android:name="com.example.sallefy.fragment.YourLibraryTracksFragment"
         android:label="@string/your_library_tracks_label"
-        tools:layout="@layout/fragment_your_library_tracks">
-    </fragment>
+        tools:layout="@layout/fragment_your_library_tracks" />
 
     <fragment
         android:id="@+id/yourLibraryFollowersFragment"
         android:name="com.example.sallefy.fragment.YourLibraryFollowersFragment"
         android:label="@string/your_library_followers_label"
-        tools:layout="@layout/fragment_your_library_followers">
-    </fragment>
+        tools:layout="@layout/fragment_your_library_followers" />
 
     <fragment
         android:id="@+id/yourLibraryFollowingsFragment"
         android:name="com.example.sallefy.fragment.YourLibraryFollowingsFragment"
         android:label="@string/your_library_followings_label"
-        tools:layout="@layout/fragment_your_library_followings">
-    </fragment>
+        tools:layout="@layout/fragment_your_library_followings" />
 
 </navigation>

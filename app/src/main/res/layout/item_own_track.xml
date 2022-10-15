@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_track_layout"
+    android:id="@+id/item_own_track"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_height"
     android:background="@color/dark_background"

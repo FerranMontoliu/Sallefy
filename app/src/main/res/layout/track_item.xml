@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_track_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/track_item"
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:layout_margin="5dp"
@@ -35,14 +34,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/default_track_title"
                 android:textAlignment="textStart"
-                android:textColor="@color/light"/>
+                android:textColor="@color/light" />
 
             <TextView
                 android:id="@+id/main_author_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/default_track_author"
-                android:textColor="@color/light"/>
+                android:textColor="@color/light" />
 
         </LinearLayout>
     </LinearLayout>

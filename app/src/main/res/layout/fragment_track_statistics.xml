@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_track_statistics"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -20,22 +21,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        android:layout_margin="25dp">
+        android:layout_margin="25dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/track_stats_title"
             android:layout_marginBottom="10dp"
-            android:textAppearance="@style/SmallHeaderTheme">
-        </TextView>
+            android:text="@string/track_stats_title"
+            android:textAppearance="@style/SmallHeaderTheme"></TextView>
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/track_stats_bc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/statistics_empty_tv"
@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/statistics_empty"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
     </LinearLayout>
 

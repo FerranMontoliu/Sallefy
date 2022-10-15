@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_create_track"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -22,10 +22,10 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_background"
         android:ems="10"
         android:hint="@string/hint_track_name"
         android:inputType="textPersonName"
-        android:background="@drawable/edittext_background"
         android:textColor="@color/light"
         android:textColorHint="@color/light_hint"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/genre_title_tv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_et"/>
+        app:layout_constraintTop_toBottomOf="@+id/title_et" />
 
     <Spinner
         android:id="@+id/genre_spinner"
@@ -69,12 +69,12 @@
 
         <Button
             android:id="@+id/upload_thumbnail_btn"
+            style="@style/GreenButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="32dp"
-            android:text="@string/upload_thumbnail_btn"
-            style="@style/GreenButton"/>
+            android:text="@string/upload_thumbnail_btn" />
 
         <View
             android:layout_width="0dp"
@@ -98,25 +98,25 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:ems="10"
         android:background="@drawable/edittext_background"
+        android:ems="10"
+        android:hint="@string/no_file_selected"
         android:textColor="@color/light"
         android:textColorHint="@color/light_hint"
-        android:hint="@string/no_file_selected"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <Button
         android:id="@+id/upload_track_btn"
+        style="@style/GreenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:text="@string/upload_track_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/track_file_tv"
-        style="@style/GreenButton"/>
+        app:layout_constraintTop_toBottomOf="@+id/track_file_tv" />
 
 
     <LinearLayout

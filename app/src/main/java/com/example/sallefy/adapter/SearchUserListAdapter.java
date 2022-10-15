@@ -73,7 +73,7 @@ public class SearchUserListAdapter extends RecyclerView.Adapter<SearchUserListAd
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mLayout = itemView.findViewById(R.id.item_profile_layout);
+            mLayout = itemView.findViewById(R.id.item_profile);
             tvUserName = itemView.findViewById(R.id.item_profile_name);
             ivPicture = itemView.findViewById(R.id.item_profile_photo);
         }

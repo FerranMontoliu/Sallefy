@@ -173,6 +173,7 @@
     <string name="add_songs">Add Songs</string>
     <string name="track_name">Track name</string>
     <string name="track_author">Track author</string>
+    <string name="play_btn_description">Play song button</string>
     <string name="error_unliking_track">The track could not be disliked.</string>
     <string name="error_liking_track">The track could not be liked.</string>
 
@@ -216,7 +217,7 @@
     <string name="upload_photo_btn">Upload a profile picture</string>
     <string name="uploading_profile_image">Uploading photo… Please wait.</string>
     <string name="error_uploading_photo">Error uploading the photo!</string>
-    
+
     <!-- STATISTICS -->
     <string name="top_5_tracks">TOP 5 TRACKS</string>
     <string name="top_10_tracks_more_likes">TOP 10 Most liked tracks</string>

@@ -101,7 +101,7 @@ public class StatisticsListAdapter extends RecyclerView.Adapter<StatisticsListAd
             tvPosition = itemView.findViewById(R.id.position_tv);
             tvTitle = itemView.findViewById(R.id.item_title_tv);
             tvOwner = itemView.findViewById(R.id.item_owner_tv);
-            linearLayout = itemView.findViewById(R.id.item_statistics_layout);
+            linearLayout = itemView.findViewById(R.id.item_statistics);
         }
     }
 }
