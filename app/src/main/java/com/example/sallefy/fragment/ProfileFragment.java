@@ -26,7 +26,6 @@ import com.example.sallefy.R;
 import com.example.sallefy.databinding.FragmentProfileBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.utils.BitmapUtils;
-import com.example.sallefy.utils.NavigationFixer;
 import com.example.sallefy.viewmodel.ProfileViewModel;
 
 import java.io.ByteArrayOutputStream;
@@ -71,9 +70,6 @@ public class ProfileFragment extends DaggerFragment {
     }
 
     private void initViews() {
-        NavigationFixer.adjustGravity(binding.profileNavigation);
-        NavigationFixer.adjustWidth(binding.profileNavigation);
-
         binding.backProfile.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
         });
@@ -116,7 +112,7 @@ public class ProfileFragment extends DaggerFragment {
 
     private void askForPermission() {
         ActivityCompat.requestPermissions(requireActivity(),
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
     }
 
     private void shareUserLink() {

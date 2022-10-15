@@ -21,7 +21,6 @@ import com.example.sallefy.databinding.FragmentYourLibraryBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.PasswordChange;
 import com.example.sallefy.model.User;
-import com.example.sallefy.utils.NavigationFixer;
 import com.example.sallefy.viewmodel.YourLibraryViewModel;
 
 import javax.inject.Inject;
@@ -58,9 +57,6 @@ public class YourLibraryFragment extends DaggerFragment {
     }
 
     private void initViews() {
-        NavigationFixer.adjustGravity(binding.userNavigation);
-        NavigationFixer.adjustWidth(binding.userNavigation);
-
         binding.backBtn.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
         });
