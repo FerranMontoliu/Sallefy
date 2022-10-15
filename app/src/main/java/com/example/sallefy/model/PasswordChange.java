@@ -14,7 +14,6 @@ public class PasswordChange implements Serializable {
     @SerializedName("newPassword")
     @Expose
     private String newPassword;
-    private final static long serialVersionUID = 6291463140628534394L;
 
     /**
      * No args constructor for use in serialization

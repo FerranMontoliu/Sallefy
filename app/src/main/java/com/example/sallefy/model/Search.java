@@ -8,12 +8,11 @@ import java.util.List;
 public class Search implements Serializable {
 
     @SerializedName("playlists")
-    private List<Playlist> playlists = null;
+    private List<Playlist> playlists;
     @SerializedName("tracks")
-    private List<Track> tracks = null;
+    private List<Track> tracks;
     @SerializedName("users")
-    private List<User> users = null;
-    private final static long serialVersionUID = -9202667354024546899L;
+    private List<User> users;
 
     /**
      * No args constructor for use in serialization

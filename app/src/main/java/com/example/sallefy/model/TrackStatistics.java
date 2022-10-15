@@ -27,7 +27,6 @@ public class TrackStatistics implements Serializable
     @SerializedName("track")
     @Expose
     private Track track;
-    private final static long serialVersionUID = -271443513589085602L;
 
     /**
      * No args constructor for use in serialization

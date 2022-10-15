@@ -10,7 +10,6 @@ public class Followed implements Serializable {
     @SerializedName("followed")
     @Expose
     private Boolean followed;
-    private final static long serialVersionUID = 436047448868837206L;
 
     /**
      * No args constructor for use in serialization

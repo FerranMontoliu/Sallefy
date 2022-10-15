@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 
 import com.example.sallefy.R;
 import com.example.sallefy.activity.MainActivity;
+import com.example.sallefy.databinding.ActivityMainBinding;
 import com.example.sallefy.databinding.FragmentLoginBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Playlist;
@@ -58,6 +59,7 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
         if (checkExistingPreferences()) {
             binding.loginUsername.setText(PreferenceUtils.getUser(requireContext()));
             binding.loginPassword.setText(PreferenceUtils.getPassword(requireContext()));
+            binding.loginRememberMeSw.setChecked(true);
         }
 
         binding.loginLoginToRegister.setOnClickListener(v -> {
@@ -77,7 +79,7 @@ public class LoginFragment extends DaggerFragment implements LoginCallback {
     }
 
     private void hideBottom() {
-        com.example.sallefy.databinding.ActivityMainBinding activityBinding = ((MainActivity) requireActivity()).getBinding();
+        ActivityMainBinding activityBinding = ((MainActivity) requireActivity()).getBinding();
         activityBinding.bottomNavigation.setVisibility(View.GONE);
         activityBinding.mainPlayingSong.setVisibility(View.GONE);
     }

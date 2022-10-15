@@ -1,7 +1,6 @@
 package com.example.sallefy.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,6 @@ import com.example.sallefy.model.Track;
 import java.util.List;
 
 public class StatisticsListAdapter extends RecyclerView.Adapter<StatisticsListAdapter.ViewHolder> {
-
-    private static final String TAG = "StatisticsListAdapter";
     private List<Playlist> playlists;
     private List<Track> tracks;
     private Context context;
@@ -40,7 +37,7 @@ public class StatisticsListAdapter extends RecyclerView.Adapter<StatisticsListAd
         notifyDataSetChanged();
     }
 
-    public void setPlaylists(List<Playlist> items){
+    public void setPlaylists(List<Playlist> items) {
         this.playlists = items;
         notifyDataSetChanged();
     }
@@ -48,7 +45,6 @@ public class StatisticsListAdapter extends RecyclerView.Adapter<StatisticsListAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder: called.");
         ItemStatisticsBinding binding =
                 ItemStatisticsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new StatisticsListAdapter.ViewHolder(binding);
@@ -57,7 +53,7 @@ public class StatisticsListAdapter extends RecyclerView.Adapter<StatisticsListAd
     @Override
     public void onBindViewHolder(@NonNull StatisticsListAdapter.ViewHolder holder, int position) {
         holder.tvPosition.setText(Integer.toString(position + 1));
-        if(tracks != null){
+        if (tracks != null) {
             holder.tvTitle.setText(tracks.get(position).getName());
             holder.tvOwner.setText(tracks.get(position).getUserLogin());
             holder.linearLayout.setOnClickListener(new View.OnClickListener() {
@@ -79,10 +75,10 @@ public class StatisticsListAdapter extends RecyclerView.Adapter<StatisticsListAd
     }
 
     @Override
-    public int getItemCount()  {
-        if (playlists != null){
+    public int getItemCount() {
+        if (playlists != null) {
             return playlists.size();
-        } else if (tracks != null){
+        } else if (tracks != null) {
             return tracks.size();
         } else {
             return 0;

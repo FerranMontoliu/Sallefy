@@ -17,9 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallefy.adapter.PlaylistListAdapter;
-import com.example.sallefy.adapter.SearchTrackListAdapter;
+import com.example.sallefy.adapter.TrackListAdapter;
 import com.example.sallefy.adapter.UserListAdapter;
 import com.example.sallefy.adapter.callback.IListAdapter;
+import com.example.sallefy.adapter.callback.LikeableListAdapter;
 import com.example.sallefy.databinding.FragmentSearchBinding;
 import com.example.sallefy.factory.ViewModelFactory;
 import com.example.sallefy.model.Playlist;
@@ -31,7 +32,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class SearchFragment extends DaggerFragment implements IListAdapter {
+public class SearchFragment extends DaggerFragment implements IListAdapter, LikeableListAdapter {
 
     @Inject
     protected ViewModelFactory viewModelFactory;
@@ -44,7 +45,7 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
     private PlaylistListAdapter playlistsAdapter;
     private TextView tracksTv;
     private RecyclerView tracksRv;
-    private SearchTrackListAdapter trackAdapter;
+    private TrackListAdapter tracksAdapter;
     private TextView usersTv;
     private RecyclerView usersRv;
     private UserListAdapter usersAdapter;
@@ -74,7 +75,8 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
 
         binding.searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -82,7 +84,8 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -95,8 +98,8 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
 
         tracksRv = binding.tracksRv;
         tracksTv = binding.tracksText;
-        trackAdapter = new SearchTrackListAdapter(requireContext(), this);
-        tracksRv.setAdapter(trackAdapter);
+        tracksAdapter = new TrackListAdapter(requireContext(), this);
+        tracksRv.setAdapter(tracksAdapter);
         tracksRv.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
 
         usersRv = binding.usersRv;
@@ -124,7 +127,7 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
                 tracksTv.setVisibility(View.GONE);
                 tracksRv.setVisibility(View.GONE);
             }
-            trackAdapter.setTracks(search.getTracks());
+            tracksAdapter.setTracks(search.getTracks());
 
             if (search.getUsers() != null && search.getUsers().size() > 0) {
                 usersTv.setVisibility(View.VISIBLE);
@@ -136,8 +139,8 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
 
             usersAdapter.setUsers(search.getUsers());
 
-            if((search.getPlaylists() == null && search.getTracks() == null && search.getUsers() == null)
-                || (search.getPlaylists().size() == 0 && search.getTracks().size() == 0 && search.getUsers().size() == 0)){
+            if ((search.getPlaylists() == null && search.getTracks() == null && search.getUsers() == null)
+                    || (search.getPlaylists().size() == 0 && search.getTracks().size() == 0 && search.getUsers().size() == 0)) {
                 binding.emptySearchResultsTv.setVisibility(View.VISIBLE);
             } else {
                 binding.emptySearchResultsTv.setVisibility(View.GONE);
@@ -169,5 +172,18 @@ public class SearchFragment extends DaggerFragment implements IListAdapter {
             action.setPlaylist(playlist);
             Navigation.findNavController(binding.getRoot()).navigate(action);
         }
+    }
+
+    @Override
+    public void onItemLiked(Object item, int position) {
+        searchViewModel.likeTrack((Track) item, position, tracksAdapter);
+    }
+
+    @Override
+    public void onItemMore(Object item) {
+        SearchFragmentDirections.ActionSearchFragmentToTrackOptionsFragment action =
+                SearchFragmentDirections.actionSearchFragmentToTrackOptionsFragment();
+        action.setTrack((Track) item);
+        Navigation.findNavController(binding.getRoot()).navigate(action);
     }
 }
