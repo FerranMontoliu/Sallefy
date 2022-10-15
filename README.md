@@ -30,8 +30,7 @@ URL.
 1. Go to `Sallefy/app/build.gradle`.
 2. Go to line `20`.
 3. Update the value of `API_URL_VALUE`.
-   > ⚠️ You **must** write your url like this: `def API_URL_VALUE = '"<URL_GOES_HERE>"'`.
-   > ⚠️ Make sure to preserve both the `'` and the `"` characters.
+   > ⚠️ You **must** write your url like this: `def API_URL_VALUE = '"<URL_GOES_HERE>"'`. Make sure to preserve both the `'` and the `"` characters.
 
 ## License
 
