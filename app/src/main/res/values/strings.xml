@@ -85,7 +85,9 @@
     <!-- LOGIN AND REGISTER -->
     <string name="login_btn_text">Login</string>
     <string name="no_account_tv_text">Don\'t have an account?</string>
+    <string name="already_have_account_tv_text">Already have an account?</string>
     <string name="register_tv_text">Register</string>
+    <string name="login_tv_text">Log In</string>
     <string name="register_btn_text">Register</string>
     <string name="username_hint">Enter username…</string>
     <string name="mail_hint">Enter mail…</string>

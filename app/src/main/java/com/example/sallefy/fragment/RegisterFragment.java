@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.sallefy.R;
@@ -47,6 +48,10 @@ public class RegisterFragment extends DaggerFragment implements RegisterCallback
                     binding.registerUsername.getText().toString(),
                     binding.registerPassword.getText().toString(),
                     this);
+        });
+
+        binding.registerRegisterToLogin.setOnClickListener(v -> {
+            Navigation.findNavController(v).popBackStack();
         });
     }
 
