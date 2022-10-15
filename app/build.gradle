@@ -16,9 +16,17 @@ android {
     }
 
     buildTypes {
+        def API_URL_KEY = "API_URL"
+        def API_URL_VALUE = '"http://apollo.eu-west-3.elasticbeanstalk.com/"'
+
+        debug {
+            buildConfigField "String", API_URL_KEY, API_URL_VALUE
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", API_URL_KEY, API_URL_VALUE
         }
     }
 

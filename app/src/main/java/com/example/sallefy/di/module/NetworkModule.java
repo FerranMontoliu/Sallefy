@@ -1,6 +1,6 @@
 package com.example.sallefy.di.module;
 
-import com.example.sallefy.SallefyApplication;
+import com.example.sallefy.BuildConfig;
 import com.example.sallefy.network.SallefyService;
 import com.example.sallefy.network.TokenInterceptor;
 
@@ -27,7 +27,7 @@ public class NetworkModule {
     @Provides
     public static SallefyService provideSallefyService(OkHttpClient client) {
         return new Retrofit.Builder()
-                .baseUrl(SallefyApplication.BASE_URL)
+                .baseUrl(BuildConfig.API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
