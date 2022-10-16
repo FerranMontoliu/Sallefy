@@ -3,10 +3,12 @@ package com.example.sallefy.utils;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 
+import androidx.annotation.NonNull;
+
 import com.example.sallefy.model.Playlist;
 import com.example.sallefy.model.Track;
 
-public class CustomMediaPlayer extends MediaPlayer {
+public class CustomMediaPlayer extends MediaPlayer implements Cloneable {
     private boolean prepared;
     private boolean preparing;
     private boolean waiting;
@@ -77,5 +79,15 @@ public class CustomMediaPlayer extends MediaPlayer {
 
     public void setCurrentPlaylistTrack(int currentPlaylistTrack) {
         this.currentPlaylistTrack = currentPlaylistTrack;
+    }
+
+    @NonNull
+    @Override
+    public CustomMediaPlayer clone() {
+        try {
+            return (CustomMediaPlayer) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

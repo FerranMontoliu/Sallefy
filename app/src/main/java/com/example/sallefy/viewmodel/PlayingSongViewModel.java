@@ -24,7 +24,7 @@ public class PlayingSongViewModel extends ViewModel {
         mIsLiked = new MutableLiveData<>();
     }
 
-    public LiveData<Boolean> isLiked(){
+    public LiveData<Boolean> isLiked() {
         requestIsLiked();
         return mIsLiked;
     }
@@ -37,13 +37,12 @@ public class PlayingSongViewModel extends ViewModel {
         sallefyRepository.likeTrack(track, new LikeTrackCallback() {
             @Override
             public void onTrackLiked() {
-                track.setLiked(!mIsLiked.getValue());
+                track.setLiked(Boolean.FALSE.equals(mIsLiked.getValue()));
                 mIsLiked.postValue(track.isLiked());
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-
             }
         });
     }
@@ -63,5 +62,4 @@ public class PlayingSongViewModel extends ViewModel {
     public void setPlaylist(Playlist playlist) {
         this.playlist = playlist;
     }
-
 }

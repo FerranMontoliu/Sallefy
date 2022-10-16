@@ -82,7 +82,6 @@ public class MusicPlayer implements MusicPlayerCallback {
         };
 
         this.defaultListener = mp -> ((CustomMediaPlayer) mp).setPrepared(true);
-
     }
 
     // Singleton
@@ -110,7 +109,7 @@ public class MusicPlayer implements MusicPlayerCallback {
         }
 
         currentPlayer.setOnPreparedListener(defaultListener);
-        previousPlayersList.push(currentPlayer);
+        previousPlayersList.add(currentPlayer.clone());
 
         // If there are no more songs to play, pause the track
         if (nextPlayer == null) {
@@ -126,6 +125,7 @@ public class MusicPlayer implements MusicPlayerCallback {
 
         // Set the next player as the current player
         currentPlayer = nextPlayer;
+        isNextSongReady = false;
         currentPlayer.setOnPreparedListener(mainListener);
         currentPlaylistTrack = currentPlayer.getCurrentPlaylistTrack() != -1 ?
                 currentPlayer.getCurrentPlaylistTrack() :
@@ -158,7 +158,7 @@ public class MusicPlayer implements MusicPlayerCallback {
         }
 
         // Set the current player as the next player
-        nextPlayer = currentPlayer;
+        nextPlayer = currentPlayer.clone();
         nextPlayer.setWaiting(false);
         nextPlayer.reset();
 
@@ -167,13 +167,11 @@ public class MusicPlayer implements MusicPlayerCallback {
             nextPlayer.setPrepared(false);
         }
 
-        // At this point, the next song is ready
-        isNextSongReady = true;
-
         nextPlayer.setOnPreparedListener(defaultListener);
 
         // Gets the last (most recent) previous player and assigns it to the current player
-        currentPlayer = previousPlayersList.pop();
+        currentPlayer = previousPlayersList.removeLast();
+        isNextSongReady = true;
         currentPlayer.setOnPreparedListener(mainListener);
         currentPlaylistTrack = currentPlayer.getCurrentPlaylistTrack() != -1 ?
                 currentPlayer.getCurrentPlaylistTrack() :
@@ -259,7 +257,7 @@ public class MusicPlayer implements MusicPlayerCallback {
 
             currentPlayer.setWaiting(false);
             currentPlayer.setOnPreparedListener(defaultListener);
-            previousPlayersList.push(currentPlayer);
+            previousPlayersList.add(currentPlayer);
 
             playerState = PAUSED;
 

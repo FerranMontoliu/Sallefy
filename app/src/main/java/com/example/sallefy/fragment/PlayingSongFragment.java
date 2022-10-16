@@ -86,8 +86,8 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
         com.example.sallefy.databinding.ActivityMainBinding activityBinding = ((MainActivity) requireActivity()).getBinding();
         activityBinding.bottomNavigation.setVisibility(View.VISIBLE);
         activityBinding.mainPlayingSong.setVisibility(View.VISIBLE);
-        mMusicPlayer.setPlayingSongCallback((MainActivity)getActivity());
-        ((MainActivity)getActivity()).updateTrack();
+        mMusicPlayer.setPlayingSongCallback((MainActivity) getActivity());
+        ((MainActivity) getActivity()).updateTrack();
     }
 
     private void displayVideoThumbnail() {
@@ -159,29 +159,36 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
                 if (updateSeekBar) {
                     mMusicPlayer.onProgressChanged(progress);
                 }
-
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
 
-        binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoopEnabled() ? R.drawable.ic_repeat_green_28dp : R.drawable.ic_repeat_light_28dp);
+        binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoopEnabled()
+                ? R.drawable.ic_repeat_green_28dp
+                : R.drawable.ic_repeat_light_28dp);
+
         binding.apsLoopIb.setOnClickListener(v -> {
-            binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoopEnabled() ? R.drawable.ic_repeat_light_28dp : R.drawable.ic_repeat_green_28dp);
+            binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoopEnabled()
+                    ? R.drawable.ic_repeat_light_28dp
+                    : R.drawable.ic_repeat_green_28dp);
             MusicPlayer.getInstance().onLoopClicked();
         });
 
-        binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffleEnabled() ? R.drawable.ic_shuffle_green_28dp : R.drawable.ic_shuffle_light_28dp);
+        binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffleEnabled()
+                ? R.drawable.ic_shuffle_green_28dp
+                : R.drawable.ic_shuffle_light_28dp);
+
         binding.apsShuffleIb.setOnClickListener(v -> {
-            binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffleEnabled() ? R.drawable.ic_shuffle_light_28dp : R.drawable.ic_shuffle_green_28dp);
+            binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffleEnabled()
+                    ? R.drawable.ic_shuffle_light_28dp
+                    : R.drawable.ic_shuffle_green_28dp);
             MusicPlayer.getInstance().onShuffleClicked();
         });
     }
@@ -199,7 +206,7 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
 
     private void subscribeObservers() {
         playingSongViewModel.isLiked().observe(getViewLifecycleOwner(), isLiked -> {
-            if (isLiked){
+            if (isLiked) {
                 binding.apsLikeIb.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_filled, getActivity().getTheme()));
             } else {
                 binding.apsLikeIb.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_unfilled, getActivity().getTheme()));
