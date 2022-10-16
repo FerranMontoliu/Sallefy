@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: sallefy-debug.apk
-          path: ./out/
+          path: ./out/sallefy-debug.apk
