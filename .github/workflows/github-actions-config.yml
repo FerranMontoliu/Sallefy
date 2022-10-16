@@ -24,9 +24,6 @@ jobs:
       - name: Build APK
         run: bash ./gradlew assembleDebug --stacktrace
 
-      - name: Pre-upload APK
-        run: mkdir ./out && touch sallefy-debug.apk
-
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
