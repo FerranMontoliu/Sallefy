@@ -14,7 +14,7 @@ public class CustomMediaPlayer extends MediaPlayer {
     private Playlist playlist;
     private int currentPlaylistTrack;
 
-    //trackIndex -1 if queue
+    // trackIndex = -1 if queue
     public CustomMediaPlayer(Track track, Playlist playlist, int trackIndex) {
         this.setAudioAttributes(
                 new AudioAttributes
@@ -29,8 +29,8 @@ public class CustomMediaPlayer extends MediaPlayer {
 
         this.setOnCompletionListener(mp -> {
             if (prepared) {
-                if (MusicPlayer.getInstance().isLoop()) {
-                    MusicPlayer.getInstance().restart();
+                if (MusicPlayer.getInstance().isLoopEnabled()) {
+                    MusicPlayer.getInstance().restartPlayer();
                 } else {
                     MusicPlayer.getInstance().onNextTrackClicked();
                 }

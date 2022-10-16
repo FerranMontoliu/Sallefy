@@ -176,7 +176,7 @@ public class PlaylistFragment extends DaggerFragment implements PlayingSongCallb
 
     private void shufflePlay() {
         MusicPlayer musicPlayer1 = MusicPlayer.getInstance();
-        musicPlayer1.setShuffle(true);
+        musicPlayer1.setShuffleEnabled(true);
 
         if (musicPlayer1.isReady()) {
 

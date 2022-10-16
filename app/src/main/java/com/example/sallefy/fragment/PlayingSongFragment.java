@@ -173,19 +173,17 @@ public class PlayingSongFragment extends DaggerFragment implements PlayingSongCa
             }
         });
 
-        binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoop() ? R.drawable.ic_repeat_green_28dp : R.drawable.ic_repeat_light_28dp);
+        binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoopEnabled() ? R.drawable.ic_repeat_green_28dp : R.drawable.ic_repeat_light_28dp);
         binding.apsLoopIb.setOnClickListener(v -> {
-            binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoop() ? R.drawable.ic_repeat_light_28dp : R.drawable.ic_repeat_green_28dp);
+            binding.apsLoopIb.setImageResource(MusicPlayer.getInstance().isLoopEnabled() ? R.drawable.ic_repeat_light_28dp : R.drawable.ic_repeat_green_28dp);
             MusicPlayer.getInstance().onLoopClicked();
         });
 
-        binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffle() ? R.drawable.ic_shuffle_green_28dp : R.drawable.ic_shuffle_light_28dp);
+        binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffleEnabled() ? R.drawable.ic_shuffle_green_28dp : R.drawable.ic_shuffle_light_28dp);
         binding.apsShuffleIb.setOnClickListener(v -> {
-            binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffle() ? R.drawable.ic_shuffle_light_28dp : R.drawable.ic_shuffle_green_28dp);
+            binding.apsShuffleIb.setImageResource(MusicPlayer.getInstance().isShuffleEnabled() ? R.drawable.ic_shuffle_light_28dp : R.drawable.ic_shuffle_green_28dp);
             MusicPlayer.getInstance().onShuffleClicked();
         });
-
-
     }
 
     public void updateSeekBar() {

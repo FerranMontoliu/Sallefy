@@ -13,73 +13,79 @@ import com.example.sallefy.objectbox.ObjectBox;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
 
 public class MusicPlayer implements MusicPlayerCallback {
+    // Max previous tracks we will have on buffer
+    private static final int PREVIOUS_TRACKS_BUFFER_SIZE = 20;
 
+    // Music and video players
     private static MusicPlayer musicPlayer = null;
-
     private SurfaceHolder vidHolder;
 
-    private static final String PLAY_VIEW = "paused";
-    private static final String PAUSE_VIEW = "playing";
-    private static final int PREVIOUS_TRACKS_BUFFER_SIZE = 10;
+    // Playing song callback
+    private static PlayingSongCallback playingSongCallback;
 
-    private static PlayingSongCallback mPlayingSongCallback;
+    // Player state
+    private static final String PAUSED = "paused";
+    private static final String PLAYING = "playing";
+    private String playerState;
 
-    private int mCurrentPlaylistTrack;
-    private Queue<Track> mQueue;
-    private Deque<CustomMediaPlayer> mPreviousPlayers;
+    // Future and previous songs
+    private LinkedList<Track> nextSongsList;
+    private LinkedList<CustomMediaPlayer> previousPlayersList;
 
-    //If queue is empty, next track will be from the playlist
-    private Playlist mPlaylist;
+    // Playlist info - If no more songs in the queue, it will continue where it left on the playlist
+    private int currentPlaylistTrack;
+    private Playlist mCurrentPlaylist;
 
     //Double Buffering
-    private CustomMediaPlayer mPrimaryPlayer;
-    private CustomMediaPlayer mNextPlayer;
-    private MediaPlayer.OnPreparedListener mPrimaryListener;
-    private MediaPlayer.OnPreparedListener mDefaultListener;
+    private CustomMediaPlayer currentPlayer;
+    private CustomMediaPlayer nextPlayer;
+    private MediaPlayer.OnPreparedListener mainListener;
+    private MediaPlayer.OnPreparedListener defaultListener;
 
-    private boolean shuffle;
-    private boolean loop;
-    private String state;
-    private boolean nextIsFine;
+    // Player options (shuffle and loop)
+    private boolean isShuffleEnabled;
+    private boolean isLoopEnabled;
+
+    // To know if we can play the next song yet
+    private boolean isNextSongReady;
 
     private MusicPlayer() {
-        nextIsFine = false;
-        shuffle = false;
-        loop = false;
-        mQueue = new LinkedList<>();
-        mPreviousPlayers = new LinkedList<>();
+        // Init parameters
+        playerState = PAUSED;
+        isNextSongReady = false;
+        isShuffleEnabled = false;
+        isLoopEnabled = false;
+        nextSongsList = new LinkedList<>();
+        previousPlayersList = new LinkedList<>();
 
-        state = PLAY_VIEW;
+        mainListener = mp -> {
+            playingSongCallback.onTrackDurationReceived(currentPlayer.getDuration());
 
-        mPrimaryListener = mp -> {
-            mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
+            playingSongCallback.onChangedTrack(currentPlayer.getTrack(), currentPlayer.getPlaylist());
+            currentPlayer.setPrepared(true);
 
-            mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
-            mPrimaryPlayer.setPrepared(true);
-
-            if (mPrimaryPlayer.isWaiting()) {
-                mPrimaryPlayer.setWaiting(false);
+            if (currentPlayer.isWaiting()) {
+                currentPlayer.setWaiting(false);
             }
 
             playTrack();
 
-            if (!nextIsFine) {
+            if (!isNextSongReady) {
                 prepareNextPlayer();
             } else {
-                nextIsFine = false;
+                isNextSongReady = false;
             }
         };
 
-        mDefaultListener = mp -> ((CustomMediaPlayer) mp).setPrepared(true);
+        this.defaultListener = mp -> ((CustomMediaPlayer) mp).setPrepared(true);
 
     }
 
+    // Singleton
     public static MusicPlayer getInstance() {
         if (musicPlayer == null) {
             musicPlayer = new MusicPlayer();
@@ -88,139 +94,141 @@ public class MusicPlayer implements MusicPlayerCallback {
         return musicPlayer;
     }
 
-    public void setPlayingSongCallback(PlayingSongCallback playingSongCallback) {
-        mPlayingSongCallback = playingSongCallback;
-    }
-
-    public void updateVidHolder(SurfaceHolder vidHolder) {
-        this.vidHolder = vidHolder;
-
-        if (vidHolder != null && mPrimaryPlayer != null && mPrimaryPlayer.getTrack().hasVideo()) {
-            mPrimaryPlayer.setDisplay(vidHolder);
-        }
-    }
-
     @Override
     public void onNextTrackClicked() {
-        if (mPrimaryPlayer.isPrepared()) {
+        if (currentPlayer.isPrepared()) {
             pauseTrack();
         }
 
-        if (mPreviousPlayers.size() >= PREVIOUS_TRACKS_BUFFER_SIZE) {
-            mPreviousPlayers.removeFirst();
+        if (previousPlayersList.size() >= PREVIOUS_TRACKS_BUFFER_SIZE) {
+            previousPlayersList.removeFirst();
         }
-        mPrimaryPlayer.setWaiting(false);
-        mPrimaryPlayer.reset();
-        if (mPrimaryPlayer.getTrack().hasVideo()) {
-            mPrimaryPlayer.setPrepared(false);
+        currentPlayer.setWaiting(false);
+        currentPlayer.reset();
+        if (currentPlayer.getTrack().hasVideo()) {
+            currentPlayer.setPrepared(false);
         }
 
-        mPrimaryPlayer.setOnPreparedListener(mDefaultListener);
-        mPreviousPlayers.push(mPrimaryPlayer);
+        currentPlayer.setOnPreparedListener(defaultListener);
+        previousPlayersList.push(currentPlayer);
 
-        if (mNextPlayer != null) {
-            if (mNextPlayer.getCurrentPlaylistTrack() == -1) {
-                mQueue.remove();
-            }
-
-            mPrimaryPlayer = mNextPlayer;
-            mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
-            mCurrentPlaylistTrack = mPrimaryPlayer.getCurrentPlaylistTrack() != -1 ?
-                    mPrimaryPlayer.getCurrentPlaylistTrack() :
-                    mCurrentPlaylistTrack;
-
-            if (mPrimaryPlayer.isPrepared()) {
-                mPrimaryPlayer.seekTo(0);
-                mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
-                mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
-            } else if (!mPrimaryPlayer.isPreparing()) {
-                preparePlayer(mPrimaryPlayer);
-            }
-
-            playTrack();
-            prepareNextPlayer();
-        } else {
-            mPlayingSongCallback.onPauseTrack();
+        // If there are no more songs to play, pause the track
+        if (nextPlayer == null) {
+            playingSongCallback.onPauseTrack();
+            return;
         }
+
+        // If the next player song is in the queue (index = -1)
+        // Removes the first element of the next songs list
+        if (nextPlayer.getCurrentPlaylistTrack() == -1) {
+            nextSongsList.remove();
+        }
+
+        // Set the next player as the current player
+        currentPlayer = nextPlayer;
+        currentPlayer.setOnPreparedListener(mainListener);
+        currentPlaylistTrack = currentPlayer.getCurrentPlaylistTrack() != -1 ?
+                currentPlayer.getCurrentPlaylistTrack() :
+                currentPlaylistTrack;
+
+        if (currentPlayer.isPrepared()) {
+            currentPlayer.seekTo(0);
+            playingSongCallback.onTrackDurationReceived(currentPlayer.getDuration());
+            playingSongCallback.onChangedTrack(currentPlayer.getTrack(), currentPlayer.getPlaylist());
+        } else if (!currentPlayer.isPreparing()) {
+            preparePlayer(currentPlayer);
+        }
+
+        playTrack();
+        prepareNextPlayer();
     }
 
     @Override
     public void onPreviousTrackClicked() {
-        if (mPrimaryPlayer.isPrepared()) {
+        // Reset the progress of the song to 0 and pause
+        if (currentPlayer.isPrepared()) {
+            currentPlayer.seekTo(0);
             pauseTrack();
         }
 
-        if (!mPreviousPlayers.isEmpty()) {
-            mNextPlayer = mPrimaryPlayer;
-            mNextPlayer.setWaiting(false);
-            mNextPlayer.reset();
-
-            if (mNextPlayer.getTrack().hasVideo()) {
-                mNextPlayer.setPrepared(false);
-            }
-            nextIsFine = true;
-
-            mNextPlayer.setOnPreparedListener(mDefaultListener);
-
-            mPrimaryPlayer = mPreviousPlayers.pop();
-            mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
-            mCurrentPlaylistTrack = mPrimaryPlayer.getCurrentPlaylistTrack() != -1 ?
-                    mPrimaryPlayer.getCurrentPlaylistTrack() :
-                    mCurrentPlaylistTrack;
-
-            if (mPrimaryPlayer.isPrepared()) {
-                mPrimaryPlayer.seekTo(0);
-                mPlayingSongCallback.onTrackDurationReceived(mPrimaryPlayer.getDuration());
-                mPlayingSongCallback.onChangedTrack(mPrimaryPlayer.getTrack(), mPrimaryPlayer.getPlaylist());
-            } else if (!mPrimaryPlayer.isPreparing()) {
-                preparePlayer(mPrimaryPlayer);
-            }
-
-            playTrack();
-        } else {
-            mPlayingSongCallback.onPauseTrack();
+        // If no previous songs to play, call pause callback
+        if (previousPlayersList == null || previousPlayersList.isEmpty()) {
+            playingSongCallback.onPauseTrack();
+            return;
         }
+
+        // Set the current player as the next player
+        nextPlayer = currentPlayer;
+        nextPlayer.setWaiting(false);
+        nextPlayer.reset();
+
+        // If the song has video, prepare video holder
+        if (nextPlayer.getTrack().hasVideo()) {
+            nextPlayer.setPrepared(false);
+        }
+
+        // At this point, the next song is ready
+        isNextSongReady = true;
+
+        nextPlayer.setOnPreparedListener(defaultListener);
+
+        // Gets the last (most recent) previous player and assigns it to the current player
+        currentPlayer = previousPlayersList.pop();
+        currentPlayer.setOnPreparedListener(mainListener);
+        currentPlaylistTrack = currentPlayer.getCurrentPlaylistTrack() != -1 ?
+                currentPlayer.getCurrentPlaylistTrack() :
+                currentPlaylistTrack;
+
+        if (currentPlayer.isPrepared()) {
+            currentPlayer.seekTo(0);
+            playingSongCallback.onTrackDurationReceived(currentPlayer.getDuration());
+            playingSongCallback.onChangedTrack(currentPlayer.getTrack(), currentPlayer.getPlaylist());
+        } else if (!currentPlayer.isPreparing()) {
+            preparePlayer(currentPlayer);
+        }
+
+        playTrack();
     }
 
     @Override
     public void onShuffleClicked() {
-        shuffle = !shuffle;
+        isShuffleEnabled = !isShuffleEnabled;
         prepareNextPlayer();
     }
 
     @Override
     public void onLoopClicked() {
-        loop = !loop;
+        isLoopEnabled = !isLoopEnabled;
     }
 
     @Override
     public void onNewTrackClicked(Track track, Playlist playlist) {
-        if (mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()) {
-            mPrimaryPlayer.pause();
+        if (currentPlayer != null && currentPlayer.isPrepared()) {
+            currentPlayer.pause();
         }
-        state = PLAY_VIEW;
+        playerState = PAUSED;
 
         if (playlist != null && playlist.getTracks() != null) {
-            mCurrentPlaylistTrack = getIndexOnPlaylist(track, playlist);
+            currentPlaylistTrack = getIndexOnPlaylist(track, playlist);
 
-            if (mCurrentPlaylistTrack != -1) {
-                mPlaylist = playlist;
+            if (currentPlaylistTrack != -1) {
+                mCurrentPlaylist = playlist;
             } else {
-                mPlaylist = null;
+                mCurrentPlaylist = null;
             }
         } else {
-            mPlaylist = null;
+            mCurrentPlaylist = null;
         }
 
-        mPrimaryPlayer = new CustomMediaPlayer(track, mPlaylist, mCurrentPlaylistTrack);
-        mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
-        mPrimaryPlayer.setPrepared(false);
-        preparePlayer(mPrimaryPlayer);
+        currentPlayer = new CustomMediaPlayer(track, mCurrentPlaylist, currentPlaylistTrack);
+        currentPlayer.setOnPreparedListener(mainListener);
+        currentPlayer.setPrepared(false);
+        preparePlayer(currentPlayer);
     }
 
     @Override
     public void onPlayPauseClicked() {
-        if (state.equals(PLAY_VIEW)) {
+        if (playerState.equals(PAUSED)) {
             playTrack();
         } else {
             pauseTrack();
@@ -229,68 +237,71 @@ public class MusicPlayer implements MusicPlayerCallback {
 
     @Override
     public void onProgressChanged(int progress) {
-        if (mPrimaryPlayer != null &&
-                mPrimaryPlayer.isPrepared() &&
-                Math.abs(mPrimaryPlayer.getCurrentPosition() - progress) > 500) {
-            mPrimaryPlayer.seekTo(progress);
+        if (currentPlayer != null &&
+                currentPlayer.isPrepared() &&
+                Math.abs(currentPlayer.getCurrentPosition() - progress) > 500) {
+            currentPlayer.seekTo(progress);
         }
     }
 
     @Override
     public void onSetNextTrack(Track track, Playlist playlist) {
-        if (mPrimaryPlayer == null) {
+        if (currentPlayer == null) {
             this.onNewTrackClicked(track, playlist);
         } else {
-            if (mPrimaryPlayer.isPrepared()) {
-                mPrimaryPlayer.pause();
+            if (currentPlayer.isPrepared()) {
+                currentPlayer.pause();
             }
 
-            if (mPreviousPlayers.size() >= PREVIOUS_TRACKS_BUFFER_SIZE) {
-                mPreviousPlayers.removeFirst();
+            if (previousPlayersList.size() >= PREVIOUS_TRACKS_BUFFER_SIZE) {
+                previousPlayersList.removeFirst();
             }
 
-            mPrimaryPlayer.setWaiting(false);
-            mPrimaryPlayer.setOnPreparedListener(mDefaultListener);
-            mPreviousPlayers.push(mPrimaryPlayer);
+            currentPlayer.setWaiting(false);
+            currentPlayer.setOnPreparedListener(defaultListener);
+            previousPlayersList.push(currentPlayer);
 
-            state = PLAY_VIEW;
+            playerState = PAUSED;
 
             if (playlist != null && playlist.getTracks() != null) {
-                mCurrentPlaylistTrack = getIndexOnPlaylist(track, playlist);
+                currentPlaylistTrack = getIndexOnPlaylist(track, playlist);
 
-                if (mCurrentPlaylistTrack != -1) {
-                    mPlaylist = playlist;
+                if (currentPlaylistTrack != -1) {
+                    mCurrentPlaylist = playlist;
                 } else {
-                    mPlaylist = null;
+                    mCurrentPlaylist = null;
                 }
             } else {
-                mPlaylist = null;
+                mCurrentPlaylist = null;
             }
 
-            mPrimaryPlayer = new CustomMediaPlayer(track, mPlaylist, mCurrentPlaylistTrack);
-            mPrimaryPlayer.setOnPreparedListener(mPrimaryListener);
-            mPrimaryPlayer.setPrepared(false);
-            preparePlayer(mPrimaryPlayer);
+            currentPlayer = new CustomMediaPlayer(track, mCurrentPlaylist, currentPlaylistTrack);
+            currentPlayer.setOnPreparedListener(mainListener);
+            currentPlayer.setPrepared(false);
+            preparePlayer(currentPlayer);
         }
     }
 
     private void playTrack() {
-        if (mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()) {
-            state = PAUSE_VIEW;
-            mPlayingSongCallback.onPlayTrack();
-            mPrimaryPlayer.start();
-        } else if (mPrimaryPlayer != null) {
-            mPrimaryPlayer.setWaiting(true);
+        if (currentPlayer == null) {
+            return;
+        }
+
+        if (currentPlayer.isPrepared()) {
+            currentPlayer.start();
+            playerState = PLAYING;
+            playingSongCallback.onPlayTrack();
+        } else {
+            currentPlayer.setWaiting(true);
         }
     }
 
     private void pauseTrack() {
-        if (mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()) {
-            mPrimaryPlayer.pause();
+        if (currentPlayer != null && currentPlayer.isPrepared()) {
+            currentPlayer.pause();
+            playerState = PAUSED;
+            playingSongCallback.onPauseTrack();
         }
-
-        state = PLAY_VIEW;
-        mPlayingSongCallback.onPauseTrack();
     }
 
     private void prepareNextPlayer() {
@@ -298,46 +309,46 @@ public class MusicPlayer implements MusicPlayerCallback {
         Track track;
         int trackIndex = -1;
 
-        if (!mQueue.isEmpty()) {
+        if (!nextSongsList.isEmpty()) {
             playlist = new Playlist();
-            playlist.setName("Queue");
-            track = mQueue.peek();
-        } else if (mPlaylist != null) {
-            playlist = mPlaylist;
+            playlist.setName("queue");
+            track = nextSongsList.peek();
+        } else if (mCurrentPlaylist != null) {
+            playlist = mCurrentPlaylist;
 
-            if (shuffle) {
-                trackIndex = mCurrentPlaylistTrack;
+            if (isShuffleEnabled) {
+                trackIndex = currentPlaylistTrack;
                 Random r = new Random();
-                while (trackIndex == mCurrentPlaylistTrack) {
-                    trackIndex = r.nextInt(mPlaylist.getTracks().size());
+                while (trackIndex == currentPlaylistTrack) {
+                    trackIndex = r.nextInt(mCurrentPlaylist.getTracks().size());
                 }
             } else {
-                trackIndex = (mCurrentPlaylistTrack + 1) % mPlaylist.getTracks().size();
+                trackIndex = (currentPlaylistTrack + 1) % mCurrentPlaylist.getTracks().size();
             }
 
-            track = mPlaylist.getTracks().get(trackIndex);
+            track = mCurrentPlaylist.getTracks().get(trackIndex);
         } else {
-            mNextPlayer = null;
+            nextPlayer = null;
             return;
         }
 
-        if (mNextPlayer != null &&
-                mNextPlayer.isPrepared() &&
-                mNextPlayer.getTrack() == track &&
-                mNextPlayer.getPlaylist() == playlist) {
+        if (nextPlayer != null &&
+                nextPlayer.isPrepared() &&
+                nextPlayer.getTrack() == track &&
+                nextPlayer.getPlaylist() == playlist) {
             return;
         }
 
-        mNextPlayer = new CustomMediaPlayer(track, playlist, trackIndex);
-        mNextPlayer.setOnPreparedListener(mDefaultListener);
-        mNextPlayer.setPrepared(false);
-        preparePlayer(mNextPlayer);
+        nextPlayer = new CustomMediaPlayer(track, playlist, trackIndex);
+        nextPlayer.setOnPreparedListener(defaultListener);
+        nextPlayer.setPrepared(false);
+        preparePlayer(nextPlayer);
     }
 
     private void preparePlayer(final CustomMediaPlayer player) {
         Thread connection = new Thread(() -> {
             try {
-                if (player == mPrimaryPlayer || !player.getTrack().hasVideo()) {
+                if (player == currentPlayer || !player.getTrack().hasVideo()) {
                     player.setPreparing(true);
                     player.reset();
 
@@ -362,13 +373,12 @@ public class MusicPlayer implements MusicPlayerCallback {
                 player.setPreparing(false);
             } catch (IOException e) {
                 e.printStackTrace();
-                mPlayingSongCallback.onErrorPreparingMediaPlayer();
+                playingSongCallback.onErrorPreparingMediaPlayer();
             }
         });
 
         connection.start();
     }
-
 
     private int getIndexOnPlaylist(Track targetTrack, Playlist playlist) {
         int i = 0;
@@ -384,83 +394,92 @@ public class MusicPlayer implements MusicPlayerCallback {
     }
 
     public int getCurrentPosition() {
-        if (mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()) {
-            return mPrimaryPlayer.getCurrentPosition();
+        if (currentPlayer != null && currentPlayer.isPrepared()) {
+            return currentPlayer.getCurrentPosition();
         }
         return 0;
     }
 
     public int getCurrentPlaylistTrack() {
-        return mCurrentPlaylistTrack;
+        return currentPlaylistTrack;
     }
 
     public boolean isPlaying() {
-        return state.equals(PAUSE_VIEW);
+        return playerState.equals(PLAYING);
     }
 
-    public boolean isLoop() {
-        return loop;
+    public boolean isLoopEnabled() {
+        return isLoopEnabled;
     }
 
-    public boolean isShuffle() {
-        return shuffle;
+    public boolean isShuffleEnabled() {
+        return isShuffleEnabled;
     }
 
-    public void restart() {
-        if (mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()) {
-            mPrimaryPlayer.seekTo(0);
+    public void restartPlayer() {
+        if (currentPlayer != null && currentPlayer.isPrepared()) {
+            currentPlayer.seekTo(0);
             playTrack();
         }
     }
 
     public boolean isReady() {
-        return mPrimaryPlayer != null;
+        return currentPlayer != null;
     }
 
     public Track getCurrentTrack() {
-        if (mPrimaryPlayer != null) {
-            return mPrimaryPlayer.getTrack();
-        } else {
-            return null;
+        if (currentPlayer != null) {
+            return currentPlayer.getTrack();
         }
+        return null;
     }
 
     public int getDuration() {
-        if (mPrimaryPlayer != null && mPrimaryPlayer.isPrepared()) {
-            return mPrimaryPlayer.getDuration();
-        } else {
-            return 0;
+        if (currentPlayer != null && currentPlayer.isPrepared()) {
+            return currentPlayer.getDuration();
         }
+        return 0;
     }
 
     public Playlist getCurrentPlaylist() {
-        if (mPrimaryPlayer != null) {
-            return mPrimaryPlayer.getPlaylist();
-        } else {
-            return null;
+        if (currentPlayer != null) {
+            return currentPlayer.getPlaylist();
         }
+        return null;
     }
 
-    public void setShuffle(boolean shuffle) {
-        if (!this.shuffle && shuffle) {
+    public void setShuffleEnabled(boolean shuffleEnabled) {
+        this.isShuffleEnabled = shuffleEnabled;
+
+        if (shuffleEnabled) {
             prepareNextPlayer();
         }
-
-        this.shuffle = shuffle;
     }
 
     public void addToQueue(Track track) {
         try {
-            if (mPrimaryPlayer == null) {
-                Playlist p = new Playlist();
-                p.setName("queue");
-                this.onNewTrackClicked(track, p);
+            if (currentPlayer == null) {
+                Playlist queuePlaylist = new Playlist();
+                queuePlaylist.setName("queue");
+                this.onNewTrackClicked(track, queuePlaylist);
             } else {
-                mQueue.add(track);
+                nextSongsList.add(track);
                 prepareNextPlayer();
             }
         } catch (IllegalStateException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setPlayingSongCallback(PlayingSongCallback playingSongCallback) {
+        MusicPlayer.playingSongCallback = playingSongCallback;
+    }
+
+    public void updateVidHolder(SurfaceHolder vidHolder) {
+        this.vidHolder = vidHolder;
+
+        if (vidHolder != null && currentPlayer != null && currentPlayer.getTrack().hasVideo()) {
+            currentPlayer.setDisplay(vidHolder);
         }
     }
 }
