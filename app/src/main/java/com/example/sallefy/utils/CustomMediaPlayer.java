@@ -34,7 +34,7 @@ public class CustomMediaPlayer extends MediaPlayer implements Cloneable {
                 if (MusicPlayer.getInstance().isLoopEnabled()) {
                     MusicPlayer.getInstance().restartPlayer();
                 } else {
-                    MusicPlayer.getInstance().onNextTrackClicked();
+//                    MusicPlayer.getInstance().onNextTrackClicked();
                 }
             }
         });

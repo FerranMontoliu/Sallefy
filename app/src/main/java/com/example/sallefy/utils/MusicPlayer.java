@@ -64,7 +64,6 @@ public class MusicPlayer implements MusicPlayerCallback {
 
         mainListener = mp -> {
             playingSongCallback.onTrackDurationReceived(currentPlayer.getDuration());
-
             playingSongCallback.onChangedTrack(currentPlayer.getTrack(), currentPlayer.getPlaylist());
             currentPlayer.setPrepared(true);
 
@@ -170,8 +169,8 @@ public class MusicPlayer implements MusicPlayerCallback {
         nextPlayer.setOnPreparedListener(defaultListener);
 
         // Gets the last (most recent) previous player and assigns it to the current player
-        currentPlayer = previousPlayersList.removeLast();
         isNextSongReady = true;
+        currentPlayer = previousPlayersList.removeLast().clone();
         currentPlayer.setOnPreparedListener(mainListener);
         currentPlaylistTrack = currentPlayer.getCurrentPlaylistTrack() != -1 ?
                 currentPlayer.getCurrentPlaylistTrack() :
