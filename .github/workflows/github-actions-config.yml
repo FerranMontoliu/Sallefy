@@ -24,11 +24,8 @@ jobs:
       - name: Build APK
         run: bash ./gradlew assembleDebug --stacktrace
 
-      - name: Debug
-        run: ls -la
-
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: sallefy-debug.apk
-          path: ./app/build/outputs/app-debug.apk
+          path: ./app/build/outputs/apk/debug/app-debug.apk
